@@ -1,0 +1,11 @@
+Module("gxx.sources", {
+	sources = {
+		directory = "src", 
+		cxx = ""
+	}	
+})
+
+Module("gxx.include", {
+	depends = "gxx.sources",
+	includePaths = "."
+}) 
