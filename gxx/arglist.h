@@ -116,6 +116,7 @@ namespace gxx {
 
 		template<typename ... UArgs>
 		int invoke(int num, UArgs&& ... args) {
+			if (num >= sizeof...(Args)) return -1;
 			using FuncType = decltype(&Generic::template genfunc<void>);
 			return ((FuncType)(list[num].funcptr))(list[num].ptr, gxx::forward<UArgs>(args) ...);
 		}
