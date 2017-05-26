@@ -2,6 +2,7 @@
 #define GXX_MEMORY_WRITER_H
 
 #include <string.h>
+#include <gxx/util/numconvert.h>
 
 namespace gxx {
 	enum class CharCase {
@@ -16,31 +17,71 @@ namespace gxx {
 		Center,
 	};
 
+	enum class Prefix {
+		No,
+		Need,
+		Bin,
+		Oct,
+		Hex,
+	};
+
 	class EmptySpec {
 	public:
-		Alignment align() { return Alignment::Default; } 
-		CharCase charCase() { return CharCase::Default; }
-		size_t width() { return 0; }
-		char fill() { return ' '; }
+		Alignment align() const { return Alignment::Default; } 
+		CharCase charCase() const { return CharCase::Default; }
+		size_t width() const { return 0; }
+		char fill() const { return ' '; }
+		uint8_t base() const { return 10; }
 	};
 
 	class AlignSpec : public EmptySpec {
-		Alignment _align; 
-		char _fill;
+	protected:
+		Alignment _align = Alignment::Default; 
+		char _fill = ' ';
+		size_t _width = 0;
 	public:
-		AlignSpec(Alignment align = Alignment::Default) : _align(align) {}
-		Alignment align() { return _align; }
-		char fill() { return _fill; }
-		void set_align(Alignment align) { _align = align; }
-		void set_fill(char fill) { _fill = fill; } 
+		AlignSpec() {}
+		Alignment align() const { return _align; }
+		size_t width() const { return _width; }
+		char fill() const { return _fill; }
+		AlignSpec& align(Alignment align) { _align = align; ; return *this; }
+		AlignSpec& fill(char fill) { _fill = fill; return *this; } 
+		AlignSpec& width(size_t width) { _width = width; return *this; } 
 	};
 
 	class CharStrSpec : public AlignSpec {
-		CharCase _ccase;
+	protected:
+		CharCase _ccase = CharCase::Default;
 	public:
-		CharStrSpec(Alignment align = Alignment::Default, CharCase ccase = CharCase::Default) : _ccase(ccase), AlignSpec(align) {}
-		CharCase charCase() { return _ccase; }
-		void set_charCase(CharCase ccase) { _ccase = ccase; }
+		CharStrSpec() {}
+		CharCase charCase() const { return _ccase; }
+		CharStrSpec& charCase(CharCase ccase) { _ccase = ccase; return *this; }
+		CharStrSpec& align(Alignment align) { _align = align; ; return *this; }
+		CharStrSpec& fill(char fill) { _fill = fill; return *this; } 
+		CharStrSpec& width(size_t width) { _width = width; return *this; } 
+		using AlignSpec::align;
+		using AlignSpec::width;
+		using AlignSpec::fill; 
+	};
+
+	class IntegerSpec : public CharStrSpec {
+	protected:
+		Prefix _prefix = Prefix::No;
+		uint8_t _base = 10;
+	public:
+		IntegerSpec() {}
+		Prefix prefix() const { return _prefix; }
+		uint8_t base() const { return _base; }
+		IntegerSpec& prefix(Prefix prefix) { _prefix = prefix; return *this; }
+		IntegerSpec& charCase(CharCase ccase) { _ccase = ccase; return *this; }
+		IntegerSpec& align(Alignment align) { _align = align; ; return *this; }
+		IntegerSpec& fill(char fill) { _fill = fill; return *this; } 
+		IntegerSpec& width(size_t width) { _width = width; return *this; } 
+		IntegerSpec& base(uint8_t base) { _base = base; return *this; } 
+		using AlignSpec::align;
+		using AlignSpec::width;
+		using AlignSpec::fill; 
+		using CharStrSpec::charCase; 
 	};
 
 	class memory_writer {
@@ -59,10 +100,8 @@ namespace gxx {
 		}
 
 		template<typename Spec = EmptySpec>
-		size_t write(const char*& str, const Spec& spec = EmptySpec()) {
+		size_t write(const char* str, size_t len, const Spec& spec = CharStrSpec()) {
 			const char* sstr = str;
-
-			size_t len = strlen(str);
 
 			int prewidth = 0;
 			int postwidth = 0;
@@ -86,13 +125,41 @@ namespace gxx {
 
 			if (prewidth) write_fill(spec.fill(), prewidth);
 
-			while(m_cursor != m_data_end && *str != 0) {
-				*m_cursor++ = *str++;
-			}			
+			switch (spec.charCase()) {
+				case CharCase::Default:
+					while(m_cursor != m_data_end && *str != 0) {
+						*m_cursor++ = *str++;
+					}			
+					break;
+				case CharCase::Upper:
+					while(m_cursor != m_data_end && *str != 0) {
+						*m_cursor++ = toupper(*str++);
+					}			
+					break;
+			}
 
 			if (postwidth) write_fill(spec.fill(), postwidth);
 
 			return str - sstr; 
+		}
+
+		template<typename Spec = IntegerSpec>
+		size_t write_int(int64_t num, const IntegerSpec& spec = IntegerSpec()) {
+			char str[100];
+			
+			switch (spec.prefix()) {
+				case Prefix::Bin: putchar('0'); putchar('b'); break;
+				case Prefix::Hex: putchar('0'); putchar('x'); break;
+				case Prefix::Oct: putchar('0'); break;
+			}
+
+			i64toa(num, str, spec.base()); 
+			return write(str, strlen(str), spec);
+		}		
+
+		template<typename Spec = EmptySpec>
+		size_t write(const char* str, const Spec& spec = EmptySpec()) {
+			return write(str, strlen(str), spec);
 		}
 /*
 		size_t write(gxx::buffer buf, ) {
@@ -103,7 +170,7 @@ namespace gxx {
 			return str - sstr; 
 		}
 */
-		size_t write(const char c) {
+		size_t putchar(const char c) {
 			if(m_cursor != m_data_end) {
 				*m_cursor++ = c;
 				return 1; 

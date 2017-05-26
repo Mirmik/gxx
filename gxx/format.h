@@ -61,8 +61,9 @@ namespace gxx {
 			while(*fmtptr != 0) {
 				if (*fmtptr == '{') {
 					format_argument(writer, fmtptr, list, argnum);
+					argnum++;
 				} else {
-					if (writer.write(*fmtptr++) == 0) break;
+					if (writer.putchar(*fmtptr++) == 0) break;
 				}
 			}
 	
@@ -78,25 +79,71 @@ namespace gxx {
 
 	///const char* formater:
 	template<> int format_generic::genfunc<gxx::object_buffer<const char>>(gxx::object_buffer<const char>* ptr, memory_writer& w, const char* opts) {
-	/*	CaseChange case_change = CaseChange::None;
-		Allignment allign = Allignment::Left;
+		CharStrSpec spec;
 
-		printf("%s\n", "genfunc(buffer)");
-		//size_t size = ptr->size();
-		
 		if (opts != nullptr)
 		for(; *opts != '}' && *opts != 0; ++opts) {
-			if (*opts == 'U') { case_change = CaseChange::Upper; continue; }
-			if (*opts == '<') { allign = Allignment::Left; continue; }
-			if (*opts == '>') { allign = Allignment::Right; continue; }
-			if (*opts == '^') { allign = Allignment::Center; continue; }
+			switch (*opts) {
+				case 'U': spec.charCase(CharCase::Upper); continue;
+				case '<': spec.align(Alignment::Left); continue;
+				case '>': spec.align(Alignment::Right); continue;
+				case '^': spec.align(Alignment::Center); continue;
+				case 'f': spec.fill(*++opts); continue;
+			}
+			if (isdigit(*opts)) { 
+				spec.width(atou32(opts, 10)); 
+				while(isdigit(*opts)) opts++; 
+				opts--;
+				continue;
+			}
 		}
 
-		w.write_formatted(ptr->data(), ptr->size(), case_change);*/
+		w.write(ptr->data(), ptr->size(), spec);
 	}
 
-	template<> int format_generic::genfunc<int>(int* ptr, memory_writer& writer, const char* opts) {
-		//printf("%s\n", "genfunc(int)");
+	int format_integer(int64_t num, memory_writer& w, const char* opts) {
+		IntegerSpec spec;
+
+		if (opts != nullptr)
+		for(; *opts != '}' && *opts != 0; ++opts) {
+			switch(*opts) {
+				case '<': spec.align(Alignment::Left); continue;
+				case '>': spec.align(Alignment::Right); continue;
+				case '^': spec.align(Alignment::Center); continue;
+				case 'f': spec.fill(*++opts); continue;
+				case 'X': spec.charCase(CharCase::Upper);
+				case 'x': 
+					spec.base(16); 
+					if ( spec.prefix() == Prefix::Need ) spec.prefix(Prefix::Hex);  
+					continue; 
+				case 'p': 
+					spec.prefix(Prefix::Need); 
+			}
+			if (isdigit(*opts)) { 
+				spec.width(atou32(opts, 10)); 
+				while(isdigit(*opts)) opts++; 
+				opts--;
+				continue;
+			}
+		}
+
+		w.write_int(num, spec);
+	}
+
+	template<> int format_generic::genfunc<int8_t>(int8_t* ptr, memory_writer& w, const char* opts) {
+		return format_integer(*ptr, w, opts);
+	}
+	
+	template<> int format_generic::genfunc<int16_t>(int16_t* ptr, memory_writer& w, const char* opts) {
+		return format_integer(*ptr, w, opts);
+	}
+
+	template<> int format_generic::genfunc<int32_t>(int32_t* ptr, memory_writer& w, const char* opts) {
+		return format_integer(*ptr, w, opts);
+	}
+
+	template<> int format_generic::genfunc<int64_t>(int64_t* ptr, memory_writer& w, const char* opts) {
+		return format_integer(*ptr, w, opts);
 	}
 }
 
