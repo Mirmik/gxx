@@ -17,12 +17,20 @@ namespace gxx {
 	inline int format_argument(memory_writer& writer, const char*& fmt, auto& list, uint8_t& argnum) {
 		int ret;
 
-		printf("%s\n", "trace:format_argument");
 		assert(*fmt++ == '{');
 
 		if (isdigit(*fmt)) {
 			argnum = atou32(fmt, 10);
 		} 
+
+		if (isalpha(*fmt)) {
+			const char* count_ptr = fmt;
+			int len = 0;
+			while(isalpha(*count_ptr++)) len++;
+			argnum = list.find_name(fmt,len);
+			if (argnum == 0xFF) return -1;
+		} 
+
 		while(*fmt != '}' && *fmt != ':' && *fmt != 0) fmt++;
 		switch(*fmt) {
 			case '}': 

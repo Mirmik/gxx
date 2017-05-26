@@ -26,9 +26,7 @@ namespace gxx {
 		T& ref;
 	//public:
 		template<typename U>
-		constexpr argument(U&& ref) : ref(ref) {
-			printf("Just arg\n");
-		}
+		constexpr argument(U&& ref) : ref(ref) {}
 	};
 
 	template<typename T>
@@ -36,18 +34,14 @@ namespace gxx {
 		argpair<T>& pair;
 	//public:
 		template<typename U>
-		constexpr argument(U&& ref) : pair(ref) {
-			printf("Just argpair\n");
-		}
+		constexpr argument(U&& ref) : pair(ref) {}
 	};
 
 	template<typename T, size_t N>
 	struct argument<T(&)[N]> {
 		gxx::object_buffer<T> buf;
 	//public:
-		constexpr argument(T(&arr)[N]) : buf(arr) {
-			printf("Just array\n");
-		}
+		constexpr argument(T(&arr)[N]) : buf(arr) {}
 	};
 
 	namespace literals {
@@ -77,7 +71,6 @@ namespace gxx {
 	struct arglist_former<Generic, argument<HT>, Tail ...> {
 		template<typename ... UTail>
 		static inline void former(argument_header* argptr, argument<HT>&& head, UTail&& ... tail) {
-			printf("%s\n", "Just former");
 			argptr->ptr = (void*) &head.ref;
 			argptr->name = nullptr;
 			argptr->funcptr = (void*) (&Generic::template genfunc<HT>);
@@ -89,7 +82,6 @@ namespace gxx {
 	struct arglist_former<Generic, argument<HT(&)[N]>, Tail ...> {
 		template<typename ... UTail>
 		static inline void former(argument_header* argptr, argument<HT(&)[N]>&& head, UTail&& ... tail) {
-			printf("%s\n", "Array former");
 			argptr->ptr = (void*) &head.buf;
 			argptr->name = nullptr;
 			argptr->funcptr = (void*) (&Generic::template genfunc<gxx::object_buffer<HT>>);
@@ -101,9 +93,8 @@ namespace gxx {
 	struct arglist_former<Generic, argument<argpair<HT>>, Tail ...> {
 		template<typename ... UTail>
 		static inline void former(argument_header* argptr, argument<argpair<HT>>&& head, UTail&& ... tail) {
-			printf("%s\n", "Just pair");
 			argptr->ptr = (void*) head.pair.body;
-			argptr->name = nullptr;
+			argptr->name = head.pair.name;
 			argptr->funcptr = (void*) (&Generic::template genfunc<HT>);
 			arglist_former<Generic, Tail ...>::former(++argptr, gxx::forward<UTail>(tail) ...);
 		}
@@ -129,7 +120,12 @@ namespace gxx {
 			return ((FuncType)(list[num].funcptr))(list[num].ptr, gxx::forward<UArgs>(args) ...);
 		}
 
-
+		int find_name(const char* name, size_t len) {
+			for(int i = 0; i < sizeof...(Args); ++i) {
+				if (list[i].name && !strncmp(name, list[i].name, len)) return i; 
+			}
+			return -1;
+		}
 	};
 
 	template<typename Generic, typename ... Args> 
