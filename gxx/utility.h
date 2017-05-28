@@ -28,7 +28,7 @@ namespace gxx{
 	#include "gxx/utility/type_relation.hpp"
 	#include "gxx/utility/move.hpp"
 	
-	/*template<typename T>
+	template<typename T>
 	void destructor(T* ptr) {
 		ptr->~T();
 	}
@@ -70,7 +70,7 @@ namespace gxx{
 	template<typename T>
 	void delete_expression(T* ptr) {
 		delete ptr;
-	} */
+	}
 	
 };
 

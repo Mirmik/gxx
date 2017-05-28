@@ -7,6 +7,8 @@
 #include <gxx/buffer.h>
 #include <gxx/memory_writer.h>
 
+#include <gxx/debug/dprint.h>
+
 namespace gxx {
 	
 	struct format_generic {
@@ -14,7 +16,7 @@ namespace gxx {
 		template<typename T> static int genfunc_array(T* ptr, memory_writer& writer, const char* opts);
 	};
 
-	inline int format_argument(memory_writer& writer, const char*& fmt, auto& list, uint8_t& argnum) {
+	inline int format_argument(memory_writer& writer, const char*& fmt, gxx::arglist<format_generic>& list, uint8_t& argnum) {
 		int ret;
 
 		assert(*fmt++ == '{');
@@ -49,40 +51,32 @@ namespace gxx {
 		fmt++;
 		return ret;
 	} 
+	
+	void format_impl(const char* fmt, gxx::arglist<format_generic>& list, memory_writer& writer) {
+		uint8_t argnum = 0;
+		const char* fmtptr = fmt;
+	
+		while(*fmtptr != 0) {
+			if (*fmtptr == '{') {
+				format_argument(writer, fmtptr, list, argnum);
+				argnum++;
+			} else {
+				if (writer.putchar(*fmtptr++) == 0) break;
+			}
+		}
+	}
 
+	string format_impl(const char* fmt, gxx::arglist<format_generic>& list) {
+		gxx::string str;
+		str.reserve(128);
+		gxx::memory_writer writer(str.data(), str.capacity());
+		format_impl(fmt, list, writer);
+		return str.set_size(writer.size());
+	}
 
 	template<typename ... Args>
-	struct format_helper {
-		static string format(const char* fmt, gxx::argument<Args>&& ... args) {
-			//__label__ finish;
-			uint8_t argnum = 0;
-			
-			gxx::string str;
-			str.reserve(128);
-	
-			gxx::memory_writer writer(str.data(), str.capacity());
-			
-			const char* fmtptr = fmt;
-	
-			auto list = make_arglist<format_generic>(gxx::move(args) ...);
-	
-			while(*fmtptr != 0) {
-				if (*fmtptr == '{') {
-					format_argument(writer, fmtptr, list, argnum);
-					argnum++;
-				} else {
-					if (writer.putchar(*fmtptr++) == 0) break;
-				}
-			}
-	
-			//finish:
-			return str.set_size(writer.size());
-		}
-	};
-	
-	template<typename ... T>
-	string format(const char* fmt, T&& ... args) {
-		return format_helper<T ...>::format(fmt, gxx::forward<T>(args) ...);
+	string format(const char* fmt, Args&& ... args) {
+		return format_impl(fmt, make_arglist<format_generic>(gxx::argument<Args>(args) ...));
 	}
 
 	///const char* formater:

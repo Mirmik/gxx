@@ -100,13 +100,13 @@ namespace gxx {
 		}
 	};
 
-	template<typename Generic, typename ... Args>
+	template<typename Generic>
 	class arglist {
 	public:
-		argument_header list[sizeof...(Args)];
+		argument_header list[10];
 	
 		template<typename ... UArgs>
-		arglist(UArgs&& ... args) {
+		explicit arglist(UArgs&& ... args) {
 			arglist_former<Generic, UArgs ...>::former(list, gxx::forward<UArgs>(args) ...);
 		}
 
@@ -116,13 +116,13 @@ namespace gxx {
 
 		template<typename ... UArgs>
 		int invoke(int num, UArgs&& ... args) {
-			if (num >= sizeof...(Args)) return -1;
+			if (num >= 10) return -1;
 			using FuncType = decltype(&Generic::template genfunc<void>);
 			return ((FuncType)(list[num].funcptr))(list[num].ptr, gxx::forward<UArgs>(args) ...);
 		}
 
 		int find_name(const char* name, size_t len) {
-			for(int i = 0; i < sizeof...(Args); ++i) {
+			for(int i = 0; i < 10; ++i) {
 				if (list[i].name && !strncmp(name, list[i].name, len)) return i; 
 			}
 			return -1;
@@ -130,7 +130,7 @@ namespace gxx {
 	};
 
 	template<typename Generic, typename ... Args> 
-	arglist<Generic, Args...> make_arglist(Args&& ... args) { return arglist<Generic, Args ...>(gxx::forward<Args>(args) ...); } 
+	arglist<Generic> make_arglist(Args&& ... args) { return arglist<Generic>(gxx::forward<Args>(args) ...); } 
 
 
 /*

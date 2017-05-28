@@ -1,7 +1,10 @@
+local files = find.findInTree(script.currentDir .. "gxx", ".*.gll$", ".*HIDE.*")
+script:evalFile(files, _ENV)
+
 Module("gxx.sources", {
 	sources = {
-		directory = "src", 
-		cxx = ""
+		directory = "gxx", 
+		cxx = "buffer.cpp"
 	}	
 })
 
