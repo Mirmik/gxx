@@ -9,5 +9,5 @@ gxx::log::logger console;
 int main() {
 	console.link(console_target);
 
-	console.debug("Mirmik {0}", 666);
+	console.debug("Mirmik {0:U}", "hack this");
 }

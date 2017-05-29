@@ -7,6 +7,8 @@
 #include <gxx/string.h>
 #include <gxx/shared.h>
 
+using namespace gxx::literals;
+
 namespace gxx {
 	namespace log {
 		enum class Level {
@@ -20,10 +22,15 @@ namespace gxx {
 
 		class logger {
 			vector<target*> targets;
+			gxx::string pattern = "*** {logger}::{msg} ***";
 
 		public:
 			void link(target& tgt) {
 				targets.push_back(&tgt);
+			}
+
+			void set_pattern(const char* str) {
+				pattern = str;
 			}
 
 			/*template <typename ... Args>
@@ -32,11 +39,16 @@ namespace gxx {
 			}*/
 
 			inline void log(Level level, const char* fmt, arglist<format_generic>&& args) {
-				//auto ptr = make_shared<gxx::string>();
+				char msg[128];
+				memory_writer writer(msg, 128);
+				format_impl(writer, fmt, args);
 
-				//for (auto t : targets) {
-				//	t->log(str);
-				//}*/
+				gxx::string logmsg = format(pattern.c_str(), "msg"_a=msg);
+				
+
+				/*for (auto t : targets) {
+					t->log(logmsg.c_str());
+				}*/
 			}
 
 			template <typename ... Args>

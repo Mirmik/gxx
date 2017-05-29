@@ -16,7 +16,7 @@ namespace gxx {
 		template<typename T> static int genfunc_array(T* ptr, memory_writer& writer, const char* opts);
 	};
 
-	inline int format_argument(memory_writer& writer, const char*& fmt, gxx::arglist<format_generic>& list, uint8_t& argnum) {
+	inline int format_argument(memory_writer& writer, const char*& fmt, const gxx::arglist<format_generic>& list, uint8_t& argnum) {
 		int ret;
 
 		assert(*fmt++ == '{');
@@ -52,7 +52,7 @@ namespace gxx {
 		return ret;
 	} 
 	
-	void format_impl(const char* fmt, gxx::arglist<format_generic>& list, memory_writer& writer) {
+	void format_impl(memory_writer& writer, const char* fmt, const gxx::arglist<format_generic>& list) {
 		uint8_t argnum = 0;
 		const char* fmtptr = fmt;
 	
@@ -66,11 +66,11 @@ namespace gxx {
 		}
 	}
 
-	string format_impl(const char* fmt, gxx::arglist<format_generic>& list) {
+	string format_impl(const char* fmt, const gxx::arglist<format_generic>& list) {
 		gxx::string str;
 		str.reserve(128);
 		gxx::memory_writer writer(str.data(), str.capacity());
-		format_impl(fmt, list, writer);
+		format_impl(writer, fmt, list);
 		return str.set_size(writer.size());
 	}
 
