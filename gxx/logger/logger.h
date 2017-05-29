@@ -32,7 +32,7 @@ namespace gxx {
 			}*/
 
 			inline void log(Level level, const char* fmt, arglist<format_generic>&& args) {
-				auto ptr = make_shared<gxx::string>();
+				//auto ptr = make_shared<gxx::string>();
 
 				//for (auto t : targets) {
 				//	t->log(str);

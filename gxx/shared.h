@@ -10,12 +10,25 @@ namespace gxx {
 	};
 
 	class shared_control_block_basic {
+	public:
 		uint16_t refs;
+
+		void addref() { refs++; }
+		void remref() { 
+			refs--; 
+			if (refs == 0) destroy();
+		}
+
+		virtual void destroy() = 0;
 	};
 
 	template <typename T, typename Deleter>
 	class shared_control_block : public shared_control_block_basic, public Deleter {
 		shared_control_block(){}
+
+		void destroy() {
+
+		}
 	};
 
 	template <typename T>
@@ -24,7 +37,13 @@ namespace gxx {
 		shared_control_block_basic* ctrl;
 
 	public:
-			explicit shared_ptr(T* p) : ptr(p), ctrl(new shared_control_block<T, default_deleter<T>>()) {}
+			explicit shared_ptr(T* p) : ptr(p), ctrl(new shared_control_block<T, default_deleter<T>>()) {
+				ctrl->addref();
+			}
+
+			~shared_ptr() {
+				if (ptr) ctrl->remref();
+			}
 		/*
 			shared_ptr(pointer p, delete_fn d) : ptr(p), cnt( new counter(1) ), del(d) {
 					gxx::cout << "shared_ptr(pointer, delete_fn)\n";
