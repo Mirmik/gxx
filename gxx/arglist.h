@@ -23,7 +23,7 @@ namespace gxx {
 		constexpr argpair(const char* name, const T& body) : body(&body), name(name) {}
 	};
 
-	template<typename T>
+	/*template<typename T>
 	struct argument {
 		const T& ref;
 	//public:
@@ -46,6 +46,10 @@ namespace gxx {
 		template<size_t N>
 		inline constexpr argument(T(&arr)[N]) : buf(arr) {}
 
+		~argument() {
+			dprln("~argument()");
+		}
+
 		//template<>
 		//inline constexpr argument(T* arr) : buf(arr) {}
 	};
@@ -53,14 +57,16 @@ namespace gxx {
 	template<typename InArg> struct make_argument {
 		using InType = InArg;
 		using Type = typename gxx::remove_reference<InArg>::type;
-		static const argument<Type> doit(const InType& arg) { return argument<Type>(arg); }
+		static argument<Type> doit(InType&& arg) { return argument<Type>(arg); }
 	};
 	
 	template<typename T, size_t N> struct make_argument<T(&)[N]> {
 		using InType = T(&)[N];
 		using Type = typename gxx::remove_reference<gxx::object_buffer<T>>::type;
-		static const argument<Type> doit(const InType& arg) { return argument<Type>(arg); }
-	};
+		static argument<Type> doit(InType&& arg) { 
+			return argument<Type>(arg); 
+		}
+	};*/
 	
 	/*template<> struct make_argument<> {
 		static void do() {}
@@ -91,18 +97,25 @@ namespace gxx {
 		argname operator"" _a (const char* name, size_t sz) { return argname(name); } 
 	}
 
-	template<typename Generic>
+	//template<typename Generic>
 	struct argument_header {
-		using FuncType = decltype(&Generic::template genfunc<void>);
-
+		//using FuncType = decltype(&Generic::template genfunc<void>);
 		void* ptr;
-		FuncType funcptr;
+		uint16_t sz; 
+		void* funcptr;
 		const char* name;
 		
 		argument_header(){}
 
-		argument_header(void* ptr, void* funcptr, char const* name) :
-			ptr(ptr), funcptr(funcptr), name(name) {}
+		//argument_header(void* ptr, void* funcptr, char const* name) :
+		//	ptr(ptr), funcptr(funcptr), name(name) {}
+
+		/*template<typename ... Args>
+		auto invoke() {
+			return reinterpret_cast<decltype(&Generic::template genfunc<void>)>(
+				funcptr
+			)(ptr);
+		}*/
 
 		//DEBUG
 		void debug_print() {
@@ -114,38 +127,68 @@ namespace gxx {
 
 	template<typename Generic, typename ... Args> struct arglist_former;
 
-	template<typename Generic> struct arglist_former <Generic> {
-		static inline void former(argument_header<Generic>* argptr) {}
-
-		/*template<typename HT, typename ... Tail>
-		static inline void former(argument_header* argptr, const argument<HT>& head, const Tail& ... tail) {
-			argptr->ptr = (void*) &head.ref;
+	template<typename Generic> 
+	struct arglist_former <Generic> {
+		static inline void former(argument_header* argptr) {}
+	
+			/*template<typename HT, typename ... Tail>
+			static inline void former(argument_header* argptr, const argument<HT>& head, const Tail& ... tail) {
+				argptr->ptr = (void*) &head.ref;
+				argptr->name = nullptr;
+				argptr->funcptr = (void*) (&Generic::template genfunc<HT>);
+				arglist_former<Generic, Tail ...>::former(++argptr, tail ...);
+			}*/
+	
+		template<typename HT, size_t N, typename ... Tail>
+		static inline void former(argument_header* argptr, HT(& head)[N], const Tail& ... tail) {
+			argptr->ptr = (void*)head;
+			argptr->sz = N;
+			argptr->name = nullptr;
+			argptr->funcptr = (void*) (&Generic::template genfunc_array<HT>);
+			arglist_former<Generic>::former(++argptr, tail ...);
+		}
+	
+		template<typename HT, typename ... Tail>
+		static inline void former(argument_header* argptr, const HT& head, const Tail& ... tail) {
+			argptr->ptr = (void*) &head;
 			argptr->name = nullptr;
 			argptr->funcptr = (void*) (&Generic::template genfunc<HT>);
-			arglist_former<Generic, Tail ...>::former(++argptr, tail ...);
-		}*/
-
-		template<typename HT, typename ... Tail>
-		static inline void former(argument_header<Generic>* argptr, const argument<gxx::object_buffer<HT>>& head, const Tail& ... tail) {
-			/*argptr->ptr = (void*) &head.buf;
-			//dprptr(argptr->ptr);dln();
-			argptr->name = nullptr;
-			argptr->funcptr = (void*) (&Generic::template genfunc<gxx::object_buffer<HT>>);*/
-			new (argptr) argument_header<Generic>(
-				(void*) &head.buf, 
-				&Generic::template genfunc<gxx::object_buffer<HT>>,
-				nullptr
-			);
-			arglist_former<Generic, Tail ...>::former(++argptr, tail ...);
+			arglist_former<Generic>::former(++argptr, tail ...);
+		}
+	
+		template<typename HT, size_t N, typename ... Tail>
+		static inline void former(argument_header* argptr, const argpair<HT[N]>& head, const Tail& ... tail) {
+			argptr->ptr = (void*) head.body;
+			argptr->sz = N;
+			argptr->name = head.name;
+			argptr->funcptr = (void*) (&Generic::template genfunc_array<HT>);
+			arglist_former<Generic>::former(++argptr, tail ...);
 		}
 
-		/*template<typename HT, size_t N typename ... Tail>
-		static inline void former(argument_header* argptr, const argument<HT(&)[N]>&& head, const Tail& ... tail) {
-			argptr->ptr = (void*) &head.buf;
+		template<typename HT, typename ... Tail>
+		static inline void former(argument_header* argptr, const argpair<HT>& head, const Tail& ... tail) {
+			argptr->ptr = (void*) head.body;
+			argptr->name = head.name;
+			argptr->funcptr = (void*) (&Generic::template genfunc<HT>);
+			arglist_former<Generic>::former(++argptr, tail ...);
+		}
+
+		/*template<typename HT, size_t N, typename ... Tail>
+		static inline void former(argument_header* argptr, HT* const & head, const Tail& ... tail) {
+			argptr->ptr = (void*)head;
+			//argptr->sz = N;
 			argptr->name = nullptr;
-			argptr->funcptr = (void*) (&Generic::template genfunc<gxx::object_buffer<HT>>);
-			arglist_former<Generic, Tail ...>::former(++argptr, tail ...);
+			argptr->funcptr = (void*) (&Generic::template genfunc_array<HT>);
+			arglist_former<Generic>::former(++argptr, tail ...);
 		}*/
+	
+			/*template<typename HT, size_t N typename ... Tail>
+			static inline void former(argument_header* argptr, const argument<HT(&)[N]>&& head, const Tail& ... tail) {
+				argptr->ptr = (void*) &head.buf;
+				argptr->name = nullptr;
+				argptr->funcptr = (void*) (&Generic::template genfunc<gxx::object_buffer<HT>>);
+				arglist_former<Generic, Tail ...>::former(++argptr, tail ...);
+			}*/
 	};
 
 	
@@ -184,15 +227,14 @@ namespace gxx {
 	template<typename Generic>
 	class arglist {
 	public:
-		argument_header<Generic> list[10];
+		argument_header list[10];
 	
 		template<typename ... UArgs>
 		explicit arglist(UArgs&& ... args) {
-			//former(list, make_argument<UArgs>::doit(gxx::forward<UArgs>(args)) ...);
-			arglist_former<Generic>::former(list, make_argument<UArgs>::doit(gxx::forward<UArgs>(args)) ...);
+			arglist_former<Generic>::former(list, gxx::forward<UArgs>(args) ...);
 		}
 
-		argument_header<Generic>& operator[](int i) {
+		argument_header& operator[](int i) {
 			return list[i];
 		}
 
@@ -200,7 +242,10 @@ namespace gxx {
 		int invoke(int num, UArgs&& ... args) const {
 			if (num >= 10) return -1;
 			//using FuncType = decltype(&Generic::template genfunc<void>);
-			return list[num].funcptr(list[num].ptr, gxx::forward<UArgs>(args) ...);
+			if (list[num].sz == 0)
+				return reinterpret_cast<decltype(&Generic::template genfunc<void>)>(list[num].funcptr)(list[num].ptr, gxx::forward<UArgs>(args) ...);
+			else
+				return reinterpret_cast<decltype(&Generic::template genfunc_array<void>)>(list[num].funcptr)(list[num].ptr, list[num].sz, gxx::forward<UArgs>(args) ...);
 		}
 
 		int find_name(const char* name, size_t len) const {
@@ -230,7 +275,7 @@ namespace gxx {
 	template<typename Generic, typename Head, typename ... Tail>
 	struct arglist_former<Generic, Head, Tail...> {
 		template<typename UHead, typename ... UTail>
-		static inline void former(argument_header<Generic>* argptr, UHead&& head, UTail&& ... tail) {
+		static inline void former(argument_header* argptr, UHead&& head, UTail&& ... tail) {
 			printf("%s\n", "Just former");
 			argptr->ptr = (void*) &head;
 			argptr->name = nullptr;
@@ -243,7 +288,7 @@ namespace gxx {
 	template<typename Generic, typename Data, size_t N, typename ... Tail>
 	struct arglist_former<Generic, Data(&)[N], Tail...> {
 		template<typename ... UTail>
-		static inline void former(argument_header<Generic>* argptr, Data (&head) [N], UTail&& ... tail) {
+		static inline void former(argument_header* argptr, Data (&head) [N], UTail&& ... tail) {
 			printf("%s\n", "Just array former");
 			argptr->ptr = (void*) head;
 			argptr->array_size = N;
@@ -255,7 +300,7 @@ namespace gxx {
 
 	//template<typename Generic, typename Data, typename ... Tail>
 	//struct arglist_former<Generic, argpair<Data>, Tail...> {
-		/*static inline void former(argument_header<Generic>* argptr, const argpair<Data>& head, const Tail& ... tail) {
+		/*static inline void former(argument_header* argptr, const argpair<Data>& head, const Tail& ... tail) {
 			argptr->ptr = (void*) &head.body;
 			argptr->name = head.name;
 			argptr->array_size = head.array_size;
@@ -267,7 +312,7 @@ namespace gxx {
 
 /*	template<typename Generic>
 	struct arglist_former<Generic> {
-		static void former(argument_header<Generic>* argptr) {}
+		static void former(argument_header* argptr) {}
 	};
 	
 	

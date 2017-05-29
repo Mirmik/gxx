@@ -13,7 +13,7 @@ namespace gxx {
 	
 	struct format_generic {
 		template<typename T> static int genfunc(T* ptr, memory_writer& writer, const char* opts);
-		template<typename T> static int genfunc_array(T* ptr, memory_writer& writer, const char* opts);
+		template<typename T> static int genfunc_array(T* ptr, size_t sz, memory_writer& writer, const char* opts);
 	};
 
 	inline int format_argument(memory_writer& writer, const char*& fmt, const gxx::arglist<format_generic>& list, uint8_t& argnum) {
@@ -76,11 +76,12 @@ namespace gxx {
 
 	template<typename ... Args>
 	string format(const char* fmt, Args&& ... args) {
-		return format_impl(fmt, make_arglist<format_generic>(gxx::argument<Args>(args) ...));
+		return format_impl(fmt, make_arglist<format_generic>(args ...));
 	}
 
 	///const char* formater:
-	template<> int format_generic::genfunc<gxx::object_buffer<const char>>(gxx::object_buffer<const char>* ptr, memory_writer& w, const char* opts) {
+	template<> 
+	int format_generic::genfunc_array<const char*>(const char* ptr, size_t sz, memory_writer& w, const char* opts) {
 		CharStrSpec spec;
 
 		if (opts != nullptr)
@@ -100,7 +101,12 @@ namespace gxx {
 			}
 		}
 
-		w.write(ptr->data(), ptr->size(), spec);
+		w.write(ptr, sz, spec);
+	}
+
+	template<> 
+	int format_generic::genfunc<const char*>(const char* ptr, size_t sz, memory_writer& w, const char* opts) {
+		return format_generic::genfunc_array<char>(ptr, sz, w, opts);
 	}
 
 	int format_integer(int64_t num, memory_writer& w, const char* opts) {
