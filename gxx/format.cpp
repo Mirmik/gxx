@@ -3,7 +3,7 @@
 namespace gxx {
 
 	int format_visitor::visit(gxx::argument arg, memory_writer& w, const char* opts) {
-		dprln(arg.type_to_string());
+		//dprln(arg.type_to_string());
 		switch (arg.type) {
 			case gxx::argument::Type::SInt8:  return 	visit_int64 (arg.i8,  w, opts);
 			case gxx::argument::Type::SInt16: return 	visit_int64 (arg.i16, w, opts);
@@ -19,7 +19,7 @@ namespace gxx {
 	}
 	
 	int format_visitor::visit_int64(const int64_t& num, memory_writer& w, const char* opts) {
-		dprln("Hereint64");
+		//dprln("Hereint64");
 		IntegerSpec spec;
 	
 		if (opts != nullptr)
@@ -49,13 +49,13 @@ namespace gxx {
 	}
 	
 	int format_visitor::visit_uint64(const uint64_t& i, memory_writer&, const char* opts) {
-		dprln("Hereuint64");
+		//dprln("Hereuint64");
 		abort();
 		//dprln(i);	
 	}
 	
 	int format_visitor::visit_cstring(const char*& str, memory_writer& w, const char* opts) {
-		dprln("Herecstring");
+		//dprln("Herecstring");
 		CharStrSpec spec;
 	
 		if (opts != nullptr)
@@ -114,13 +114,13 @@ namespace gxx {
 		} 
 
 		if (isalpha(*fmt)) {
-			dprln("not implemented");
-			abort();
-			/*const char* count_ptr = fmt;
+			//dprln("not implemented");
+			//abort();
+			const char* count_ptr = fmt;
 			int len = 0;
 			while(isalpha(*count_ptr++)) len++;
 			argnum = list.find_name(fmt,len);
-			if (argnum == 0xFF) return -1;*/
+			if (argnum == 0xFF) abort();//return -1;
 		} 
 
 		while(*fmt != '}' && *fmt != ':' && *fmt != 0) fmt++;

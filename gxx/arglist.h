@@ -13,7 +13,7 @@ namespace gxx {
 		const char*& name;
 		argname(const char*& name) : name(name) {}; 
 		template<typename T> 
-		constexpr argpair<T> operator= (const T& body) { return argpair<T>(name, body); }  
+		constexpr argpair<T> operator= (const T& body) {  return argpair<T>(name, body); }  
 	};
 	
 	template<typename T>
@@ -24,7 +24,7 @@ namespace gxx {
 	};
 
 	namespace literals {
-		argname operator"" _a (const char* name, size_t sz);
+		static argname operator"" _a (const char* name, size_t sz) { return argname(name); } 
 	}
 
 	struct argument {
@@ -66,25 +66,36 @@ namespace gxx {
 
 		argument(){}
 
-		argument(const int8_t& num) 		: i8 ( num ) , type (  SInt8 ) {}
-		argument(const int16_t& num) 		: i16 ( num ) , type (  SInt16 ) {}
-		argument(const int32_t& num) 		: i32 ( num ) , type (  SInt32 ) {}
-		argument(const int64_t& num) 		: i64 ( num ) , type (  SInt64 ) {}
+		argument(const int8_t& num, const char* name = nullptr) 		: i8 ( num ) , type (  SInt8 ), name(name) {}
+		argument(const int16_t& num, const char* name = nullptr) 		: i16 ( num ) , type (  SInt16 ), name(name) {}
+		argument(const int32_t& num, const char* name = nullptr) 		: i32 ( num ) , type (  SInt32 ), name(name) {}
+		argument(const int64_t& num, const char* name = nullptr) 		: i64 ( num ) , type (  SInt64 ), name(name) {}
 	
-		argument(const uint8_t& num) 		: u8 ( num ) , type (  UInt8 ) {}
-		argument(const uint16_t& num) 		: u16 ( num ) , type ( UInt16 ) {}
-		argument(const uint32_t& num) 		: u32 ( num ) , type ( UInt32 ) {}
-		argument(const uint64_t& num) 		: u64 ( num ) , type ( UInt64 ) {}
+		argument(const uint8_t& num, const char* name = nullptr) 		: u8 ( num ) , type (  UInt8 ), name(name) {}
+		argument(const uint16_t& num, const char* name = nullptr) 		: u16 ( num ) , type ( UInt16 ), name(name) {}
+		argument(const uint32_t& num, const char* name = nullptr) 		: u32 ( num ) , type ( UInt32 ), name(name) {}
+		argument(const uint64_t& num, const char* name = nullptr) 		: u64 ( num ) , type ( UInt64 ), name(name) {}
 	
-		argument(const char* const& str)	: str ( str  ) , type ( CharPtr ) {}
+		argument(const char* const& str, const char* name = nullptr)	: str ( str  ) , type ( CharPtr ), name(name) {}
 
-		argument(void* ptr, void* func)	: type(CustomType), custom(ptr, func) {}
+		argument(void* ptr, void* func, const char* name = nullptr)	: type(CustomType), custom(ptr, func), name(name) {}
 
 		//custom is max sized type
-		argument(const argument& other) : custom(other.custom), type(other.type) {}
+		argument(const argument& other) = default;
+		argument(argument&& other) = default;
 	
 		const char* type_to_string();
 	};
+
+	/*class argument_with_name : public argument {
+	public:
+		template<typename Arg> 
+		argument_with_name(Arg&& arg) : argument(gxx::forward<Arg>(arg)) {};
+
+		template<typename Arg, typename Arg2> 
+		argument_with_name(Arg&& arg, Arg2&& arg2) 
+			: argument(gxx::forward<Arg>(arg), gxx::forward<Arg2>(arg2)) {};
+	};*/
 
 	template<typename HT, typename ... Tail>
 	static inline void arglist_former(argument* argptr, const HT& head, const Tail& ... tail) {
@@ -110,13 +121,20 @@ namespace gxx {
 		argument* begin();
 		argument* end();
 
-		/*int find_name(const char* name, size_t len) const {
-			for(int i = 0; i < 10; ++i) {
-				if (list[i].name && !strncmp(name, list[i].name, len)) return i; 
-			}
-			return -1;
-		}*/
+		int find_name(const char* name, size_t len) const;
 	};
+
+	template<typename Customer, typename T>
+	gxx::enable_if_t<gxx::is_constructible<argument, T&>::value, argument> 
+	make_argument(argpair<T>& arg) { 
+		return argument(arg.body, arg.name); 
+	}
+	 
+	template<typename Customer, typename T> 
+	gxx::enable_if_t<!gxx::is_constructible<argument, T&>::value, argument> 
+	make_argument(argpair<T>& arg) { 
+		return argument(&arg.body, (void*) Customer::template function_pointer<T>(), arg.name); 
+	}
 
 	template<typename Customer, typename T>
 	gxx::enable_if_t<gxx::is_constructible<argument, T&>::value, argument> 
@@ -129,6 +147,8 @@ namespace gxx {
 	make_argument(T&& arg) { 
 		return argument(&arg, (void*) Customer::template function_pointer<T>()); 
 	}
+
+
 }
 
 #endif

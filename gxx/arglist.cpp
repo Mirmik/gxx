@@ -1,10 +1,6 @@
 #include <gxx/arglist.h>
 
 namespace gxx {	
-	namespace literals {
-		argname operator"" _a (const char* name, size_t sz) { return argname(name); } 
-	}
-
 	const argument& arglist::operator[](int i) const {
 		return list[i];
 	}
@@ -26,5 +22,12 @@ namespace gxx {
 			case CustomType: return "Custom";
 			default: return "Undeclared";
 		}
+	}
+
+	int arglist::find_name(const char* name, size_t len) const {
+		for(int i = 0; i < listsz; ++i) {
+			if (list[i].name && !strncmp(name, list[i].name, len)) return i; 
+		}
+		return -1;
 	}
 }
