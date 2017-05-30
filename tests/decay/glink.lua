@@ -9,7 +9,7 @@ ruller = CXXDeclarativeRuller.new{
 	--weakRecompile = "noscript",
 	optimization = "-O3",
 	standart = {
-		cxx = "-std=c++1z",
+		cxx = "-std=gnu++14",
 		cc = "-std=gnu11",
 	},
 	flags = {

@@ -3,51 +3,72 @@
 
 using namespace gxx::literals;
 
-struct generic {
-	template<typename T> static int genfunc(T* ptr, int i);
-	template<typename T> static int genfunc_array(T* ptr, size_t sz, int i);
+template<typename T>
+int func(const T& ptr, int i) {
+	printf("func%s%d", __PRETTY_FUNCTION__, i);
+}
+
+struct test_generic {
+	template<typename T>
+	using FuncPtr = int(*)(const T&, int i); 
+
+	template <typename T>
+	static FuncPtr<T> function_pointer() { return &func<T>; }
 };
 
-template<> int generic::genfunc<int>(int* ptr, int i) {
-	printf("INT %d %d\n", *ptr, i);
-}
-
-template<> int generic::genfunc_array<const char>(const char* ptr, size_t sz, int i) {
-	printf("ARR %s %d\n", ptr, i);
-}
-
-template<> int generic::genfunc_array<char>(char* ptr, size_t sz, int i) {
-	printf("ARR %s %d\n", ptr, i);
-}
-
-/*template<typename ... T>
-struct helper {
-	static int func(gxx::argument<T>&& ... args) {
-		//auto list = gxx::make_arglist<generic> (gxx::move(args) ...);
-		//list.invoke(0, 0);
-		//list.invoke(1, 1);
-		//list.invoke(2, 2);
-		//list.invoke(3, 3);
+class test_visitor {
+public:
+	int visit(gxx::argument arg, int i) {
+		dprln(arg.type_to_string());
+		switch (arg.type) {
+			case gxx::argument::Type::SInt8:  return 	visit_int64 (arg.i8,  i);
+			case gxx::argument::Type::SInt16: return 	visit_int64 (arg.i16, i);
+			case gxx::argument::Type::SInt32: return 	visit_int64 (arg.i32, i);
+			case gxx::argument::Type::SInt64: return 	visit_int64 (arg.i64, i);
+			case gxx::argument::Type::UInt8:  return 	visit_uint64(arg.u8,  i);
+			case gxx::argument::Type::UInt16: return 	visit_uint64(arg.u16, i);
+			case gxx::argument::Type::UInt32: return 	visit_uint64(arg.u32, i);
+			case gxx::argument::Type::UInt64: return 	visit_uint64(arg.u64, i);
+			case gxx::argument::Type::CharPtr: return 	visit_cstring(arg.str, i);
+			case gxx::argument::Type::CustomType: return 	visit_custom(arg.custom, i);
+		}
 	}
-};*/
 
-int func_impl(const gxx::arglist<generic>& args) {
-	args.invoke(0, 0);
-	args.invoke(1, 1);
-	args.invoke(2, 2);
-	args.invoke(3, 3);
-}
+	int visit_int64(const int64_t& i, int s) {
+		dprln(i);	
+	}
+
+	int visit_uint64(const uint64_t& i, int s) {
+		dprln(i);	
+	}
+
+	int visit_cstring(const char*& i, int s) {
+		dprln(i);	
+	}
+
+	int visit_custom(const gxx::argument::custom_value& c, int s) {
+		reinterpret_cast<void(*)(void*,int)>(c.func)(c.ptr, s);
+	}
+};
+
+template<typename ... Args>
+void do_nothing(Args&& ... args) {}
 
 template<typename ... T>
 int func(T&& ... args) {
-	return func_impl(gxx::make_arglist<generic>(args ...));
+	gxx::arglist list(gxx::make_argument<test_generic>(args) ...);
+
+	test_visitor visitor;
+
+	for(auto& v : list) {
+		visitor.visit(v, 1024);
+	}
+
 }
 
+class A {};
+
 int main() {
-	char msg[128] = "Hello";
-	//func(4,6,"lalal", "kekeke"_a=89, "msg"_a=msg);
-	func("hello", 67, "mirmik"_a=25, "mirmik2"_a="mirmik2");
-
-//	std::cout << "HelloWorld" << std::endl;
-
+	//const char* msg = "Hello";
+	func(40000, "hello2", A());
 }

@@ -22,3 +22,35 @@
 	struct big_ 	{char dummy[2];};
 	typedef small_ yes_tag;
 	typedef big_ no_tag;
+
+	
+   /**
+   *  @brief  Utility to simplify expressions used in unevaluated operands
+   *  @ingroup utilities
+   */
+   template<typename _Tp>
+   typename add_rvalue_reference<_Tp>::type declval() noexcept;
+
+
+	template<bool B, class T = void>
+	struct enable_if {};
+	 
+	template<class T>
+	struct enable_if<true, T> { typedef T type; };
+
+	template<bool B, class T>
+	using enable_if_t = typename enable_if<B,T>::type;
+
+	template <class...>
+	using void_t = void;
+	
+	template <class, class T, class... Args>
+	struct is_constructible_ : gxx::false_type {};
+	
+	template <class T, class... Args>
+	struct is_constructible_<
+	    void_t<decltype(T(gxx::declval<Args>()...))>,
+	T, Args...> : gxx::true_type {};
+	
+	template <class T, class... Args>
+	using is_constructible = is_constructible_<void_t<>, T, Args...>;

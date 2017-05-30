@@ -3,7 +3,7 @@
 #include <unistd.h>
 
 void debug_putchar(char c) {
-	putchar(c);
+	int ret = write(0, &c, 1);
 }
 
 void debug_write(const void* c, int i) {
