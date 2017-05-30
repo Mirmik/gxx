@@ -1,8 +1,8 @@
-#include <gxx/format.h>
+//#include <gxx/format.h>
 
 namespace gxx {
 
-	int format_visitor::visit(gxx::argument arg, memory_writer& w, const char* opts) {
+	/*int format_visitor::visit(gxx::argument arg, memory_writer& w, const char* opts) {
 		//dprln(arg.type_to_string());
 		switch (arg.type) {
 			case gxx::argument::Type::SInt8:  return 	visit_int64 (arg.i8,  w, opts);
@@ -140,7 +140,7 @@ namespace gxx {
 		while(*fmt != '}' && *fmt != 0) fmt++;
 		fmt++;
 		return ret;
-	} 
+	}*/ 
 	
 
 }

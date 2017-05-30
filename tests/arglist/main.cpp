@@ -1,7 +1,35 @@
-#include <iostream>
 #include <gxx/arglist.h>
+#include <iostream>
 
-using namespace gxx::literals;
+template<typename T>
+int genfunc(const T& ref, int i) {
+	dprln("genfunc");
+}
+
+template<>
+int genfunc(const int& ref, int i) {
+	dprln("genfunc int");
+}
+
+template<>
+int genfunc(const char* const& ref, int i) {
+	dprln("genfunc string");
+}
+
+struct test_generic {
+	template<typename T>
+	using FuncPtr = int(*)(const T&, int i); 
+	using VoidFuncPtr = int(*)(void*, int i); 
+
+	template <typename T>
+	static FuncPtr<T> function_pointer() { return &genfunc<T>; }
+
+	static int visit(gxx::argument arg, int i) {
+		return reinterpret_cast<VoidFuncPtr>(arg.func)(arg.ptr, i);
+	}
+};
+
+/*using namespace gxx::literals;
 
 template<typename T>
 int func(const T& ptr, int i) {
@@ -53,22 +81,21 @@ public:
 
 template<typename ... Args>
 void do_nothing(Args&& ... args) {}
-
+*/
 template<typename ... T>
 int func(T&& ... args) {
 	gxx::arglist list(gxx::make_argument<test_generic>(args) ...);
 
-	test_visitor visitor;
-
 	for(auto& v : list) {
-		visitor.visit(v, 1024);
+		test_generic::visit(v, 1024);
 	}
-
 }
 
-class A {};
+//class A {};
 
 int main() {
-	//const char* msg = "Hello";
-	func(40000, "hello2", A());
+	const char* msg = "Hello";
+	//func(40000, "hello2", A());
+	const int i = 98;
+	func(40, "hello", i, msg);
 }

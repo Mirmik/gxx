@@ -7,7 +7,7 @@ namespace gxx {
 
 	argument* arglist::begin() { return list; }
 	argument* arglist::end() { return list + listsz; }	
-
+/*
 	const char* argument::type_to_string() {
 		switch (type) {
 			case SInt8: return "SInt8";
@@ -29,5 +29,5 @@ namespace gxx {
 			if (list[i].name && !strncmp(name, list[i].name, len)) return i; 
 		}
 		return -1;
-	}
+	}*/
 }
