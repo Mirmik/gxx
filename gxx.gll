@@ -12,3 +12,10 @@ Module("gxx.include", {
 	depends = "gxx.sources",
 	includePaths = "."
 }) 
+
+Module("gxx.log_manager", {
+	sources = {
+		directory = "gxx/logger", 
+		cxx = "manager.cpp"
+	}
+})

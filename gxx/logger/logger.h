@@ -1,6 +1,7 @@
 #ifndef GXX_LOGGER_H
 #define GXX_LOGGER_H
 
+#include <gxx/datastruct/dlist_head.h>
 #include <gxx/logger/target.h>
 #include <gxx/format.h>
 #include <gxx/vector.h>
@@ -28,6 +29,8 @@ namespace gxx {
 			Level minlevel = Level::Trace;
 
 		public:
+			dlist_head manage_link;
+
 			logger(const char* name) : logger_name(name) {}
 
 			void link(target& tgt) {

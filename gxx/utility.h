@@ -12,6 +12,7 @@
 //#include "defines/size_t.h"
 
 #include <stdlib.h>
+#include "gxx/util/placed_new.h"
 //#include <utilxx/type_analize.h>
 
 namespace gxx{
