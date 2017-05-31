@@ -7,9 +7,7 @@ namespace gxx {
 	namespace log {
 		class target {
 		public:
-			void log(const char* str) {
-				dprln(str);
-			}
+			virtual void log(const char* str) = 0;
 		};
 	}
 }

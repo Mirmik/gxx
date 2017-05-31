@@ -11,29 +11,32 @@
 
 namespace gxx {
 	template<typename T>
-	int format_arg(const T* ref, memory_writer&, const char* opts) {
+	int format_arg(T& ref, memory_writer&, const char* opts) {
 		dprln("FORMATE_ARGUMENT");
 	}
 
-	template<>int format_arg(const int8_t* ptr, memory_writer&, const char* opts);
-	template<>int format_arg(const int16_t* ptr, memory_writer&, const char* opts);
-	template<>int format_arg(const int32_t* ptr, memory_writer&, const char* opts);
-	template<>int format_arg(const int64_t* ptr, memory_writer&, const char* opts);
+	template<>int format_arg(const int8_t& ptr, memory_writer&, const char* opts);
+	template<>int format_arg(const int16_t& ptr, memory_writer&, const char* opts);
+	template<>int format_arg(const int32_t& ptr, memory_writer&, const char* opts);
+	template<>int format_arg(const int64_t& ptr, memory_writer&, const char* opts);
 
-	template<>int format_arg(const uint8_t* ptr, memory_writer&, const char* opts);
-	template<>int format_arg(const uint16_t* ptr, memory_writer&, const char* opts);
-	template<>int format_arg(const uint32_t* ptr, memory_writer&, const char* opts);
-	template<>int format_arg(const uint64_t* ptr, memory_writer&, const char* opts);
+	template<>int format_arg(const uint8_t& ptr, memory_writer&, const char* opts);
+	template<>int format_arg(const uint16_t& ptr, memory_writer&, const char* opts);
+	template<>int format_arg(const uint32_t& ptr, memory_writer&, const char* opts);
+	template<>int format_arg(const uint64_t& ptr, memory_writer&, const char* opts);
 
-	template<>int format_arg<const char>(const char* const ptr, memory_writer&, const char* opts);
+	template<>int format_arg(const char* const& ptr, memory_writer&, const char* opts);
 
 	struct format_visitor {
 		template<typename T>
-		using FuncPtr = int(*)(const T*, memory_writer&, const char* opts); 
+		using FuncPtr = int(*)(T&, memory_writer&, const char* opts); 
 		using VoidFuncPtr = int(*)(const void*, memory_writer&, const char* opts); 
 
 		template <typename T>
-		static FuncPtr<T> function_pointer() { return &format_arg<T>; }
+		static FuncPtr<T> function_pointer() { 
+			//pretty_that_function();dln();
+			return &format_arg<T>; 
+		}
 
 		static int visit(gxx::argument arg, memory_writer& w, const char* opts);
 	};

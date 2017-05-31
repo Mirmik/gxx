@@ -21,10 +21,13 @@ namespace gxx {
 		};
 
 		class logger {
+			const char* logger_name = "Logger";
 			vector<target*> targets;
-			gxx::string pattern = "*** {logger}::{msg} ***";
+			gxx::string pattern = "*** PATTERN IS NOT SETTED ***";
 
 		public:
+			logger(const char* name) : logger_name(name) {}
+
 			void link(target& tgt) {
 				targets.push_back(&tgt);
 			}
@@ -38,22 +41,25 @@ namespace gxx {
 				log()
 			}*/
 
-			inline void log(Level level, const char* fmt, arglist<format_generic>&& args) {
+			inline void log(Level level, const char* fmt, arglist&& args) {
 				char msg[128];
 				memory_writer writer(msg, 128);
 				format_impl(writer, fmt, args);
+				writer.set_line_null();
 
-				gxx::string logmsg = format(pattern.c_str(), "msg"_a=msg);
+				gxx::string logmsg = format(pattern.c_str(), 
+					"msg"_a=(const char*)msg, 
+					"logger"_a=logger_name,
+					"level"_a=level_to_str(level));
 				
-
-				/*for (auto t : targets) {
+				for (auto t : targets) {
 					t->log(logmsg.c_str());
-				}*/
+				}
 			}
 
 			template <typename ... Args>
 			inline void log(Level level, const char* fmt, Args&& ... args) {
-				log(level, fmt, arglist<format_generic>(argument<Args>(args)...));
+				log(level, fmt, arglist(gxx::arglist(gxx::make_argument<format_visitor>(gxx::make_argument_temporary(gxx::forward<Args>(args))) ...)));
 			}
 
 			template <typename ... Args>
@@ -84,6 +90,17 @@ namespace gxx {
 			template <typename ... Args>
 			inline void fault(const char* fmt, Args&& ... args) {
 				log(Level::Fault, fmt, gxx::forward<Args>(args)...);
+			}
+
+			static const char* level_to_str(Level level) {
+				switch(level) {
+					case Level::Trace: return "trace";
+					case Level::Debug: return "debug";
+					case Level::Info: return "info";
+					case Level::Warning: return "warn";
+					case Level::Error: return "error";
+					case Level::Fault: return "fault";
+				}
 			}
 
 		};

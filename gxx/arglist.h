@@ -32,7 +32,7 @@ namespace gxx {
 		}
 	};
 
-	template<typename T>
+	template<typename T, typename F>
 	class argument_temporary {
 	public:
 		T arg;
@@ -45,45 +45,52 @@ namespace gxx {
 	};
 
 	template<typename T>
-	argument_temporary<T> make_argument_temporary(T&& arg) {
-		return argument_temporary<T>(gxx::forward<T>(arg));
+	argument_temporary<T, const T> make_argument_temporary(T&& arg) {
+		//pretty_that_function();dprln();
+		return argument_temporary<T, const T>(gxx::forward<T>(arg));
 	} 
 
 	template<typename T>
-	argument_temporary<T&> make_argument_temporary(T& arg) {
-		dpr("T& arg :"); dprln(arg);
-		return argument_temporary<T&>(arg);
+	argument_temporary<T&, const T> make_argument_temporary(T& arg) {
+		//pretty_that_function();dprln();
+		return argument_temporary<T&, const T>(arg);
 	}
 
 	template<typename T>
-	argument_temporary<T*> make_argument_temporary(T*& arg) {
-		return argument_temporary<T*>(arg);
+	argument_temporary<T*, const T* const> make_argument_temporary(T*& arg) {
+		//pretty_that_function();dprln();
+		return argument_temporary<T*, const T* const>(arg);
 	}
 
 	template<typename T, size_t N>
-	argument_temporary<T*> make_argument_temporary(T(&arg)[N]) {
-		//	pretty_that_function();dprln();
-		return argument_temporary<T*>(arg);
+	argument_temporary<T*, const T* const> make_argument_temporary(T(&arg)[N]) {
+		//pretty_that_function();dprln();
+		return argument_temporary<T*, const T* const>(arg);
 	} 
 
 	template<typename T>
-	argument_temporary<T> make_argument_temporary(argpair<T>&& arg) {
-		//	pretty_that_function();dprln();
-		return argument_temporary<T>(arg.body, arg.name);
+	argument_temporary<T, const T> make_argument_temporary(argpair<T>&& arg) {
+		//pretty_that_function();dprln();
+		return argument_temporary<T, const T>(arg.body, arg.name);
 	} 
 
 	template<typename T>
-	argument_temporary<T*> make_argument_temporary(argpair<T*&>&& arg) {
-		//	pretty_that_function();dprln();
-		return argument_temporary<T*>(arg.body, arg.name);
+	argument_temporary<T&, const T> make_argument_temporary(argpair<T&>&& arg) {
+		//pretty_that_function();dprln();
+		return argument_temporary<T&, const T>(arg.body, arg.name);
+	} 
+
+	template<typename T>
+	argument_temporary<T*, const T* const> make_argument_temporary(argpair<T*&>&& arg) {
+		//pretty_that_function();dprln();
+		return argument_temporary<T*, const T* const>(arg.body, arg.name);
 	} 
 
 	template<typename T, size_t N>
-	argument_temporary<T*> make_argument_temporary(argpair<T(&)[N]>&& arg) {
-		//	pretty_that_function();dprln();
-		return argument_temporary<T*>(arg.body, arg.name);
-	} 
-
+	argument_temporary<const T*, const T* const> make_argument_temporary(argpair<T(&)[N]>&& arg) {
+		//pretty_that_function();dprln();
+		return argument_temporary<const T*, const T* const>(arg.body, arg.name);
+	}
 	
 
 	namespace literals {
@@ -130,17 +137,17 @@ namespace gxx {
 		int find_name(const char* name, size_t len) const;
 	};
 
-	template<typename Customer, typename T>
-	argument make_argument(argument_temporary<T>&& arg) { 
+	template<typename Customer, typename T, typename F>
+	argument make_argument(argument_temporary<T, F>&& arg) { 
 		//pretty_that_function();dprln();
-		return argument((void*)&arg.arg, (void*) Customer::template function_pointer<T>(), arg.name); 
+		return argument((void*)&arg.arg, (void*) Customer::template function_pointer<F>(), arg.name); 
 	}
 
-	template<typename Customer, typename T>
-	argument make_argument(argument_temporary<T&>&& arg) { 
+	/*template<typename Customer, typename T, typename F>
+	argument make_argument(argument_temporary<T&, F>&& arg) { 
 		//pretty_that_function();dprln();
-		return argument((void*)&arg.arg, (void*) Customer::template function_pointer<T>(), arg.name); 
-	}
+		return argument((void*)&arg.arg, (void*) Customer::template function_pointer<F>(), arg.name); 
+	}*/
 
 	/*template<typename Customer, typename T>
 	argument make_argument(argument_temporary<T&>&& arg) { 

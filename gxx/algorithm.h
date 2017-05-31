@@ -594,7 +594,7 @@
 				++first;
 			}
 		}
-		
+		*/
 		template<class ForwardIterator, class T>  
 		ForwardIterator
 		remove(ForwardIterator first, ForwardIterator last, const T& value)
@@ -629,7 +629,7 @@
 			return first;
 		}
 		
-		
+		/*
 		template<class InputIterator, class OutputIterator, class T>  
 		OutputIterator
 		remove_copy(InputIterator first, InputIterator last,

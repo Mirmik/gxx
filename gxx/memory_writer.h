@@ -170,6 +170,16 @@ namespace gxx {
 			return str - sstr; 
 		}
 */
+		void set_null() {
+			putchar(0);
+		}
+
+		void set_line_null() {
+			putchar('\n');
+			putchar(0);
+		}
+
+
 		size_t putchar(const char c) {
 			if(m_cursor != m_data_end) {
 				*m_cursor++ = c;
@@ -178,9 +188,8 @@ namespace gxx {
 			else return 0; 
 		}
 
-		size_t size() const {
-			return m_cursor - m_data;
-		}
+		CONSTREF_GETTER(data, m_data);
+		VALUE_GETTER(size, (m_cursor - m_data));
 	};
 }
 

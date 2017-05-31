@@ -192,4 +192,12 @@ void dprtab(uint8_t obj);
 
 #endif //__cplusplus
 
+#include <stdlib.h>
+static void abort_dprln(const char* str) {
+	debug_print(str);
+	dln();
+	abort();
+}
+
+
 #endif

@@ -88,6 +88,10 @@ namespace gxx {
 			return *(m_data + num);
 		}
 
+		void erase(iterator newend) {
+			m_size = newend - m_data;
+		}
+
 	protected:
 		unsigned char changeBuffer (size_t sz) {
 			auto newbuf = m_alloc.allocate(sz);

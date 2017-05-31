@@ -67,9 +67,10 @@ int main() {
 	int i = 42;
 	TestClass t;
 	const char* msg = "Message";
+	char msg2[] = "Message2";
 
 	//func(42, "Message");
-	func(42, "Message", TestClass(), i, msg, t, "1"_a=42, "2"_a="Message", "3"_a=TestClass(), "4"_a=i, "5"_a=msg, "6"_a=t);
+	func(msg2,  42, "Message", TestClass(), i, msg, t, "1"_a=42, "2"_a="Message", "3"_a=TestClass(), "4"_a=i, "5"_a=msg, "6"_a=t);
 	// TestClass(), t, "pair"_a = t, "num"_a=328, "mirmik"_a="saldo", "msg"_a=named_msg
 	//"pair"_a = t, "num"_a=328, "mirmik"_a="saldo", "msg"_a=named_msg 
 }

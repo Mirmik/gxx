@@ -23,8 +23,7 @@ namespace gxx {
 	}
 	
 	template<>
-	int format_arg(const int64_t* num, memory_writer& w, const char* opts) {
-		//dprln("Hereint64");
+	int format_arg(const int64_t& num, memory_writer& w, const char* opts) {
 		IntegerSpec spec;
 	
 		if (opts != nullptr)
@@ -50,23 +49,25 @@ namespace gxx {
 			}
 		}
 	
-		w.write_int(*num, spec);	
+		w.write_int(num, spec);	
 	}
 	
 	template<>
-	int format_arg(const int32_t* i, memory_writer& w, const char* opts) {
-		return format_arg((const int64_t*) i, w, opts);	
+	int format_arg(const int32_t& i, memory_writer& w, const char* opts) {
+		//pretty_that_function();
+		const int64_t i64 = i;
+		return format_arg(i64, w, opts);	
 	}
 
 
-	int format_arg(const uint64_t* i, memory_writer&, const char* opts) {
+	int format_arg(const uint64_t& i, memory_writer&, const char* opts) {
 		//dprln("Hereuint64");
 		abort();
 		//dprln(i);	
 	}
 	
 	template<>
-	int format_arg(const char* const* str, memory_writer& w, const char* opts) {
+	int format_arg(const char* const& str, memory_writer& w, const char* opts) {
 		//dprln("Herecstring");
 		CharStrSpec spec;
 	
@@ -87,7 +88,7 @@ namespace gxx {
 			}
 		}
 	
-		w.write(*str, spec);	
+		w.write(str, spec);	
 	}
 	
 	void format_impl(memory_writer& writer, const char* fmt, const gxx::arglist& list) {
@@ -124,6 +125,7 @@ namespace gxx {
 		if (isalpha(*fmt)) {
 			//dprln("not implemented");
 			//abort();
+			//dprln(fmt);
 			const char* count_ptr = fmt;
 			int len = 0;
 			while(isalpha(*count_ptr++)) len++;
