@@ -1,4 +1,4 @@
-//#include <gxx/format.h>
+#include <gxx/format.h>
 
 namespace gxx {
 
@@ -16,9 +16,14 @@ namespace gxx {
 			case gxx::argument::Type::CharPtr: return 	visit_cstring(arg.str, w, opts);
 			case gxx::argument::Type::CustomType: return 	visit_custom(arg.custom, w, opts);
 		}
+	}*/
+
+	int format_visitor::visit(gxx::argument arg, memory_writer& w, const char* opts) {
+		return reinterpret_cast<VoidFuncPtr>(arg.func)(arg.ptr, w, opts);
 	}
 	
-	int format_visitor::visit_int64(const int64_t& num, memory_writer& w, const char* opts) {
+	template<>
+	int format_arg(const int64_t* num, memory_writer& w, const char* opts) {
 		//dprln("Hereint64");
 		IntegerSpec spec;
 	
@@ -45,16 +50,23 @@ namespace gxx {
 			}
 		}
 	
-		w.write_int(num, spec);	
+		w.write_int(*num, spec);	
 	}
 	
-	int format_visitor::visit_uint64(const uint64_t& i, memory_writer&, const char* opts) {
+	template<>
+	int format_arg(const int32_t* i, memory_writer& w, const char* opts) {
+		return format_arg((const int64_t*) i, w, opts);	
+	}
+
+
+	int format_arg(const uint64_t* i, memory_writer&, const char* opts) {
 		//dprln("Hereuint64");
 		abort();
 		//dprln(i);	
 	}
 	
-	int format_visitor::visit_cstring(const char*& str, memory_writer& w, const char* opts) {
+	template<>
+	int format_arg(const char* const* str, memory_writer& w, const char* opts) {
 		//dprln("Herecstring");
 		CharStrSpec spec;
 	
@@ -75,13 +87,9 @@ namespace gxx {
 			}
 		}
 	
-		w.write(str, spec);	
+		w.write(*str, spec);	
 	}
 	
-	int format_visitor::visit_custom(const gxx::argument::custom_value& c, memory_writer& w, const char* opts) {
-		reinterpret_cast<VoidFuncPtr>(c.func)(c.ptr, w, opts);
-	}
-
 	void format_impl(memory_writer& writer, const char* fmt, const gxx::arglist& list) {
 		uint8_t argnum = 0;
 		const char* fmtptr = fmt;
@@ -120,7 +128,10 @@ namespace gxx {
 			int len = 0;
 			while(isalpha(*count_ptr++)) len++;
 			argnum = list.find_name(fmt,len);
-			if (argnum == 0xFF) abort();//return -1;
+			if (argnum == 0xFF) {
+				dprln("name error");
+				abort();
+			}
 		} 
 
 		while(*fmt != '}' && *fmt != ':' && *fmt != 0) fmt++;
@@ -140,7 +151,7 @@ namespace gxx {
 		while(*fmt != '}' && *fmt != 0) fmt++;
 		fmt++;
 		return ret;
-	}*/ 
+	}
 	
 
 }

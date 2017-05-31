@@ -38,12 +38,20 @@ struct test_generic {
 	}
 };
 
-template<typename ... T>
+/*template<typename ... T>
 int func_impl(T&& ... args) {
-	pretty_that_function();dprln();
+	//pretty_that_function();dprln();
 	gxx::arglist list(gxx::make_argument<test_generic>(gxx::forward<T>(args)) ...);
 
 	for(auto& v : list) {
+		test_generic::visit(v, 1024);
+	}
+}*/
+
+int func_impl(gxx::arglist&& list) {
+	//gxx::arglist list(gxx::make_argument<test_generic>(gxx::forward<T>(args)) ...);
+
+	for(auto v : list) {
 		test_generic::visit(v, 1024);
 	}
 }
@@ -51,7 +59,7 @@ int func_impl(T&& ... args) {
 template<typename ... T>
 int func(T&& ... args) {
 	//pretty_that_function();dln();
-	return func_impl(gxx::make_argument_temporary(gxx::forward<T>(args)) ...);
+	return func_impl(gxx::arglist(gxx::make_argument<test_generic>(gxx::make_argument_temporary(gxx::forward<T>(args))) ...));
 }
 
 
