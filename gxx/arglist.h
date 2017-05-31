@@ -8,21 +8,83 @@
 #include <gxx/debug/type_analize.h>
 
 namespace gxx {	
+
 	template <typename T> class argpair; 
 
 	struct argname {
 		const char*& name;
 		argname(const char*& name) : name(name) {}; 
+		
 		template<typename T> 
-		constexpr argpair<T> operator= (const T& body) {  return argpair<T>(name, body); }  
+		constexpr argpair<T> operator= (T&& body) { 
+			return argpair<T>(name, body);
+		}
 	};
 	
 	template<typename T>
 	struct argpair {
-		const T& body;
+		T body;
 		const char* name;
-		constexpr argpair(const char* name, const T& body) : body(body), name(name) {}
+
+		template<typename U>
+		constexpr argpair(const char* name, U&& body) : body(body), name(name) { 
+			//pretty_that_function(); 
+		}
 	};
+
+	template<typename T>
+	class argument_temporary {
+	public:
+		T arg;
+		const char* name;
+		
+		template<typename U>
+		argument_temporary(U&& arg, const char* name = nullptr) : arg(gxx::forward<U>(arg)), name(name) {
+			pretty_that_function();dprln();
+		}
+	};
+
+	template<typename T>
+	argument_temporary<T> make_argument_temporary(T&& arg) {
+		return argument_temporary<T>(gxx::forward<T>(arg));
+	} 
+
+	template<typename T>
+	argument_temporary<T&> make_argument_temporary(T& arg) {
+		dpr("T& arg :"); dprln(arg);
+		return argument_temporary<T&>(arg);
+	}
+
+	template<typename T>
+	argument_temporary<T*> make_argument_temporary(T*& arg) {
+		return argument_temporary<T*>(arg);
+	}
+
+	template<typename T, size_t N>
+	argument_temporary<T*> make_argument_temporary(T(&arg)[N]) {
+		//	pretty_that_function();dprln();
+		return argument_temporary<T*>(arg);
+	} 
+
+	template<typename T>
+	argument_temporary<T> make_argument_temporary(argpair<T>&& arg) {
+		//	pretty_that_function();dprln();
+		return argument_temporary<T>(arg.body);
+	} 
+
+	template<typename T>
+	argument_temporary<T*> make_argument_temporary(argpair<T*&>&& arg) {
+		//	pretty_that_function();dprln();
+		return argument_temporary<T*>(arg.body);
+	} 
+
+	template<typename T, size_t N>
+	argument_temporary<T*> make_argument_temporary(argpair<T(&)[N]>&& arg) {
+		//	pretty_that_function();dprln();
+		return argument_temporary<T*>(arg.body);
+	} 
+
+	
 
 	namespace literals {
 		static argname operator"" _a (const char* name, size_t sz) { return argname(name); } 
@@ -31,12 +93,15 @@ namespace gxx {
 	struct argument {
 		void* ptr;
 		void* func; 
+		const char* name; 
 
 	public:
 		argument(){};
 
-		template <typename T>
-		argument(T&& arg, void* func) : ptr((void*)&arg), func(func) {}
+		argument(void* ptr, void* func, const char* name = nullptr) : ptr(ptr), func(func), name(name) {}
+
+		//template <typename T>
+		//argument(argpair<T>& pair, void* func) : ptr((void*)&pair.body), name(pair.name), func(func) {}
 	};
 
 	template<typename HT, typename ... Tail>
@@ -49,7 +114,7 @@ namespace gxx {
 	
 	class arglist {
 	public:
-		argument list[10];
+		argument list[15];
 		size_t listsz;
 	
 		template<typename ... UArgs>
@@ -64,10 +129,22 @@ namespace gxx {
 	};
 
 	template<typename Customer, typename T>
-	argument make_argument(T&& arg) {
-		using DecayType = typename gxx::decay<T>::type;  
-		return argument(static_cast<DecayType>(arg), (void*) Customer::template function_pointer<DecayType>()); 
+	argument make_argument(argument_temporary<T>&& arg) { 
+		pretty_that_function();dprln();
+		return argument((void*)&arg.arg, (void*) Customer::template function_pointer<T>()); 
 	}
+
+	template<typename Customer, typename T>
+	argument make_argument(argument_temporary<T&>&& arg) { 
+		pretty_that_function();dprln();
+		return argument((void*)&arg.arg, (void*) Customer::template function_pointer<T>()); 
+	}
+
+	/*template<typename Customer, typename T>
+	argument make_argument(argument_temporary<T&>&& arg) { 
+		pretty_that_function();dprln();
+		return argument((void*)&arg, (void*) Customer::template function_pointer<T>()); 
+	}*/
 }
 
 #endif

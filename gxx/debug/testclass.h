@@ -8,6 +8,9 @@ class TestClass {
 	const char* mnem = nullptr;
 
 public:
+	const char* data() const { return "TestClass::data"; }
+	size_t size() const { return 15; }
+
 	void print_prefix() {
 		dpr("TestClass(");
 		if (mnem) dpr(mnem);
