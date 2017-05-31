@@ -23,7 +23,7 @@ namespace gxx {
 		class logger {
 			const char* logger_name = "Logger";
 			vector<target*> targets;
-			gxx::string pattern = "*** PATTERN IS NOT SETTED ***";
+			gxx::string pattern = "[{level}]{logger}: {msg}";
 
 		public:
 			logger(const char* name) : logger_name(name) {}
