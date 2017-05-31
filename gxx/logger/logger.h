@@ -19,11 +19,13 @@ namespace gxx {
 			Error, 
 			Fault, 
 		};
-
+		
 		class logger {
 			const char* logger_name = "Logger";
 			vector<target*> targets;
 			gxx::string pattern = "[{level}]{logger}: {msg}";
+
+			Level minlevel = Level::Trace;
 
 		public:
 			logger(const char* name) : logger_name(name) {}
@@ -36,24 +38,31 @@ namespace gxx {
 				pattern = str;
 			}
 
+			void set_level(Level level) {
+				minlevel = level;
+			}
+
+
 			/*template <typename ... Args>
 			inline void log_helper(Level level, const char* fmt, argument<Args>&& ... args) {
 				log()
 			}*/
 
 			inline void log(Level level, const char* fmt, arglist&& args) {
-				char msg[128];
-				memory_writer writer(msg, 128);
-				format_impl(writer, fmt, args);
-				writer.set_line_null();
-
-				gxx::string logmsg = format(pattern.c_str(), 
-					"msg"_a=(const char*)msg, 
-					"logger"_a=logger_name,
-					"level"_a=level_to_str(level));
-				
-				for (auto t : targets) {
-					t->log(logmsg.c_str());
+				if (minlevel <= level) {
+					char msg[128];
+					memory_writer writer(msg, 128);
+					format_impl(writer, fmt, args);
+					writer.set_line_null();
+	
+					gxx::string logmsg = format(pattern.c_str(), 
+						"msg"_a=(const char*)msg, 
+						"logger"_a=logger_name,
+						"level"_a=level_to_str(level));
+					
+					for (auto t : targets) {
+						t->log(logmsg.c_str());
+					}
 				}
 			}
 
