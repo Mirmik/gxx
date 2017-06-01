@@ -9,7 +9,7 @@ Module("gxx.sources", {
 })
 
 Module("gxx.include", {
-	depends = "gxx.sources",
+	--depends = "gxx.sources",
 	includePaths = "."
 }) 
 

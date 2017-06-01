@@ -1,10 +1,10 @@
-#ifndef GXX_MEMORY_WRITER_H
-#define GXX_MEMORY_WRITER_H
+#ifndef GXX_TEXT_WRITER_H
+#define GXX_TEXT_WRITER_H
 
-#include <string.h>
-#include <gxx/util/numconvert.h>
+#include <gxx/io/writer.h>
 
 namespace gxx {
+
 	enum class CharCase {
 		Upper,
 		Default,
@@ -84,24 +84,24 @@ namespace gxx {
 		using CharStrSpec::charCase; 
 	};
 
-	class memory_writer {
-	protected:
-		char* m_data;
-		char* m_data_end;
-		char* m_cursor;
-
+	class text_writer : public writer {
 	public:
-		memory_writer(char* data, size_t sz) : m_data(data), m_data_end(data + sz), m_cursor(data) {}
+		text_writer(ostream& out) : writer(out) {} 
 
-		void write_fill(char c, int n) {
-			while(m_cursor != m_data_end && n--) {
-				*m_cursor++ = c;
-			}
+		int write_fill(char c, int n) {
+			int res = 0;
+			while (n--) {
+				res += putchar(c); 
+			}	
+			return res;
 		}
 
+		using writer::write;
+
 		template<typename Spec = EmptySpec>
-		size_t write(const char* str, size_t len, const Spec& spec = CharStrSpec()) {
+		int write(const char* str, size_t len, const Spec& spec) {
 			const char* sstr = str;
+			int ret = 0;
 
 			int prewidth = 0;
 			int postwidth = 0;
@@ -123,73 +123,50 @@ namespace gxx {
 				}
 			}
 
-			if (prewidth) write_fill(spec.fill(), prewidth);
+			if (prewidth) ret += write_fill(spec.fill(), prewidth);
 
 			switch (spec.charCase()) {
 				case CharCase::Default:
-					while(m_cursor != m_data_end && *str != 0) {
-						*m_cursor++ = *str++;
-					}			
+					ret += write(str, len);
 					break;
 				case CharCase::Upper:
-					while(m_cursor != m_data_end && *str != 0) {
-						*m_cursor++ = toupper(*str++);
+					while(len--) {
+						ret += putchar(toupper(*str++));
 					}			
 					break;
 			}
 
-			if (postwidth) write_fill(spec.fill(), postwidth);
+			if (postwidth) ret += write_fill(spec.fill(), postwidth);
 
-			return str - sstr; 
+			return ret; 
+		}
+
+		template<typename Spec = EmptySpec>
+		int write_cstr(const char* str, const Spec& spec = Spec()) {
+			write(str, strlen(str), spec);
 		}
 
 		template<typename Spec = IntegerSpec>
-		size_t write_int(int64_t num, const IntegerSpec& spec = IntegerSpec()) {
+		int write_int(int64_t num, const IntegerSpec& spec) {
+			int ret = 0;
 			char str[100];
 			
 			switch (spec.prefix()) {
-				case Prefix::Bin: putchar('0'); putchar('b'); break;
-				case Prefix::Hex: putchar('0'); putchar('x'); break;
-				case Prefix::Oct: putchar('0'); break;
+				case Prefix::Bin: ret += putchar('0'); ret += putchar('b'); break;
+				case Prefix::Hex: ret += putchar('0'); ret += putchar('x'); break;
+				case Prefix::Oct: ret += putchar('0'); break;
 			}
 
 			i64toa(num, str, spec.base()); 
-			return write(str, strlen(str), spec);
-		}		
-
-		template<typename Spec = EmptySpec>
-		size_t write(const char* str, const Spec& spec = EmptySpec()) {
-			return write(str, strlen(str), spec);
-		}
-/*
-		size_t write(gxx::buffer buf, ) {
-			const char* sstr = str;
-			while(m_cursor != m_data_end && n--) {
-				*m_cursor++ = *str++;
-			}			
-			return str - sstr; 
-		}
-*/
-		void set_null() {
-			putchar(0);
+			ret += write(str, strlen(str), spec);
+			return ret;
 		}
 
-		void set_line_null() {
-			putchar('\n');
-			putchar(0);
+		int write_int(int64_t num) {
+			char str[100];
+			i64toa(num, str, 10); 
+			return write(str, strlen(str));
 		}
-
-
-		size_t putchar(const char c) {
-			if(m_cursor != m_data_end) {
-				*m_cursor++ = c;
-				return 1; 
-			}
-			else return 0; 
-		}
-
-		CONSTREF_GETTER(data, m_data);
-		VALUE_GETTER(size, (m_cursor - m_data));
 	};
 }
 

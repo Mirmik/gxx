@@ -2,7 +2,6 @@
 #define JSON_OBJECT_H
 
 #include <inttypes.h>
-#include <iostream>
 #include <string>
 #include <map>
 #include <vector>

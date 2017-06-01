@@ -2,7 +2,7 @@
 
 namespace gxx {
 
-	/*int format_visitor::visit(gxx::argument arg, memory_writer& w, const char* opts) {
+	/*int format_visitor::visit(gxx::argument arg, text_writer& w, const char* opts) {
 		//dprln(arg.type_to_string());
 		switch (arg.type) {
 			case gxx::argument::Type::SInt8:  return 	visit_int64 (arg.i8,  w, opts);
@@ -18,12 +18,12 @@ namespace gxx {
 		}
 	}*/
 
-	int format_visitor::visit(gxx::argument arg, memory_writer& w, const char* opts) {
+	int format_visitor::visit(gxx::argument arg, text_writer& w, const char* opts) {
 		return reinterpret_cast<VoidFuncPtr>(arg.func)(arg.ptr, w, opts);
 	}
 	
 	template<>
-	int format_arg(const int64_t& num, memory_writer& w, const char* opts) {
+	int format_arg(const int64_t& num, text_writer& w, const char* opts) {
 		IntegerSpec spec;
 	
 		if (opts != nullptr)
@@ -53,21 +53,21 @@ namespace gxx {
 	}
 	
 	template<>
-	int format_arg(const int32_t& i, memory_writer& w, const char* opts) {
+	int format_arg(const int32_t& i, text_writer& w, const char* opts) {
 		//pretty_that_function();
 		const int64_t i64 = i;
 		return format_arg(i64, w, opts);	
 	}
 
 
-	int format_arg(const uint64_t& i, memory_writer&, const char* opts) {
+	int format_arg(const uint64_t& i, text_writer&, const char* opts) {
 		//dprln("Hereuint64");
 		abort();
 		//dprln(i);	
 	}
 	
 	template<>
-	int format_arg(const char* const& str, memory_writer& w, const char* opts) {
+	int format_arg(const char* const& str, text_writer& w, const char* opts) {
 		//dprln("Herecstring");
 		CharStrSpec spec;
 	
@@ -88,10 +88,10 @@ namespace gxx {
 			}
 		}
 	
-		w.write(str, spec);	
+		w.write(str, strlen(str), spec);	
 	}
 	
-	void format_impl(memory_writer& writer, const char* fmt, const gxx::arglist& list) {
+	void format_impl(text_writer& writer, const char* fmt, const gxx::arglist& list) {
 		uint8_t argnum = 0;
 		const char* fmtptr = fmt;
 	
@@ -108,12 +108,13 @@ namespace gxx {
 	string format_impl(const char* fmt, const gxx::arglist& list) {
 		gxx::string str;
 		str.reserve(128);
-		gxx::memory_writer writer(str.data(), str.capacity());
+		gxx::memory_stream strm(str.data(), str.capacity());
+		gxx::text_writer writer(strm);
 		format_impl(writer, fmt, list);
-		return str.set_size(writer.size());
+		return str.set_size(strm.size());
 	}
 
-	int format_argument(memory_writer& writer, const char*& fmt, const gxx::arglist& list, uint8_t& argnum) {
+	int format_argument(text_writer& writer, const char*& fmt, const gxx::arglist& list, uint8_t& argnum) {
 		int ret;
 
 		assert(*fmt++ == '{');

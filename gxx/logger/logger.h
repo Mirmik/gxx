@@ -62,9 +62,10 @@ namespace gxx {
 			inline void log(Level level, const char* fmt, arglist&& args) {
 				if (minlevel <= level) {
 					char msg[128];
-					memory_writer writer(msg, 128);
+					memory_stream strm(msg, 128);
+					text_writer writer(strm);
 					format_impl(writer, fmt, args);
-					writer.set_line_null();
+					writer.write("\r\n", 2);
 
 					char tstamp[64] = "";
 					if (timestamp != nullptr) timestamp(tstamp, 64);
