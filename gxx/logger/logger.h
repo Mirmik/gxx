@@ -7,6 +7,7 @@
 #include <gxx/vector.h>
 #include <gxx/string.h>
 #include <gxx/shared.h>
+#include <gxx/util/setget.h>
 
 using namespace gxx::literals;
 
@@ -21,6 +22,8 @@ namespace gxx {
 			Fault, 
 		};
 		
+		//Вызов для формирования строки даты/времени.
+
 		class logger {
 			const char* logger_name = "Logger";
 			vector<target*> targets;
@@ -30,6 +33,11 @@ namespace gxx {
 
 		public:
 			dlist_head manage_link;
+			
+			void(*timestamp)(char* time, size_t maxlen) = nullptr;
+			
+			SETTER(set_timestamp_callback, timestamp);
+			CONSTREF_GETTER(timestamp_callback, timestamp);
 
 			logger(const char* name) : logger_name(name) {}
 
@@ -57,11 +65,15 @@ namespace gxx {
 					memory_writer writer(msg, 128);
 					format_impl(writer, fmt, args);
 					writer.set_line_null();
+
+					char tstamp[64] = "";
+					if (timestamp != nullptr) timestamp(tstamp, 64);
 	
 					gxx::string logmsg = format(pattern.c_str(), 
 						"msg"_a=(const char*)msg, 
 						"logger"_a=logger_name,
-						"level"_a=level_to_str(level));
+						"level"_a=level_to_str(level),
+						"time"_a=tstamp);
 					
 					for (auto t : targets) {
 						t->log(logmsg.c_str());
