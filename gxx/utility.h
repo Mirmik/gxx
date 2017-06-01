@@ -28,6 +28,7 @@ namespace gxx{
 	#include "gxx/utility/type_transform.hpp"
 	#include "gxx/utility/type_relation.hpp"
 	#include "gxx/utility/move.hpp"
+	#include "gxx/utility/reference_wraper.hpp"
 	
 	template<typename T>
 	void destructor(T* ptr) {
