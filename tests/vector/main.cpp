@@ -10,4 +10,10 @@ int main() {
 	for(auto& val : vecint) {
 		std::cout << val << std::endl;
 	}
+
+	auto vec2 = vecint;
+
+	for(auto& val : vec2) {
+		std::cout << val << std::endl;
+	}
 }

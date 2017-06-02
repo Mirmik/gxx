@@ -9,7 +9,8 @@
 #include <gxx/shared.h>
 #include <gxx/util/setget.h>
 
-using namespace gxx::literals;
+using namespace gxx::arglist_literal;
+using namespace gxx::string_literal;
 
 namespace gxx {
 	namespace log {
@@ -27,7 +28,7 @@ namespace gxx {
 		class logger {
 			const char* logger_name = "Logger";
 			vector<target*> targets;
-			gxx::string pattern = "[{level}]{logger}: {msg}";
+			gxx::string pattern = "[{level}]{logger}: {msg}"_gs;
 
 			Level minlevel = Level::Trace;
 
@@ -60,12 +61,14 @@ namespace gxx {
 			}*/
 
 			inline void log(Level level, const char* fmt, arglist&& args) {
+				//dprln(fmt);
 				if (minlevel <= level) {
 					char msg[128];
 					memory_stream strm(msg, 128);
 					text_writer writer(strm);
 					format_impl(writer, fmt, args);
-					writer.write("\r\n", 2);
+					writer.putchar('\n');
+					writer.putchar(0);
 
 					char tstamp[64] = "";
 					if (timestamp != nullptr) timestamp(tstamp, 64);
@@ -76,6 +79,8 @@ namespace gxx {
 						"level"_a=level_to_str(level),
 						"time"_a=tstamp);
 					
+					//dprln(logmsg);
+				
 					for (auto t : targets) {
 						t->log(logmsg.c_str());
 					}

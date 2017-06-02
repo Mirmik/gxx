@@ -1,5 +1,5 @@
 #include <gxx/io/iostream.h>
-#include <gxx/io/writer.h>
+#include <gxx/io/text_writer.h>
 
 int main() {
 	gxx::debug_ostream debug; 

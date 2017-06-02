@@ -86,9 +86,14 @@ namespace gxx {
 
 	class text_writer : public writer {
 	public:
-		text_writer(ostream& out) : writer(out) {} 
+		text_writer(const ostream& os) : writer(const_cast<ostream&>(os)) {} 
 
-		int write_fill(char c, int n) {
+		template<typename Spec = EmptySpec>
+		int write_str(const gxx::string& str, const Spec& spec = EmptySpec()) const {
+			return write(str.data(), str.size(), spec);
+		}
+
+		int write_fill(char c, int n) const {
 			int res = 0;
 			while (n--) {
 				res += putchar(c); 
@@ -99,7 +104,7 @@ namespace gxx {
 		using writer::write;
 
 		template<typename Spec = EmptySpec>
-		int write(const char* str, size_t len, const Spec& spec) {
+		int write(const char* str, size_t len, const Spec& spec) const {
 			const char* sstr = str;
 			int ret = 0;
 
@@ -142,12 +147,12 @@ namespace gxx {
 		}
 
 		template<typename Spec = EmptySpec>
-		int write_cstr(const char* str, const Spec& spec = Spec()) {
+		int write_cstr(const char* str, const Spec& spec = Spec()) const {
 			write(str, strlen(str), spec);
 		}
 
 		template<typename Spec = IntegerSpec>
-		int write_int(int64_t num, const IntegerSpec& spec) {
+		int write_int(int64_t num, const IntegerSpec& spec) const {
 			int ret = 0;
 			char str[100];
 			
@@ -162,7 +167,7 @@ namespace gxx {
 			return ret;
 		}
 
-		int write_int(int64_t num) {
+		int write_int(int64_t num) const {
 			char str[100];
 			i64toa(num, str, 10); 
 			return write(str, strlen(str));

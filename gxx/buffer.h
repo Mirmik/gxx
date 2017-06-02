@@ -14,6 +14,10 @@ namespace gxx {
 	using allocated_buffer = allocated_object_buffer<char>;
 
 	allocated_buffer allot_buffer(size_t sz);// { return allocated_buffer(sz); }
+
+	namespace buffer_literal {
+		static buffer operator"" _b (const char* name, size_t sz) { return buffer((char*)name, sz); }
+	}
 }
 
 #endif 

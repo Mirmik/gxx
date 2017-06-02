@@ -9,9 +9,7 @@ namespace gxx {
 		class stdout_target : public target {
 			stdstream io;
 
-			void log(const char* str) override {
-				io.print(str);
-			}
+			void log(const char* str) override;
 		};
 	}
 }

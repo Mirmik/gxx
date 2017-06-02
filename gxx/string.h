@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <assert.h>
 #include <inttypes.h>
 
 #include <gxx/allocator.h>
@@ -14,7 +15,6 @@
 #include <gxx/utility.h>
 
 namespace gxx {
-
 	template <class Allocator = gxx::allocator<char>>
 	class basic_string {
 	
@@ -39,10 +39,14 @@ namespace gxx {
 			move(other);
 		}
 	
-		basic_string(const char* str) : basic_string() {
+		explicit basic_string(const char* str) : basic_string() {
 			if (str) copy(str, strlen(str));
 		}
 	
+		explicit basic_string(const char* str, size_t sz) : basic_string() {
+			if (str) copy(str, sz);
+		}
+
 		~basic_string() {
 			if (m_data) m_alloc.deallocate(m_data);
 		};
@@ -88,6 +92,11 @@ namespace gxx {
 		
 		basic_string & operator = (basic_string &&rval) {
 			if (this != &rval) move(rval);
+			return *this;
+		}
+
+		basic_string & operator = (const char* str) {
+			copy(str, strlen(str));
 			return *this;
 		}
 	
@@ -253,7 +262,13 @@ namespace gxx {
 	
 	
 		bool operator < (const basic_string& other) const {
-			return strncmp(data(), other.data(), gxx::min(size(), other.size())) < 0;
+			int ret = strncmp(data(), other.data(), gxx::min(size(), other.size()));
+			if (ret == 0) return size() < other.size();
+			else return ret;
+		};
+
+		bool operator > (const basic_string& other) const {
+			return other < *this;
 		};
 	
 		//basic_string hexdata(const void* data, size_t sz) {
@@ -406,6 +421,10 @@ basic_string & operator = (const gxx::buffer& cptr)
 	};
 
 	using string = basic_string<>;	
+
+	namespace string_literal {
+		static string operator"" _gs (const char* name, size_t sz) { return string(name, sz); }
+	}
 };
 
 #endif

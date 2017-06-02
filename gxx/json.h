@@ -2,14 +2,17 @@
 #define JSON_OBJECT_H
 
 #include <inttypes.h>
-#include <string>
+#include <gxx/string.h>
 #include <map>
-#include <vector>
+#include <gxx/vector.h>
 #include <assert.h>
 
 #include <gxx/utility.h>
+#include <gxx/result.h>
+#include <gxx/io/text_writer.h>
 
 namespace gxx {
+	using namespace result_type;
 
 	class json {
 	public:
@@ -26,10 +29,45 @@ namespace gxx {
 
 		union {
 			int64_t m_i64;
-			std::string m_str;
-			std::vector<json> m_arr;
-			std::map<std::string, json> m_dict;
+			gxx::string m_str;
+			gxx::vector<json> m_arr;
+			std::map<gxx::string, json> m_dict;
 		};
+
+	public:
+		~json() {
+			invalidate();
+		}
+
+		json() {}
+
+		json(const json& other) {
+			m_type = other.m_type;
+			switch(m_type) {
+				case Type::String: 
+					gxx::constructor(&m_str, other.m_str); 
+					return;
+				case Type::Array: 
+					gxx::constructor(&m_arr, other.m_arr);
+					return; 
+				case Type::Dictionary: 
+					gxx::constructor(&m_dict, other.m_dict);
+					return;
+				case Type::Integer:
+					m_i64 = other.m_i64;
+					return;
+				case Type::NoInit:
+					return; 
+			}	
+		}
+
+		json(const gxx::string& str) {
+			init(str);
+		}
+
+		json(const Type& type) {
+			init(type);
+		}
 
 	private:
 		template <typename T>	
@@ -56,9 +94,9 @@ namespace gxx {
 			}
 		}
 
-		void init(const std::string& str) {
+		void init(const gxx::string& str) {
 			m_type = Type::String;
-			new (&m_str) std::string(str);
+			gxx::constructor(&m_str, str);
 
 		}
 	
@@ -85,73 +123,43 @@ namespace gxx {
 		}
 
 	public:
-		json& operator[](size_t i) {
-			if (m_type != Type::Array) reset(Type::Array); 
+		result<json&> operator[](size_t i) {
+			if (m_type != Type::Array) return error("isn`t array"); 
 			if(m_arr.size() <= i) m_arr.resize(i + 1);
 			return m_arr[i];
 		}
-	
-		json& operator[](std::string key) {
-			if (m_type != Type::Dictionary) reset(Type::Dictionary);
+
+		result<json&> operator[](gxx::string key) {
+			if (m_type != Type::Dictionary) return error("isn`t dictionary");
 			return m_dict[key];
 		}
 
-		std::map<std::string, json>& as_dictionary() {
-			assert(m_type == Type::Dictionary);
+		result<std::map<gxx::string, json>&> as_dictionary() {
+			if (m_type != Type::Dictionary) return error("isn`t dictionary");
 			return m_dict;
 		}
 
-		std::vector<json>& as_vector() {
-			assert(m_type == Type::Array);
+		result<gxx::vector<json>&> as_vector() {
+			if (m_type != Type::Array) return error("isn`t vector");
 			return m_arr;
 		}
 
-		std::string& as_string() {
-			assert(m_type == Type::String);
+		result<gxx::string&> as_string() {
+			if (m_type != Type::String) return error("isn`t string");
 			return m_str;
 		}
 
-		int64_t& as_integer() {
-			assert(m_type == Type::Integer);
+		result<int64_t&> as_integer() {
+			if (m_type != Type::Integer) return error("isn`t integer");
 			return m_i64;
 		}
-
+	
 		Type type() {
 			return m_type;
 		}
 		
 	public:
-		~json() {
-			invalidate();
-		}
-
-		json() {}
-
-		json(const std::string& str) {
-			init(str);
-		}
-
-		json(const json& other) {
-			m_type = other.m_type;
-			switch(m_type) {
-				case Type::String: 
-					gxx::constructor(&m_str, other.m_str); 
-					return;
-				case Type::Array: 
-					gxx::constructor(&m_arr, other.m_arr);
-					return; 
-				case Type::Dictionary: 
-					gxx::constructor(&m_dict, other.m_dict);
-					return;
-				case Type::Integer:
-					m_i64 = other.m_i64;
-					return;
-				case Type::NoInit:
-					return; 
-			}	
-		}
-
-		json& operator= (const std::string& str) {
+		json& operator= (const gxx::string& str) {
 			reset(str);
 			return *this;
 		}
@@ -159,43 +167,8 @@ namespace gxx {
 		json& operator= (const int64_t& i64) {
 			reset(i64);
 			return *this;
-		}
-
-	public:
-		void printTo(std::ostream& strm) {
-			bool sep = false;
-			switch(m_type) {
-				case Type::Integer: 
-					strm << m_i64;
-					return;
-				case Type::String: 
-					strm << "'" << m_str << "'";
-					return;
-				case Type::Array: 
-					strm << '[';
-					for(auto& v : m_arr) {
-						if (sep) strm << ',';
-						v.printTo(strm);
-						sep = true;
-					}
-					strm << ']';
-					return; 
-				case Type::Dictionary: 
-					strm << '{';
-					for(auto& p : m_dict) {
-						if (sep) strm << ',';
-						strm << p.first << ':';
-						p.second.printTo(strm);
-						sep = true;
-					}
-					strm << '}';
-					return; 
-				case Type::NoInit:
-					strm << "nil";
-					return;
-			}
-		}
-
+		}	
+/*
 		void drop_whitespaces(std::istream& is) {
 			while (isspace(is.peek())) {
 				is.ignore();
@@ -325,13 +298,51 @@ namespace gxx {
 
 			//} 
 			return 0;
+		}*/
+
+		public:
+		void printTo(const gxx::text_writer& w) {
+			bool sep = false;
+			switch(m_type) {
+				case Type::Integer: 
+					w.write_int(m_i64);
+					return;
+				case Type::String: 
+					w.putchar('\''); 
+					w.write_str(m_str);
+					w.putchar('\'');
+					return;
+				case Type::Array: 
+					w.putchar('[');
+					for(auto& v : m_arr) {
+						if (sep) w.putchar(',');
+						v.printTo(w);
+						sep = true;
+					}
+					w.putchar(']');
+					return; 
+				case Type::Dictionary: 
+					w.putchar('{');
+					for(auto& p : m_dict) {
+						if (sep) w.putchar(',');
+						w.write_str(p.first);
+						w.putchar(':');
+						p.second.printTo(w);
+						sep = true;
+					}
+					w.putchar('}');
+					return; 
+				case Type::NoInit:
+					w.write_cstr("nil");
+					return;
+			}
 		}
 	};
 }
-
-std::ostream& operator<<(std::ostream& strm, gxx::json& j) {
-	j.printTo(strm);
-	return strm;
+/*
+std::ostream& operator<<(std::ostream& w, gxx::json& j) {
+	j.printTo(w);
+	return w;
 }
-
+*/
 #endif

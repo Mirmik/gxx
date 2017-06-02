@@ -10,17 +10,17 @@
 
 namespace gxx {
 	class writer {
-		ostream& out;
+		ostream& os;
 
 	public:
-		writer(ostream& out) : out(out) {}
+		writer(ostream& os) : os(os) {}
 
-		virtual int write(const char* str, size_t sz) {
-			return out.write(str, sz);
+		virtual int write(const char* str, size_t sz) const {
+			return os.write(str, sz);
 		}
 
-		virtual int putchar(char c) {
-		 	return out.putchar(c);
+		virtual int putchar(char c) const {
+		 	return os.putchar(c);
 		}
 	};
 

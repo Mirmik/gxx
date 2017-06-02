@@ -8,7 +8,27 @@
 
 //#include <gxx/util/placed_new.h>
 
-namespace gxx { namespace result {
+namespace gxx { namespace result_type {
+	struct exception {
+		virtual const char* what() = 0;
+	};
+
+	struct error : public exception {
+		gxx::string info;
+		explicit error() : info() {}
+		explicit error(const char* str) : info(str) {}
+		explicit error(gxx::string str) : info(str) {}
+		explicit error(gxx::string&& str) : info(gxx::move(str)) {}
+		
+		error(error&& e) = default;
+		error& operator=(error&& other) = default;		
+		~error() = default;
+
+		const char* what() {
+			return info.c_str();
+		}
+	};
+	
 	template<typename T> 
 	struct tryhelper {
 		using type = T;
@@ -46,29 +66,12 @@ namespace gxx { namespace result {
 		static void destructor(type& ths) {};
 		static void constructor(type& ths) {};
 	};
-		
-	struct error {
-		int8_t code;
-		gxx::string info;
-		explicit error(int8_t c) : code(c), info() {}
-		explicit error(int8_t c, const char* str) : code(c), info(str) {}
-		explicit error(int8_t c, gxx::string str) : code(c), info(str) {}
-		explicit error(int8_t c, gxx::string&& str) : code(c), info(gxx::move(str)) {}
-		
-		error(error&& e) = default;
-		error& operator=(error&& other) = default;		
-		~error() = default;
 
-		const char* what() {
-			return info.c_str();
-		}
-	};
-	
 	template <typename T, typename E = error>
 	class result {
 	public:
 		using Stored = typename tryhelper<T>::storedtype;
-		using Result = Stored;
+		using Result =typename tryhelper<T>::type;
 		uint8_t _iserror;
 		union {
 			Stored _data;

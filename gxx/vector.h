@@ -30,6 +30,14 @@ namespace gxx {
 		CONSTREF_GETTER(capacity, m_capacity);
 
 		vector(const Allocator& alloc = Allocator()) {}
+
+		vector(const vector& other) : m_data(other.m_data), m_capacity(other.m_capacity), m_size(other.m_size) {
+			m_data = m_alloc.allocate(m_size);
+			//gxx::copy(other.m_data, other.m_data + other.m_size, m_data);
+			for (auto ip = other.m_data, op = m_data; ip != other.m_data + other.m_size; ip++, op++) {
+				gxx::constructor(op, *ip);
+			}
+		}
 	
 		~vector() {
 			gxx::array_destructor(begin(),end());
@@ -88,6 +96,11 @@ namespace gxx {
 			return *(m_data + num);
 		}
 
+		void resize(size_t n) {
+			reserve(n);
+			m_size = n;
+		}
+
 		void erase(iterator newend) {
 			m_size = newend - m_data;
 		}
@@ -100,7 +113,14 @@ namespace gxx {
 				m_data = newbuf;
 				return 1;
 			}
-			auto itpair = gxx::save_move(begin(), end(), newbuf, newbuf + sz);
+			
+			auto ie = end();
+			auto oe = newbuf + sz;
+
+			for(auto ip = begin(), op = newbuf; op != oe && ip != ie; op++, ip++) {
+				gxx::constructor(op, *ip);
+			}
+
 			gxx::array_destructor(begin(), end());
 			auto oldbuf = m_data; 
 			m_data = newbuf;
