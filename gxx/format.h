@@ -53,4 +53,6 @@ namespace gxx {
 	}	
 }
 
+#define dprf(...) dprln(format(__VA_ARGS__));
+
 #endif

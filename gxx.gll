@@ -19,3 +19,10 @@ Module("gxx.log_manager", {
 		cxx = "manager.cpp"
 	}
 })
+
+Module("gxx.placed_new", {
+	sources = {
+		directory = "gxx/util", 
+		cxx = "placed_new.cpp"
+	}
+})

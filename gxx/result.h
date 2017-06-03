@@ -17,7 +17,7 @@ namespace gxx { namespace result_type {
 		gxx::string info;
 		explicit error() : info() {}
 		explicit error(const char* str) : info(str) {}
-		explicit error(gxx::string str) : info(str) {}
+		explicit error(gxx::string& str) : info(str) {}
 		explicit error(gxx::string&& str) : info(gxx::move(str)) {}
 		
 		error(error&& e) = default;
@@ -83,6 +83,7 @@ namespace gxx { namespace result_type {
 		template<typename U>
 		result(U&& r) :	_iserror(false), _data(gxx::forward<U>(r)) {}
 		result(E&& e) : _iserror(true), _error(gxx::forward<E>(e)) {}
+		result(E& e) : _iserror(true), _error(e) {}
 		
 		result(result&& res) : _iserror(res._iserror) {
 			if (_iserror) {
@@ -103,8 +104,8 @@ namespace gxx { namespace result_type {
 			};		
 		}
 	
-		Result& unwrap() {
-			if (iserror()) { 
+		Result unwrap() {
+			if (is_error()) { 
 				dpr("unwrap error: ");
 				abort_dprln(_error.what());
 			}
@@ -117,7 +118,7 @@ namespace gxx { namespace result_type {
 			_data = gxx::forward<T>(r);	
 		}
 	
-		Result& getData() {
+		Result getData() {
 			assert(_iserror == 0);
 			return _data;
 		}
@@ -134,12 +135,12 @@ namespace gxx { namespace result_type {
 			return _error;
 		}
 		
-		bool iserror() {
+		bool is_error() {
 			return _iserror;
 		}
 
 		operator T() {
-			assert(iserror == 0);
+			assert(is_error == 0);
 			return _data;
 		}
 
@@ -148,10 +149,6 @@ namespace gxx { namespace result_type {
 			_iserror = false;
 			_error.~error();
 			tryhelper<T>::constructor(_data);	
-		}
-	
-		operator bool() {
-			return _iserror;
 		}
 	};
 
@@ -165,6 +162,7 @@ namespace gxx { namespace result_type {
 		
 		result() : _iserror(false) {}
 		result(E&& e) : _iserror(true), _error(gxx::move(e)) {}
+		result(E& e) : _iserror(true), _error(e) {}
 		
 		result(result&& res) : _iserror(res._iserror) {
 			if (_iserror) {
@@ -180,6 +178,13 @@ namespace gxx { namespace result_type {
 			};		
 		}
 	
+		void unwrap() {
+			if (is_error()) { 
+				dpr("unwrap error: ");
+				abort_dprln(_error.what());
+			}
+		}
+
 		void getData() {
 			assert(_iserror == 0);
 		}
@@ -189,7 +194,7 @@ namespace gxx { namespace result_type {
 			return _error;
 		}
 		
-		bool iserror() {
+		bool is_error() {
 			return _iserror;
 		}
 
@@ -207,14 +212,14 @@ namespace gxx { namespace result_type {
 
 #define tryS(invoke) ({												\
 	auto&& __result = ({invoke;}); 									\
-	if (__result.iserror()) return gxx::move(__result.getError());			\
+	if (__result.is_error()) return gxx::move(__result.getError());			\
 	__result.getData();										\
 }) 
 
 #define tryH(invoke,err,handler) ({									\
 	__label__ try_label;											\
 	auto&& __result = ({invoke;});										\
-	if (__result.iserror()) {											\
+	if (__result.is_error()) {											\
 		auto& err = __result.getError(); 								\
 		handler; 													\
 		return gxx::move(__result.getError());							\
@@ -226,7 +231,7 @@ namespace gxx { namespace result_type {
 #define tryP(invoke,err,handler) ({									\
 	__label__ try_label;											\
 	auto&& __result = ({invoke;});									\
-	if (__result.iserror()) {											\
+	if (__result.is_error()) {											\
 		auto& err = __result.getError(); 								\
 		handler; 													\
 		__result.restore();											\
