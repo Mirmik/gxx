@@ -112,16 +112,7 @@ namespace gxx {
 			Normal
 		};
 
-		static int parse_minus(const char* str, AutomState state) {
-			if (*str != '-') return 0;
-			if (state == AutomState::WaitValue) return -1;
-			if (*(str + 1) == 0) return -1;
-			if (*(str + 1) == '-') {
-				if (*(str + 2) == 0) return -1;
-				return 2;
-			}
-			return 1;
-		}
+		
 
 		result<void> set_value(opt& o, const char* val) {
 			if (*val == 0) return error("wrong option syntax");
@@ -136,7 +127,18 @@ namespace gxx {
 			return result<void>();
 		}
 
-		result<opt*> parse_get_long_opt(const char* l, AutomState& state) {
+		static int parse_minus(const char* str, AutomState state) {
+			if (*str != '-') return 0;
+			if (state == AutomState::WaitValue) return -1;
+			if (*(str + 1) == 0) return -1;
+			if (*(str + 1) == '-') {
+				if (*(str + 2) == 0) return -1;
+				return 2;
+			}
+			return 1;
+		}
+
+		result<opt*> parse_long_opt(const char* l, AutomState& state) {
 			char buf[64];
 			char* ptr = buf;
 			while(*l != '=' && *l != 0) {
@@ -195,7 +197,7 @@ namespace gxx {
 						}
 						break;
 					case 2: 
-						curopt = tryS(parse_get_long_opt(*it+2, state)); 
+						curopt = tryS(parse_long_opt(*it+2, state)); 
 						break;
 					case -1: return error("wrong option syntax");					
 				}

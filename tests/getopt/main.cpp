@@ -1,5 +1,9 @@
 #include <gxx/getopt/cliopts.h>
 
+int help() {
+	dprln("help");
+}
+
 int main(int argc, char* argv[]) {
 	gxx::cliopts opts;
 	
@@ -8,14 +12,17 @@ int main(int argc, char* argv[]) {
 	opts.add_bool("bool", 'b', true);
 	opts.add_option("help", 'h');
 
-	opts.parse(1, argc, argv).unwrap();
+	if (opts.parse(1, argc, argv).is_error()) {
+		help();
+		return 0;
+	}
 
 	dprln(opts.get_integer("int").unwrap());
 	dprln(opts.get_string("str").unwrap());
 	dprln(opts.get_bool("bool").unwrap());
 	
 	if (opts.get_option("help").unwrap()) {
-		dprln("HELP!!!!");
-		exit(0);
+		help();
+		return 0;
 	}
 }
