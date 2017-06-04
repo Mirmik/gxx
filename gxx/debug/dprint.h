@@ -134,7 +134,7 @@ int dpr(double obj);
 
 template <typename Buffer>
 int dpr(const Buffer& obj) {
-	debug_write(obj.data(), obj.size());
+	int ret = 0; ret += debug_write(obj.data(), obj.size()); return ret;
 }
 
 int dprbin(uint8_t obj);
@@ -149,7 +149,7 @@ int dprbin(int64_t obj);
 
 template <typename Buffer>
 int dprhex(const Buffer& obj) {
-	debug_print_dump(obj.data(), obj.size());
+	int ret = 0; ret += debug_print_dump(obj.data(), obj.size()); return ret;
 }
 
 int dprhex(const char* obj);
@@ -173,19 +173,19 @@ int dpr_dump(int* obj, uint32_t size);
 int dpr_dump_ascii(int* obj, uint32_t size);
 
 template<typename T> int dprptr(const T* const& obj) 
-	{ debug_printhex_ptr((int*)obj); };
+	{ int ret = 0; ret += debug_printhex_ptr((int*)obj); return ret; }
 
 template<typename T> int dprln(const T& obj) 
-	{ dpr(obj); debug_write("\r\n", 2); };
+	{ int ret = 0; ret += dpr(obj); ret += debug_write("\r\n", 2); return ret; }
 
 template<typename T> int dprbinln(const T& obj) 
-	{ dprbin(obj); debug_write("\r\n", 2); };
+	{ int ret = 0; ret += dprbin(obj); ret += debug_write("\r\n", 2); return ret; }
 
 template<typename T> int dprhexln(const T& obj) 
-	{ dprhex(obj); debug_write("\r\n", 2); };
+	{ int ret = 0; ret += dprhex(obj); ret += debug_write("\r\n", 2); return ret; }
 
 template<typename T> int dprptrln(const T& obj) 
-	{ dprptr(obj); debug_write("\r\n", 2); };
+	{ int ret = 0; ret += dprptr(obj); ret += debug_write("\r\n", 2); return ret; }
 
 int dprtab();
 int dprtab(uint8_t obj);
@@ -193,7 +193,7 @@ int dprtab(uint8_t obj);
 #endif //__cplusplus
 
 #include <stdlib.h>
-static int abort_dprln(const char* str) {
+static void abort_dprln(const char* str) {
 	debug_print(str);
 	dln();
 	abort();

@@ -15,14 +15,14 @@ int debug_printhex_uint8 (uint8_t b){
 	
 int debug_printbin_uint8 (uint8_t b){
 	int ret = 0;
-	ret += debug_putchar((b & 0b10000000) ? '1': '0');
-	ret += debug_putchar((b & 0b01000000) ? '1': '0');
-	ret += debug_putchar((b & 0b00100000) ? '1': '0');
-	ret += debug_putchar((b & 0b00010000) ? '1': '0');
-	ret += debug_putchar((b & 0b00001000) ? '1': '0');
-	ret += debug_putchar((b & 0b00000100) ? '1': '0');
-	ret += debug_putchar((b & 0b00000010) ? '1': '0');
-	ret += debug_putchar((b & 0b00000001) ? '1': '0');
+	ret += debug_putchar((b & 0x80) ? '1': '0');
+	ret += debug_putchar((b & 0x40) ? '1': '0');
+	ret += debug_putchar((b & 0x20) ? '1': '0');
+	ret += debug_putchar((b & 0x10) ? '1': '0');
+	ret += debug_putchar((b & 0x08) ? '1': '0');
+	ret += debug_putchar((b & 0x04) ? '1': '0');
+	ret += debug_putchar((b & 0x02) ? '1': '0');
+	ret += debug_putchar((b & 0x01) ? '1': '0');
 	return ret;
 }
 
@@ -366,6 +366,7 @@ int debug_asmlink_uint8_dpr3(uint8_t a, uint8_t b, uint8_t c) {
 	int ret = 0;
 	ret += debug_printhex_uint8(a); ret+= debug_putchar(':');
 	ret += debug_printhex_uint8(b); ret+= debug_putchar(':');
+	ret += debug_printhex_uint8(c); ret+= debug_putchar(':');
 	return ret;
 }
 

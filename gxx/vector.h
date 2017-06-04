@@ -29,7 +29,7 @@ namespace gxx {
 		CONSTREF_GETTER(size, m_size);
 		CONSTREF_GETTER(capacity, m_capacity);
 
-		vector(const Allocator& alloc = Allocator()) {}
+		vector(const Allocator& alloc = Allocator()) : m_alloc(alloc) {}
 
 		vector(const vector& other) : m_data(other.m_data), m_capacity(other.m_capacity), m_size(other.m_size) {
 			m_data = m_alloc.allocate(m_size);
@@ -128,6 +128,6 @@ namespace gxx {
 			return 1;
 		}
 	};
-};
+}
 
 #endif

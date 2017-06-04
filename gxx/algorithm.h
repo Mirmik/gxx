@@ -1002,7 +1002,6 @@
 			return lower_bound(first, last, value, c);
 		}
 		
-		/*
 			template<class ForwardIterator, class T, class Compare>  
 			ForwardIterator lower_bound(ForwardIterator first, ForwardIterator last,
 			const T& value, Compare comp)

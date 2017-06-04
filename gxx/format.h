@@ -14,6 +14,7 @@ namespace gxx {
 	template<typename T>
 	int format_arg(T& ref, text_writer&, const char* opts) {
 		dprln("FORMATE_ARGUMENT");
+		return 0;
 	}
 
 	template<>int format_arg(const int8_t& ptr, text_writer&, const char* opts);
@@ -27,6 +28,7 @@ namespace gxx {
 	template<>int format_arg(const uint64_t& ptr, text_writer&, const char* opts);
 
 	template<>int format_arg(const char* const& ptr, text_writer&, const char* opts);
+	template<>int format_arg(const gxx::string& ptr, text_writer&, const char* opts);
 
 	struct format_visitor {
 		template<typename T>

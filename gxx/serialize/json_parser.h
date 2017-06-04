@@ -10,7 +10,6 @@ namespace gxx {
 	class json_parser {
 	public:
 		static result<json> parse(const text_reader& r) {
-		//	dprln("parse");
 			r.ignore_while(isspace);
 
 			char c = r.peek();
@@ -24,13 +23,13 @@ namespace gxx {
 		}
 
 		static json parse_number(const text_reader& r) {
-		//	dprln("parse_number");
+			//dprln("parse_number");
 			int ret = r.read_int_decimal();
 			return json(ret);
 		}
 
 		static result<json> parse_string(const text_reader& r) {
-		//	dprln("parse_string");
+			//dprln("parse_string");
 			r.ignore();
 			json ret(r.read_string_until('"'));
 			r.ignore();
@@ -38,10 +37,39 @@ namespace gxx {
 		}
 
 		static result<json> parse_array(const text_reader& r) {
-		//	dprln("parse_array");
+			//dprln("parse_array");
+			char c;
+			json js(json::Type::Array);
+			
+			int counter = 0;
+			while(true) {
+				r.ignore_while(isspace);
+				c = r.peek();
+				
+				if (c == ']') {
+					r.ignore();
+					return js;
+				}
+					
+				if (c == ',' || c == '[') {
+					r.ignore();
+					r.ignore_while(isspace);
+					
+					if (r.peek() == ']') {
+						r.ignore();
+						return js;
+					}
+					
+					js.as_vector().unwrap().push_back(tryS(parse(r)));
+				}
+				else return error("wrong array syntax");;
+
+				counter++;
+			}
 		}
 
 		static result<json> parse_dictionary(const text_reader& r) {
+			//dprln("parse_dictionary");
 			char c;
 			json js(json::Type::Dictionary);
 			
@@ -66,6 +94,7 @@ namespace gxx {
 					if ( c != '"' ) return error("wrong dicionary syntax: not find \"");
 					r.ignore();
 					gxx::string key = r.read_string_until('"');
+					//dprln(key);
 					r.ignore();
 					
 					r.ignore_while(isspace);
@@ -73,6 +102,8 @@ namespace gxx {
 					r.ignore();
 
 					r.ignore_while(isspace);
+
+					//dprf("add to dictionary {}", key);
 					js.as_dictionary().unwrap().insert(std::make_pair(key, tryS(parse(r))));
 					r.ignore_while(isspace);
 				}

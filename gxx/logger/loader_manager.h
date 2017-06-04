@@ -8,7 +8,8 @@ namespace gxx {
 		class loader_manager : public manager {
 		public:
 			loader_manager(const char* path) {
-				int fd = open(path, O_RDONLY);
+				(void) path;
+				//int fd = open(path, O_RDONLY);
 			}
 		};
 	}

@@ -25,7 +25,7 @@ namespace gxx {
 	}
 */
 	int arglist::find_name(const char* name, size_t len) const {
-		for(int i = 0; i < listsz; ++i) {
+		for(uint i = 0; i < listsz; ++i) {
 			if (list[i].name && !strncmp(name, list[i].name, len)) return i; 
 		}
 		return -1;

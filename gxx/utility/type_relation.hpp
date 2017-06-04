@@ -130,7 +130,7 @@ template <bool NotUnum, class T> struct is_enum_impl
 
 template <class T> struct is_enum_impl<true, T> : false_type { };
   
-};// namespace internal
+}// namespace internal
 				
 
 
@@ -238,7 +238,7 @@ struct ConvertHelper {
   static big_ Test(...);
   static From Create();
 };
-};// namespace internal
+}// namespace internal
 
 //is_convertible
 // Наследует от true_type если From можно сконвертировать в To, иначе от false_type.

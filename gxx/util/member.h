@@ -47,7 +47,6 @@
 	})
 
 //SYNONIM
-//#define container_of(member_ptr, type, member) \
-//	mcast_out(member_ptr, type, member)
+//#define container_of(member_ptr, type, member) mcast_out(member_ptr, type, member)
 
 #endif /* UTIL_MEMBER_H_ */

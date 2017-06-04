@@ -166,28 +166,7 @@ namespace gxx {
 		};
 	*/
 	};
-	
-	//template<typename type, dlist_head type::* member>
-	//dlist<type, member>* dlist_head_to_class(dlist_head* head)
-	//{
-	//	using dlist_t = dlist<type, member>;
-	//	return reinterpret_cast<dlist_t*>(reinterpret_cast<char*>(head) - member_offset<dlist_t, dlist_head, &dlist_t::list>());
-	//};
-	
-};
+}
 
-//template<typename type, dlist_head type::* member>
-//dlist<type, member>* dlist_get_topic(dlist_head* head)
-//{
-//	using dlist_t = dlist<type, member>;
-//	dlist_t* list = dlist_head_to_class<type,member>(parrent);
-//	return list;
-//};
-
-//#define dlist_topic(obj,lst) 						\
-//({													\
-//	using type = decltype(obj);						\
-//	dlist_get_topic<type, &type::lst>(&(obj).lst); 	\
-//})
 
 #endif

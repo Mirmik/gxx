@@ -7,7 +7,7 @@
 namespace gxx {
 	namespace log {
 		class stdout_target : public target {
-			stdstream io;
+			std_stream io;
 
 			void log(const char* str) override;
 		};

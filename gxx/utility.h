@@ -74,6 +74,6 @@ namespace gxx{
 		delete ptr;
 	}
 	
-};
+}
 
 #endif

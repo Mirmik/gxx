@@ -105,7 +105,6 @@ namespace gxx {
 
 		template<typename Spec = EmptySpec>
 		int write(const char* str, size_t len, const Spec& spec) const {
-			const char* sstr = str;
 			int ret = 0;
 
 			int prewidth = 0;
@@ -148,7 +147,7 @@ namespace gxx {
 
 		template<typename Spec = EmptySpec>
 		int write_cstr(const char* str, const Spec& spec = Spec()) const {
-			write(str, strlen(str), spec);
+			return write(str, strlen(str), spec);
 		}
 
 		template<typename Spec = IntegerSpec>
@@ -160,6 +159,7 @@ namespace gxx {
 				case Prefix::Bin: ret += putchar('0'); ret += putchar('b'); break;
 				case Prefix::Hex: ret += putchar('0'); ret += putchar('x'); break;
 				case Prefix::Oct: ret += putchar('0'); break;
+				default: break;
 			}
 
 			i64toa(num, str, spec.base()); 

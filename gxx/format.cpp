@@ -49,7 +49,7 @@ namespace gxx {
 			}
 		}
 	
-		w.write_int(num, spec);	
+		return w.write_int(num, spec);	
 	}
 	
 	template<>
@@ -60,14 +60,14 @@ namespace gxx {
 	}
 
 
-	int format_arg(const uint64_t& i, text_writer&, const char* opts) {
+	int format_arg(const uint64_t&, text_writer&, const char*) {
 		//dprln("Hereuint64");
 		abort();
+		return 0;
 		//dprln(i);	
 	}
-	
-	template<>
-	int format_arg(const char* const& str, text_writer& w, const char* opts) {
+
+	int format_arg_str(const char* const& str, size_t len, text_writer& w, const char* opts) {
 		//dprln("Herecstring");
 		CharStrSpec spec;
 	
@@ -88,9 +88,19 @@ namespace gxx {
 			}
 		}
 	
-		w.write(str, strlen(str), spec);	
+		return w.write(str, len, spec);	
+	}
+
+	template<>
+	int format_arg(const char* const& str, text_writer& w, const char* opts) {
+		return format_arg_str(str, strlen(str), w, opts);
 	}
 	
+	template<>
+	int format_arg(const gxx::string& str, text_writer& w, const char* opts) {
+		return format_arg_str(str.data(), str.size(), w, opts);
+	}
+
 	void format_impl(text_writer& writer, const char* fmt, const gxx::arglist& list) {
 		uint8_t argnum = 0;
 		const char* fmtptr = fmt;

@@ -29,8 +29,7 @@ int main() {
 	logger.link(console_target);
 	logger.link(spam_target);
 	
-	int i = 7;
-
+	
 	/*while(1) {
 		logger.debug("what {}", i++);
 		logger.debug("that {}", "port");

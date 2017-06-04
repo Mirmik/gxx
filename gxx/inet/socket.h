@@ -28,6 +28,8 @@ namespace gxx {
    			if (sock < 0) {
    				abort_dprln("socket::cant create socket");
    			}
+
+   			return 0;
 		}
 
 		int bind() {

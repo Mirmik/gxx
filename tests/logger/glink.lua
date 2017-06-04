@@ -9,14 +9,14 @@ ruller = CXXDeclarativeRuller.new{
 	--weakRecompile = "noscript",
 	optimization = "-O2",
 	standart = {
-		cxx = "-std=gnu++14",
-		cc = "-std=gnu11",
+		cxx = "-std=c++14",
+		cc = "-std=c11",
 	},
 	flags = {
 		cc = "",
 		cxx = "",
 		ld = "",
-		allcc = "-Wl,--gc-sections -fdata-sections -ffunction-sections"
+		allcc = "-Wl,--gc-sections -fdata-sections -ffunction-sections -Wall -Wextra -Wno-unused-function -pedantic"
 	},
 	builddir = "./build",
 }

@@ -9,10 +9,13 @@
 
 #include <gxx/utility.h>
 #include <gxx/result.h>
+#include <gxx/format.h>
 #include <gxx/io/text_writer.h>
+#include <gxx/io/stdstream.h>
 
 namespace gxx {
 	using namespace result_type;
+	using namespace gxx::string_literal;
 
 	class json {
 	public:
@@ -134,10 +137,15 @@ namespace gxx {
 			return m_arr[i];
 		}
 
-		result<json&> operator[](gxx::string key) {
+		result<json&> operator[](const gxx::string& key) {
 			if (m_type != Type::Dictionary) return error("isn`t dictionary");
 			return m_dict[key];
 		}
+
+		/*result<bool> contains(gxx::string key) {
+			if (m_type != Type::Dictionary) return error("isn`t dictionary");
+			return m_dict.contain(key);
+		}*/
 
 		result<std::map<gxx::string, json>&> as_dictionary() {
 			if (m_type != Type::Dictionary) return error("isn`t dictionary");
@@ -161,6 +169,16 @@ namespace gxx {
 	
 		Type type() {
 			return m_type;
+		}
+
+		const char * type_to_str() {
+			switch(m_type) {
+				case Type::String: 		return "String";
+				case Type::Array: 		return "Array";
+				case Type::Dictionary: 	return "Dictionary";
+				case Type::Integer: 	return "Integer";
+				case Type::NoInit: 		return "NoInit";
+			}
 		}
 		
 	public:
@@ -194,6 +212,15 @@ namespace gxx {
 			reset(i64);
 			return *this;
 		}	
+
+		int size() {
+			switch(m_type) {
+				case Type::Integer:
+				case Type::String: return -1;
+				case Type::Array: return m_arr.size();
+				case Type::Dictionary: return m_dict.size();
+			} 
+		}
 /*
 		void drop_whitespaces(std::istream& is) {
 			while (isspace(is.peek())) {

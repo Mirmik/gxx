@@ -40,7 +40,7 @@ namespace gxx {
 					needRemove = true;
 				}
 			}
-			int wrong = -1;
+			//int wrong = -1;
 			if (needRemove)	{ 
 				clients.erase(gxx::remove(clients.begin(), clients.end(), -1));
 			}

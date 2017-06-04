@@ -10,6 +10,7 @@
 #include <assert.h>
 #include <inttypes.h>
 
+#include <gxx/debug/dprint.h>
 #include <gxx/allocator.h>
 #include <gxx/algorithm.h>
 #include <gxx/utility.h>
@@ -259,16 +260,19 @@ namespace gxx {
 			sprintf(buf, fmt, prec, num); 
 			return basic_string(buf);
 		};
-	
-	
+
 		bool operator < (const basic_string& other) const {
 			int ret = strncmp(data(), other.data(), gxx::min(size(), other.size()));
 			if (ret == 0) return size() < other.size();
-			else return ret;
+			else return ret < 0;
 		};
 
-		bool operator > (const basic_string& other) const {
+		/*bool operator > (const basic_string& other) const {
 			return other < *this;
+		};*/
+
+		bool operator == (const basic_string& other) const {
+			return m_size == other.m_size ? strncmp(m_data, other.m_data, m_size) == 0 : false;
 		};
 	
 		//basic_string hexdata(const void* data, size_t sz) {
@@ -425,6 +429,6 @@ basic_string & operator = (const gxx::buffer& cptr)
 	namespace string_literal {
 		static string operator"" _gs (const char* name, size_t sz) { return string(name, sz); }
 	}
-};
+}
 
 #endif

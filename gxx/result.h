@@ -104,7 +104,7 @@ namespace gxx { namespace result_type {
 			};		
 		}
 	
-		Result unwrap() {
+		Result& unwrap() {
 			if (is_error()) { 
 				dpr("unwrap error: ");
 				abort_dprln(_error.what());
@@ -118,7 +118,7 @@ namespace gxx { namespace result_type {
 			_data = gxx::forward<T>(r);	
 		}
 	
-		Result getData() {
+		Result& getData() {
 			assert(_iserror == 0);
 			return _data;
 		}
@@ -140,7 +140,7 @@ namespace gxx { namespace result_type {
 		}
 
 		operator T() {
-			assert(is_error == 0);
+			assert(_iserror == 0);
 			return _data;
 		}
 

@@ -94,7 +94,10 @@ namespace gxx {
 	
 
 	namespace arglist_literal {
-		static argname operator"" _a (const char* name, size_t sz) { return argname(name); } 
+		static argname operator"" _a (const char* name, size_t sz) { 
+			(void) sz; 
+			return argname(name); 
+		} 
 	}
 
 	struct argument {
@@ -117,7 +120,9 @@ namespace gxx {
 		arglist_former(++argptr, tail ...);
 	}
 
-	static inline void arglist_former(argument* argptr) {}
+	static inline void arglist_former(argument* argptr) {
+		(void) argptr;
+	}
 	
 	class arglist {
 	public:

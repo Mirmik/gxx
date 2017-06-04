@@ -65,7 +65,7 @@ namespace gxx {
 		virtual int putchar(char c) = 0;
 
 		int print(const char* str) {
-			write(str, strlen(str));
+			return write(str, strlen(str));
 		}
 	};
 	

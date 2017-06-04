@@ -8,8 +8,8 @@
 
 namespace gxx {
 
-	class stdstream : public gxx::iostream {
-
+	class std_stream : public gxx::iostream {
+	public:
 		virtual int read(char* str, size_t sz) {
 			return std::cin.read(str, sz).gcount();
 		}
