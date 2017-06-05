@@ -154,7 +154,7 @@ namespace gxx {
 				return o;
 			} else {
 				if (o->type != Type::Option && o->type != Type::Bool) state = AutomState::WaitValue;
-				if (o->type == Type::Bool) o->b = true;
+				if (o->type == Type::Bool || o->type == Type::Option) o->b = true;
 				return o;
 			}
 		}

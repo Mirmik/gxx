@@ -54,17 +54,29 @@ namespace gxx {
 	
 	template<>
 	int format_arg(const int32_t& i, text_writer& w, const char* opts) {
-		//pretty_that_function();
 		const int64_t i64 = i;
 		return format_arg(i64, w, opts);	
 	}
 
 
-	int format_arg(const uint64_t&, text_writer&, const char*) {
+	/*int format_arg(const uint64_t&, text_writer&, const char*) {
 		//dprln("Hereuint64");
 		abort();
 		return 0;
 		//dprln(i);	
+	}*/
+
+
+	template<>
+	int format_arg(const uint32_t& u, text_writer& w, const char* opts) {
+		const int64_t i = u;
+		return format_arg(i, w, opts);
+	}
+
+	template<>
+	int format_arg(const uint8_t& u, text_writer& w, const char* opts) {
+		const int64_t i = u;
+		return format_arg(i, w, opts);
 	}
 
 	int format_arg_str(const char* const& str, size_t len, text_writer& w, const char* opts) {
@@ -116,12 +128,12 @@ namespace gxx {
 	}
 
 	string format_impl(const char* fmt, const gxx::arglist& list) {
-		gxx::string str;
-		str.reserve(128);
-		gxx::memory_stream strm(str.data(), str.capacity());
+		int len = strlen(fmt) * 2 + 50;
+		char* msg = (char*)alloca(len);
+		gxx::memory_stream strm(msg, len);
 		gxx::text_writer writer(strm);
 		format_impl(writer, fmt, list);
-		return str.set_size(strm.size());
+		return gxx::string(msg, strm.size());
 	}
 
 	int format_argument(text_writer& writer, const char*& fmt, const gxx::arglist& list, uint8_t& argnum) {

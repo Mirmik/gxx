@@ -20,7 +20,9 @@ int main(int argc, char* argv[]) {
 	dprln(opts.get_integer("int").unwrap());
 	dprln(opts.get_string("str").unwrap());
 	dprln(opts.get_bool("bool").unwrap());
-	
+	dprln(opts.get_option("help").unwrap());
+
+
 	if (opts.get_option("help").unwrap()) {
 		help();
 		return 0;

@@ -63,33 +63,47 @@ namespace gxx {
 			inline void log(Level level, const char* fmt, arglist&& args) {
 				//dprln(fmt);
 				if (minlevel <= level) {
-					char msg[128];
-					memory_stream strm(msg, 128);
+					int msglen = strlen(fmt) * 2 + 50;
+					char* msg = (char*)alloca(msglen);
+					
+					memory_stream strm(msg, msglen);
 					text_writer writer(strm);
 					format_impl(writer, fmt, args);
-					writer.putchar('\n');
 					writer.putchar(0);
 
 					char tstamp[64] = "";
 					if (timestamp != nullptr) timestamp(tstamp, 64);
 	
+					int loglen = strlen(pattern.c_str()) * 2 + msglen + 50;
+					char* logmsg = (char*)alloca(loglen);
+					memory_stream logstrm(logmsg, loglen);
+					text_writer logwriter(logstrm);
+					format_impl(logwriter, pattern.c_str(), arglist(
+						make_argument<format_visitor>(make_argument_temporary("msg"_a=(const char*)msg)), 
+						make_argument<format_visitor>(make_argument_temporary("logger"_a=logger_name)),
+						make_argument<format_visitor>(make_argument_temporary("level"_a=level_to_str(level))),
+						make_argument<format_visitor>(make_argument_temporary("time"_a=tstamp))
+					));
+					logwriter.putchar('\n');
+					logwriter.putchar(0);
+/*
 					gxx::string logmsg = format(pattern.c_str(), 
 						"msg"_a=(const char*)msg, 
 						"logger"_a=logger_name,
 						"level"_a=level_to_str(level),
 						"time"_a=tstamp);
-					
+*/					
 					//dprln(logmsg);
 				
 					for (auto t : targets) {
-						t->log(logmsg.c_str());
+						t->log(logmsg);
 					}
 				}
 			}
 
 			template <typename ... Args>
 			inline void log(Level level, const char* fmt, Args&& ... args) {
-				log(level, fmt, arglist(gxx::arglist(gxx::make_argument<format_visitor>(gxx::make_argument_temporary(gxx::forward<Args>(args))) ...)));
+				log(level, fmt, gxx::arglist(gxx::make_argument<format_visitor>(gxx::make_argument_temporary(gxx::forward<Args>(args))) ...));
 			}
 
 			template <typename ... Args>

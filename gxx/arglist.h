@@ -148,6 +148,11 @@ namespace gxx {
 		return argument((void*)&arg.arg, (void*) Customer::template function_pointer<F>(), arg.name); 
 	}
 
+	/*template<typename Formatter, typename ... Args>
+	arglist make_arglist(Args ... args) { 
+		return arglist(gxx::make_argument<Formatter>(gxx::make_argument_temporary(gxx::forward<Args>(args))) ...); 
+	}*/
+
 	/*template<typename Customer, typename T, typename F>
 	argument make_argument(argument_temporary<T&, F>&& arg) { 
 		//pretty_that_function();dprln();
