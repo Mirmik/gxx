@@ -1,8 +1,9 @@
 #ifndef GENOS_HLIST_HEAD
 #define GENOS_HLIST_HEAD
 
-#include "compiler.h"
-#include <debug/dprint.h>
+//#include "compiler.h"
+#include <sys/cdefs.h>
+#include <gxx/debug/dprint.h>
 
 struct hlist_node {
 	struct hlist_node* next;
@@ -11,9 +12,11 @@ struct hlist_node {
 
 struct hlist_head {
 	struct hlist_node* first;
-__if_cplusplus(
+
+#ifdef __cplusplus
 	hlist_head() : first(nullptr) {};
-	)
+#endif
+
 };
 
 __BEGIN_DECLS
