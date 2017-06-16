@@ -4,7 +4,8 @@ script:evalFile(files, _ENV)
 Module("gxx.sources", {
 	sources = {
 		directory = "gxx", 
-		cxx = "buffer.cpp format.cpp arglist.cpp logger/stdout.cpp"
+		cxx = "buffer.cpp format.cpp arglist.cpp logger/stdout.cpp",
+		cc = "gmsgpack/gmsgpack.c"
 	}	
 })
 

@@ -169,8 +169,8 @@ int dprhex(int64_t obj);
 //template<> int dprhex(double obj);
 //int dpr(gxx::string obj);
 
-int dpr_dump(int* obj, uint32_t size);
-int dpr_dump_ascii(int* obj, uint32_t size);
+int dpr_dump(void* obj, uint32_t size);
+int dpr_dump_ascii(void* obj, uint32_t size);
 
 template<typename T> int dprptr(const T* const& obj) 
 	{ int ret = 0; ret += debug_printhex_ptr((int*)obj); return ret; }
