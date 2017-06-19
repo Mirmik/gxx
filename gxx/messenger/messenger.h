@@ -21,6 +21,10 @@ namespace gxx {
 
 			//hashtable manage
 			hlist_node hlnk;
+
+			static msgr_id& getkey(messenger& msg) {
+				return msg.id;
+			}
 		};
 	}
 }

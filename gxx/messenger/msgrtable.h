@@ -5,8 +5,12 @@
 
 namespace gxx {
 	namespace msg {
+		class gate {
+			virtual int send(const char* data, size_t size);
+		};
+
 		class msgrtable {
-			//gxx::static_hashtable <messenger, &messenger::hlnk> htable;
+			gxx::static_hashtable <10, messenger, msgr_id, &messenger::hlnk> htable;
 		};
 	} 
 }

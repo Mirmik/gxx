@@ -1,17 +1,21 @@
 #include <gxx/events/signal.h>
 #include <gxx/debug/dprint.h>
 
-void slt (int i) {
-	dprln(i);
+void slt () {
+	dprln("Hello");
 }
 
 int main() {
 	
-	gxx::signal<int> s;
-	gxx::slot<int> sslt(slt);
+	gxx::sigflag s;
+	gxx::slot<> sslt(slt);
+	sslt.unconnect_on_invoke(true);
 
 	s.connect(sslt);
 
-	s.emit(67); 
+	s.sigon(); 
+	s.connect(sslt);
 
+	s.sigoff();
+	s.connect(sslt);
 }

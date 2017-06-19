@@ -2,53 +2,58 @@
 #define GXX_EVENTS_SIGNAL_H
 
 #include <gxx/dlist.h>
-#include <gxx/delegate.h>
+#include <gxx/events/slot.h>
 
 namespace gxx {
-	template <typename ... Args>
-	class basic_slot {
-	public:
-		virtual void invoke(Args ... args) = 0;
-	
-		//manage
-		dlist_head lnk;
-	};
-
-	template <typename ... Args>
-	class slot : public basic_slot<Args ...> {
-		using Parent = basic_slot<Args ...>;
-
-		delegate<void, Args ...> dlg;
-
-	public:
-		slot(gxx::delegate<Args ...> dlg) : dlg(dlg) {}
-		slot(void(*func)(Args ...)) : dlg(func) {}
-
-		void invoke(Args ... args) {
-			dlg(args ...);
-		}
-	};
-
+	//
 	template <typename ... Args>
 	class signal {
+	protected:
 		using Slot = basic_slot<Args ...>;
-
-	public:
 		dlist<Slot, &Slot::lnk> slots;
 
-		void connect(Slot& slt) {
+	public:
+		virtual void connect(Slot& slt) {
 			slots.move_back(slt);
 		}
 
-		virtual void emit(Args ... args) {
+		void emit(Args ... args) {
 			gxx::for_each_safe(slots.begin(), slots.end(), [&](Slot& slt) {
 				slt.invoke(args ...);
 			});
 		} 
 
-		virtual void emit_one(Args ... args) {
+		void emit_one(Args ... args) {
 			slots.begin()->invoke(args ...);
 		} 
+	};
+
+	//Специальный тип сигнала, позволяющий сохранять информацию о событии
+	//до момента подключения следующего слота
+	class sigflag : public signal<> {
+		using Parent = signal<>;
+		bool flag = false;
+
+	private:
+		void emit_loop() {
+			while(flag == true && !slots.empty()) {
+				emit_one();
+			}
+		}
+	public:
+		void connect(Slot& slt) {
+			Parent::connect(slt);
+			if (flag) emit_loop();
+		}
+
+		void sigon() {
+			flag = true;
+			emit_loop();
+		}	
+
+		void sigoff() {
+			flag = false;
+		}
 	};
 }
 

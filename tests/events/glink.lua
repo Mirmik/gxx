@@ -16,7 +16,7 @@ ruller = CXXDeclarativeRuller.new{
 		cc = "",
 		cxx = "",
 		ld = "",
-		allcc = "-Wl,--gc-sections -fdata-sections -ffunction-sections -Wall -Wextra -Wno-unused-function -pedantic"
+		allcc = "-Wl,--gc-sections -fdata-sections -ffunction-sections"
 	},
 	builddir = "./build",
 }

@@ -6,6 +6,7 @@
 #include <string.h>
 #include <gxx/string.h>
 #include <gxx/format.h>
+#include <gxx/events/signal.h>
 
 namespace gxx {
 	namespace io {
@@ -37,6 +38,8 @@ namespace gxx {
 		};
 
 		class local_strmout : public strmout {
+		public:
+			virtual sigflag haveData;
 			virtual size_t room() = 0;
 		};
 
