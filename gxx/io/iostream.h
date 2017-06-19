@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <gxx/debug/dprint.h>
+#include <string.h>
 
 namespace gxx {
 	
@@ -74,11 +75,13 @@ namespace gxx {
 	class debug_ostream : public ostream {
 	public:
 		int write(const char* str, size_t sz) override {
-			return debug_write(str, sz);
+			debug_write(str, sz);
+			return -1;
 		}
 		
 		int putchar(const char c) override {
-			return debug_putchar(c);
+			debug_putchar(c);
+			return -1;
 		}
 	};
 

@@ -4,7 +4,7 @@
 #include <sys/cdefs.h>
 #include <inttypes.h>
 
-static const char GMSG_FRAMEEND = 0xC0;
+/*static const char GMSG_FRAMEEND = 0xC0;
 static const char GMSG_FRAMEESC = 0xDB;
 static const char GMSG_TEND = 0xDC;
 static const char GMSG_TESC = 0xDD;
@@ -48,6 +48,6 @@ void gmsg_unpack_reinit(unpack_gmsg_t* gmsg);
 int gmsg_unpack_new_char(unpack_gmsg_t* gmsg, char c);
 uint8_t gmsg_unpack_subcrc(unpack_gmsg_t* gmsg);
 
-__END_DECLS
+__END_DECLS*/
 
 #endif

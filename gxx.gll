@@ -2,10 +2,13 @@ local files = find.findInTree(script.currentDir .. "gxx", ".*.gll$", ".*HIDE.*")
 script:evalFile(files, _ENV)
 
 Module("gxx.sources", {
+	flags = {
+		cxx = "-Wno-unused-local-typedefs"
+	},
 	sources = {
 		directory = "gxx", 
 		cxx = "buffer.cpp format.cpp arglist.cpp logger/stdout.cpp",
-		cc = "gmsgpack/gmsgpack.c"
+--		cc = "gmsgpack/gmsgpack.c"
 	}	
 })
 

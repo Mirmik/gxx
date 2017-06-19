@@ -6,5 +6,4 @@
 //template<typename T>
 void* operator new(size_t, void* __p) noexcept;
 
-
 #endif

@@ -9,10 +9,12 @@ Implementation("gxx.dprint", "diag", {
 		cc = "dprint_func_impl.c dprint_diag.c assembler.c",
 		cxx = "dprintxx.cpp",
 	},
+
 	flags = {
 		cc = "-Wno-pointer-to-int-cast",
 	},
-	depends = "genos.diag",
+
+	depends = "gxx.diag",
 })
 
 Implementation("gxx.dprint", "manually", {

@@ -59,7 +59,7 @@ class delegate
 	union method_union
 	{
 		mtd_t method;
-		struct{
+		struct {
 			fnc_t function;	
 			fnc_t attributes;
 		};
@@ -103,7 +103,7 @@ class delegate
 	delegate(T* ptr_obj, R(T::*mtd)(Args ...)) {
 		object = reinterpret_cast <obj_t> (ptr_obj);
 		method.method = horrible_cast<mtd_t, R(T::*)(Args ...)>(mtd);
-	};
+	}
 	
 	//Бывает, что и с volatile делегатами приходится 
 	//работать.
@@ -304,8 +304,7 @@ public:
 
 	template <typename T1, typename T2>
 	fastdelegate(R(T2::*mtd)(Args ...), T1* ptr_obj) :
-		fastdelegate(delegate_mtd(mtd, ptr_obj))
-		{};	
+		fastdelegate(delegate_mtd(mtd, ptr_obj)) {}
 	
 	R operator()(Args ... arg) volatile { 
 		return extfunction(object, arg ...);

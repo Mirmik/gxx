@@ -16,6 +16,7 @@
 //#include <utilxx/type_analize.h>
 
 namespace gxx{
+
 	using nullptr_t = decltype(nullptr);
 	using size_t = ::size_t;
 	

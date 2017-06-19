@@ -5,12 +5,12 @@
 
 #ifndef __cplusplus
 
-static void do_nothing() {  };
+static void do_nothing() {  }
 
 #else
 
 template <typename R = void,typename ... V> 
-static R do_nothing(V...) { return (R)0; };
+static R do_nothing(V...) { return (R)0; }
 
 struct ignore_t {
     template <class type>
@@ -20,22 +20,22 @@ struct ignore_t {
 };
 static ignore_t ignore;
 
-class DoNothing
-{public:
+class DoNothing {
+public:
 	template <typename R = void,typename ... V> 
-	R do_nothing(V...) { return (R)0; };
+	R do_nothing(V...) { return (R)0; }
 };
-
+/*
 class Stub {
 public:
 	template<typename Archive>
-	void save(Archive& ar) {};
+	void save(Archive& ar) {}
 
 	template<typename Archive>
-	void load(Archive& ar) {};
+	void load(Archive& ar) {}
 
 };
-
+*/
 #endif //__cplusplus	
 
 #endif 
