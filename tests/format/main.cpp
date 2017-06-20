@@ -1,7 +1,7 @@
 #include <iostream>
 #include <gxx/format.h>
 
-using namespace gxx::literals;
+using namespace gxx::arglist_literal;
 
 int main() {
 	char world[128] = "World";

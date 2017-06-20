@@ -1,8 +1,9 @@
-#include <gxx/format.h>
+#include <gxx/util/format.h>
+#include <gxx/io2/format_writer.h>
 
 namespace gxx {
 
-	/*int format_visitor::visit(gxx::argument arg, text_writer& w, const char* opts) {
+	/*int format_visitor::visit(gxx::argument arg, io::format_writer& w, const char* opts) {
 		//dprln(arg.type_to_string());
 		switch (arg.type) {
 			case gxx::argument::Type::SInt8:  return 	visit_int64 (arg.i8,  w, opts);
@@ -18,28 +19,30 @@ namespace gxx {
 		}
 	}*/
 
-	int format_visitor::visit(gxx::argument arg, text_writer& w, const char* opts) {
+	int format_visitor::visit(gxx::argument arg, io::format_writer& w, const char* opts) {
 		return reinterpret_cast<VoidFuncPtr>(arg.func)(arg.ptr, w, opts);
 	}
+
+	
 	
 	template<>
-	int format_arg(const int64_t& num, text_writer& w, const char* opts) {
-		IntegerSpec spec;
+	int format_arg(const int64_t& num, io::format_writer& w, const char* opts) {
+		io::IntegerSpec spec;
 	
 		if (opts != nullptr)
 		for(; *opts != '}' && *opts != 0; ++opts) {
 			switch(*opts) {
-				case '<': spec.align(Alignment::Left); continue;
-				case '>': spec.align(Alignment::Right); continue;
-				case '^': spec.align(Alignment::Center); continue;
+				case '<': spec.align(io::Alignment::Left); continue;
+				case '>': spec.align(io::Alignment::Right); continue;
+				case '^': spec.align(io::Alignment::Center); continue;
 				case 'f': spec.fill(*++opts); continue;
-				case 'X': spec.charCase(CharCase::Upper);
+				case 'X': spec.charCase(io::CharCase::Upper);
 				case 'x': 
 					spec.base(16); 
-					if ( spec.prefix() == Prefix::Need ) spec.prefix(Prefix::Hex);  
+					if ( spec.prefix() == io::Prefix::Need ) spec.prefix(io::Prefix::Hex);  
 					continue; 
 				case 'p': 
-					spec.prefix(Prefix::Need); 
+					spec.prefix(io::Prefix::Need); 
 			}
 			if (isdigit(*opts)) { 
 				spec.width(atou32(opts, 10)); 
@@ -49,47 +52,47 @@ namespace gxx {
 			}
 		}
 	
-		return w.write_int(num, spec);	
+		return w.write_int_spec(num, spec);	
 	}
 	
 	template<>
-	int format_arg(const int32_t& i, text_writer& w, const char* opts) {
+	int format_arg(const int32_t& i, io::format_writer& w, const char* opts) {
 		const int64_t i64 = i;
 		return format_arg(i64, w, opts);	
 	}
 
 
-	/*int format_arg(const uint64_t&, text_writer&, const char*) {
+	int format_arg(const uint64_t&, io::format_writer&, const char*) {
 		//dprln("Hereuint64");
 		abort();
 		return 0;
 		//dprln(i);	
-	}*/
+	}
 
 
 	template<>
-	int format_arg(const uint32_t& u, text_writer& w, const char* opts) {
+	int format_arg(const uint32_t& u, io::format_writer& w, const char* opts) {
 		const int64_t i = u;
 		return format_arg(i, w, opts);
 	}
 
 	template<>
-	int format_arg(const uint8_t& u, text_writer& w, const char* opts) {
+	int format_arg(const uint8_t& u, io::format_writer& w, const char* opts) {
 		const int64_t i = u;
 		return format_arg(i, w, opts);
 	}
 
-	int format_arg_str(const char* const& str, size_t len, text_writer& w, const char* opts) {
+	int format_arg_str(const char* const& str, size_t len, io::format_writer& w, const char* opts) {
 		//dprln("Herecstring");
-		CharStrSpec spec;
+		io::CharStrSpec spec;
 	
 		if (opts != nullptr)
 		for(; *opts != '}' && *opts != 0; ++opts) {
 			switch (*opts) {
-				case 'U': spec.charCase(CharCase::Upper); continue;
-				case '<': spec.align(Alignment::Left); continue;
-				case '>': spec.align(Alignment::Right); continue;
-				case '^': spec.align(Alignment::Center); continue;
+				case 'U': spec.charCase(io::CharCase::Upper); continue;
+				case '<': spec.align(io::Alignment::Left); continue;
+				case '>': spec.align(io::Alignment::Right); continue;
+				case '^': spec.align(io::Alignment::Center); continue;
 				case 'f': spec.fill(*++opts); continue;
 			}
 			if (isdigit(*opts)) { 
@@ -100,20 +103,20 @@ namespace gxx {
 			}
 		}
 	
-		return w.write(str, len, spec);	
+		return w.write_spec(str, len, spec);	
 	}
 
 	template<>
-	int format_arg(const char* const& str, text_writer& w, const char* opts) {
+	int format_arg(const char* const& str, io::format_writer& w, const char* opts) {
 		return format_arg_str(str, strlen(str), w, opts);
 	}
-	
+/*	
 	template<>
-	int format_arg(const gxx::string& str, text_writer& w, const char* opts) {
+	int format_arg(const gxx::string& str, io::format_writer& w, const char* opts) {
 		return format_arg_str(str.data(), str.size(), w, opts);
 	}
 
-	void format_impl(text_writer& writer, const char* fmt, const gxx::arglist& list) {
+	void format_impl(io::format_writer& writer, const char* fmt, const gxx::arglist& list) {
 		uint8_t argnum = 0;
 		const char* fmtptr = fmt;
 	
@@ -131,12 +134,12 @@ namespace gxx {
 		int len = strlen(fmt) * 2 + 50;
 		char* msg = (char*)alloca(len);
 		gxx::memory_stream strm(msg, len);
-		gxx::text_writer writer(strm);
+		gxx::io::format_writer writer(strm);
 		format_impl(writer, fmt, list);
 		return gxx::string(msg, strm.size());
 	}
 
-	int format_argument(text_writer& writer, const char*& fmt, const gxx::arglist& list, uint8_t& argnum) {
+	int format_argument(io::format_writer& writer, const char*& fmt, const gxx::arglist& list, uint8_t& argnum) {
 		int ret;
 
 		assert(*fmt++ == '{');
@@ -176,7 +179,7 @@ namespace gxx {
 		while(*fmt != '}' && *fmt != 0) fmt++;
 		fmt++;
 		return ret;
-	}
+	}*/
 	
 
 }

@@ -23,8 +23,9 @@ ruller = CXXDeclarativeRuller.new{
 
 Module("main", {
 	modules = {
-		--{name = "gxx.sources"}
-		{name = "gxx.dprint", impl = "stdout"}
+		{name = "gxx.sources"},
+		{name = "gxx.dprint", impl = "stdout"},
+		{name = "gxx.placed_new"}
 	},
 
 	includeModules = {
