@@ -38,7 +38,7 @@ namespace gxx {
 			return head == (tail ? tail : m_buf.size()) - 1;
 		}
 	
-		int putchar(char c) override {
+		int putchar(char c) {
 			if (full()) return 0;
 			*(m_buf.data() + head++) = c;
 			fixup(head);
@@ -56,7 +56,7 @@ namespace gxx {
 			return ret;
 		}
 	
-		int getchar() override {
+		int getchar() {
 			if (empty()) return -1;
 			char c = *(m_buf.data() + tail++);
 			fixup(tail);

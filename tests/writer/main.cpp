@@ -1,12 +1,11 @@
-#include <gxx/io/iostream.h>
-#include <gxx/io/text_writer.h>
+#include <gxx/io2/format_writer.h>
 
-int main() {
-	gxx::debug_ostream debug; 
-	debug.write("HelloWorld", 10);
+gxx::io::debug_strmout debug;
 
-	gxx::text_writer w(debug);
+int main() { 
+	debug.println("HelloWorld");
 
-	w.write_int(32, gxx::IntegerSpec().prefix(gxx::Prefix::Hex));
+	gxx::io::format_writer w(debug);
 
+//	w.write_int(32, gxx::IntegerSpec().prefix(gxx::Prefix::Hex));
 }

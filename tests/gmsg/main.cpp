@@ -1,17 +1,11 @@
 #include <gxx/debug/dprint.h>
-#include <gxx/gmsgpack/gmsgpack.h>
+#include <gxx/gmsgpack/gmsg.h>
+#include <gxx/io2/strm.h>
 
+gxx::io::debug_strmout dout;
 
 int main() {
-	char gmsgbuf[128];
-	gmsg_t gmsg;
+	gxx::gmessage_writer gmsg(dout);
 
-	gmsg_init(&gmsg, gmsgbuf, 128);
-
-	gmsg_start(&gmsg);
-	gmsg_add_part(&gmsg, "HelloWorld", 10);
-	gmsg_finish(&gmsg);
-
-
-	dpr_dump(gmsg.buf, gmsg.ptr - gmsg.buf);
+	dout.println("Hello {}!", "World");
 }

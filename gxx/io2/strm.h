@@ -5,7 +5,7 @@
 
 #include <string.h>
 #include <gxx/string.h>
-#include <gxx/format.h>
+//#include <gxx/format.h>
 #include <gxx/events/signal.h>
 
 namespace gxx {
@@ -17,15 +17,22 @@ namespace gxx {
 				return write(&c,1);
 			}
 
-			template<typename ... Args> 
+			/*template<typename ... Args> 
 			int print(const char* str, Args ... args) {
 				gxx::string gen = gxx::format(str, args...);
-				return print(gen.c_str());
-			}
+				int ret = print(gen.c_str());
+				return ret;
+			}*/
 
 			int print(const char* str) {
 				return write(str, strlen(str));
 			}
+
+			template<typename ... Args>
+			int println(Args ... args) {
+				int ret = print(args ...);
+				return ret + write("\r\n", 2);
+			}			
 		};
 
 		class strmin {
@@ -37,19 +44,19 @@ namespace gxx {
 			}
 		};
 
-		class local_strmout : public strmout {
+		class lstrmout : virtual public strmout {
 		public:
-			virtual sigflag haveData;
+			sigflag haveData;
 			virtual size_t room() = 0;
 		};
 
-		class local_strmin : public strmin {
+		class lstrmin : virtual public strmin {
 			virtual size_t avail() = 0;
 		};
 
 
-		class strmio : public strmout, public strmin {};
-		class local_strmio : public strmio, public local_strmout, public local_strmin {};		
+		class strmio : virtual public strmout, virtual public strmin {};
+		class lstrmio : virtual public strmio, virtual public lstrmout, virtual public lstrmin {};		
 	
 		class debug_strmout : public strmout {
 			bool m_dumpmode = false;
