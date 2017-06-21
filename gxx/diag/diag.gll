@@ -1,0 +1,11 @@
+Implementation("gxx.diag", "stub", {
+	sources = {
+		cc = "diag_stub.c"		
+	}
+})
+
+Implementation("gxx.diag", "impl", {
+	sources = {
+		cc = "diag_impl.c"		
+	}	
+})
