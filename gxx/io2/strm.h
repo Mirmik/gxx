@@ -48,6 +48,7 @@ namespace gxx {
 		public:
 			sigflag haveData;
 			virtual size_t room() = 0;
+			virtual void clean();
 		};
 
 		class lstrmin : virtual public strmin {

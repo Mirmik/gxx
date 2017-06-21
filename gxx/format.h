@@ -18,6 +18,16 @@ namespace gxx {
 		return retstr;
 	}
 
+
+	template<typename ... Args>
+	void dprint(const char* fmt, Args&& ... args) {
+		gxx::io::debug_strmout out;
+		gxx::io::format_stream_writer writer(out);
+		writer.print(fmt, gxx::forward<Args>(args) ...);
+	}
+
 }
+
+#define dprf(...) gxx::dprint(__VA_ARGS__) 
 
 #endif
