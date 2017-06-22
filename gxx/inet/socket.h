@@ -6,8 +6,14 @@
 #include <netinet/in.h>
 
 #include <gxx/debug/dprint.h>
+#include <gxx/io2/strm.h>
+
 
 namespace gxx {
+	namespace io {
+		class socket_strmio;
+	}
+
 	class socket {
 	protected:
 		int32_t ip;
@@ -26,7 +32,8 @@ namespace gxx {
 
    		 	sock = ::socket(PF_INET, SOCK_STREAM, 0);
    			if (sock < 0) {
-   				abort_dprln("socket::cant create socket");
+   				return -1;
+   				//abort_dprln("socket::cant create socket");
    			}
 
    			return 0;
@@ -48,6 +55,12 @@ namespace gxx {
 		   flags = en ? (flags&~O_NONBLOCK) : (flags|O_NONBLOCK);
 		   return (fcntl(sock, F_SETFL, flags) == 0) ? true : false;
 		}
+
+		gxx::io::socket_strmio as_stream();
+	};
+
+	class socket_strmio : public gxx::io::strmio {
+
 	};
 }
 
