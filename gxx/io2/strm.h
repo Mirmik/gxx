@@ -36,6 +36,7 @@ namespace gxx {
 		};
 
 		class strmin {
+		public:
 			virtual int read(char* str, size_t sz) = 0;
 			virtual int getchar() {
 				char c;

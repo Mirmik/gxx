@@ -93,7 +93,7 @@ namespace gxx {
 	}
 	
 
-	namespace arglist_literal {
+	namespace argument_literal {
 		static argname operator"" _a (const char* name, size_t sz) { 
 			(void) sz; 
 			return argname(name); 

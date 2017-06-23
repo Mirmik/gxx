@@ -1,3 +1,6 @@
+#ifndef GXX_SHARED_PTR_H
+#define GXX_SHARED_PTR_H
+
 #include <gxx/utility.h>
 #include <inttypes.h> 
 #include <gxx/debug/dprint.h>
@@ -56,7 +59,7 @@ namespace gxx {
 		shared_control_block* ctrl;
 
 	public:
-		shared_ptr(){}
+		shared_ptr() : ptr(nullptr), ctrl(nullptr) {}
 
 		explicit shared_ptr(T* p) : ptr(p), ctrl(new shared_control_block_del<T>(p)) {
 			ctrl->addref();
@@ -65,6 +68,8 @@ namespace gxx {
 		shared_ptr(const shared_ptr& other) : ptr(other.ptr), ctrl(other.ctrl) {
 			if (ptr) ctrl->addref();
 		}
+
+		shared_ptr(nullptr_t ptr) : shared_ptr() {}
 
 		~shared_ptr() {
 			if (ptr) ctrl->remref();
@@ -194,3 +199,5 @@ namespace gxx {
 		return sptr;
 	}	
 }
+
+#endif

@@ -1,5 +1,6 @@
 #include <gxx/debug/dprint.h>
 #include <stdint.h>
+#include <ctype.h>
 
 void debug_printhex_uint4(uint8_t b){
 	uint8_t c = b < 10 ? b + '0' : b + 'A' - 10;
@@ -146,7 +147,7 @@ void debug_print_test() {
 	debug_print("DEBUG_print_TEST\n\r");		
 }
 
-void debug_print_dump(const void* address, uint16_t size) {
+/*void debug_print_dump(const void* address, uint16_t size) {
 	//debug_printhex_ptr(address);
 	//debug_printhex_uint16(size);
 	//while(1);
@@ -189,6 +190,56 @@ void debug_print_dump(const void* address, uint16_t size) {
 	} 
 	debug_putchar('\n');
 	debug_putchar('\r');
+}*/
+
+void debug_print_dump(const void *mem, uint16_t len)
+{
+	unsigned int i, j;
+
+	const int HEXDUMP_COLS = 8;
+	
+	for(i = 0; i < len + ((len % HEXDUMP_COLS) ? (HEXDUMP_COLS - len % HEXDUMP_COLS) : 0); i++)
+	{
+		/* print offset */
+		if(i % HEXDUMP_COLS == 0)
+		{
+			debug_write("0x",2);
+			debug_printhex_ptr(i + (char*)mem);
+			debug_putchar(':');
+		}
+ 
+		/* print hex data */
+		if(i < len)
+		{
+			debug_printhex_uint8(((char*)mem)[i]);
+			debug_putchar(' ');
+		}
+		else /* end of block, just aligning for ASCII dump */
+		{
+			debug_print("   ");
+		}
+		
+		/* print ASCII dump */
+		if(i % HEXDUMP_COLS == (HEXDUMP_COLS - 1))
+		{
+			for(j = i - (HEXDUMP_COLS - 1); j <= i; j++)
+			{
+				if(j >= len) /* end of block, not really printing */
+				{
+					debug_putchar(' ');
+				}
+				else if(isprint(((char*)mem)[j])) /* printable char */
+				{
+					debug_putchar(0xFF & ((char*)mem)[j]);        
+				}
+				else /* other char */
+				{
+					debug_putchar('.');
+				}
+			}
+			debug_putchar('\n');
+		}
+	}
 }
 
 void debug_print_dump_ascii(const void* address, uint16_t size) {

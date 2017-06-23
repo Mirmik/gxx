@@ -319,7 +319,8 @@ namespace gxx {
 		}
 		
 
-		basic_string& set_size(size_t sz) {
+		basic_string& resize(size_t sz) {
+			reserve(sz);
 			assert(sz <= m_capacity);
 			m_size = sz;
 			return *this;

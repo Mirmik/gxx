@@ -2,8 +2,6 @@
 #define GENOS_DATASTRUCT_ARGV_H
 
 #include "gxx/vector.h"
-#include "gxx/ByteArray.h"
-#include <assert.h>
 
 class argvc_t {
 	gxx::vector<char*> vect;
