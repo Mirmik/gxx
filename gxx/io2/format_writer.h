@@ -131,6 +131,7 @@ namespace gxx {
 				return ret;
 			}
 
+		public:
 			void print_impl(const char* fmt, const gxx::arglist& list) {
 				uint8_t argnum = 0;
 				const char* fmtptr = fmt;

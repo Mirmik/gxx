@@ -12,12 +12,18 @@ namespace gxx {
 	gxx::string format(const char* fmt, Args&& ... args) {
 		gxx::string retstr;
 		retstr.reserve(2*strlen(fmt));
-
 		gxx::io::format_string_writer writer(retstr);
 		writer.print(fmt, gxx::forward<Args>(args) ...);
 		return retstr;
 	}
 
+	gxx::string format_args(const char* fmt, const arglist& args) {
+		gxx::string retstr;
+		retstr.reserve(2*strlen(fmt));
+		gxx::io::format_string_writer writer(retstr);
+		writer.print_impl(fmt, args);
+		return retstr;
+	}
 
 	template<typename ... Args>
 	void dprint(const char* fmt, Args&& ... args) {

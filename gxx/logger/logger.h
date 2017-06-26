@@ -9,7 +9,7 @@
 #include <gxx/shared.h>
 #include <gxx/util/setget.h>
 
-using namespace gxx::arglist_literal;
+using namespace gxx::argument_literal;
 using namespace gxx::string_literal;
 
 namespace gxx {
@@ -61,31 +61,24 @@ namespace gxx {
 			}*/
 
 			inline void log(Level level, const char* fmt, arglist&& args) {
-				//dprln(fmt);
 				if (minlevel <= level) {
-					int msglen = strlen(fmt) * 2 + 50;
-					char* msg = (char*)alloca(msglen);
-					
-					memory_stream strm(msg, msglen);
-					text_writer writer(strm);
-					format_impl(writer, fmt, args);
-					writer.putchar(0);
+					gxx::string msg = gxx::format_args(fmt, args);
 
 					char tstamp[64] = "";
 					if (timestamp != nullptr) timestamp(tstamp, 64);
 	
-					int loglen = strlen(pattern.c_str()) * 2 + msglen + 50;
-					char* logmsg = (char*)alloca(loglen);
-					memory_stream logstrm(logmsg, loglen);
-					text_writer logwriter(logstrm);
-					format_impl(logwriter, pattern.c_str(), arglist(
-						make_argument<format_visitor>(make_argument_temporary("msg"_a=(const char*)msg)), 
-						make_argument<format_visitor>(make_argument_temporary("logger"_a=logger_name)),
-						make_argument<format_visitor>(make_argument_temporary("level"_a=level_to_str(level))),
-						make_argument<format_visitor>(make_argument_temporary("time"_a=tstamp))
-					));
-					logwriter.putchar('\n');
-					logwriter.putchar(0);
+					//int loglen = strlen(pattern.c_str()) * 2 + msglen + 50;
+					//char* logmsg = (char*)alloca(loglen);
+					//memory_stream logstrm(logmsg, loglen);
+					//text_writer logwriter(logstrm);
+					gxx::string logmsg = format(
+						pattern.c_str(), 
+						"msg"_a=msg.c_str(), 
+						"logger"_a=logger_name,
+						"level"_a=level_to_str(level),
+						"time"_a=tstamp
+					);
+					logmsg.concat("\n");
 /*
 					gxx::string logmsg = format(pattern.c_str(), 
 						"msg"_a=(const char*)msg, 
@@ -96,7 +89,7 @@ namespace gxx {
 					//dprln(logmsg);
 				
 					for (auto t : targets) {
-						t->log(logmsg);
+						t->log(logmsg.c_str());
 					}
 				}
 			}
