@@ -9,8 +9,8 @@
 #include <errno.h>
 
 #include <gxx/debug/dprint.h>
-#include <gxx/io2/strm.h>
-#include <gxx/io2/text_reader.h>
+#include <gxx/io/strm.h>
+#include <gxx/io/text_reader.h>
 
 
 namespace gxx {

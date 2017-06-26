@@ -1,7 +1,7 @@
 #ifndef GXX_FORMAT_WRITER_J
 #define GXX_FORMAT_WRITER_J
 
-#include <gxx/io2/strm.h>
+#include <gxx/io/strm.h>
 #include <gxx/util/format.h>
 #include <gxx/arglist.h>
 

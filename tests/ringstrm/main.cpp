@@ -1,4 +1,4 @@
-#include <gxx/io2/ringstrm.h>
+#include <gxx/io/ringstrm.h>
 
 char buf[128];
 gxx::io::ringstrm ring { gxx::buffer(buf) };

@@ -2,7 +2,7 @@
 #define GXX_RINGSTREAM_H
 
 #include <gxx/bytering.h>
-#include <gxx/io2/strm.h>
+#include <gxx/io/strm.h>
 #include <gxx/buffer.h>
 
 namespace gxx {

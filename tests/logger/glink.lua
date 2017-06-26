@@ -16,7 +16,7 @@ ruller = CXXDeclarativeRuller.new{
 		cc = "",
 		cxx = "",
 		ld = "",
-		allcc = "-Wl,--gc-sections -fdata-sections -ffunction-sections -Wall -Wextra -Wno-unused-function -pedantic"
+		allcc = "-Wl,--gc-sections -fdata-sections -ffunction-sections"
 	},
 	builddir = "./build",
 }
@@ -24,7 +24,7 @@ ruller = CXXDeclarativeRuller.new{
 Module("main", {
 	modules = {
 		{name = "gxx.sources"},
-		{name = "gxx.log_manager"},
+		{name = "gxx.io", impl = "unix"},
 		{name = "gxx.dprint", impl = "stdout"},
 	},
 

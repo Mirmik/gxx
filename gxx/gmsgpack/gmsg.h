@@ -1,7 +1,7 @@
 #ifndef GXX_GMSG_H
 #define GXX_GMSG_H
 
-#include <gxx/io2/strm.h>
+#include <gxx/io/strm.h>
 #include <gxx/util/crc.h>
 
 namespace gxx {

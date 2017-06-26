@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 #include <gxx/buffer.h>
-#include <gxx/io2/strm.h>
+#include <gxx/io/strm.h>
 
 
 namespace gxx {

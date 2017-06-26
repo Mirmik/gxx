@@ -4,7 +4,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <gxx/string.h>
-#include <gxx/io2/pfile.h>
+#include <gxx/io/pfile.h>
 
 namespace gxx {
 	namespace io {

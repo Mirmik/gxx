@@ -1,4 +1,4 @@
-#include <gxx/io2/strm.h>
+#include <gxx/io/strm.h>
 #include <gxx/gmsgpack/gmsg.h>
 
 gxx::io::debug_strmout dstrm;

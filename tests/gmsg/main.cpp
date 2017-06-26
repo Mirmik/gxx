@@ -1,6 +1,6 @@
 #include <gxx/debug/dprint.h>
 #include <gxx/gmsgpack/gmsg.h>
-#include <gxx/io2/strm.h>
+#include <gxx/io/strm.h>
 
 gxx::io::debug_strmout dout;
 

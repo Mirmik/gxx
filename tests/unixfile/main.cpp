@@ -1,4 +1,4 @@
-#include <gxx/io2/unixfile.h>
+#include <gxx/io/unixfile.h>
 
 int main() {
 	gxx::io::ufile f("test.dat");

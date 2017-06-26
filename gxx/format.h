@@ -4,7 +4,7 @@
 #include <gxx/utility.h>
 #include <gxx/string.h>
 #include <gxx/arglist.h>
-#include <gxx/io2/format_writer.h>
+#include <gxx/io/format_writer.h>
 
 namespace gxx {
 
