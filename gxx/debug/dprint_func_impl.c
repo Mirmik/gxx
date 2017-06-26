@@ -111,8 +111,9 @@ void debug_printhex_ptr(void* v) {
 	#elif __WORDSIZE == 64
 		debug_printhex_uint64((uint64_t)v);
 	#else
-		#error "Wrong __WORDSIZE"
-	#endif
+        //#error "Wrong __WORDSIZE"
+        debug_printhex_uint32((uint32_t)v);
+    #endif
 }
 	
 

@@ -2,6 +2,7 @@
 #define GENOS_DEBUG_PRINT
 	
 #include <inttypes.h> 
+#include <sys/cdefs.h>
 //#include <compiler.h>
 
 #ifdef __cplusplus

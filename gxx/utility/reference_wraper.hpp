@@ -54,7 +54,7 @@ template <class F, class... ArgTypes>
 struct result_of<F(ArgTypes...)> : detail::result_of<F(ArgTypes...)> {};
 
 template<typename Func, typename ... Args>
-auto invoke(Func&& func, Args ... args) {
+auto invoke(Func&& func, Args ... args) -> decltype(func(args ...)) {
   return func(args ...); 
 }
 

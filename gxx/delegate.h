@@ -13,7 +13,7 @@
 #define GXX_DELEGATE_H
 	
 #include "gxx/util/horrible_cast.h"
-#include "gxx/utility.h"			
+#include "gxx/utility.h"
 #include "gxx/util/stub.h"
 
 #include "inttypes.h"
