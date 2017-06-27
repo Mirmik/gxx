@@ -15,6 +15,8 @@
 #include <gxx/algorithm.h>
 #include <gxx/utility.h>
 
+#include <gxx/vector.h>
+
 namespace gxx {
 	template <class Allocator = gxx::allocator<char>>
 	class basic_string {
@@ -40,7 +42,7 @@ namespace gxx {
 			move(other);
 		}
 	
-		explicit basic_string(const char* str) : basic_string() {
+		basic_string(const char* str) : basic_string() {
 			if (str) copy(str, strlen(str));
 		}
 	
@@ -326,6 +328,26 @@ namespace gxx {
 			return *this;
 		}
 
+		gxx::vector<basic_string> split(char delim) {
+			gxx::vector<basic_string> outvec;
+
+			char* strt;
+			char* ptr = data();
+			char* end = data() + size();
+			
+			while(true) {
+				strt = ptr;
+
+				while (*ptr != delim && ptr != end) ptr++;
+				outvec.emplace_back(strt, ptr - strt);		
+
+				if (*ptr == delim) ptr++;
+				else break;
+			}
+
+			return outvec;
+		}
+
 		/*size_t size() const {
 			return m_size;
 		}; 
@@ -430,6 +452,10 @@ basic_string & operator = (const gxx::buffer& cptr)
 	namespace string_literal {
 		static string operator"" _gs (const char* name, size_t sz) { return string(name, sz); }
 	}
+
+	using strvec = gxx::vector<gxx::string>;
+
+	gxx::strvec split(gxx::string str, char delim);
 }
 
 #endif

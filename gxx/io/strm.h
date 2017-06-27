@@ -12,7 +12,10 @@ namespace gxx {
 	namespace io {
 		class strmout {
 		public:
-			virtual int write(const char* str, size_t sz) = 0;
+			virtual int write(const char* str, size_t sz) {
+				return writeData(str, sz);
+			}
+
 			virtual int putchar(char c) {
 				return write(&c,1);
 			}
@@ -32,17 +35,26 @@ namespace gxx {
 			int println(Args ... args) {
 				int ret = print(args ...);
 				return ret + write("\r\n", 2);
-			}			
+			}	
+
+		protected: 
+			virtual int writeData(const char* str, size_t sz) = 0;
 		};
 
 		class strmin {
 		public:
-			virtual int read(char* str, size_t sz) = 0;
+			virtual int read(char* str, size_t sz) {
+				return readData(str, sz);
+			}
+
 			virtual int getchar() {
 				char c;
 				read(&c,1);
 				return c;
 			}
+
+		protected:
+			virtual int readData(char* str, size_t sz) = 0;
 		};
 
 		class lstrmout : virtual public strmout {
@@ -79,7 +91,7 @@ namespace gxx {
 				}
 			}
 		public:
-			int write(const char* str, size_t sz) override {
+			int writeData(const char* str, size_t sz) override {
 				m_dumpmode ? dump_write(str, sz) : debug_write(str, sz);
 				return sz;
 			}

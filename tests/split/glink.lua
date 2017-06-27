@@ -9,8 +9,8 @@ ruller = CXXDeclarativeRuller.new{
 	--weakRecompile = "noscript",
 	optimization = "-O2",
 	standart = {
-		cxx = "-std=gnu++14",
-		cc = "-std=gnu11",
+		cxx = "-std=c++14",
+		cc = "-std=c11",
 	},
 	flags = {
 		cc = "",
@@ -24,9 +24,9 @@ ruller = CXXDeclarativeRuller.new{
 Module("main", {
 	modules = {
 		{name = "gxx.sources"},
+		{name = "gxx.io", impl = "unix"},
 		{name = "gxx.dprint", impl = "stdout"},
 		{name = "gxx.placed_new"},
-		{name = "gxx.socket", impl = "unix"},
 	},
 
 	includeModules = {

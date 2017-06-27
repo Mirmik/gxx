@@ -62,16 +62,21 @@ namespace gxx {
 	}
 
 
-	int format_arg(const uint64_t&, io::format_writer&, const char*) {
-		//dprln("Hereuint64");
-		abort();
-		return 0;
-		//dprln(i);	
+	template<>
+	int format_arg(const uint64_t& u, io::format_writer& w, const char* opts) {
+		const int64_t i = u;
+		return format_arg(i, w, opts);
 	}
 
 
 	template<>
 	int format_arg(const uint32_t& u, io::format_writer& w, const char* opts) {
+		const int64_t i = u;
+		return format_arg(i, w, opts);
+	}
+
+	template<>
+	int format_arg(const uint16_t& u, io::format_writer& w, const char* opts) {
 		const int64_t i = u;
 		return format_arg(i, w, opts);
 	}

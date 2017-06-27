@@ -1,12 +1,18 @@
 #include <iostream>
-#include <gxx/inet/spam_server.h>
+#include <gxx/inet/socket.h>
+
+#include <gxx/format.h>
 
 int main() {
+	gxx::socket sock(gxx::hostaddr("127.0.0.1"), 6777);	
 
-	gxx::spam_server spam(9876);
-	spam.start(10);
+	dprhexln(sock.host().addr);
+	dprln(sock.port());
 
-	while(1) {
-		spam.send("hello\r\n", 7);
+	sock.open();
+	if (sock.connect()) {
+		dprln("error: {}", sock.error());
 	}
+
+
 }

@@ -25,8 +25,8 @@ namespace gxx {
 
 			bool open(uint8_t mode);
 			void close();	
-			int32_t read(char *data, size_t maxSize);	
-			int32_t write(const char *data, size_t maxSize);
+			int32_t readData(char *data, size_t maxSize);	
+			int32_t writeData(const char *data, size_t maxSize);
 
 			void setFileDescriptor(int fd);
 			void setPath(const gxx::string& path);

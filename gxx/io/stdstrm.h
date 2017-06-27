@@ -5,9 +5,9 @@
 #include <unistd.h>
 
 namespace gxx {
-	extern io::pfile strmin;
-	extern io::pfile strmout;
-	extern io::pfile strmerr;
+	extern io::pfile cin;
+	extern io::pfile cout;
+	extern io::pfile cerr;
 }
 
 #endif

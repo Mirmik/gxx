@@ -23,11 +23,11 @@ namespace gxx {
 			::close(fd);
 		}
 		
-		int32_t pfile::read(char *data, size_t maxSize) {
+		int32_t pfile::readData(char *data, size_t maxSize) {
 			return ::read(fd, data, maxSize);
 		}
 		
-		int32_t pfile::write(const char *data, size_t maxSize) {
+		int32_t pfile::writeData(const char *data, size_t maxSize) {
 			return ::write(fd, data, maxSize);
 		}
 	

@@ -36,4 +36,10 @@ namespace gxx {
 
 #define dprf(...) gxx::dprint(__VA_ARGS__) 
 
+template<typename ... Args>
+void dprln(const char* fmt, Args&& ... args) {
+	dprf(fmt,gxx::forward<Args>(args) ...);
+	dprln();
+}
+
 #endif
