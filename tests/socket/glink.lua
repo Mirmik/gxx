@@ -15,7 +15,7 @@ ruller = CXXDeclarativeRuller.new{
 	flags = {
 		cc = "",
 		cxx = "",
-		ld = "",
+		ld = "-pthread",
 		allcc = "-Wl,--gc-sections -fdata-sections -ffunction-sections"
 	},
 	builddir = "./build",

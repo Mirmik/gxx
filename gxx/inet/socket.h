@@ -54,6 +54,7 @@ namespace gxx {
 		socket(const hostaddr& addr, uint16_t port, SocketType type = SocketType::Tcp) {
 			init(addr, port, type);
 			open();
+			connect();
 		}
 
 		int open();
@@ -63,7 +64,10 @@ namespace gxx {
 		int connect();
 		int listen(int maxcon);
 		gxx::socket accept();
-
+		
+		int send(const char* data, size_t size, int flags);
+    	int recv(char* data, size_t size, int flags);
+    	
 		int blocking(bool en);
 		int reusing(bool en);
 
@@ -76,6 +80,8 @@ namespace gxx {
 		//SETTER(set_state, m_state);
 
 		bool is_connected() { return m_state == SocketState::Connected; }
+		bool is_listening() { return m_state == SocketState::Listening; }
+		//bool is_error() { return m_error != SocketState::OK; }
 
 	private:
 		int writeData(const char* str, size_t sz) override;		

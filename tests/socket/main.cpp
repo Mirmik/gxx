@@ -3,16 +3,40 @@
 
 #include <gxx/format.h>
 
-int main() {
-	gxx::socket sock(gxx::hostaddr("127.0.0.1"), 6777);	
+#include <thread>
 
-	dprhexln(sock.host().addr);
-	dprln(sock.port());
+#include <gxx/inet/server.h>
 
-	sock.open();
-	if (sock.connect()) {
-		dprln("error: {}", sock.error());
+void func() {
+	gxx::socket sock(gxx::hostaddr("127.0.0.1"), 6700);
+	if (!sock.is_connected()) {
+		dprln("error1: {}", sock.error());
 	}
 
+	char buf[128];
+	int ret = sock.read(buf, 128);
+	dprln("finish read");
+	dprln("ret = {}", ret);
 
+	if (ret < 0) {
+		exit(-1);
+	}
+
+	debug_write(buf, ret);
+} 
+
+int main() {
+	gxx::server serv(6700, gxx::SocketType::Tcp);
+	if (!serv.is_listening()) {
+		dprln("error2: {}", serv.error());
+	}
+
+	std::thread thr(func);
+
+	gxx::socket client = serv.accept();
+	//dprln("client");
+
+	client.print("i send to you");
+
+	thr.join();
 }

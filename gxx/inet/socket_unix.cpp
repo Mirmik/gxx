@@ -48,6 +48,7 @@ namespace gxx {
 						dprln(errno);
 						perror("debug");
 				} 
+				return -1;
 		}
 
 		addr.sin_port = htons(m_port);
@@ -147,6 +148,43 @@ namespace gxx {
 		return gxx::move(ret);
 	}
 
+	int socket::send(const char* data, size_t size, int flags) {
+    	int ret = ::send(m_fd, data, size, flags);	
+    	if (ret < 0) {
+    		switch(errno) {
+				case EADDRINUSE: m_error = SocketError::AllreadyInUse; break;
+				default: 
+					dprln(errno);
+					perror("debug");
+					return -1;
+			}				
+		}
+		return ret;	
+    }
+
+    int socket::recv(char* data, size_t size, int flags) {
+    	int ret = ::recv(m_fd, data, size, flags);	
+    	if (ret < 0) {
+    		switch(errno) {
+				case EADDRINUSE: m_error = SocketError::AllreadyInUse; break;
+				default: 
+					dprln(errno);
+					perror("debug");
+					return -1;
+			}				
+		}
+		return ret;	
+    }
+
+
+	int socket::writeData(const char* str, size_t sz) {
+		return socket::send(str, sz, MSG_NOSIGNAL);
+	}	
+
+	int socket::readData(char* str, size_t sz) {
+		return socket::recv(str, sz, MSG_NOSIGNAL);		
+	}
+
 }
 
 /*
@@ -221,23 +259,7 @@ namespace gxx {
 		return 0;		
     }
 
-    int send(const char* data, size_t size, int flags) {
-    	int ret = ::send(fd, data, size, flags | MSG_NOSIGNAL);	
-    	if (ret < 0) {
-    		m_errstr = strerror(errno);
-   			return -1;				
-		}
-		return ret;	
-    }
-
-    int recv(char* data, size_t size, int flags) {
-    	int ret = ::recv(fd, data, size, flags | MSG_NOSIGNAL);	
-    	if (ret < 0) {
-    		m_errstr = strerror(errno);
-   			return -1;				
-		}
-		return ret;	
-    }
+    
 
     int write(const char* data, size_t size) {
     	return send(data, size, 0);

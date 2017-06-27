@@ -5,24 +5,26 @@
 #include <gxx/util/setget.h>
 
 namespace gxx {
-	class tcp_server : public socket {
+	class server : public socket {
 	public:
 		int m_maxcon;
 
-		tcp_server() {}
+		server() {}
 		
-		tcp_server(int port) {
+		server(int port, SocketType type = SocketType::Tcp) {
+			m_type = type;
 			listen(socket::AnyAddress, port);
 		}
 
-		tcp_server(hostaddr addr, int port) {
+		server(hostaddr addr, int port, SocketType type = SocketType::Tcp) {
+			m_type = type;
 			listen(addr, port);
 		}
 
 		ACCESSOR(maxcon, m_maxcon);
 
 		int listen(hostaddr addr, uint16_t port) {
-			init(addr, port, SocketType::Tcp);
+			init(addr, port, m_type);
 			if (socket::open()) return -1;
 			reusing(true);
 			if (socket::bind()) return -1;
