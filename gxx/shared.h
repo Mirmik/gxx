@@ -198,6 +198,24 @@ namespace gxx {
 
 		return sptr;
 	}	
+
+	/*class shared_object {
+	protected:
+		uint16_t refs;
+
+		void addref() { refs++; }
+		void remref() { 
+			refs--; 
+			if (refs == 0) destroy();
+		}
+
+		shared_object() : refs(0) {}
+
+	private:
+		void destroy() {
+			delete this;
+		}
+	};*/
 }
 
 #endif

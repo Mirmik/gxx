@@ -42,8 +42,8 @@ namespace gxx {
 	
 	}
 
-	io::pfile strmout(0);
-	io::pfile strmin(1);
-	io::pfile strmerr(2);
+	io::pfile cout(0);
+	io::pfile cin(1);
+	io::pfile crr(2);
 
 }

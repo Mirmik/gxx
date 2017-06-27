@@ -17,14 +17,8 @@ namespace gxx {
 		return retstr;
 	}
 
-	gxx::string format_args(const char* fmt, const arglist& args) {
-		gxx::string retstr;
-		retstr.reserve(2*strlen(fmt));
-		gxx::io::format_string_writer writer(retstr);
-		writer.print_impl(fmt, args);
-		return retstr;
-	}
-
+	gxx::string format_args(const char* fmt, const arglist& args);
+	
 	template<typename ... Args>
 	void dprint(const char* fmt, Args&& ... args) {
 		gxx::io::debug_strmout out;

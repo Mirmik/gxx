@@ -8,15 +8,15 @@
 #include <string.h>
 
 namespace gxx {
-	class spam_server : public server {
+	class spam_server : public socket {
 
 		gxx::vector<int> clients;
 
 	public:
-		spam_server(int port) : server(port) {};
+		spam_server(int port) : socket(hostaddr(0x7F000001), port) {};
 
 		void start(int maxcon) {
-			server::start(maxcon);
+			socket::listen(maxcon);
 			blocking(false);
 		}
 
@@ -25,10 +25,10 @@ namespace gxx {
 		};
 
 		void send(const char* str, size_t n) {
-			int new_client;
-			while((new_client = accept()) >= 0) {
+			/*gxx::socket new_client;
+			while(accept(&new_client) >= 0) {
 				//dprln("new");
-				clients.push_back(new_client);
+				clients.push_back(new_client.fd());
 			}
 
 			bool needRemove = false;
@@ -43,7 +43,7 @@ namespace gxx {
 			//int wrong = -1;
 			if (needRemove)	{ 
 				clients.erase(gxx::remove(clients.begin(), clients.end(), -1));
-			}
+			}*/
 		}
 	};
 }

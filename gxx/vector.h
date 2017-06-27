@@ -67,6 +67,22 @@ namespace gxx {
 			m_size++; 
 		}
 
+		template<typename ... Args>
+		iterator emplace(const_iterator pos, Args&& ... args) {
+			//TODO insert optimization 
+			size_t _pos = pos - m_data;
+
+			reserve(m_size + 1);
+			m_size++; 
+			
+			iterator first = m_data + _pos;
+			iterator last = gxx::prev(end());
+			gxx::move_backward(first, last, end());
+			new (first) T(gxx::forward<Args>(args) ...);
+			
+			return first;
+		}
+
 		iterator insert(const_iterator pos, const T& value) {
 			//TODO insert optimization 
 			size_t _pos = pos - m_data;

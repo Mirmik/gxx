@@ -107,7 +107,8 @@ namespace gxx { namespace result_type {
 		Result& unwrap() {
 			if (is_error()) { 
 				dpr("unwrap error: ");
-				abort_dprln(_error.what());
+				dprln(_error.what());
+				abort();
 			}
 			return _data;
 		}

@@ -3,6 +3,14 @@
 
 namespace gxx {
 
+	gxx::string format_args(const char* fmt, const arglist& args) {
+		gxx::string retstr;
+		retstr.reserve(2*strlen(fmt));
+		gxx::io::format_string_writer writer(retstr);
+		writer.print_impl(fmt, args);
+		return retstr;
+	}
+
 	/*int format_visitor::visit(gxx::argument arg, io::format_writer& w, const char* opts) {
 		//dprln(arg.type_to_string());
 		switch (arg.type) {

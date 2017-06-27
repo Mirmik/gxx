@@ -1,5 +1,5 @@
-#ifndef GENOS_STUB_H
-#define GENOS_STUB_H
+#ifndef GXX_STUB_H
+#define GXX_STUB_H
 
 //#include "genos/debug/debug.h"
 
