@@ -6,14 +6,9 @@
 #include <errno.h>
 
 #include <gxx/inet/socket.h>
+#include <gxx/format.h>
 
 namespace gxx {
-	void socket::init(const hostaddr& addr, uint16_t port, SocketType type) {
-		m_addr = addr;
-		m_port = port;
-		m_type = type;
-	}
-
 	int socket::open() {
 		switch(m_type) {
 			case SocketType::Tcp: 
@@ -29,11 +24,37 @@ namespace gxx {
 			return -1;
 		}
 	
-		m_state = SocketState::Opened;
+		//m_state = SocketState::Opened;
 		return 0;
+	}
+
+	int socket::close() {
+		if (m_fd >= 0) {
+	
+			if (!is_disconnected()) {
+				int ret = ::shutdown(m_fd, SHUT_RDWR);
+				
+				if (ret < 0) {
+					dprln(errno);
+					perror("debug:shutdown");
+					return -1;
+   				}
+   			}	
+		
+			int ret = ::close(m_fd);
+			if (ret < 0) {
+				dprln(errno);
+				perror("debug:close");
+				return -1;
+   			}
+   			
+   			return 0;
+   		}
 	}
 	
 	int socket::connect() {
+		if (m_fd < 0) if (open()) return -1;;
+
 		struct sockaddr_in addr;
 		memset(&addr, 0, sizeof(addr));
 
@@ -41,14 +62,10 @@ namespace gxx {
 			case 
 				SocketType::Tcp: addr.sin_family = AF_INET;
 				break;
-			default:
-				switch(errno) {
-					case ECONNREFUSED: m_error = SocketError::ConnectionRefused; break;
-					default: 
-						dprln(errno);
-						perror("debug");
-				} 
-				return -1;
+			default: 
+				dprln(errno);
+				perror("debug:wrong");
+			return -1;
 		}
 
 		addr.sin_port = htons(m_port);
@@ -59,7 +76,7 @@ namespace gxx {
 				case ECONNREFUSED: m_error = SocketError::ConnectionRefused; break;
 				default: 
 					dprln(errno);
-					perror("debug");
+					perror("debug:connect");
 			}			
 			return -1;				
 		}
@@ -74,7 +91,7 @@ namespace gxx {
 				case ECONNREFUSED: m_error = SocketError::ConnectionRefused; break;
 				default: 
 					dprln(errno);
-					perror("debug");
+					perror("debug:listen");
 					return -1;
 			}					
 			return -1;
@@ -97,7 +114,7 @@ namespace gxx {
 				case ECONNREFUSED: m_error = SocketError::ConnectionRefused; break;
 				default: 
 					dprln(errno);
-					perror("debug");
+					perror("debug:bind");
 					return -1;
 			}					
 			m_state = SocketState::Disconnected;
@@ -117,6 +134,12 @@ namespace gxx {
 	   return fcntl(m_fd, F_SETFL, flags) == 0;
 	}
 
+	int socket::nodelay(bool en) {
+		int on = en;
+		int rc = setsockopt(m_fd, IPPROTO_TCP, TCP_NODELAY, (char *) &on, sizeof(on));
+		return rc;
+	}
+
 	int socket::reusing(bool en) {
 		int on = en;
 		int rc = setsockopt(m_fd, SOL_SOCKET, SO_REUSEADDR, (char *) &on, sizeof (on));
@@ -134,13 +157,13 @@ namespace gxx {
 				case EADDRINUSE: m_error = SocketError::AllreadyInUse; break;
 				default: 
 					dprln(errno);
-					perror("debug");
+					perror("debug:accept");
 					return gxx::socket();
 			}	
 		}
 
 		gxx::socket ret;
-		ret.init(caddr.sin_addr.s_addr, caddr.sin_port);
+		ret.init(m_type, caddr.sin_addr.s_addr, caddr.sin_port);
 		ret.m_fd = cfd;
 		ret.m_state = SocketState::Connected;
 		//client->init(caddr.sin_addr.s_addr, caddr.sin_port, caddr.sin_family); 
@@ -155,7 +178,7 @@ namespace gxx {
 				case EADDRINUSE: m_error = SocketError::AllreadyInUse; break;
 				default: 
 					dprln(errno);
-					perror("debug");
+					perror("debug:send");
 					return -1;
 			}				
 		}
@@ -164,12 +187,13 @@ namespace gxx {
 
     int socket::recv(char* data, size_t size, int flags) {
     	int ret = ::recv(m_fd, data, size, flags);	
+    	//dprln("ret, {}", ret);
     	if (ret < 0) {
     		switch(errno) {
 				case EADDRINUSE: m_error = SocketError::AllreadyInUse; break;
 				default: 
 					dprln(errno);
-					perror("debug");
+					perror("debug:recv");
 					return -1;
 			}				
 		}

@@ -7,27 +7,39 @@
 namespace gxx {
 	class server : public socket {
 	public:
-		int m_maxcon;
+		int m_maxcon = 0;
 
 		server() {}
 		
-		server(int port, SocketType type = SocketType::Tcp) {
-			m_type = type;
-			listen(socket::AnyAddress, port);
+		server(SocketType type, int port) : socket(type, socket::AnyAddress, port) {
+			//m_type = type;
+			//listen(socket::AnyAddress, port);
 		}
 
-		server(hostaddr addr, int port, SocketType type = SocketType::Tcp) {
-			m_type = type;
-			listen(addr, port);
+		server(SocketType type, hostaddr addr, int port) : socket(type, addr, port) {
+			//m_type = type;
+			//listen(addr, port);
 		}
 
 		ACCESSOR(maxcon, m_maxcon);
 
-		int listen(hostaddr addr, uint16_t port) {
-			init(addr, port, m_type);
+		/*int listen(hostaddr addr, uint16_t port) {
+			init(m_type, addr, port);
 			if (socket::open()) return -1;
 			reusing(true);
 			if (socket::bind()) return -1;
+			if (socket::listen(m_maxcon)) return -1;
+			return 0;
+		}*/
+
+		int listen() {
+			if (m_fd < 0) if(socket::open()) return -1;
+			
+			if (is_disconnected()) {
+				reusing(true);
+				if (socket::bind()) return -1;
+			}
+
 			if (socket::listen(m_maxcon)) return -1;
 			return 0;
 		}

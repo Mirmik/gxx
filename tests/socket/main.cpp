@@ -23,6 +23,8 @@ void func() {
 	}
 
 	debug_write(buf, ret);
+
+	sock.close();
 } 
 
 int main() {
@@ -39,4 +41,6 @@ int main() {
 	client.print("i send to you");
 
 	thr.join();
+
+	serv.close();
 }

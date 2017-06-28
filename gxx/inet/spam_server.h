@@ -13,7 +13,7 @@ namespace gxx {
 		gxx::vector<int> clients;
 
 	public:
-		spam_server(int port) : socket(hostaddr(0x7F000001), port) {};
+		spam_server(int port) : socket(gxx::SocketType::Tcp, hostaddr(0x7F000001), port) {};
 
 		void start(int maxcon) {
 			socket::listen(maxcon);

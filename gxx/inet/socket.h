@@ -26,7 +26,7 @@ namespace gxx {
 		Connected,
 		Bound,
 		
-		Opened,
+		//Opened,
 		Listening,
 	};
 
@@ -50,15 +50,13 @@ namespace gxx {
 		SocketState m_state = SocketState::Disconnected;
 
 	public:
-		socket() {}
-		socket(const hostaddr& addr, uint16_t port, SocketType type = SocketType::Tcp) {
-			init(addr, port, type);
-			open();
-			connect();
-		}
+		socket();
+		socket(SocketType type, const hostaddr& addr, uint16_t port);
 
 		int open();
-		void init(const hostaddr& addr, uint16_t port, SocketType type = SocketType::Tcp);
+		int close();
+
+		void init(SocketType type, const hostaddr& addr, uint16_t port);
 
 		int bind();
 		int connect();
@@ -68,6 +66,7 @@ namespace gxx {
 		int send(const char* data, size_t size, int flags);
     	int recv(char* data, size_t size, int flags);
     	
+		int nodelay(bool en);
 		int blocking(bool en);
 		int reusing(bool en);
 
@@ -76,14 +75,17 @@ namespace gxx {
 		CONSTREF_GETTER(fd, m_fd);
 		CONSTREF_GETTER(state, m_state);
 
-		//SETTER(set_fd, m_fd);
-		//SETTER(set_state, m_state);
+		FLOW_SETTER(set_fd, m_fd);
+		FLOW_SETTER(set_state, m_state);
 
 		bool is_connected() { return m_state == SocketState::Connected; }
+		bool is_disconnected() { return m_state == SocketState::Disconnected; }
 		bool is_listening() { return m_state == SocketState::Listening; }
 		//bool is_error() { return m_error != SocketState::OK; }
 
-	private:
+		static gxx::socket from_descriptor(int fd);
+
+	protected:
 		int writeData(const char* str, size_t sz) override;		
 		int readData(char* str, size_t sz) override;	
 
