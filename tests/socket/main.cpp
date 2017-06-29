@@ -8,7 +8,7 @@
 #include <gxx/inet/server.h>
 
 void func() {
-	gxx::socket sock(gxx::hostaddr("127.0.0.1"), 6700);
+	gxx::socket sock(gxx::SocketType::Tcp, gxx::hostaddr("127.0.0.1"), 6700);
 	if (!sock.is_connected()) {
 		dprln("error1: {}", sock.error());
 	}
@@ -28,7 +28,7 @@ void func() {
 } 
 
 int main() {
-	gxx::server serv(6700, gxx::SocketType::Tcp);
+	gxx::server serv(gxx::SocketType::Tcp, 6700);
 	if (!serv.is_listening()) {
 		dprln("error2: {}", serv.error());
 	}
