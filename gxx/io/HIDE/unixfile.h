@@ -4,11 +4,11 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <gxx/string.h>
-#include <gxx/io/pfile.h>
+#include <gxx/io/fdfile.h>
 
 namespace gxx {
 	namespace io {
-		class ufile : public gxx::io::pfile {
+		class ufile : public gxx::io::fdfile {
 			int fd;
 			gxx::string path;
 	

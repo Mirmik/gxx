@@ -1,5 +1,5 @@
-#ifndef GXX_PFILE_H
-#define GXX_PFILE_H
+#ifndef GXX_fdfile_H
+#define GXX_fdfile_H
 
 #include <gxx/io/strm.h>
 
@@ -9,27 +9,34 @@ namespace gxx {
 			NotOpen = 0x00,
 			ReadOnly = 0x01,
 			WriteOnly = 0x02,
-			ReadWrite = ReadOnly | WriteOnly,
-			Append = 0x04,
-			Truncate = 0x08
+			ReadWrite = 0x04,
+			Append = 0x08,
+			Truncate = 0x10
 		};
 
-		class pfile : public io::strmio {
-			int fd;
+		class fdfile : public io::strmio {
+			int m_fd = -1;
 			gxx::string path;
 
 		public:
-			pfile();
-			pfile(int fd);
-			pfile(const char* path);
+			fdfile();
+			fdfile(int fd);
+			fdfile(const char* path);
 
 			bool open(uint8_t mode);
+			bool open(const char* path, uint8_t mode);
 			void close();	
+
+			int nodelay(bool en);
+
 			int32_t readData(char *data, size_t maxSize);	
 			int32_t writeData(const char *data, size_t maxSize);
 
 			void setFileDescriptor(int fd);
 			void setPath(const gxx::string& path);
+
+			bool is_open();
+			CONSTREF_GETTER(fd, m_fd);
 		};
 	}
 }
