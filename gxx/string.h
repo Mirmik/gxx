@@ -328,6 +328,12 @@ namespace gxx {
 			return *this;
 		}
 
+		void swap(basic_string& other) {
+			gxx::swap(m_data, other.m_data);
+			gxx::swap(m_size, other.m_size);
+			gxx::swap(m_capacity, other.m_capacity);
+		}
+
 		gxx::vector<basic_string> split(char delim) {
 			gxx::vector<basic_string> outvec;
 

@@ -35,8 +35,10 @@ namespace gxx {
 		static constexpr int32_t AnyAddress = 0; 
 
 		socket(const socket&) = delete;
-		
 		socket(socket&&) = default;
+
+		socket& operator= (const socket&) = delete;
+		socket& operator= (socket&&) = default;
 
 	protected:
 		int m_fd = -1;
