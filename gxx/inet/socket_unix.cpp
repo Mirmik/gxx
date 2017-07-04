@@ -40,6 +40,7 @@ namespace gxx {
 					return -1;
    				}
    			}	
+   			m_state = SocketState::Disconnected;	
 		
 			int ret = ::close(m_fd);
 			if (ret < 0) {
