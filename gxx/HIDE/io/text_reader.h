@@ -27,12 +27,12 @@ namespace gxx {
 
 		template<typename Functor>
 		int ignore_until(Functor&& func) const {
-			return is.ignore_until(gxx::forward<Functor>(func));
+			return is.ignore_until(std::forward<Functor>(func));
 		}
 
 		template<typename Functor>
 		int ignore_while(Functor&& func) const {
-			return is.ignore_while(gxx::forward<Functor>(func));
+			return is.ignore_while(std::forward<Functor>(func));
 		}
 
 		int read_int_decimal() const {

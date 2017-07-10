@@ -191,7 +191,7 @@ namespace gxx {
 		gxx::allocator<Pair> m_alloc;
 		auto pair = m_alloc.allocate(1);
 		
-		new (&pair->second) T(gxx::forward<Args>(args) ...);
+		new (&pair->second) T(std::forward<Args>(args) ...);
 		new (&pair->first) shared_control_block_del<T, empty_deleter<T>>(&pair->second);
 		sptr.ptr = &pair->second;
 		sptr.ctrl = &pair->first;

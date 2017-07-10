@@ -48,7 +48,7 @@ namespace gxx{
 	
 	template<typename T, typename ... Args>
 	void constructor(T* ptr, Args&& ... args) {
-		new(ptr) T(gxx::forward<Args>(args)...);
+		new(ptr) T(std::forward<Args>(args)...);
 	}
 	
 	template<typename T>
@@ -58,7 +58,7 @@ namespace gxx{
 	
 	template<typename T>
 	void moveConstructor(T* ptr, T&& other) {
-		new(ptr) T(gxx::forward<T>(other));
+		new(ptr) T(std::forward<T>(other));
 	}
 	
 	template<class InputIterator, typename ... Args>  

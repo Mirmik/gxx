@@ -1,11 +1,12 @@
 #ifndef GXX_ARGSLIST_H
 #define GXX_ARGSLIST_H
 
+#include <utility>
+
 #include <string.h>
 #include <gxx/buffer.h>
-#include <gxx/utility.h>
 #include <gxx/debug/dprint.h>
-#include <gxx/debug/type_analize.h>
+//#include <gxx/debug/type_analize.h>
 
 namespace gxx {	
 
@@ -39,7 +40,7 @@ namespace gxx {
 		const char* name;
 		
 		template<typename U>
-		argument_temporary(U&& arg, const char* name = nullptr) : arg(gxx::forward<U>(arg)), name(name) {
+		argument_temporary(U&& arg, const char* name = nullptr) : arg(std::forward<U>(arg)), name(name) {
 			//pretty_that_function();dprln();
 		}
 	};
@@ -47,7 +48,7 @@ namespace gxx {
 	template<typename T>
 	argument_temporary<T, const T> make_argument_temporary(T&& arg) {
 		//pretty_that_function();dprln();
-		return argument_temporary<T, const T>(gxx::forward<T>(arg));
+		return argument_temporary<T, const T>(std::forward<T>(arg));
 	} 
 
 	template<typename T>
@@ -131,7 +132,7 @@ namespace gxx {
 	
 		template<typename ... UArgs>
 		explicit arglist(UArgs&& ... args) {
-			arglist_former(list, gxx::forward<UArgs>(args) ...);
+			arglist_former(list, std::forward<UArgs>(args) ...);
 			listsz = sizeof...(args);
 		}
 		const argument& operator[](int i) const;
@@ -150,7 +151,7 @@ namespace gxx {
 
 	/*template<typename Formatter, typename ... Args>
 	arglist make_arglist(Args ... args) { 
-		return arglist(gxx::make_argument<Formatter>(gxx::make_argument_temporary(gxx::forward<Args>(args))) ...); 
+		return arglist(gxx::make_argument<Formatter>(gxx::make_argument_temporary(std::forward<Args>(args))) ...); 
 	}*/
 
 	/*template<typename Customer, typename T, typename F>

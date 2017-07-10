@@ -1,7 +1,8 @@
 #ifndef GXX_UTIL_FORMAT_H
 #define GXX_UTIL_FORMAT_H
 
-#include <gxx/string.h>
+#include <string>
+
 #include <gxx/arglist.h>
 
 namespace gxx {
@@ -26,7 +27,7 @@ namespace gxx {
 	template<>int format_arg(const uint64_t& ptr, io::format_writer&, const char* opts);
 
 	template<>int format_arg(const char* const& ptr, io::format_writer&, const char* opts);
-	template<>int format_arg(const gxx::string& ptr, io::format_writer&, const char* opts);
+	template<>int format_arg(const std::string& ptr, io::format_writer&, const char* opts);
 
 	struct format_visitor {
 		template<typename T>

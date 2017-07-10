@@ -79,7 +79,7 @@ public:
   template< class... ArgTypes >
   typename gxx::result_of<T&(ArgTypes&&...)>::type
     operator() ( ArgTypes&&... args ) const {
-    return gxx::invoke(get(), gxx::forward<ArgTypes>(args)...);
+    return gxx::invoke(get(), std::forward<ArgTypes>(args)...);
   }
  
 private:

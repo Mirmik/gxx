@@ -1,14 +1,17 @@
 #include <gxx/util/format.h>
 #include <gxx/io/format_writer.h>
 
+#include <sstream>
+
 namespace gxx {
 
-	gxx::string format_args(const char* fmt, const arglist& args) {
-		gxx::string retstr;
-		retstr.reserve(2*strlen(fmt));
-		gxx::io::format_string_writer writer(retstr);
+	std::string format_args(const char* fmt, const arglist& args) {
+		std::stringstream ss;
+		//retstr.reserve(2*strlen(fmt));
+		gxx::io::format_stream_writer writer(ss);
 		writer.print_impl(fmt, args);
-		return retstr;
+		
+		return ss.str();
 	}
 
 	/*int format_visitor::visit(gxx::argument arg, io::format_writer& w, const char* opts) {
@@ -130,7 +133,7 @@ namespace gxx {
 	}
 /*	
 	template<>
-	int format_arg(const gxx::string& str, io::format_writer& w, const char* opts) {
+	int format_arg(const std::string& str, io::format_writer& w, const char* opts) {
 		return format_arg_str(str.data(), str.size(), w, opts);
 	}
 
@@ -154,7 +157,7 @@ namespace gxx {
 		gxx::memory_stream strm(msg, len);
 		gxx::io::format_writer writer(strm);
 		format_impl(writer, fmt, list);
-		return gxx::string(msg, strm.size());
+		return std::string(msg, strm.size());
 	}
 
 	int format_argument(io::format_writer& writer, const char*& fmt, const gxx::arglist& list, uint8_t& argnum) {

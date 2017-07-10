@@ -1,14 +1,15 @@
 #include <iostream>
 #include <gxx/format.h>
 
-using namespace gxx::arglist_literal;
+using namespace gxx::argument_literal;
+using namespace gxx::print_funcs;
 
 int main() {
 	char world[128] = "World";
 	const char* world2 = "World";
 	int i = 456;
 
-	gxx::string str;
+	std::string str;
 
 	str = gxx::format("int {}", 42);
 	dprln(str);
@@ -39,4 +40,10 @@ int main() {
 
 	str = gxx::format("pstring {a}", "a"_a=world2);
 	dprln(str);
+
+	dprint("pstring {a}\r\n", "a"_a=world2);
+
+	println("{0}", "Mirmik");	
+
+	println("What are you doing here, {who}", "who"_a="my darling");
 }

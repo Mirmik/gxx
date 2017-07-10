@@ -51,7 +51,7 @@ namespace gxx {
 		template<typename ... Args>
 		T* emplace(Args ... args) {
 			T* ptr = allocate();
-			gxx::constructor(ptr, gxx::forward<Args>(args) ...);
+			gxx::constructor(ptr, std::forward<Args>(args) ...);
 			return ptr;
 		}
 

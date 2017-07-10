@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include "gxx/datastruct/dlist_head.h"
 #include "gxx/util/member.h" 
-#include <gxx/algorithm.h>
+#include <algorithm>
 
 namespace gxx {
 
@@ -79,7 +79,7 @@ namespace gxx {
 
 		class iterator {
 		public:
-			using iterator_category = bidirectional_iterator_tag;
+			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = type;
 			using difference_type = ptrdiff_t;
 			using pointer = type*;
@@ -135,7 +135,7 @@ namespace gxx {
 		}
 
 		iterator insert_sorted(type & item) {
-		    return insert(gxx::upper_bound(begin(), end(), item ), item);
+		    return insert(std::upper_bound(begin(), end(), item ), item);
 		}
 
 	/*	gxx::string to_info() const

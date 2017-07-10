@@ -14,7 +14,7 @@ result<int&> int_ref() {
 }
 
 result<int&&> int_rref() {
-	return gxx::move(i);
+	return std::move(i);
 }
 
 int main() {

@@ -1,4 +1,4 @@
-#include <gxx/string.h>
+//#include <gxx/string.h>
 #include <gxx/serialize/json.h>
 
 /*#include <gxx/serialize/json_parser.h>
@@ -19,5 +19,5 @@ int main() {
 	gxx::json js = gxx::json_parser::parse(gxx::text_reader(is)).unwrap();
 	js.printTo(gxx::text_writer(dos));dln();*/
 
-	gxx::json js = gxx::string("lalala");
+	gxx::json js = std::string("lalala");
 }

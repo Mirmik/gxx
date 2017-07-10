@@ -1,10 +1,7 @@
 #ifndef GXX_FORMAT_WRITER_J
 #define GXX_FORMAT_WRITER_J
 
-#include <ostream>
-#include <cassert>
-
-#include <gxx/util/numconvert.h>
+#include <gxx/io/strm.h>
 #include <gxx/util/format.h>
 #include <gxx/arglist.h>
 
@@ -92,7 +89,7 @@ namespace gxx {
 
 		class format_writer {
 		protected:
-			virtual void writeData(const char* str, size_t sz) = 0;
+			virtual int writeData(const char* str, size_t sz) = 0;
 		
 		private:
 			int format_argument(const char*& fmt, const gxx::arglist& list, uint8_t& argnum) {
@@ -163,12 +160,12 @@ namespace gxx {
 
 			template<typename ... Args>
 			void println(Args ... args) {
-				print(std::forward<Args>(args) ...);
+				print(args ...);
 				writeData("\r\n", 2);
 			}			
 
 			int putchar(char c) {
-				writeData(&c,1);
+				return writeData(&c,1);
 			}
 
 			/*template<typename Spec>
@@ -212,8 +209,7 @@ namespace gxx {
 	
 				switch (spec.charCase()) {
 					case CharCase::Default:
-						writeData(str, len);
-						ret += len;
+						ret += writeData(str, len);
 						break;
 					case CharCase::Upper:
 						while(len--) {
@@ -257,25 +253,26 @@ namespace gxx {
 		};
 
 		class format_stream_writer : public format_writer {
-			std::ostream& out;
+			io::strmout& out;
 
 		public:
-			format_stream_writer(std::ostream& out) : out(out) {};	
+			format_stream_writer(io::strmout& out) : out(out) {};	
 
-			void writeData(const char* data, size_t size) override {
-				out.write(data, size);
+			int writeData(const char* data, size_t size) override {
+				return out.write(data, size);
 			}					
 		};
 
-/*		class format_string_writer : public format_writer {
-			
-		public:
-			format_string_writer(std::string& str) : str(str) {};	
+		class format_string_writer : public format_writer {
+			gxx::string& str;
 
-			void writeData(const char* data, size_t size) override {
-				str.write(data, size);
+		public:
+			format_string_writer(gxx::string& str) : str(str) {};	
+
+			int writeData(const char* data, size_t size) override {
+				return str.concat(data, size);
 			}					
-		};*/
+		};
 	}
 }
 

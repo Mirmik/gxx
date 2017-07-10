@@ -1,7 +1,7 @@
 #ifndef GXX_SLICE_H
 #define GXX_SLICE_H
 
-#include <gxx/allocator.h>
+//#include <gxx/allocator.h>
 #include <inttypes.h>
 #include <stdlib.h>
 #include <gxx/util/setget.h>
@@ -52,7 +52,7 @@ namespace gxx {
 		}
 	};
 
-	template <typename T, typename Allocator = gxx::allocator<T>>
+/*	template <typename T, typename Allocator = gxx::allocator<T>>
 	class allocated_object_buffer : public object_buffer<T> {
 		using Parent = object_buffer<T>;
 
@@ -66,7 +66,7 @@ namespace gxx {
 		~allocated_object_buffer() {
 			m_alloc.deallocate(Parent::m_data);
 		}
-	};
+	};*/
 }
 
 #endif

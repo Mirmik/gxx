@@ -2,7 +2,7 @@
 #define GXX_LOGGER_CONSOLE_H
 
 #include <gxx/logger/target.h>
-#include <gxx/io/stdstrm.h>
+#include <iostream>
 
 namespace gxx {
 	namespace log {

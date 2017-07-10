@@ -57,7 +57,7 @@ namespace gxx {
 		template <typename ... Args>
 		void emplace_back(Args&& ... args) {
 			reserve(m_size + 1);
-			gxx::constructor(m_data + m_size, gxx::forward<Args>(args)...);
+			gxx::constructor(m_data + m_size, std::forward<Args>(args)...);
 			m_size++; 
 		}
 	
@@ -78,7 +78,7 @@ namespace gxx {
 			iterator first = m_data + _pos;
 			iterator last = gxx::prev(end());
 			gxx::move_backward(first, last, end());
-			new (first) T(gxx::forward<Args>(args) ...);
+			new (first) T(std::forward<Args>(args) ...);
 			
 			return first;
 		}

@@ -1,21 +1,24 @@
 #ifndef JSON_OBJECT_H
 #define JSON_OBJECT_H
 
-#include <inttypes.h>
-#include <gxx/string.h>
-#include <map>
-#include <gxx/vector.h>
-#include <assert.h>
+#include <cstdint>
+#include <cassert>
+#include <utility>
 
-#include <gxx/utility.h>
+#include <string>
+#include <vector>
+#include <map>
+
+#include <gxx/util/ctrdtr.h>
 #include <gxx/result.h>
 #include <gxx/format.h>
-#include <gxx/io/text_writer.h>
-#include <gxx/io/stdstream.h>
+
+//#include <gxx/io/text_writer.h>
+//#include <gxx/io/stdstream.h>
 
 namespace gxx {
 	using namespace result_type;
-	using namespace gxx::string_literal;
+
 
 	class json {
 	public:
@@ -32,9 +35,9 @@ namespace gxx {
 
 		union {
 			int64_t m_i64;
-			gxx::string m_str;
-			gxx::vector<json> m_arr;
-			std::map<gxx::string, json> m_dict;
+			std::string m_str;
+			std::vector<json> m_arr;
+			std::map<std::string, json> m_dict;
 		};
 
 	public:
@@ -64,7 +67,7 @@ namespace gxx {
 			}	
 		}
 
-		json(const gxx::string& str) {
+		json(const std::string& str) {
 			init(str);
 		}
 
@@ -101,7 +104,7 @@ namespace gxx {
 			}
 		}
 
-		void init(const gxx::string& str) {
+		void init(const std::string& str) {
 			m_type = Type::String;
 			gxx::constructor(&m_str, str);
 
@@ -137,17 +140,17 @@ namespace gxx {
 			return m_arr[i];
 		}
 
-		result<json&> operator[](const gxx::string& key) {
+		result<json&> operator[](const std::string& key) {
 			if (m_type != Type::Dictionary) return error("isn`t dictionary");
 			return m_dict[key];
 		}
 
-		/*result<bool> contains(gxx::string key) {
+		/*result<bool> contains(std::string key) {
 			if (m_type != Type::Dictionary) return error("isn`t dictionary");
 			return m_dict.contain(key);
 		}*/
-
-		result<std::map<gxx::string, json>&> as_dictionary() {
+/*
+		result<std::map<std::string, json>&> as_dictionary() {
 			if (m_type != Type::Dictionary) return error("isn`t dictionary");
 			return m_dict;
 		}
@@ -157,7 +160,7 @@ namespace gxx {
 			return m_arr;
 		}
 
-		result<gxx::string&> as_string() {
+		result<std::string&> as_string() {
 			if (m_type != Type::String) return error("isn`t string");
 			return m_str;
 		}
@@ -203,7 +206,7 @@ namespace gxx {
 			}	
 		}
 
-		json& operator= (const gxx::string& str) {
+		json& operator= (const std::string& str) {
 			reset(str);
 			return *this;
 		}
@@ -353,7 +356,7 @@ namespace gxx {
 			return 0;
 		}*/
 
-		public:
+/*		public:
 		void printTo(const gxx::text_writer& w) {
 			bool sep = false;
 			switch(m_type) {
@@ -435,7 +438,7 @@ namespace gxx {
 					w.write_cstr("nil");
 					return;
 			}
-		}
+		}*/
 	};
 }
 /*

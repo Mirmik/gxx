@@ -1,12 +1,12 @@
 #ifndef GXX_RESULT_H
 #define GXX_RESULT_H
 
-#include "assert.h"
-#include <gxx/string.h>
-#include <gxx/utility.h>
-#include <gxx/debug/dprint.h>
+#include <cassert>
+#include <string>
+#include <functional>
+#include <utility>
 
-//#include <gxx/util/placed_new.h>
+#include <gxx/debug/dprint.h>
 
 namespace gxx { namespace result_type {
 	struct exception {
@@ -14,11 +14,11 @@ namespace gxx { namespace result_type {
 	};
 
 	struct error : public exception {
-		gxx::string info;
+		std::string info;
 		explicit error() : info() {}
 		explicit error(const char* str) : info(str) {}
-		explicit error(gxx::string& str) : info(str) {}
-		explicit error(gxx::string&& str) : info(gxx::move(str)) {}
+		explicit error(std::string& str) : info(str) {}
+		explicit error(std::string&& str) : info(std::move(str)) {}
 		
 		error(error&& e) = default;
 		error& operator=(error&& other) = default;		
@@ -35,7 +35,7 @@ namespace gxx { namespace result_type {
 		using storedtype = T;
 		template <typename Arg>
 		static void constructor(type& ths, Arg oth) {
-			new (&ths) type(gxx::forward<Arg>(oth));
+			new (&ths) type(std::forward<Arg>(oth));
 		}
 		static void destructor(type& ths) {ths.~type();};
 		static void constructor(type& ths) {
@@ -46,7 +46,7 @@ namespace gxx { namespace result_type {
 	template<typename T> 
 	struct tryhelper<T&> {
 		using type = T&;
-		using storedtype = gxx::reference_wrapper<T>;
+		using storedtype = std::reference_wrapper<T>;
 		template <typename Arg>
 		static void constructor(storedtype& ths, Arg oth) {
 			new (&ths) storedtype(oth);	
@@ -81,16 +81,16 @@ namespace gxx { namespace result_type {
 	public:
 		
 		template<typename U>
-		result(U&& r) :	_iserror(false), _data(gxx::forward<U>(r)) {}
-		result(E&& e) : _iserror(true), _error(gxx::forward<E>(e)) {}
+		result(U&& r) :	_iserror(false), _data(std::forward<U>(r)) {}
+		result(E&& e) : _iserror(true), _error(std::forward<E>(e)) {}
 		result(E& e) : _iserror(true), _error(e) {}
 		
 		result(result&& res) : _iserror(res._iserror) {
 			if (_iserror) {
-				new (&_error) E(gxx::move(res._error));
+				new (&_error) E(std::move(res._error));
 			} else { 
-				//new (&_data) Stored(gxx::move(res._data));
-				tryhelper<T>::constructor(_data, gxx::move(res._data));
+				//new (&_data) Stored(std::move(res._data));
+				tryhelper<T>::constructor(_data, std::move(res._data));
 			}; 
 			_iserror = 2;
 		}
@@ -116,7 +116,7 @@ namespace gxx { namespace result_type {
 		inline void restore(T&& r) {
 			_iserror = false;
 			_error.~error();
-			_data = gxx::forward<T>(r);	
+			_data = std::forward<T>(r);	
 		}
 	
 		Result& getData() {
@@ -162,12 +162,12 @@ namespace gxx { namespace result_type {
 		};
 		
 		result() : _iserror(false) {}
-		result(E&& e) : _iserror(true), _error(gxx::move(e)) {}
+		result(E&& e) : _iserror(true), _error(std::move(e)) {}
 		result(E& e) : _iserror(true), _error(e) {}
 		
 		result(result&& res) : _iserror(res._iserror) {
 			if (_iserror) {
-				new (&_error) E(gxx::move(res._error));
+				new (&_error) E(std::move(res._error));
 			} else { }; 
 			_iserror = 2;
 		}
@@ -213,7 +213,7 @@ namespace gxx { namespace result_type {
 
 #define tryS(invoke) ({												\
 	auto&& __result = ({invoke;}); 									\
-	if (__result.is_error()) return gxx::move(__result.getError());			\
+	if (__result.is_error()) return std::move(__result.getError());			\
 	__result.getData();										\
 }) 
 
@@ -223,7 +223,7 @@ namespace gxx { namespace result_type {
 	if (__result.is_error()) {											\
 		auto& err = __result.getError(); 								\
 		handler; 													\
-		return gxx::move(__result.getError());							\
+		return std::move(__result.getError());							\
 	}; 																\
 	try_label:														\
 	__result.getData();													\

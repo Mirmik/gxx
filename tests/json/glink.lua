@@ -1,3 +1,5 @@
+print(text.green("GLINK START"))
+
 script:evalFile("../../gxx.gll", _ENV)
 
 ruller = CXXDeclarativeRuller.new{

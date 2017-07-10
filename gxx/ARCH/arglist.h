@@ -90,11 +90,11 @@ namespace gxx {
 	/*class argument_with_name : public argument {
 	public:
 		template<typename Arg> 
-		argument_with_name(Arg&& arg) : argument(gxx::forward<Arg>(arg)) {};
+		argument_with_name(Arg&& arg) : argument(std::forward<Arg>(arg)) {};
 
 		template<typename Arg, typename Arg2> 
 		argument_with_name(Arg&& arg, Arg2&& arg2) 
-			: argument(gxx::forward<Arg>(arg), gxx::forward<Arg2>(arg2)) {};
+			: argument(std::forward<Arg>(arg), std::forward<Arg2>(arg2)) {};
 	};*/
 
 	template<typename HT, typename ... Tail>
@@ -112,7 +112,7 @@ namespace gxx {
 	
 		template<typename ... UArgs>
 		explicit arglist(UArgs&& ... args) {
-			arglist_former(list, gxx::forward<UArgs>(args) ...);
+			arglist_former(list, std::forward<UArgs>(args) ...);
 			listsz = sizeof...(args);
 		}
 
@@ -139,7 +139,7 @@ namespace gxx {
 	template<typename Customer, typename T>
 	gxx::enable_if_t<gxx::is_constructible<argument, T&>::value, argument> 
 	make_argument(T&& arg) { 
-		return argument(gxx::forward<T>(arg)); 
+		return argument(std::forward<T>(arg)); 
 	}
 	 
 	template<typename Customer, typename T> 

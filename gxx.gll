@@ -7,7 +7,7 @@ Module("gxx.sources", {
 	},
 	sources = {
 		directory = "gxx", 
-		cxx = "buffer.cpp string.cpp format.cpp arglist.cpp logger/stdout.cpp",
+		cxx = "format.cpp arglist.cpp logger/stdout.cpp",
 --		cc = "gmsgpack/gmsgpack.c"
 	}	
 })
