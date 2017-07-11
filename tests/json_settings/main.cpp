@@ -1,8 +1,17 @@
-#include <gxx/serialize/json_settings.h>
-#include <fcntl.h>
+//#include <gxx/serialize/json_settings.h>
+
+#include <iostream>
+#include <gxx/iteratible.h>
 
 int main() {
-	gxx::json_settings settings("settings.json");
+
+	for (gxx::buffer r: gxx::split_tokenizer("Hello fdasf.World. 321 . 90", '.')) {
+		std::cout.write(r.data(), r.size());
+		std::cout.put('\n');
+	}
+
+
+	/*gxx::json_settings settings("settings.json");
 
 	//gxx::tree(gxx::tree_type::dictionary);
 
@@ -22,6 +31,6 @@ int main() {
 
 	settings.get_number("mirmik/harad/kil", 87);
 
-	settings.save();
+	settings.save();*/
 
 }

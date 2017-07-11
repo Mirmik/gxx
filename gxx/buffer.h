@@ -1,7 +1,8 @@
 #ifndef GENOS_UTILXX_BUFFER_H
 #define GENOS_UTILXX_BUFFER_H
 
-#include <string.h>
+#include <string>
+#include <cstring>
 #include <gxx/object_buffer.h>
 
 namespace gxx {
@@ -12,6 +13,8 @@ namespace gxx {
 
 		template<size_t N>
 		buffer(char(&buf)[N]) : object_buffer<char>(buf, N) {}
+
+		buffer(std::string& str) : buffer((char*)str.data(), str.size()) {}
 	};
 
 //	using allocated_buffer = allocated_object_buffer<char>;

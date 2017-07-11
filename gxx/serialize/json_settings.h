@@ -7,8 +7,8 @@
 #include <fstream>
 #include <iterator>
 
-//#include <gxx/strvec.h>
 #include <gxx/serialize/json_parser.h>
+#include <gxx/tokenizer.h>
 
 namespace gxx {
 	namespace detail {
@@ -23,7 +23,6 @@ namespace gxx {
 
 	class json_settings {
 	public:
-		//datatree m_default;
 		json m_settings;
 
 		std::string pathstr;
@@ -36,10 +35,7 @@ namespace gxx {
 
 			std::stringstream file_contents;
 			file_contents << file.rdbuf();
-			//std::cout << file_contents.str() << std::endl;
 			m_settings = json_parser::parse(file_contents).unwrap();
-
-			//m_settings.merge(m_default, gxx::datatree::MergeType::WeakMerge);
 		}
 
 		void save() {
@@ -47,20 +43,18 @@ namespace gxx {
 			m_settings.prettyPrintTo(file);
 		}
 
-		//json& operator[](std::string str) {
-		//	return root[str];
-		//}
-
 		int64_t get_number(const char* str, int64_t def) {
-			std::istringstream iss { std::string(str) };
-			std::vector<std::string> vec(
-				(std::istream_iterator<detail::split_helper<'/'>>(iss)),
-                std::istream_iterator<detail::split_helper<'/'>>()
-            );
+			//std::istringstream iss { std::string(str) };
+			//std::vector<std::string> vec(
+			//	(std::istream_iterator<detail::split_helper<'/'>>(iss)),
+            //    std::istream_iterator<detail::split_helper<'/'>>()
+            //);
 
-			for (const auto& s : vec) {
-				dprln(s);
-			}            
+			//gxx::tokenizer<gxx::char_separator>(str, gxx::char_separator('/'));
+
+			//for (const auto& s : vec) {
+			//	dprln(s);
+			//}            
 		}
 	};
 

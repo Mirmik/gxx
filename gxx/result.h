@@ -89,7 +89,6 @@ namespace gxx { namespace result_type {
 			if (_iserror) {
 				new (&_error) E(std::move(res._error));
 			} else { 
-				//new (&_data) Stored(std::move(res._data));
 				tryhelper<T>::constructor(_data, std::move(res._data));
 			}; 
 			_iserror = 2;
@@ -98,7 +97,6 @@ namespace gxx { namespace result_type {
 		~result() {
 			switch (_iserror) {
 				case 1: _error.~E(); break;
-				//case 0: _data.~Stored(); break;
 				case 0: tryhelper<T>::destructor(_data); break;
 				default: break;	
 			};		
@@ -124,13 +122,6 @@ namespace gxx { namespace result_type {
 			return _data;
 		}
 		
-		/*Result& getData(gxx::function<void(E&)> h) {
-			if (_iserror == 1) {
-				h(_error);
-			}
-			return _data;
-		}	*/	
-
 		E& getError() {
 			assert(_iserror == 1);
 			return _error;
@@ -213,32 +204,32 @@ namespace gxx { namespace result_type {
 
 #define tryS(invoke) ({												\
 	auto&& __result = ({invoke;}); 									\
-	if (__result.is_error()) return std::move(__result.getError());			\
-	__result.getData();										\
+	if (__result.is_error()) return std::move(__result.getError());	\
+	__result.getData();												\
 }) 
 
 #define tryH(invoke,err,handler) ({									\
 	__label__ try_label;											\
-	auto&& __result = ({invoke;});										\
-	if (__result.is_error()) {											\
-		auto& err = __result.getError(); 								\
+	auto&& __result = ({invoke;});									\
+	if (__result.is_error()) {										\
+		auto& err = __result.getError(); 							\
 		handler; 													\
-		return std::move(__result.getError());							\
+		return std::move(__result.getError());						\
 	}; 																\
 	try_label:														\
-	__result.getData();													\
+	__result.getData();												\
 })
 
 #define tryP(invoke,err,handler) ({									\
 	__label__ try_label;											\
 	auto&& __result = ({invoke;});									\
-	if (__result.is_error()) {											\
-		auto& err = __result.getError(); 								\
+	if (__result.is_error()) {										\
+		auto& err = __result.getError(); 							\
 		handler; 													\
 		__result.restore();											\
 	}; 																\
 	try_label:														\
-	__result._data;												\
+	__result._data;													\
 })
 
 #define try_restore(val) ({__result.restore(val); goto try_label;})
