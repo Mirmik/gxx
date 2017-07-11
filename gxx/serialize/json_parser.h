@@ -1,7 +1,7 @@
 #ifndef GXX_JSON_PARSER_H
 #define GXX_JSON_PARSER_H
 
-#include <gxx/io/text_reader.h>
+//#include <gxx/io/text_readeis.h>
 #include <gxx/result.h>
 #include <gxx/serialize/json.h>
 using namespace gxx::result_type;
@@ -9,58 +9,63 @@ using namespace gxx::result_type;
 namespace gxx {
 	class json_parser {
 	public:
-		static result<json> parse(const text_reader& r) {
-			r.ignore_while(isspace);
+		static result<json> parse(std::istream& is) {
+			is >> std::skipws;
 
-			char c = r.peek();
+			char c;
+			is >> c;
+			is.unget();
 			
-			if (isdigit(c)) return parse_number(r);
-			if (c == '"') return parse_string(r);
-			if (c == '[') return parse_array(r);
-			if (c == '{') return parse_dictionary(r);
+			if (isdigit(c)) return parse_number(is);
+			if (c == '"') return parse_string(is);
+			if (c == '[') return parse_array(is);
+			if (c == '{') return parse_dictionary(is);
 
 			return json();
 		}
 
-		static json parse_number(const text_reader& r) {
-			//dprln("parse_number");
-			int ret = r.read_int_decimal();
-			return json(ret);
+		static json parse_number(std::istream& is) {
+			int num;
+			is >> num;
+			return json(num);
 		}
 
-		static result<json> parse_string(const text_reader& r) {
-			//dprln("parse_string");
-			r.ignore();
-			json ret(r.read_string_until('"'));
-			r.ignore();
+		static result<json> parse_string(std::istream& is) {
+			std::string str;
+
+			is.ignore();
+			std::getline(is, str, '"');
+			json ret(str);
+			//is.ignore();
+
 			return ret;
 		}
-
-		static result<json> parse_array(const text_reader& r) {
+		
+		static result<json> parse_array(std::istream& is) {
 			//dprln("parse_array");
 			char c;
-			json js(json::Type::Array);
+			json js(json::type::array);
 			
 			int counter = 0;
 			while(true) {
-				r.ignore_while(isspace);
-				c = r.peek();
+				is >> c;
+				is.unget();
 				
 				if (c == ']') {
-					r.ignore();
+					is.ignore();
 					return js;
 				}
 					
 				if (c == ',' || c == '[') {
-					r.ignore();
-					r.ignore_while(isspace);
+					is.ignore();
+					//is.ignore_while(isspace);
 					
-					if (r.peek() == ']') {
-						r.ignore();
+					if (is.peek() == ']') {
+						is.ignore();
 						return js;
 					}
 					
-					js.as_vector().unwrap().push_back(tryS(parse(r)));
+					js.as_vector().push_back(tryS(parse(is)));
 				}
 				else return error("wrong array syntax");;
 
@@ -68,44 +73,51 @@ namespace gxx {
 			}
 		}
 
-		static result<json> parse_dictionary(const text_reader& r) {
+		static result<json> parse_dictionary(std::istream& is) {
 			//dprln("parse_dictionary");
 			char c;
-			json js(json::Type::Dictionary);
+			json js(json::type::dictionary);
 			
 			while(true) {
-				c = r.peek();
+				is >> c;
+				is.unget();
 				
 				if (c == '}') {
-					r.ignore();
+					is.ignore();
 					return js;
 				}				
 				
 				if (c == ',' || c == '{') {
-					r.ignore();
-					r.ignore_while(isspace);
-				
-					c = r.peek();
+					is.ignore();
+
+					is >> c;
+					is.unget();
+
 					if (c == '}') {
-						r.ignore();
+						is.ignore();
 						return js;
 					}				
 
 					if ( c != '"' ) return error("wrong dicionary syntax: not find \"");
-					r.ignore();
-					gxx::string key = r.read_string_until('"');
-					//dprln(key);
-					r.ignore();
+					is.ignore();
 					
-					r.ignore_while(isspace);
-					if ( r.peek() != ':' ) return error("wrong dicionary syntax: not find colomn");
-					r.ignore();
+					std::string key;
+					std::getline(is, key, '"');
 
-					r.ignore_while(isspace);
+					//dprln(key);
+					//is.ignore();
+					is >> c;
+					is.unget();
+
+					if ( is.peek() != ':' ) return error("wrong dicionary syntax: not find colomn");
+					is.ignore();
+
+					is >> c;
+					is.unget();
 
 					//dprf("add to dictionary {}", key);
-					js.as_dictionary().unwrap().insert(std::make_pair(key, tryS(parse(r))));
-					r.ignore_while(isspace);
+					js.as_dictionary().insert(std::make_pair(key, tryS(parse(is))));
+					//is.ignore_while(isspace);
 				}
 				else return error("json::internal:dict_parse");
 			}

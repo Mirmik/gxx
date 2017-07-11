@@ -152,6 +152,10 @@ namespace gxx {
 			}
 
 		public:
+			void write(const char* dat, size_t sz) {
+				writeData(dat, sz);
+			}
+
 			template<typename ... Args>
 			void print(const char* fmt, Args&& ... args) {
 				print_impl(fmt, gxx::arglist(gxx::make_argument<format_visitor>(gxx::make_argument_temporary(std::forward<Args>(args))) ...));	
@@ -159,6 +163,14 @@ namespace gxx {
 
 			void print(const char* str) {
 				writeData(str, strlen(str));
+			}
+
+			void print(int64_t i64) {
+				write_int_spec(i64, IntegerSpec());
+			}
+
+			void print(std::string str) {
+				writeData(str.data(), str.size());
 			}
 
 			template<typename ... Args>
@@ -248,7 +260,8 @@ namespace gxx {
 				ret += write_spec(str, strlen(str), spec);
 				return ret;
 			}
-	
+
+
 			/*int write_int(int64_t num) const {
 				char str[100];
 				i64toa(num, str, 10); 

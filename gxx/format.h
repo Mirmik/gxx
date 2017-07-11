@@ -35,6 +35,8 @@ namespace gxx {
 			gxx::io::format_stream_writer writer(std::cout);
 			writer.println(fmt, std::forward<Args>(args) ...);
 		}
+
+		void println();
 	}
 }
 

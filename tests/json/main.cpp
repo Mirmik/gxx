@@ -1,23 +1,29 @@
-//#include <gxx/string.h>
 #include <gxx/serialize/json.h>
+#include <gxx/serialize/json_parser.h>
 
-/*#include <gxx/serialize/json_parser.h>
-#include <gxx/io/memory_stream.h>
-#include <gxx/io/text_writer.h>
-#include <gxx/buffer.h>*/
-//#include <sstream>
+#include <gxx/print.h>
 
-/*using namespace gxx::string_literal;
-using namespace gxx::buffer_literal;
-
-auto dos = gxx::debug_ostream();*/
+#include <sstream>
 
 int main() {
-	/*const char* str = R"(      { "kekeke": {"mir" : 987 } }  ggg    )";
+	std::stringstream text(R"(
+	{
+		"mirmik" : 768,
+		"mir" : 433,
+		"kein" : ["mirmik","fasdfa"],
+		"quadro" : {"i" : "a", "g" : "s"},
+	}
+	)"
+	); 
 
-	gxx::memory_stream is = gxx::memory_stream(gxx::buffer(str));
-	gxx::json js = gxx::json_parser::parse(gxx::text_reader(is)).unwrap();
-	js.printTo(gxx::text_writer(dos));dln();*/
+	gxx::json js = gxx::json_parser::parse(text).unwrap();
 
-	gxx::json js = std::string("lalala");
+	js.prettyPrintTo(std::cout);
+
+	js["quadro"]["mirmik"] = 678;
+
+	dprln(js["mir"].as_string());
+
+	js.prettyPrintTo(std::cout);
+	println();
 }

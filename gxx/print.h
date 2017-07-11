@@ -2,9 +2,7 @@
 #define GXX_PRINT_H
 
 #include <gxx/format.h>
-#error "killme"
 
-namespace gxx {
-}
+using namespace gxx::print_funcs;
 
 #endif
