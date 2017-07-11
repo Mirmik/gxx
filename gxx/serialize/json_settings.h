@@ -8,7 +8,7 @@
 #include <iterator>
 
 #include <gxx/serialize/json_parser.h>
-#include <gxx/tokenizer.h>
+#include <gxx/iteratible.h>
 
 namespace gxx {
 	namespace detail {
@@ -36,28 +36,36 @@ namespace gxx {
 			std::stringstream file_contents;
 			file_contents << file.rdbuf();
 			m_settings = json_parser::parse(file_contents).unwrap();
+
+			file.close();
+		}
+
+		json& settings() {
+			return m_settings;
 		}
 
 		void save() {
 			std::fstream file(pathstr);
+
 			m_settings.prettyPrintTo(file);
+			
+			file.close();
 		}
 
 		int64_t get_number(const char* str, int64_t def) {
-			//std::istringstream iss { std::string(str) };
-			//std::vector<std::string> vec(
-			//	(std::istream_iterator<detail::split_helper<'/'>>(iss)),
-            //    std::istream_iterator<detail::split_helper<'/'>>()
-            //);
+			json* cur = &m_settings;
+			for (auto& s : gxx::split_tokenizer(str, '/')) {
+				if (cur->contains(s)) cur = (json*)&((*cur)[s]);
+				else return def;
+			}            
+			if (cur->get_type() != gxx::datatree::type::integer) return def;
+			return cur->as_integer();
+		}
 
-			//gxx::tokenizer<gxx::char_separator>(str, gxx::char_separator('/'));
-
-			//for (const auto& s : vec) {
-			//	dprln(s);
-			//}            
+		int64_t get_number(const std::string& str, int64_t def) {
+			return get_number(str.c_str(), def);
 		}
 	};
-
 }
 
 #endif

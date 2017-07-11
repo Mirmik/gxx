@@ -14,7 +14,7 @@ namespace gxx {
 		template<size_t N>
 		buffer(char(&buf)[N]) : object_buffer<char>(buf, N) {}
 
-		buffer(std::string& str) : buffer((char*)str.data(), str.size()) {}
+		buffer(const std::string& str) : buffer((char*)str.data(), str.size()) {}
 	};
 
 //	using allocated_buffer = allocated_object_buffer<char>;

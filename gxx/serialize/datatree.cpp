@@ -93,9 +93,19 @@ namespace gxx {
 		return m_arr[i];
 	}
 	
+	datatree& datatree::operator[](const char* key) {
+		if (m_type != datatree::type::dictionary) init(datatree::type::dictionary);
+		return m_dict[key];
+	}
+
 	datatree& datatree::operator[](const std::string& key) {
 		if (m_type != datatree::type::dictionary) init(datatree::type::dictionary);
 		return m_dict[key];
+	}
+
+	datatree& datatree::operator[](const gxx::buffer& key) {
+		if (m_type != datatree::type::dictionary) init(datatree::type::dictionary);
+		return m_dict[std::string(key.data(), key.size())];
 	}
 	
 	std::map<std::string, datatree>& datatree::as_dictionary() {

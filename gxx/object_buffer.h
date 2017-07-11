@@ -50,6 +50,14 @@ namespace gxx {
 		T& operator[](int i) {
 			return *(m_data + i);
 		}
+
+		bool operator==(const object_buffer& other) const {
+			if (m_size != other.m_size) return false;
+			for(int i = 0; i < m_size; i++) {
+				if (m_data[i] != other.m_data[i]) return false;
+			}
+			return true;
+		}
 	};
 
 /*	template <typename T, typename Allocator = gxx::allocator<T>>
