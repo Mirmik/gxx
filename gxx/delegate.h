@@ -13,7 +13,7 @@
 #define GXX_DELEGATE_H
 	
 #include "gxx/util/horrible_cast.h"
-#include "gxx/utility.h"
+//#include "gxx/utility.h"
 #include "gxx/util/stub.h"
 
 #include "inttypes.h"
@@ -52,7 +52,7 @@ namespace gxx {
 		using mtd_t 		= R (AbstractDelegate::*)(Args ...);
 		using fnc_t 		= R (*)(Args ...);
 		using extfnc_t	 	= R (*)(void* ,Args ...);
-		using absmemb_t		= gxx::pair<mtd_t, obj_t>;
+		using absmemb_t		= std::pair<mtd_t, obj_t>;
 	
 	
 		//Соответствует истине и будет работать только в G++
@@ -343,7 +343,7 @@ namespace gxx {
 
 }
 
-#include <gxx/vector.h> 
+#include <vector> 
 
 namespace gxx {
 	template<typename ... Args>
@@ -356,7 +356,7 @@ namespace gxx {
 		template <typename Abstract>
 		using member = void (Abstract::*)(Args ...);
 		
-		gxx::vector<delegate<void,Args...>> vect;
+		std::vector<delegate<void,Args...>> vect;
 	
 		void operator()(Args ... args) {
 			for(auto dlg : vect) {

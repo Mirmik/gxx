@@ -1,10 +1,10 @@
 #ifndef GENOS_DATASTRUCT_ARGV_H
 #define GENOS_DATASTRUCT_ARGV_H
 
-#include "gxx/vector.h"
+#include <vector>
 
 class argvc_t {
-	gxx::vector<char*> vect;
+	std::vector<char*> vect;
 
 public:
 	argvc_t(){}	

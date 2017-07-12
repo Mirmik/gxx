@@ -1,8 +1,10 @@
 #ifndef GXX_INETADDR_H
 #define GXX_INETADDR_H
 
-#include <gxx/string.h>
 #include <ctype.h>
+#include <string>
+
+#include <gxx/string.h>
 
 namespace gxx {
 	class hostaddr {

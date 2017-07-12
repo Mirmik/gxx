@@ -2,10 +2,11 @@
 #define GXX_CLIOPTS_H
 
 #include <gxx/util/placed_new.h>
-#include <gxx/string.h>
-#include <gxx/vector.h>
 #include <gxx/result.h>
 #include <gxx/format.h>
+
+#include <string>
+#include <vector>
 
 namespace gxx {
 	using namespace gxx::result_type;
@@ -26,14 +27,14 @@ namespace gxx {
 			union {
 				bool b;
 				int i32;
-				gxx::string str;
+				std::string str;
 			};
 
 		public:
-			opt(const char* l, char s, bool def) 	: long_name(l), short_name(s), type(Type::Bool), b(def) {}
-			opt(const char* l, char s, int def) 	: long_name(l), short_name(s), type(Type::Integer), i32(def) {}
-			opt(const char* l, char s, string def) 	: long_name(l), short_name(s), type(Type::String), str(def) {}
-			opt(const char* l, char s) 				: long_name(l), short_name(s), type(Type::Option), b(false) {}
+			opt(const char* l, char s, bool def) 		: long_name(l), short_name(s), type(Type::Bool), b(def) {}
+			opt(const char* l, char s, int def) 		: long_name(l), short_name(s), type(Type::Integer), i32(def) {}
+			opt(const char* l, char s, std::string def) : long_name(l), short_name(s), type(Type::String), str(def) {}
+			opt(const char* l, char s) 					: long_name(l), short_name(s), type(Type::Option), b(false) {}
 
 			opt(const opt& other) : long_name(other.long_name), short_name(other.short_name), type(other.type) {
 				switch (type) {
@@ -50,13 +51,13 @@ namespace gxx {
 		};
 
 	public:
-		gxx::vector<opt> opts;
-		gxx::vector<string> args;
+		std::vector<opt> opts;
+		std::vector<std::string> args;
 
 		void add_bool(const char* l, char s, bool def) { opts.emplace_back(l, s, def); }
 		void add_integer(const char* l, char s, int32_t def) { opts.emplace_back(l, s, def); }
-		void add_string(const char* l, char s, string def) { opts.emplace_back(l, s, def); }
-		void add_string(const char* l, char s, const char* def) { opts.emplace_back(l, s, string(def)); }
+		void add_string(const char* l, char s, std::string def) { opts.emplace_back(l, s, def); }
+		void add_string(const char* l, char s, const char* def) { opts.emplace_back(l, s, std::string(def)); }
 		void add_option(const char* l, char s) { opts.emplace_back(l, s); }
 
 		result<opt*> get_opt(const char* l) {
@@ -87,7 +88,7 @@ namespace gxx {
 			return error(format("wrong opt name {}", l));
 		}
 
-		result<string> get_string(const char* l) { 
+		result<std::string> get_string(const char* l) { 
 			return tryS(get_opt(l,Type::String))->str; 
 		}
 		
@@ -103,7 +104,7 @@ namespace gxx {
 			return tryS(get_opt(l,Type::Option))->b; 
 		}
 
-		vector<string> get_args() { 
+		std::vector<std::string> get_args() { 
 			return args; 
 		}
 		
@@ -118,7 +119,7 @@ namespace gxx {
 			if (*val == 0) return error("wrong option syntax");
 			switch(o.type) {
 				case Type::String: 
-					o.str = string(val); 
+					o.str = std::string(val); 
 					break;
 				case Type::Integer: 
 					o.i32 = atoi(val); 
@@ -173,7 +174,7 @@ namespace gxx {
 					case 0: 
 						dprln(0);
 						if (state == AutomState::Normal) {
-							args.push_back(string(*it));
+							args.push_back(std::string(*it));
 						} else {
 							tryS(set_value(*curopt, *it));
 							state = AutomState::Normal;

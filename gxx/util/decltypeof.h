@@ -8,7 +8,7 @@
 
 #if __cplusplus
 #	include <utility>
-#	define decltypeof(a) typename gxx::remove_reference<decltype(a)>::type
+#	define decltypeof(a) typename std::remove_reference<decltype(a)>::type
 #else
 #	define decltypeof(a) typeof(a)
 #endif

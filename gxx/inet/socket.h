@@ -1,9 +1,8 @@
 #ifndef GXX_SOCKET_H
 #define GXX_SOCKET_H
 
-#include <gxx/io/strm.h>
+//#include <gxx/io/strm.h>
 #include <gxx/inet/hostaddr.h>
-
 #include <gxx/util/setget.h>
 
 namespace gxx {

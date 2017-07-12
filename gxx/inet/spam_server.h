@@ -1,16 +1,16 @@
 #ifndef GXX_SPAM_SERVER_H
 #define GXX_SPAM_SERVER_H
 
-#include <gxx/algorithm.h>
 #include <gxx/inet/server.h>
-#include <gxx/vector.h>
+#include <vector>
+#include <algorithm>
 
 #include <string.h>
 
 namespace gxx {
 	class spam_server : public socket {
 
-		gxx::vector<int> clients;
+		std::vector<int> clients;
 
 	public:
 		spam_server(int port) : socket(gxx::SocketType::Tcp, hostaddr(0x7F000001), port) {};
