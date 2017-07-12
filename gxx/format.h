@@ -19,20 +19,20 @@ namespace gxx {
 	template<typename ... Args>
 	void dprint(const char* fmt, Args&& ... args) {
 		gxx::io::debug_ostream out;
-		gxx::io::format_stream_writer writer(out);
+		gxx::io::format_ostream_writer writer(out);
 		writer.print(fmt, std::forward<Args>(args) ...);
 	}
 
 	inline namespace print_funcs {
 		template<typename ... Args>
 		void print(const char* fmt, Args&& ... args) {
-			gxx::io::format_stream_writer writer(std::cout);
+			gxx::io::format_ostream_writer writer(std::cout);
 			writer.print(fmt, std::forward<Args>(args) ...);
 		}
 
 		template<typename ... Args>
 		void println(const char* fmt, Args&& ... args) {
-			gxx::io::format_stream_writer writer(std::cout);
+			gxx::io::format_ostream_writer writer(std::cout);
 			writer.println(fmt, std::forward<Args>(args) ...);
 		}
 

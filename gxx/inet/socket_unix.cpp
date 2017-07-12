@@ -29,17 +29,21 @@ namespace gxx {
 	}
 
 	int socket::close() {
+		dprln("close");
 		if (m_fd >= 0) {
 	
 			if (!is_disconnected()) {
+				dprln("disc");
 				int ret = ::shutdown(m_fd, SHUT_RDWR);
 				
 				if (ret < 0) {
 					dprln(errno);
 					perror("debug:shutdown");
+   					m_state = SocketState::Disconnected;	
 					return -1;
    				}
    			}	
+   			dprln("DISC");
    			m_state = SocketState::Disconnected;	
 		
 			int ret = ::close(m_fd);
@@ -148,6 +152,9 @@ namespace gxx {
 	}
 
 	gxx::socket socket::accept() {
+		__label__ __err__;
+		gxx::socket ret;
+
 		int c = sizeof(sockaddr_in);
 		sockaddr_in caddr;
 		memset(&caddr, 0, sizeof(caddr));
@@ -155,35 +162,44 @@ namespace gxx {
 		int cfd = ::accept( m_fd, (sockaddr*)&caddr, (socklen_t*)&c );
 		if (cfd < 1) {
 			switch(errno) {
-				case EADDRINUSE: m_error = SocketError::AllreadyInUse; break;
+				case EADDRINUSE: m_error = SocketError::AllreadyInUse; goto __err__; break;
+				case EAGAIN: m_error = SocketError::Unavailable; goto __err__; break;
 				default: 
 					dprln(errno);
 					perror("debug:accept");
-					return gxx::socket();
+					goto __err__;
 			}	
 		}
 
-		gxx::socket ret;
 		ret.init(m_type, caddr.sin_addr.s_addr, caddr.sin_port);
 		ret.m_fd = cfd;
 		ret.m_state = SocketState::Connected;
 		//client->init(caddr.sin_addr.s_addr, caddr.sin_port, caddr.sin_family); 
 		//client->setFileDescriptor(cfd);
-		return gxx::move(ret);
+		return std::move(ret);
+
+		__err__:
+		return ret;
 	}
 
 	int socket::send(const char* data, size_t size, int flags) {
+    	__label__ __err__;
     	int ret = ::send(m_fd, data, size, flags);	
     	if (ret < 0) {
     		switch(errno) {
-				case EADDRINUSE: m_error = SocketError::AllreadyInUse; break;
+				case EADDRINUSE: m_error = SocketError::AllreadyInUse; goto __err__; break;
+				case EPIPE: m_error = SocketError::BrokenPipe; goto __err__; break;
 				default: 
 					dprln(errno);
 					perror("debug:send");
-					return -1;
+					goto __err__;
 			}				
 		}
 		return ret;	
+
+		__err__:
+		close();
+		return -1;
     }
 
     int socket::recv(char* data, size_t size, int flags) {
@@ -191,7 +207,8 @@ namespace gxx {
     	//dprln("ret, {}", ret);
     	if (ret < 0) {
     		switch(errno) {
-				case EADDRINUSE: m_error = SocketError::AllreadyInUse; break;
+				case EADDRINUSE: m_error = SocketError::AllreadyInUse; return -1; break;
+				case EPIPE: m_error = SocketError::BrokenPipe; return -1; break;
 				default: 
 					dprln(errno);
 					perror("debug:recv");

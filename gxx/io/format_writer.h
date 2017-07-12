@@ -8,6 +8,8 @@
 #include <gxx/util/format.h>
 #include <gxx/arglist.h>
 
+//#include <gxx/io/strm.h>
+
 namespace gxx {
 	namespace io {
 
@@ -269,26 +271,30 @@ namespace gxx {
 			}*/
 		};
 
-		class format_stream_writer : public format_writer {
+		class format_ostream_writer : public format_writer {
 			std::ostream& out;
 
 		public:
-			format_stream_writer(std::ostream& out) : out(out) {};	
+			format_ostream_writer(std::ostream& out) : out(out) {};	
 
 			void writeData(const char* data, size_t size) override {
 				out.write(data, size);
 			}					
 		};
 
-/*		class format_string_writer : public format_writer {
-			
-		public:
-			format_string_writer(std::string& str) : str(str) {};	
+		class strmout;
+		class format_gxx_strmout_writer : public format_writer {
+			gxx::io::strmout& out;
 
-			void writeData(const char* data, size_t size) override {
-				str.write(data, size);
-			}					
-		};*/
+		public:
+			format_gxx_strmout_writer(gxx::io::strmout& out) : out(out) {};	
+
+			void writeData(const char* data, size_t size) override;
+
+			/*void writeData(const char* data, size_t size) override {
+				out.write(data, size);
+			}	*/				
+		};
 	}
 }
 

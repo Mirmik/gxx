@@ -1,9 +1,11 @@
 #ifndef GXX_SOCKET_H
 #define GXX_SOCKET_H
 
-//#include <gxx/io/strm.h>
+#include <gxx/io/strm.h>
 #include <gxx/inet/hostaddr.h>
 #include <gxx/util/setget.h>
+
+#include <fstream>
 
 namespace gxx {
 	enum class SocketType : uint8_t {
@@ -16,6 +18,8 @@ namespace gxx {
 		ConnectionRefused,
 		UnknownError,
 		AllreadyInUse,
+		Unavailable,
+		BrokenPipe,
 		OK,
 	};
 
@@ -95,6 +99,8 @@ namespace gxx {
 			switch(m_error) {
 				case SocketError::AllreadyInUse: return "AllreadyInUse";
 				case SocketError::ConnectionRefused: return "ConnectionRefused";
+				case SocketError::Unavailable: return "Unavailable";
+				case SocketError::BrokenPipe: return "BrokenPipe";
 				case SocketError::OK: return "NotError";				
 				default: return "UnknownError";
 			}

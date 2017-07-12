@@ -3,6 +3,7 @@
 
 #include <gxx/dlist.h>
 #include <gxx/events/slot.h>
+#include <gxx/algorithm.h>
 
 namespace gxx {
 	//

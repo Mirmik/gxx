@@ -2,49 +2,75 @@
 #define GXX_SPAM_SERVER_H
 
 #include <gxx/inet/server.h>
-#include <vector>
 #include <algorithm>
+#include <list>
 
 #include <string.h>
+#include <gxx/format.h>
 
 namespace gxx {
-	class spam_server : public socket {
+	class spam_server : public server {
 
-		std::vector<int> clients;
+		std::list<gxx::socket> clients;
 
 	public:
-		spam_server(int port) : socket(gxx::SocketType::Tcp, hostaddr(0x7F000001), port) {};
+		spam_server(int port) : server(gxx::SocketType::Tcp, port) {};
 
-		void start(int maxcon) {
-			socket::listen(maxcon);
+		int start() {
+			if (server::listen() < 0) return -1;;
 			blocking(false);
 		}
 
-		void send(const char* str) {
-			send(str, strlen(str));
+		int __send(const char* str) {
+			return __send(str, strlen(str));
 		};
 
-		void send(const char* str, size_t n) {
-			/*gxx::socket new_client;
-			while(accept(&new_client) >= 0) {
-				//dprln("new");
-				clients.push_back(new_client.fd());
+		int __send(const char* str, size_t n) {
+			//gxx::socket new_client;
+			
+			while(true) {
+				gxx::socket new_client = accept();
+				if (new_client.is_connected() == false) break;
+				clients.push_back(std::move(new_client));
 			}
 
+			int ret = 0;
 			bool needRemove = false;
-			for(auto&& c : clients) {
+			for(auto& c : clients) {
+
 				//dprln("send");
-				int ret = ::send(c, str, n, MSG_NOSIGNAL);
+				ret = c.write(str, n);
+				dprln(ret);
 				if (ret < 0) {
-					c = -1;
 					needRemove = true;
 				}
 			}
 			//int wrong = -1;
 			if (needRemove)	{ 
-				clients.erase(gxx::remove(clients.begin(), clients.end(), -1));
-			}*/
+				//dprln("needRemove");
+				std::list<gxx::socket>::iterator it;
+				auto next = clients.begin();
+				auto end = clients.end();
+				it = next;
+				for(; it != end; it = next) {
+					//dprln("HERE");
+					next++;
+					//dprln(it->is_connected());
+					if (it->is_connected() == false) clients.erase(it);
+				}
+				//while(true);
+			}
+
+
+			return ret;
 		}
+
+		int writeData(const char* str, size_t sz) override {
+			dprln("writeData: {}", str);
+			return __send(str, sz);
+		}	
+	
+		int readData(char* str, size_t sz) override {}
 	};
 }
 

@@ -1,5 +1,6 @@
 #include <gxx/util/format.h>
 #include <gxx/io/format_writer.h>
+#include <gxx/io/strm.h>
 
 #include <sstream>
 
@@ -8,7 +9,7 @@ namespace gxx {
 	std::string format_args(const char* fmt, const arglist& args) {
 		std::stringstream ss;
 		//retstr.reserve(2*strlen(fmt));
-		gxx::io::format_stream_writer writer(ss);
+		gxx::io::format_ostream_writer writer(ss);
 		writer.print_impl(fmt, args);
 		
 		return ss.str();
@@ -202,5 +203,7 @@ namespace gxx {
 		return ret;
 	}*/
 	
-
+	void io::format_gxx_strmout_writer::writeData(const char* data, size_t size) {
+		out.write(data, size);
+	}
 }
