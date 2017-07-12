@@ -1,4 +1,4 @@
-local files = find.findInTree(script.currentDir .. "gxx", ".*.gll$", ".*HIDE.*")
+local files = find.findInTree(script.currentDir .. "/gxx", ".*.gll$", ".*HIDE.*")
 script:evalFile(files, _ENV)
 
 Module("gxx.sources", {

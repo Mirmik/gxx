@@ -1,7 +1,7 @@
 #ifndef GENOS_HLIST_HEAD
 #define GENOS_HLIST_HEAD
 
-//#include "compiler.h"
+//#include <genos/compiler.h>
 #include <sys/cdefs.h>
 #include <gxx/debug/dprint.h>
 

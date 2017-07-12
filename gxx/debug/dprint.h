@@ -3,7 +3,7 @@
 	
 #include <inttypes.h> 
 #include <sys/cdefs.h>
-//#include <compiler.h>
+//#include <genos/compiler.h>
 
 #ifdef __cplusplus
 //#include "gxx/buffer.h"

@@ -1,7 +1,7 @@
 #ifndef GENOS_DATASTRUCT_H
 #define GENOS_DATASTRUCT_H
 
-#include <compiler.h>
+#include <genos/compiler.h>
 #include <datastruct/dlist_head.h>
 
 struct tree_node {

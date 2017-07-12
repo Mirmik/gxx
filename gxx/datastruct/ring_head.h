@@ -1,7 +1,7 @@
 #ifndef GENOS_DATASTRUCT_RING_HEAD_H
 #define GENOS_DATASTRUCT_RING_HEAD_H
 
-#include "compiler.h"
+#include <genos/compiler.h>
 
 struct ring_head
 {

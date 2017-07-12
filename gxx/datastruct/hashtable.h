@@ -1,7 +1,7 @@
 #ifndef GENOS_DATASTRUCT_HASHTABLE_H
 #define GENOS_DATASTRUCT_HASHTABLE_H
 
-#include <compiler.h>
+#include <genos/compiler.h>
 #include <stdlib.h>
 
 #include <datastruct/hlist_head.h>
