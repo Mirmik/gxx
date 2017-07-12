@@ -1,6 +1,8 @@
 #ifndef GXX_UTIL_CTR_DTR_H
 #define GXX_UTIL_CTR_DTR_H
 
+#include <gxx/util/placed_new.h>
+
 namespace gxx {
 	template<typename T>
 	void destructor(T* ptr) {

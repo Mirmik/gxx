@@ -30,3 +30,9 @@ Implementation("gxx.dprint", "stdout", {
 		cxx = "dprintxx.cpp",
 	}
 })
+
+Implementation("gxx.debug.delay", "configure", {
+	sources = {
+		cc = "delay_configure.c",
+	}
+})

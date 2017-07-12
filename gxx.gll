@@ -31,3 +31,7 @@ Module("gxx.placed_new", {
 		cxx = "placed_new.cpp"
 	}
 })
+
+Module("gxx.namespace_std", {
+	includePaths = "gxx/std/"
+})
