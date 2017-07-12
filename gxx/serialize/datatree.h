@@ -64,6 +64,9 @@ namespace gxx {
 		std::string& as_string();
 		int64_t& as_integer();
 
+		int64_t get_integer(const char*, int64_t def);
+		int64_t get_integer(const std::string&, int64_t def);
+
 		datatree::type get_type() const;
 		const char * type_to_str();
 		
@@ -73,17 +76,7 @@ namespace gxx {
 		datatree& operator= (const int64_t& i64);
 		int size();
 
-		bool contains(gxx::buffer buf) {
-			if (m_type != type::dictionary) {
-				return false;
-			}
-
-			for(const auto& p : m_dict) {
-				if (buf == gxx::buffer(p.first)) return true;
-			}
-
-			return false;
-		}
+		bool contains(gxx::buffer buf);
 	};
 
 }

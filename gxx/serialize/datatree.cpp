@@ -1,4 +1,6 @@
 #include <gxx/serialize/datatree.h>
+#include <gxx/iteratible.h>
+#include <gxx/debug/dprint.h>
 
 namespace gxx {
 
@@ -128,6 +130,35 @@ namespace gxx {
 		return m_i64;
 	}
 	
+	int64_t datatree::get_integer(const char* str, int64_t def) {
+		datatree* cur = this;
+		for (auto& s : gxx::split_tokenizer(str, '/')) {
+			dprln(s);
+			if (cur->contains(s)) cur = &cur->m_dict[std::string(s.data(), s.size())];
+			else return def;
+		}       
+		if (cur->get_type() != gxx::datatree::type::integer) return def;
+		return cur->as_integer();
+	}
+
+	int64_t datatree::get_integer(const std::string& str, int64_t def) {
+		return get_integer(str.c_str(), def);
+	}
+
+	bool datatree::contains(gxx::buffer buf) {
+		if (m_type != type::dictionary) {
+			return false;
+		}
+
+		for(const auto& p : m_dict) {
+			if (buf == gxx::buffer(p.first)) { 
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	datatree::type datatree::get_type() const {
 		return m_type;
 	}

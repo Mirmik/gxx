@@ -1,7 +1,7 @@
 {
 	"X": {
-		"backlimit": 43,
-		"forwlimit": 90,
+		"backlimit": 432,
+		"forwlimit": 38,
 		"speed": 100
 	},
 	"kiev": {
