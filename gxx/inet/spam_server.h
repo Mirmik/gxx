@@ -66,7 +66,7 @@ namespace gxx {
 		}
 
 		int writeData(const char* str, size_t sz) override {
-			dprln("writeData: {}", str);
+			//dprln("writeData: {}", str);
 			return __send(str, sz);
 		}	
 	

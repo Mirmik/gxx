@@ -11,12 +11,12 @@ namespace gxx {
 		public:
 			spam_server_target(int port) : server(port) {}
 	
-			void start(int maxcon = 10) {
-				server.start(maxcon);
+			void start() {
+				server.start();
 			}
 	
 			void log(const char* str) override {
-				server.send(str);
+				server.print(str);
 			}
 		};
 	}

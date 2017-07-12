@@ -1,6 +1,8 @@
 #ifndef GXX_GEN_H
 #define GXX_GEN_H
 
+#include <iterator>
+
 namespace gxx {
 
 	template<typename T, typename C>
@@ -24,7 +26,16 @@ namespace gxx {
 			return ctr.value();
 		} 
 	};
+}
 
+namespace std {
+	template<typename T, typename C>
+	class iterator_traits<gxx::gen<T,C>> {
+	public:
+		using iterator_category = std::forward_iterator_tag;
+		using value_type = T;
+		//using difference_type
+	};
 }
 
 #endif

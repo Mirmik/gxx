@@ -3,6 +3,7 @@
 
 #include <gxx/gen.h>
 #include <gxx/buffer.h>
+#include <gxx/debug/dprint.h>
 #include <string.h>
 
 namespace gxx {
@@ -77,6 +78,44 @@ namespace gxx {
 			return iterator(*this, true);
 		}
 	};
+
+	template<typename K, typename T>
+	class keys_of_map_t {
+		std::map<K,T>& dict;
+		typename std::map<K,T>::iterator it;
+		typename std::map<K,T>::iterator eit;
+
+		using iterator = gxx::gen<K, keys_of_map_t<K,T>>;
+	
+	public:
+		keys_of_map_t(std::map<K,T>& dict) : dict(dict) {
+			it = dict.begin();
+			eit = dict.end();
+		}
+	
+		K& value() {
+			return const_cast<K&>(it->first);
+		}
+	
+		bool next() {
+			it++;
+			if (it == eit) return true;
+			return false;
+		}	
+	
+		iterator begin() {
+			return iterator(*this); 
+		}
+	
+		iterator end() {
+			return iterator(*this, true);
+		}
+	};
+
+	template<typename K, typename T>
+	keys_of_map_t<K,T> keys_of_map(std::map<K,T>& dict) {
+		return keys_of_map_t<K,T>(dict);
+	}
 }
 
 #endif

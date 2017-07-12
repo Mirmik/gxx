@@ -23,7 +23,7 @@ namespace gxx {
 
 	inline size_t hash(const char * p, size_t len, uint32_t seed = GXX_DEFAULT_SEED) {
 		size_t h = seed;
-		for (uint i = 0; i < len; ++i)
+		for (uint32_t i = 0; i < len; ++i)
 			h = 31 * h + p[i];
 		return h;
 	}

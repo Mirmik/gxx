@@ -132,6 +132,11 @@ namespace gxx {
 	int format_arg(char* const& str, io::format_writer& w, const char* opts) {
 		return format_arg_str(str, strlen(str), w, opts);
 	}
+
+	template<>
+	int format_arg(std::string const& str, io::format_writer& w, const char* opts) {
+		return format_arg_str(str.data(), str.size(), w, opts);
+	}
 /*	
 	template<>
 	int format_arg(const std::string& str, io::format_writer& w, const char* opts) {

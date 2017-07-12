@@ -1,6 +1,8 @@
 #include <gxx/serialize/datatree.h>
 #include <gxx/iteratible.h>
 #include <gxx/debug/dprint.h>
+#include <gxx/format.h>
+#include <algorithm>
 
 namespace gxx {
 
@@ -212,4 +214,45 @@ namespace gxx {
 			case datatree::type::dictionary: return m_dict.size();
 		} 
 	}	
+
+	strlst datatree::check_dict(strlst lst, check_type ct) {
+		if (!is_dictionary()) return strlst();
+
+
+		strlst retlist;
+
+		auto _keys = gxx::keys_of_map(m_dict);
+		strlst keys(_keys.begin(), _keys.end());
+		
+		//std::sort(lst.begin(), lst.end());
+		//std::sort(keys.begin(), keys.end());
+		lst.sort();
+		keys.sort();
+
+		dprln("lst");
+		for (auto s : lst) dprln("\t{}", s);
+
+		dprln("keys");
+		for (auto s : keys) dprln("\t{}", s);
+		
+		switch (ct) {
+			case check_subset:
+				std::set_difference(
+					lst.begin(), lst.end(), 
+					keys.begin(), keys.end(),
+					std::inserter(retlist, retlist.begin()), 
+					[](const std::string& a, const std::string& b) {
+						dpr("\t\t");dprln(a);
+						dpr("\t\t");dprln(b);
+						return a < b;
+					});
+				break;
+		}
+
+		dprln("result");
+		for (auto s : retlist) dprln("\t{}", s);
+
+		return retlist;
+
+	}
 }

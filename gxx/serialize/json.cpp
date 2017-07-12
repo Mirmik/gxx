@@ -11,7 +11,7 @@ namespace gxx {
 		is >> c;
 		is.unget();
 		
-		if (isdigit(c)) return parse_number(is);
+		if (isdigit(c) || c == '-') return parse_number(is);
 		if (c == '"') return parse_string(is);
 		if (c == '[') return parse_array(is);
 		if (c == '{') return parse_dictionary(is);
@@ -46,6 +46,8 @@ namespace gxx {
 			is >> c;
 			is.unget();
 			
+			//dprln(c);
+
 			if (c == ']') {
 				is.ignore();
 				return js;
@@ -55,7 +57,10 @@ namespace gxx {
 				is.ignore();
 				//is.ignore_while(isspace);
 				
-				if (is.peek() == ']') {
+				is >> c;
+				is.unget();
+				
+				if (c == ']') {
 					is.ignore();
 					return js;
 				}

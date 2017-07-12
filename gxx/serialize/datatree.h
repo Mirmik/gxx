@@ -9,6 +9,8 @@
 #include <vector>
 #include <map>
 
+#include <gxx/string.h>
+
 #include <gxx/util/ctrdtr.h>
 #include <gxx/buffer.h>
 
@@ -22,6 +24,12 @@ namespace gxx {
 			integer,
 			noinit,
 		};
+
+		using check_type = uint8_t;
+
+		static constexpr check_type check_subset = 0;
+		static constexpr check_type check_gyperset = 1;
+		static constexpr check_type check_equal = 2;
 
 	protected:
 		datatree::type m_type = datatree::type::noinit;
@@ -69,7 +77,15 @@ namespace gxx {
 
 		datatree::type get_type() const;
 		const char * type_to_str();
+
+		bool is_nil() 			{ return m_type == type::noinit; }
+		bool is_integer() 		{ return m_type == type::integer; }
+		bool is_array() 		{ return m_type == type::array; }
+		bool is_dictionary()	{ return m_type == type::dictionary; }
+		bool is_string() 		{ return m_type == type::string; }
 		
+		strlst check_dict(strlst lst, check_type ct);
+
 	public:
 		datatree& operator= (const datatree& other);
 		datatree& operator= (const std::string& str);
