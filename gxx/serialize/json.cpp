@@ -1,15 +1,48 @@
-//#include <gxx/serialize/json.h>
 #include <gxx/serialize/json_parser.h>
+#include <limits.h>
 
 using namespace gxx::result_type;
 
 namespace gxx {
+namespace detail {
+		char getnext(std::istream& is) {
+			char c;
+			char next;
+			__try__:
+
+			is >> c;
+			//is.unget();
+
+			if (c == '/') {
+				//next = is.peek(); 
+				next = is.get();
+				switch (next) {
+					case '*': 
+						//is.ignore();
+						while(true) {
+							is >> c;
+							if (c == '*') if (is.peek() == '/') { 
+								is.ignore();
+								goto __try__;
+							} 
+						}
+					case '/': 
+						is.ignore(INT_MAX, '\n');						
+						goto __try__;
+					default:
+						is.unget(); 
+						break;
+				}
+			}
+			is.unget();
+			return c;
+		}
+	}	
+
 	result<json> json_parser::parse(std::istream& is) {
 		is >> std::skipws;
 
-		char c;
-		is >> c;
-		is.unget();
+		char c = detail::getnext(is);
 		
 		if (isdigit(c) || c == '-') return parse_number(is);
 		if (c == '"') return parse_string(is);
@@ -43,8 +76,7 @@ namespace gxx {
 		
 		int counter = 0;
 		while(true) {
-			is >> c;
-			is.unget();
+			c = detail::getnext(is);
 			
 			//dprln(c);
 
@@ -57,8 +89,7 @@ namespace gxx {
 				is.ignore();
 				//is.ignore_while(isspace);
 				
-				is >> c;
-				is.unget();
+				c = detail::getnext(is);
 				
 				if (c == ']') {
 					is.ignore();
@@ -79,8 +110,7 @@ namespace gxx {
 		json js(json::type::dictionary);
 		
 		while(true) {
-			is >> c;
-			is.unget();
+			c = detail::getnext(is);
 			
 			if (c == '}') {
 				is.ignore();
@@ -90,8 +120,7 @@ namespace gxx {
 			if (c == ',' || c == '{') {
 				is.ignore();
 
-				is >> c;
-				is.unget();
+				c = detail::getnext(is);
 
 				if (c == '}') {
 					is.ignore();
@@ -106,14 +135,12 @@ namespace gxx {
 
 				//dprln(key);
 				//is.ignore();
-				is >> c;
-				is.unget();
+				c = detail::getnext(is);
 
-				if ( is.peek() != ':' ) return error("wrong dicionary syntax: not find colomn");
+				if ( c != ':' ) return error("wrong dicionary syntax: not find colomn");
 				is.ignore();
 
-				is >> c;
-				is.unget();
+				c = detail::getnext(is);
 
 				//dprf("add to dictionary {}", key);
 				js.as_dictionary().insert(std::make_pair(key, tryS(parse(is))));
@@ -169,10 +196,12 @@ namespace gxx {
 		switch(m_type) {
 			case datatree::type::integer: 
 				os << m_i64;
-				return;
+				break;
+			
 			case datatree::type::string: 
 				os << '"' << m_str << '"';
-				return;
+				break;
+			
 			case datatree::type::array: 
 				havedict = false;
 				for (const auto& m : m_arr) {
@@ -199,9 +228,9 @@ namespace gxx {
 					os << std::endl;
 					for(int i = 0; i < tab; i++) os.put('\t');	
 				}
-
 				os.put(']');
-				return; 
+				break;
+
 			case datatree::type::dictionary: 
 				os.put('{');
 				for(auto& p : m_dict) {
@@ -216,10 +245,11 @@ namespace gxx {
 				os.put('\n');
 				for(int i = 0; i < tab; i++) os.put('\t');
 				os.put('}');
-				return; 
+				break; 
 			case datatree::type::noinit:
 				os.write("nil", 3);
-				return;
+				break;
 		}
+		if (tab == 0) os << std::endl;
 	}
 }

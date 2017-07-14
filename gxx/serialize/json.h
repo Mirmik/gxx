@@ -13,6 +13,10 @@ namespace gxx {
 		public:
 		void printTo(std::ostream& os);
 		void prettyPrintTo(std::ostream& os, int tab = 0);
+	
+		static void print_datatree(datatree& dt, std::ostream& os) {
+			(*(json*)&dt).prettyPrintTo(os);
+		}
 	};
 }
 

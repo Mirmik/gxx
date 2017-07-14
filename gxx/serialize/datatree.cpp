@@ -4,6 +4,8 @@
 #include <gxx/format.h>
 #include <algorithm>
 
+using namespace gxx::result_type;
+
 namespace gxx {
 
 	datatree::~datatree() {
@@ -147,6 +149,16 @@ namespace gxx {
 		return get_integer(str.c_str(), def);
 	}
 
+	result<int64_t&> datatree::as_integer_critical() {
+		if (!is_integer()) return error("is't integer");
+		return m_i64;
+	}
+
+	int64_t datatree::as_integer_default(int64_t def) {
+		if (!is_integer()) return def;
+		return m_i64;
+	}
+
 	bool datatree::contains(gxx::buffer buf) {
 		if (m_type != type::dictionary) {
 			return false;
@@ -229,30 +241,57 @@ namespace gxx {
 		lst.sort();
 		keys.sort();
 
-		dprln("lst");
-		for (auto s : lst) dprln("\t{}", s);
-
-		dprln("keys");
-		for (auto s : keys) dprln("\t{}", s);
-		
 		switch (ct) {
+			case check_superset:
+				std::set_difference(
+					keys.begin(), keys.end(),
+					lst.begin(), lst.end(), 
+					std::inserter(retlist, retlist.begin())
+				);
+				break;
+
 			case check_subset:
 				std::set_difference(
 					lst.begin(), lst.end(), 
 					keys.begin(), keys.end(),
-					std::inserter(retlist, retlist.begin()), 
-					[](const std::string& a, const std::string& b) {
-						dpr("\t\t");dprln(a);
-						dpr("\t\t");dprln(b);
-						return a < b;
-					});
+					std::inserter(retlist, retlist.begin())
+				);
+
+			case check_equal:
+				std::set_symmetric_difference(
+					keys.begin(), keys.end(),
+					lst.begin(), lst.end(), 
+					std::inserter(retlist, retlist.begin())
+				);
 				break;
 		}
 
-		dprln("result");
-		for (auto s : retlist) dprln("\t{}", s);
-
 		return retlist;
 
+	}
+
+	std::pair<strlst, strlst> datatree::check_dict_symmetric(strlst lst) {
+		std::pair<strlst, strlst> ret;
+		if (!is_dictionary()) return ret;
+
+		auto _keys = gxx::keys_of_map(m_dict);
+		strlst keys(_keys.begin(), _keys.end());
+		
+		lst.sort();
+		keys.sort();
+
+		std::set_difference(
+			keys.begin(), keys.end(),
+			lst.begin(), lst.end(), 
+			std::inserter(ret.first, ret.first.begin())
+		);
+		
+		std::set_difference(
+			lst.begin(), lst.end(), 
+			keys.begin(), keys.end(),
+			std::inserter(ret.second, ret.second.begin())
+		);
+
+		return ret;
 	}
 }

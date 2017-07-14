@@ -16,23 +16,41 @@ using namespace gxx::argument_literal;
 
 namespace gxx {
 	namespace log {
-		enum class Level {
-			Trace,
-			Debug,
-			Info,
-			Warning,
-			Error, 
-			Fault, 
+		enum class level {
+			trace,
+			debug,
+			info,
+			warn,
+			error, 
+			fault, 
 		};
-		
-		//Вызов для формирования строки даты/времени.
+
+		static level level_from_string(std::string str) {
+			if (str == "fault") return level::fault;
+			if (str == "error") return level::error;
+			if (str == "warn") return level::warn;
+			if (str == "info") return level::info;
+			if (str == "debug") return level::debug;
+			return level::trace;
+		}	
+
+		static const char* level_to_string(level lvl) {
+			switch(lvl) {
+				case level::trace: return "trace";
+				case level::debug: return "debug";
+				case level::info : return "info";
+				case level::warn : return "warn";
+				case level::error: return "error";
+				case level::fault: return "fault";
+			}
+		}
 
 		class logger {
 			const char* logger_name = "Logger";
 			std::vector<gxx::log::target*> targets;
 			std::string pattern = "[{level}]{logger}: {msg}";
 
-			Level minlevel = Level::Trace;
+			level minlevel = level::trace;
 
 		public:
 			dlist_head manage_link;
@@ -48,22 +66,26 @@ namespace gxx {
 				targets.push_back(&tgt);
 			}
 
+			void clear_targets() {
+				targets.clear();
+			}
+
 			void set_pattern(const char* str) {
 				pattern = str;
 			}
 
-			void set_level(Level level) {
-				minlevel = level;
+			void set_level(level lvl) {
+				minlevel = lvl;
 			}
 
 
 			/*template <typename ... Args>
-			inline void log_helper(Level level, const char* fmt, argument<Args>&& ... args) {
+			inline void log_helper(level_type level, const char* fmt, argument<Args>&& ... args) {
 				log()
 			}*/
 
-			inline void log(Level level, const char* fmt, arglist&& args) {
-				if (minlevel <= level) {
+			inline void log(level lvl, const char* fmt, arglist&& args) {
+				if (minlevel <= lvl) {
 					std::string msg = gxx::format_args(fmt, args);
 
 					char tstamp[64] = "";
@@ -77,7 +99,7 @@ namespace gxx {
 						pattern.c_str(), 
 						"msg"_a=msg.c_str(), 
 						"logger"_a=logger_name,
-						"level"_a=level_to_str(level),
+						"level"_a=log::level_to_string(lvl),
 						"time"_a=tstamp
 					);
 
@@ -98,52 +120,40 @@ namespace gxx {
 			}
 
 			template <typename ... Args>
-			inline void log(Level level, const char* fmt, Args&& ... args) {
-				log(level, fmt, gxx::arglist(gxx::make_argument<format_visitor>(gxx::make_argument_temporary(std::forward<Args>(args))) ...));
+			inline void log(level lvl, const char* fmt, Args&& ... args) {
+				log(lvl, fmt, gxx::arglist(gxx::make_argument<format_visitor>(gxx::make_argument_temporary(std::forward<Args>(args))) ...));
 			}
 
 			template <typename ... Args>
 			inline void trace(const char* fmt, Args&& ... args) {
-				log(Level::Trace, fmt, std::forward<Args>(args)...);
+				log(level::trace, fmt, std::forward<Args>(args)...);
 			}
 
 			template <typename ... Args>
 			inline void debug(const char* fmt, Args&& ... args) {
-				log(Level::Debug, fmt, std::forward<Args>(args)...);
+				log(level::debug, fmt, std::forward<Args>(args)...);
 			}
 
 			template <typename ... Args>
 			inline void info(const char* fmt, Args&& ... args) {
-				log(Level::Info, fmt, std::forward<Args>(args)...);
+				log(level::info, fmt, std::forward<Args>(args)...);
 			}
 
 			template <typename ... Args>
 			inline void warn(const char* fmt, Args&& ... args) {
-				log(Level::Warning, fmt, std::forward<Args>(args)...);
+				log(level::warn, fmt, std::forward<Args>(args)...);
 			}
 
 			template <typename ... Args>
 			inline void error(const char* fmt, Args&& ... args) {
-				log(Level::Error, fmt, std::forward<Args>(args)...);
+				log(level::error, fmt, std::forward<Args>(args)...);
 			}
 
 			template <typename ... Args>
 			inline void fault(const char* fmt, Args&& ... args) {
-				log(Level::Fault, fmt, std::forward<Args>(args)...);
+				log(level::fault, fmt, std::forward<Args>(args)...);
 			}
-
-			static const char* level_to_str(Level level) {
-				switch(level) {
-					case Level::Trace: return "trace";
-					case Level::Debug: return "debug";
-					case Level::Info: return "info";
-					case Level::Warning: return "warn";
-					case Level::Error: return "error";
-					case Level::Fault: return "fault";
-				}
-			}
-
-		};
+		};		
 	}
 }
 

@@ -172,7 +172,7 @@ namespace gxx {
 			for(auto it = argv; argc--; it++) {
 				switch(parse_minus(*it, state)) {
 					case 0: 
-						dprln(0);
+						//dprln(0);
 						if (state == AutomState::Normal) {
 							args.push_back(std::string(*it));
 						} else {

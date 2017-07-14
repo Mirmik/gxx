@@ -9,10 +9,12 @@
 #include <vector>
 #include <map>
 
+#include <gxx/result.h>
 #include <gxx/string.h>
-
 #include <gxx/util/ctrdtr.h>
 #include <gxx/buffer.h>
+
+using namespace gxx::result_type;
 
 namespace gxx {
 	class datatree {
@@ -28,7 +30,7 @@ namespace gxx {
 		using check_type = uint8_t;
 
 		static constexpr check_type check_subset = 0;
-		static constexpr check_type check_gyperset = 1;
+		static constexpr check_type check_superset = 1;
 		static constexpr check_type check_equal = 2;
 
 	protected:
@@ -72,8 +74,16 @@ namespace gxx {
 		std::string& as_string();
 		int64_t& as_integer();
 
+		result<std::string&> as_string_critical();
+		result<int64_t&> as_integer_critical();
+
+		std::string as_string_default(std::string str);
+		int64_t as_integer_default(int64_t i);
+
 		int64_t get_integer(const char*, int64_t def);
 		int64_t get_integer(const std::string&, int64_t def);
+		//result<int64_t> get_integer_critical(const std::string&);
+		
 
 		datatree::type get_type() const;
 		const char * type_to_str();
@@ -85,6 +95,7 @@ namespace gxx {
 		bool is_string() 		{ return m_type == type::string; }
 		
 		strlst check_dict(strlst lst, check_type ct);
+		std::pair<strlst,strlst> check_dict_symmetric(strlst lst);
 
 	public:
 		datatree& operator= (const datatree& other);
@@ -94,7 +105,6 @@ namespace gxx {
 
 		bool contains(gxx::buffer buf);
 	};
-
 }
 
 #endif

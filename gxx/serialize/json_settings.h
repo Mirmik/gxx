@@ -15,9 +15,11 @@ namespace gxx {
 	class json_settings {
 	public:
 		json m_settings;
-
 		std::string pathstr;
 
+		ACCESSOR(path, pathstr);
+
+		json_settings() = default;
 		json_settings(const char* path) : pathstr(path) {};
 
 		void load() {

@@ -25,5 +25,4 @@ int main() {
 	dprln(js["mir"].as_string());
 
 	js.prettyPrintTo(std::cout);
-	println();
 }
