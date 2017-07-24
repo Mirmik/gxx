@@ -234,8 +234,10 @@ namespace gxx {
 		strlst retlist;
 
 		auto _keys = gxx::keys_of_map(m_dict);
+		//dprln("HERE");
 		strlst keys(_keys.begin(), _keys.end());
 		
+		//dprln("HERE");
 		//std::sort(lst.begin(), lst.end());
 		//std::sort(keys.begin(), keys.end());
 		lst.sort();
@@ -291,7 +293,7 @@ namespace gxx {
 			keys.begin(), keys.end(),
 			std::inserter(ret.second, ret.second.begin())
 		);
-
+		
 		return ret;
 	}
 }

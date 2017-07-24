@@ -91,6 +91,7 @@ namespace gxx {
 		keys_of_map_t(std::map<K,T>& dict) : dict(dict) {
 			it = dict.begin();
 			eit = dict.end();
+			//dprln(it == eit);
 		}
 	
 		K& value() {
@@ -104,7 +105,7 @@ namespace gxx {
 		}	
 	
 		iterator begin() {
-			return iterator(*this); 
+			return iterator(*this, dict.empty() ? true : false); 
 		}
 	
 		iterator end() {
