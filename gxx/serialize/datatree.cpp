@@ -26,8 +26,8 @@ namespace gxx {
 			case datatree::type::dictionary: 
 				gxx::constructor(&m_dict, other.m_dict);
 				return;
-			case datatree::type::integer:
-				m_i64 = other.m_i64;
+			case datatree::type::number:
+				m_num = other.m_num;
 				return;
 			case datatree::type::noinit:
 				return; 
@@ -42,8 +42,8 @@ namespace gxx {
 		init(t);
 	}
 	
-	datatree::datatree(int64_t i64) {
-		init(i64);
+	datatree::datatree(double num) {
+		init(num);
 	}
 	
 	void datatree::init(datatree::type t) {
@@ -58,7 +58,7 @@ namespace gxx {
 			case datatree::type::dictionary: 
 				gxx::constructor(&m_dict);
 				return;
-			case datatree::type::integer:
+			case datatree::type::number:
 			case datatree::type::noinit:
 				return; 
 		}
@@ -70,9 +70,9 @@ namespace gxx {
 	
 	}
 	
-	void datatree::init(const int64_t& i64) {
-		m_type = datatree::type::integer;
-		m_i64 = i64;
+	void datatree::init(const double& num) {
+		m_type = datatree::type::number;
+		m_num = num;
 	}
 	
 	void datatree::invalidate() {
@@ -87,7 +87,7 @@ namespace gxx {
 				gxx::destructor(&m_dict);
 				return; 
 			case datatree::type::noinit:
-			case datatree::type::integer:
+			case datatree::type::number:
 				return;
 		}
 		m_type = datatree::type::noinit;
@@ -129,34 +129,34 @@ namespace gxx {
 		return m_str;
 	}
 	
-	int64_t& datatree::as_integer() {
-		if (m_type != datatree::type::integer) init(datatree::type::integer);
-		return m_i64;
+	double& datatree::as_number() {
+		if (m_type != datatree::type::number) init(datatree::type::number);
+		return m_num;
 	}
 	
-	int64_t datatree::get_integer(const char* str, int64_t def) {
+	double datatree::get_number(const char* str, double def) {
 		datatree* cur = this;
 		for (auto& s : gxx::split_tokenizer(str, '/')) {
 			dprln(s);
 			if (cur->contains(s)) cur = &cur->m_dict[std::string(s.data(), s.size())];
 			else return def;
 		}       
-		if (cur->get_type() != gxx::datatree::type::integer) return def;
-		return cur->as_integer();
+		if (cur->get_type() != gxx::datatree::type::number) return def;
+		return cur->as_number();
 	}
 
-	int64_t datatree::get_integer(const std::string& str, int64_t def) {
-		return get_integer(str.c_str(), def);
+	double datatree::get_number(const std::string& str, double def) {
+		return get_number(str.c_str(), def);
 	}
 
-	result<int64_t&> datatree::as_integer_critical() {
-		if (!is_integer()) return error("is't integer");
-		return m_i64;
+	result<double&> datatree::as_number_critical() {
+		if (!is_number()) return error("is't number");
+		return m_num;
 	}
 
-	int64_t datatree::as_integer_default(int64_t def) {
-		if (!is_integer()) return def;
-		return m_i64;
+	double datatree::as_number_default(double def) {
+		if (!is_number()) return def;
+		return m_num;
 	}
 
 	bool datatree::contains(gxx::buffer buf) {
@@ -182,7 +182,7 @@ namespace gxx {
 			case datatree::type::string: 		return "String";
 			case datatree::type::array: 		return "Array";
 			case datatree::type::dictionary: 	return "Dictionary";
-			case datatree::type::integer: 		return "Integer";
+			case datatree::type::number: 		return "number";
 			case datatree::type::noinit: 		return "NoInit";
 		}
 	}
@@ -200,8 +200,8 @@ namespace gxx {
 			case datatree::type::dictionary: 
 				gxx::constructor(&m_dict, other.m_dict);
 				return *this;
-			case datatree::type::integer:
-				m_i64 = other.m_i64;
+			case datatree::type::number:
+				m_num = other.m_num;
 				return *this;
 			case datatree::type::noinit:
 				return *this; 
@@ -213,14 +213,14 @@ namespace gxx {
 		return *this;
 	}
 	
-	datatree& datatree::operator= (const int64_t& i64) {
-		reset(i64);
+	datatree& datatree::operator= (const double& num) {
+		reset(num);
 		return *this;
 	}	
 	
 	int datatree::size() {
 		switch(m_type) {
-			case datatree::type::integer:
+			case datatree::type::number:
 			case datatree::type::string: return -1;
 			case datatree::type::array: return m_arr.size();
 			case datatree::type::dictionary: return m_dict.size();
