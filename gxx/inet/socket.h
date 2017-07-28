@@ -4,8 +4,11 @@
 #include <gxx/io/strm.h>
 #include <gxx/inet/hostaddr.h>
 #include <gxx/util/setget.h>
+#include <gxx/result.h>
 
 #include <fstream>
+
+using namespace gxx::result_type;
 
 namespace gxx {
 	enum class SocketType : uint8_t {
@@ -15,6 +18,7 @@ namespace gxx {
 	};
 
 	enum class SocketError : uint8_t {
+		WrongSocketType,
 		ConnectionRefused,
 		UnknownError,
 		AllreadyInUse,
@@ -54,6 +58,9 @@ namespace gxx {
 		SocketError m_error = SocketError::OK;
 		SocketState m_state = SocketState::Disconnected;
 
+		void setError(const char* func, int err);
+		void setError(const char* func, SocketError err);
+
 	public:
 		socket();
 		socket(SocketType type, const hostaddr& addr, uint16_t port);
@@ -65,8 +72,9 @@ namespace gxx {
 
 		int bind();
 		int connect();
-		int listen(int maxcon);
+		int listen(int maxcon); 
 		gxx::socket accept();
+		int try_accept(gxx::socket& sock);
 		
 		int send(const char* data, size_t size, int flags);
     	int recv(char* data, size_t size, int flags);
@@ -97,6 +105,7 @@ namespace gxx {
 	public:
 		const char* error() {
 			switch(m_error) {
+				case SocketError::WrongSocketType: return "WrongSocketType";
 				case SocketError::AllreadyInUse: return "AllreadyInUse";
 				case SocketError::ConnectionRefused: return "ConnectionRefused";
 				case SocketError::Unavailable: return "Unavailable";

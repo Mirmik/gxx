@@ -124,17 +124,17 @@ namespace gxx {
 		return m_arr;
 	}
 	
-	std::string& datatree::as_string() {
+	const std::string& datatree::as_string() {
 		if (m_type != datatree::type::string) init(datatree::type::string);
 		return m_str;
 	}
 	
-	double& datatree::as_numer() {
+	const double& datatree::as_numer() {
 		if (m_type != datatree::type::number) init(datatree::type::number);
 		return m_num;
 	}
 	
-	double datatree::get_number(const char* str, double def) {
+	/*double datatree::get_number(const char* str, double def) {
 		datatree* cur = this;
 		for (auto& s : gxx::split_tokenizer(str, '/')) {
 			dprln(s);
@@ -147,16 +147,26 @@ namespace gxx {
 
 	double datatree::get_number(const std::string& str, double def) {
 		return get_number(str.c_str(), def);
+	}*/
+
+	result<const std::string&> datatree::as_string_critical() {
+		if (!is_string()) return error("is't string");
+		return m_str;
 	}
 
-	result<double&> datatree::as_numer_critical() {
+	result<const double&> datatree::as_numer_critical() {
 		if (!is_numer()) return error("is't number");
 		return m_num;
 	}
 
-	double datatree::as_numer_default(double def) {
+	const double datatree::as_numer_default(const double def) {
 		if (!is_numer()) return def;
 		return m_num;
+	}
+
+	const std::string& datatree::as_string_default(const std::string& def) {
+		if (!is_string()) return def;
+		return m_str;
 	}
 
 	bool datatree::contains(gxx::buffer buf) {
