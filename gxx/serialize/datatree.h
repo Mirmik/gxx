@@ -72,14 +72,14 @@ namespace gxx {
 		std::map<std::string, datatree>& as_dictionary();
 		std::vector<datatree>& as_vector();
 		std::string& as_string();
-		double& as_number();
+		double& as_numer();
 
 		result<std::string&> as_string_critical();
-		result<double&> as_number_critical();
+		result<double&> as_numer_critical();
 		result<double&> as_float_critical();
 
 		std::string as_string_default(std::string str);
-		double as_number_default(double i);
+		double as_numer_default(double i);
 
 		double get_number(const char*, double def);
 		double get_number(const std::string&, double def);
@@ -90,7 +90,7 @@ namespace gxx {
 		const char * type_to_str();
 
 		bool is_nil() 			{ return m_type == type::noinit; }
-		bool is_number() 		{ return m_type == type::number; }
+		bool is_numer() 		{ return m_type == type::number; }
 		//bool is_float() 		{ return m_type == type::float; }
 		bool is_array() 		{ return m_type == type::array; }
 		bool is_dictionary()	{ return m_type == type::dictionary; }

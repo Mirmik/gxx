@@ -129,7 +129,7 @@ namespace gxx {
 		return m_str;
 	}
 	
-	double& datatree::as_number() {
+	double& datatree::as_numer() {
 		if (m_type != datatree::type::number) init(datatree::type::number);
 		return m_num;
 	}
@@ -142,20 +142,20 @@ namespace gxx {
 			else return def;
 		}       
 		if (cur->get_type() != gxx::datatree::type::number) return def;
-		return cur->as_number();
+		return cur->as_numer();
 	}
 
 	double datatree::get_number(const std::string& str, double def) {
 		return get_number(str.c_str(), def);
 	}
 
-	result<double&> datatree::as_number_critical() {
-		if (!is_number()) return error("is't number");
+	result<double&> datatree::as_numer_critical() {
+		if (!is_numer()) return error("is't number");
 		return m_num;
 	}
 
-	double datatree::as_number_default(double def) {
-		if (!is_number()) return def;
+	double datatree::as_numer_default(double def) {
+		if (!is_numer()) return def;
 		return m_num;
 	}
 
