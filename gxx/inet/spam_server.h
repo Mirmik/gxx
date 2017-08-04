@@ -8,6 +8,8 @@
 #include <string.h>
 #include <gxx/format.h>
 
+#include <gxx/debug.h>
+
 namespace gxx {
 	class spam_server : public server {
 
@@ -17,8 +19,13 @@ namespace gxx {
 		spam_server(int port) : server(gxx::SocketType::Tcp, port) {};
 
 		int start() {
-			if (server::listen() < 0) return -1;;
+			if (server::listen() < 0) { 
+				gxx::debug("spam_server start error");
+				return -1;
+			}
+
 			blocking(false);
+			return 0;
 		}
 
 		int __send(const char* str) {
@@ -29,8 +36,9 @@ namespace gxx {
 			//gxx::socket new_client;
 			
 			while(true) {
-				gxx::socket new_client = accept();
-				if (new_client.is_connected() == false) break;
+				gxx::socket new_client;
+				int sts = try_accept(new_client);
+				if (sts != 0) break;
 				clients.push_back(std::move(new_client));
 			}
 

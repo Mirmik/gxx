@@ -53,7 +53,7 @@ namespace detail {
 	}
 
 	json json_parser::parse_number(std::istream& is) {
-		int num;
+		double num;
 		is >> num;
 		return json(num);
 	}
@@ -153,8 +153,8 @@ namespace detail {
 	void json::printTo(std::ostream& os) {
 		bool sep = false;
 		switch(m_type) {
-			case datatree::type::integer: 
-				os << m_i64;
+			case datatree::type::number: 
+				os << m_num;
 				return;
 			case datatree::type::string: 
 				os << '"'; 
@@ -194,8 +194,8 @@ namespace detail {
 		bool havedict;
 
 		switch(m_type) {
-			case datatree::type::integer: 
-				os << m_i64;
+			case datatree::type::number: 
+				os << m_num;
 				break;
 			
 			case datatree::type::string: 

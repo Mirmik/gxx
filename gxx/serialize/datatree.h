@@ -23,7 +23,7 @@ namespace gxx {
 			string,
 			array,
 			dictionary,
-			integer,
+			number,
 			noinit,
 		};
 
@@ -37,7 +37,7 @@ namespace gxx {
 		datatree::type m_type = datatree::type::noinit;
 
 		union {
-			int64_t m_i64;
+			double m_num;
 			std::string m_str;
 			std::vector<datatree> m_arr;
 			std::map<std::string, datatree> m_dict;
@@ -49,7 +49,7 @@ namespace gxx {
 		datatree(const datatree& other);
 		datatree(const std::string& str);
 		datatree(const datatree::type& t);
-		datatree(int64_t i64);
+		datatree(double i64);
 
 	private:
 		template <typename T>	
@@ -60,7 +60,7 @@ namespace gxx {
 
 		void init(datatree::type t);
 		void init(const std::string& str);
-		void init(const int64_t& i64);
+		void init(const double& i64);
 		void invalidate();
 
 	public:
@@ -71,25 +71,29 @@ namespace gxx {
 
 		std::map<std::string, datatree>& as_dictionary();
 		std::vector<datatree>& as_vector();
-		std::string& as_string();
-		int64_t& as_integer();
-
-		result<std::string&> as_string_critical();
-		result<int64_t&> as_integer_critical();
-
-		std::string as_string_default(std::string str);
-		int64_t as_integer_default(int64_t i);
-
-		int64_t get_integer(const char*, int64_t def);
-		int64_t get_integer(const std::string&, int64_t def);
-		//result<int64_t> get_integer_critical(const std::string&);
 		
+		const double& as_numer();
+		const double as_numer_default(const double i);
+		result<const double&> as_numer_critical();
+
+		const std::string& as_string();
+		const std::string& as_string_default(const std::string& str);
+		result<const std::string&> as_string_critical();
+		
+		
+		//double get_number(const char*, double def);
+		//double get_number(const std::string&, double def);
+
+		//result<double> get_number_critical(const std::string&);
+		
+
 
 		datatree::type get_type() const;
 		const char * type_to_str();
 
 		bool is_nil() 			{ return m_type == type::noinit; }
-		bool is_integer() 		{ return m_type == type::integer; }
+		bool is_numer() 		{ return m_type == type::number; }
+		//bool is_float() 		{ return m_type == type::float; }
 		bool is_array() 		{ return m_type == type::array; }
 		bool is_dictionary()	{ return m_type == type::dictionary; }
 		bool is_string() 		{ return m_type == type::string; }
@@ -100,7 +104,7 @@ namespace gxx {
 	public:
 		datatree& operator= (const datatree& other);
 		datatree& operator= (const std::string& str);
-		datatree& operator= (const int64_t& i64);
+		datatree& operator= (const double& i64);
 		int size();
 
 		bool contains(gxx::buffer buf);

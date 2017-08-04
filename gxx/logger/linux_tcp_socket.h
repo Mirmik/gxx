@@ -11,8 +11,8 @@ namespace gxx {
 		public:
 			spam_server_target(int port) : server(port) {}
 	
-			void start() {
-				server.start();
+			int start() {
+				return server.start();
 			}
 	
 			void log(const char* str) override {
