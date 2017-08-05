@@ -1,0 +1,5 @@
+Implementation("gxx.io.file", "unix", {
+	sources = {
+		cxx = "fdfile_unix.cpp"
+	}
+})
