@@ -103,7 +103,7 @@ namespace gxx {
 						"time"_a=tstamp
 					);
 
-					logmsg.append("\n");
+					//logmsg.append("\n");
 /*
 					std::string logmsg = format(pattern.c_str(), 
 						"msg"_a=(const char*)msg, 
