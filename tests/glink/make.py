@@ -15,20 +15,18 @@ scriptq.execute("../../gxx.g.py")
 module("main",
 	sources = ["main.cpp"],
 	includePaths = ["../.."],
-	modules = [submodule("gxx.sources")]
+	modules = [
+		submodule("gxx.sources"),
+		submodule("gxx.dprint", "stdout"),
+	]
 )
 
 make_module("main",
 	cxxstd = "gnu++14",
+	target = "glinktest"
 )
 
-
-#make("build/arglist.cpp")
-make("target")
-
-exit(0)
-
-target = "target"
+target = "glinktest"
 
 def all():
 	return glink.make.make(target)

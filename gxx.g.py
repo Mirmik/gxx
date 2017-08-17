@@ -1,8 +1,8 @@
-print("HelloWorld")
-
 from glink.modules import module
+from glink.scripter import scriptq
 
 module("gxx.sources", 
+	srcdir = "gxx",
 	sources = [
 		"format.cpp", 
 		"arglist.cpp", 
@@ -12,3 +12,5 @@ module("gxx.sources",
 		"serialize/datatree.cpp",
 	]
 )
+
+scriptq.execute_recursive(root="gxx", pattern="g.py", hide="HIDE")
