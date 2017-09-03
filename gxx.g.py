@@ -1,16 +1,21 @@
 from glink.modules import module
 from glink.scripter import scriptq
 
-module("gxx.sources", 
+scriptq.execute("libc/libc.g.py")
+scriptq.execute("std/std.g.py")
+scriptq.execute("gxx/debug/debug.g.py")
+scriptq.execute("gxx/diag/diag.g.py")
+
+module("gxx", 
 	srcdir = "gxx",
 	sources = [
-		"format.cpp", 
-		"arglist.cpp", 
-		"logger/targets/stdout.cpp", 
-		"print.cpp",
-		"serialize/json.cpp",
-		"serialize/datatree.cpp",
-	]
-)
+		#"format.cpp", 
+		#"arglist.cpp", 
+		#"logger/targets/stdout.cpp", 
+		#"print.cpp",
+		#"serialize/json.cpp",
+		#"serialize/datatree.cpp",
+	],
 
-scriptq.execute_recursive(root="gxx", pattern="g.py", hide="HIDE")
+	include_paths = "."
+)
