@@ -5,6 +5,7 @@
 #include "assert.h"
 #include "gxx/util/decltypeof.h"
 #include "gxx/util/member.h"
+#include <sys/cdefs.h>
 
 struct dlist_head {
 	struct dlist_head* next;

@@ -127,6 +127,6 @@ namespace gxx {
 	}																		\
 };
 
-#define GXX_REGISTER_ARGUMENT_VISIT(visitor, type, func) template<> void* visitor::get_visit<type>() { return (void*)&func; }
+#define GXX_REGISTER_ARGUMENT_VISIT(visitor, type, func) namespace gxx { template<> void* visitor::get_visit<type>() { return (void*)&func; } }
 
 #endif
