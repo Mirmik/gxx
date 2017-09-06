@@ -131,6 +131,7 @@ namespace gxx {
 		return _format_arg_str(str.data(), str.size(), w, opts);
 	}
 
+	GXX_REGISTER_ARGUMENT_VISIT(format_visitor, char, format_arg_int8);
 	GXX_REGISTER_ARGUMENT_VISIT(format_visitor, int8_t, format_arg_int8);
 	GXX_REGISTER_ARGUMENT_VISIT(format_visitor, int16_t, format_arg_int16);
 	GXX_REGISTER_ARGUMENT_VISIT(format_visitor, int32_t, format_arg_int32);
