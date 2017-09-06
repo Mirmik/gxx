@@ -10,6 +10,8 @@ namespace gxx {
 	public:
 		buffer(const char* ptr) : object_buffer<char>((char*)ptr, strlen(ptr)) {}
 		buffer(char* ptr, size_t sz) : object_buffer<char>(ptr, sz) {}
+		buffer(const char* ptr, size_t sz) : object_buffer<char>((char*)ptr, sz) {}
+		buffer() : object_buffer<char>(nullptr, 0) {}
 
 		template<size_t N>
 		buffer(char(&buf)[N]) : object_buffer<char>(buf, N) {}

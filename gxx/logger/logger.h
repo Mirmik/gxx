@@ -84,7 +84,7 @@ namespace gxx {
 				log()
 			}*/
 
-			inline void log(level lvl, const char* fmt, arglist&& args) {
+			inline void log(level lvl, const char* fmt, visitable_arglist&& args) {
 				if (minlevel <= lvl) {
 					std::string msg = gxx::format_args(fmt, args);
 
@@ -121,7 +121,7 @@ namespace gxx {
 
 			template <typename ... Args>
 			inline void log(level lvl, const char* fmt, Args&& ... args) {
-				log(lvl, fmt, gxx::arglist(gxx::make_argument<format_visitor>(gxx::make_argument_temporary(std::forward<Args>(args))) ...));
+				log(lvl, fmt, gxx::make_visitable_arglist<format_visitor>(std::forward<Args>(args) ...));
 			}
 
 			template <typename ... Args>

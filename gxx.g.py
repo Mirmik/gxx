@@ -9,13 +9,13 @@ scriptq.execute("gxx/diag/diag.g.py")
 module("gxx", 
 	srcdir = "gxx",
 	sources = [
-		#"format.cpp", 
+		"format.cpp", 
 		#"arglist.cpp", 
-		#"logger/targets/stdout.cpp", 
+		"logger/targets/stdout.cpp", 
 		#"print.cpp",
 		#"serialize/json.cpp",
 		#"serialize/datatree.cpp",
 	],
 
-	include_paths = "."
+	include_paths = ["."]
 )

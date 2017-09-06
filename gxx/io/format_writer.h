@@ -6,7 +6,7 @@
 
 #include <gxx/util/numconvert.h>
 #include <gxx/util/format.h>
-#include <gxx/arglist.h>
+#include <gxx/arglist2.h>
 
 //#include <gxx/io/strm.h>
 
@@ -97,33 +97,32 @@ namespace gxx {
 			virtual void writeData(const char* str, size_t sz) = 0;
 		
 		private:
-			int format_argument(const char*& fmt, const gxx::arglist& list, uint8_t& argnum) {
+			int format_argument(const char*& fmt, const gxx::visitable_arglist& list, uint8_t& argnum) {
 				int ret;
 		
 				assert(*fmt++ == '{');
 		
-				if (isdigit(*fmt)) {
-					argnum = atou32(fmt, 10);
-				} 
+				const visitable_argument* varg = nullptr;
+				
 		
 				if (isalpha(*fmt)) {
 					const char* count_ptr = fmt;
 					int len = 0;
 					while(isalpha(*count_ptr++)) len++;
-					argnum = list.find_name(fmt,len);
-					if (argnum == 0xFF) {
-						dprln("name error");
-						abort();
-					}
-				} 
+					varg = &list[gxx::buffer(fmt, len)];
+				} else if (isdigit(*fmt)) {
+					varg = &list[atou32(fmt, 10)];
+				} else {
+					varg = &list[argnum];
+				}
 		
 				while(*fmt != '}' && *fmt != ':' && *fmt != 0) fmt++;
 				switch(*fmt) {
 					case '}': 
-						ret = format_visitor::visit(list[argnum], *this, nullptr);
+						ret = format_visitor::visit(*varg, *this, nullptr);
 						break;
 					case ':': 
-						ret = format_visitor::visit(list[argnum], *this, ++fmt);
+						ret = format_visitor::visit(*varg, *this, ++fmt);
 						break;
 					case 0	: 
 						return -1;
@@ -137,7 +136,7 @@ namespace gxx {
 			}
 
 		public:
-			void print_impl(const char* fmt, const gxx::arglist& list) {
+			void print_impl(const char* fmt, const gxx::visitable_arglist& list) {
 				uint8_t argnum = 0;
 				const char* fmtptr = fmt;
 			
@@ -160,7 +159,7 @@ namespace gxx {
 
 			template<typename ... Args>
 			void print(const char* fmt, Args&& ... args) {
-				print_impl(fmt, gxx::arglist(gxx::make_argument<format_visitor>(gxx::make_argument_temporary(std::forward<Args>(args))) ...));	
+				print_impl(fmt, make_visitable_arglist<format_visitor>(std::forward<Args>(args) ...));	
 			}	
 
 			void print(const char* str) {

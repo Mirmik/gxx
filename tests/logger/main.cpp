@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include <gxx/logger/logger.h>
-#include <gxx/logger/stdout.h>
+#include <gxx/logger/targets/stdout.h>
 
 //#include <gxx/logger/linux_tcp_socket.h>
 //#include <gxx/debug/dprint.h>

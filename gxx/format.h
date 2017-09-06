@@ -3,17 +3,16 @@
 
 #include <utility>
 
-#include <gxx/arglist.h>
+#include <gxx/arglist2.h>
 #include <gxx/io/format_writer.h>
 #include <gxx/io/debug_ostream.h>
 
 namespace gxx {
-
-	std::string format_args(const char* fmt, const arglist& args);
+	std::string format_args(const char* fmt, const visitable_arglist& args);
 	
 	template<typename ... Args>
 	std::string format(const char* fmt, Args&& ... args) {
-		return format_args(fmt, gxx::arglist(gxx::make_argument<format_visitor>(gxx::make_argument_temporary(std::forward<Args>(args))) ...));	
+		return format_args(fmt, make_visitable_arglist<format_visitor>(std::forward<Args>(args) ...));	
 	}
 	
 	template<typename ... Args>
