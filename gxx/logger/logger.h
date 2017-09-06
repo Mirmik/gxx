@@ -124,35 +124,45 @@ namespace gxx {
 				log(lvl, fmt, gxx::make_visitable_arglist<format_visitor>(std::forward<Args>(args) ...));
 			}
 
+                        template <typename ... Args>
+                        inline void log(level lvl, std::string&& fmt, Args&& ... args) {
+                                log(lvl, fmt.c_str(), gxx::make_visitable_arglist<format_visitor>(std::forward<Args>(args) ...));
+                        }
+
+                        template <typename ... Args>
+                        inline void log(level lvl, std::string& fmt, Args&& ... args) {
+                                log(lvl, fmt.c_str(), gxx::make_visitable_arglist<format_visitor>(std::forward<Args>(args) ...));
+                        }
+
 			template <typename ... Args>
-			inline void trace(const char* fmt, Args&& ... args) {
-				log(level::trace, fmt, std::forward<Args>(args)...);
+                        inline void trace(Args&& ... args) {
+                                log(level::trace, std::forward<Args>(args)...);
 			}
 
 			template <typename ... Args>
-			inline void debug(const char* fmt, Args&& ... args) {
-				log(level::debug, fmt, std::forward<Args>(args)...);
+                        inline void debug(Args&& ... args) {
+                                log(level::debug, std::forward<Args>(args)...);
 			}
 
 			template <typename ... Args>
-			inline void info(const char* fmt, Args&& ... args) {
-				log(level::info, fmt, std::forward<Args>(args)...);
+                        inline void info(Args&& ... args) {
+                                log(level::info, std::forward<Args>(args)...);
 			}
 
 			template <typename ... Args>
-			inline void warn(const char* fmt, Args&& ... args) {
-				log(level::warn, fmt, std::forward<Args>(args)...);
+                        inline void warn(Args&& ... args) {
+                                log(level::warn, std::forward<Args>(args)...);
 			}
 
 			template <typename ... Args>
-			inline void error(const char* fmt, Args&& ... args) {
-				log(level::error, fmt, std::forward<Args>(args)...);
+                        inline void error(Args&& ... args) {
+                                log(level::error, std::forward<Args>(args)...);
 			}
 
 			template <typename ... Args>
-			inline void fault(const char* fmt, Args&& ... args) {
-				log(level::fault, fmt, std::forward<Args>(args)...);
-			}
+                        inline void fault(Args&& ... args) {
+                                log(level::fault, std::forward<Args>(args)...);
+                        }
 		};		
 	}
 }

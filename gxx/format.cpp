@@ -95,6 +95,11 @@ namespace gxx {
 		return format_arg_int64(i, w, opts);
 	}
 
+    int format_arg_double(const double& u, io::format_writer& w, const char* opts) {
+        const int64_t i = u;
+        return format_arg_int64(i, w, opts);
+    }
+
 	int _format_arg_str(const char* const& str, size_t len, io::format_writer& w, const char* opts) {
 		//dprln("Herecstring");
 		io::CharStrSpec spec;
@@ -207,6 +212,8 @@ namespace gxx {
 	}
 }
 
+GXX_REGISTER_ARGUMENT_VISIT(format_visitor, char, format_arg_int8);
+
 GXX_REGISTER_ARGUMENT_VISIT(format_visitor, int8_t, format_arg_int8);
 GXX_REGISTER_ARGUMENT_VISIT(format_visitor, int16_t, format_arg_int16);
 GXX_REGISTER_ARGUMENT_VISIT(format_visitor, int32_t, format_arg_int32);
@@ -217,5 +224,8 @@ GXX_REGISTER_ARGUMENT_VISIT(format_visitor, uint16_t, format_arg_uint16);
 GXX_REGISTER_ARGUMENT_VISIT(format_visitor, uint32_t, format_arg_uint32);
 GXX_REGISTER_ARGUMENT_VISIT(format_visitor, uint64_t, format_arg_uint64);
 
+GXX_REGISTER_ARGUMENT_VISIT(format_visitor, double, format_arg_double);
+
 GXX_REGISTER_ARGUMENT_VISIT(format_visitor, const char*, format_arg_cstr);
 GXX_REGISTER_ARGUMENT_VISIT(format_visitor, char*, format_arg_cstr);
+GXX_REGISTER_ARGUMENT_VISIT(format_visitor, std::string, format_arg_str);
