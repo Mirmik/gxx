@@ -45,7 +45,7 @@ namespace gxx {
 		using iterator = gxx::gen<gxx::buffer, split_tokenizer>;
 	
 	public:
-		split_tokenizer(const char* str, char dlm) : ptr((char*)str), room(strlen(str)), delim(dlm), m_value(0,0) {}
+		split_tokenizer(const char* str, char dlm) : ptr((char*)str), room(strlen(str)), delim(dlm), m_value() {}
 	
 		gxx::buffer& value() {
 			return m_value;
