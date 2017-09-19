@@ -10,6 +10,7 @@ namespace gxx {
 	using strlst = std::list<std::string>;
 
 	strvec split(const std::string& str, char delim);
+	std::string join(const strvec&, char delim);
 }
 
 #endif

@@ -19,5 +19,31 @@ namespace gxx {
 		}
 	
 		return outvec;
-	} 
+	}
+
+	std::string join(const gxx::strvec& vec, char delim) {
+		if (vec.size() == 0) {
+			return "";
+		}
+
+		std::string ret;
+
+		size_t len = 0;
+		for (auto& s : vec) {
+			len ++;
+			len += s.size();  
+		}
+		ret.reserve(len);
+
+		auto preend = vec.end();
+		auto iter = vec.begin();
+		preend--;
+		for (; iter != preend; iter++) {
+			ret.append(*iter);
+			ret.push_back(delim);
+		}
+		ret.append(*iter);
+
+		return ret;
+	}  
 }

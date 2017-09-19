@@ -19,7 +19,9 @@ namespace gxx {
 			case ECONNREFUSED: serr = SocketError::ConnectionRefused; break;
 			case EAGAIN: serr = SocketError::Unavailable; break;	
 			case EPIPE: serr = SocketError::BrokenPipe; break;
-			default: serr = SocketError::UnknownError; break;
+            default:
+                gxx::debug("Unknown error {}", err);
+                serr = SocketError::UnknownError; break;
 		}
 		setError(func, serr);
 	}
@@ -31,16 +33,20 @@ namespace gxx {
 
 	int socket::open() {
 		switch(m_type) {
-			case SocketType::Tcp: 
-				m_fd = ::socket(PF_INET, SOCK_STREAM, 0);
+            case SocketType::Tcp:
+          //      dprln("::socket");
+                m_fd = ::socket(AF_INET, SOCK_STREAM, 0);
 				break;
 			default:
 				setError("open", SocketError::WrongSocketType);
 				return -1;	
 		}
 		
+        //dprln(m_fd);
+        //dprln( WSAGetLastError());
+
 		if (m_fd < 0) {
-			setError("open", errno);
+            setError("open", errno);
 			return -1;
 		}
 	
@@ -117,8 +123,17 @@ namespace gxx {
 		addr.sin_port = htons(m_port);
    	 	addr.sin_addr.s_addr = htonl(m_addr.addr);
 
+        switch(m_type) {
+            case
+                SocketType::Tcp: addr.sin_family = AF_INET;
+                break;
+            default:
+                setError("connect", SocketError::WrongSocketType);
+                return -1;
+        }
+
 		if (::bind(m_fd, (struct sockaddr*) &addr, sizeof(addr)) < 0) {
-   			setError("bind", errno);	
+            setError("bind", WSAGetLastError());
 			m_state = SocketState::Disconnected;
 			return -1;
 		}
