@@ -6,26 +6,22 @@
 #include <gxx/object_buffer.h>
 
 namespace gxx {
-	class buffer : public object_buffer<char> {
+	class buffer {
+		char* buf;
+		size_t sz;
 	public:
-		buffer(const char* ptr) : object_buffer<char>((char*)ptr, strlen(ptr)) {}
-		buffer(char* ptr, size_t sz) : object_buffer<char>(ptr, sz) {}
-		buffer(const char* ptr, size_t sz) : object_buffer<char>((char*)ptr, sz) {}
-		buffer() : object_buffer<char>(nullptr, 0) {}
+		buffer() : buf(nullptr), sz(0) {}
+		buffer(const char* buf, size_t sz) : buf((char*)buf), sz(sz) {}
 
-		template<size_t N>
-		buffer(char(&buf)[N]) : object_buffer<char>(buf, N) {}
+		bool empty() { return buf == nullptr; }
 
-		buffer(const std::string& str) : buffer((char*)str.data(), str.size()) {}
+		bool operator==(const buffer& other) const {
+			return (sz == other.sz) && (strncmp(buf, other.buf, std::min(sz, other.sz)) == 0);
+		}
+
+		ACCESSOR(data, buf);
+		ACCESSOR(size, sz);
 	};
-
-//	using allocated_buffer = allocated_object_buffer<char>;
-
-//	allocated_buffer allot_buffer(size_t sz);// { return allocated_buffer(sz); }
-
-	namespace buffer_literal {
-		static buffer operator"" _b (const char* name, size_t sz) { return buffer((char*)name, sz); }
-	}
 }
 
 #endif 

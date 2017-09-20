@@ -5,7 +5,7 @@ using namespace gxx::argument_literal;
 using namespace gxx::print_funcs;
 
 int main() {
-	char world[128] = "World";
+	char world[] = "World";
 	const char* world2 = "World";
 	int i = 456;
 
@@ -29,7 +29,7 @@ int main() {
 	str = gxx::format("int {a}", "a"_a=42);
 	dprln(str);
 	
-	str = gxx::format("string {a}", "a"_a="world");
+	str = gxx::format("string {a}", "a"_a=std::string("world"));
 	dprln(str);
 	
 	str = gxx::format("rint {a}", "a"_a=i);
@@ -41,9 +41,9 @@ int main() {
 	str = gxx::format("pstring {a}", "a"_a=world2);
 	dprln(str);
 	
-	dprint("pstring {a}\r\n", "a"_a=world2);
+	fmtpr("pstring {a}\r\n", "a"_a=world2);
 	
-	println("{0}", "Mirmik");	
+	//println("{0}", "Mirmik");	
 	
-	println("What are you doing here, {who}, {uuu}", "who"_a="my darling", "uuu"_a="Another opinion is always fake.");
+	//println("What are you doing here, {who}, {uuu}", "who"_a="my darling", "uuu"_a="Another opinion is always fake.");
 }

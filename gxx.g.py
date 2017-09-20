@@ -9,8 +9,10 @@ scriptq.execute("gxx/diag/diag.g.py")
 module("gxx", 
 	srcdir = "gxx",
 	sources = [
-		"format.cpp", 
+#		"format.cpp", 
 		#"arglist.cpp", 
+		"io/fstream_posix.cpp",
+		"fmt/format.cpp",
 		"logger/targets/stdout.cpp", 
 		#"print.cpp",
 		#"serialize/json.cpp",

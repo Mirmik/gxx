@@ -7,16 +7,17 @@ namespace gxx {
 	namespace io {
 		class fstream : public gxx::io::ostream {
 			int fd;
-		protected:
+
+		public:
 			fstream(int fd) : fd(fd) {}
 
 		protected:
 			int writeData(const char* str, size_t sz) override;
 
-		public:
-			static fstream from_file_descriptor(int fd) {
-				return fstream(fd);
-			}
+		//public:
+		//	static fstream from_file_descriptor(int fd) {
+		//		return fstream(fd);
+		//	}
 		};
 	}
 }

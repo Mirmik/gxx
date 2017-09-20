@@ -3,12 +3,13 @@
 
 #include <gxx/datastruct/dlist_head.h>
 #include <gxx/logger/target.h>
-#include <gxx/format.h>
+#include <gxx/fmt/format.h>
 
 #include <vector>
 #include <string>
 #include <memory>
 
+#include <gxx/io/stdwrapers.h>
 #include <gxx/util/setget.h>
 
 using namespace gxx::argument_literal;
@@ -78,24 +79,18 @@ namespace gxx {
 				minlevel = lvl;
 			}
 
-
-			/*template <typename ... Args>
-			inline void log_helper(level_type level, const char* fmt, argument<Args>&& ... args) {
-				log()
-			}*/
-
 			inline void log(level lvl, const char* fmt, visitable_arglist&& args) {
 				if (minlevel <= lvl) {
-					std::string msg = gxx::format_args(fmt, args);
+					std::string msg;
+					gxx::io::std_string_writer msgwriter(msg);
+					msgwriter.format_args(fmt, args);
 
 					char tstamp[64] = "";
 					if (timestamp != nullptr) timestamp(tstamp, 64);
-	
-					//int loglen = strlen(pattern.c_str()) * 2 + msglen + 50;
-					//char* logmsg = (char*)alloca(loglen);
-					//memory_stream logstrm(logmsg, loglen);
-					//text_writer logwriter(logstrm);
-					std::string logmsg = format(
+
+					std::string logmsg;
+					gxx::io::std_string_writer logwriter(logmsg);
+					logwriter.format(
 						pattern.c_str(), 
 						"msg"_a=msg.c_str(), 
 						"logger"_a=logger_name,
@@ -103,16 +98,6 @@ namespace gxx {
 						"time"_a=tstamp
 					);
 
-					//logmsg.append("\n");
-/*
-					std::string logmsg = format(pattern.c_str(), 
-						"msg"_a=(const char*)msg, 
-						"logger"_a=logger_name,
-						"level"_a=level_to_str(level),
-						"time"_a=tstamp);
-*/					
-					//dprln(logmsg);
-				
 					for (auto t : targets) {
 						t->log(logmsg.c_str());
 					}
@@ -121,48 +106,48 @@ namespace gxx {
 
 			template <typename ... Args>
 			inline void log(level lvl, const char* fmt, Args&& ... args) {
-				log(lvl, fmt, gxx::make_visitable_arglist<format_visitor>(std::forward<Args>(args) ...));
-			}
-
-                        template <typename ... Args>
-                        inline void log(level lvl, std::string&& fmt, Args&& ... args) {
-                                log(lvl, fmt.c_str(), gxx::make_visitable_arglist<format_visitor>(std::forward<Args>(args) ...));
-                        }
-
-                        template <typename ... Args>
-                        inline void log(level lvl, std::string& fmt, Args&& ... args) {
-                                log(lvl, fmt.c_str(), gxx::make_visitable_arglist<format_visitor>(std::forward<Args>(args) ...));
-                        }
-
-			template <typename ... Args>
-                        inline void trace(Args&& ... args) {
-                                log(level::trace, std::forward<Args>(args)...);
+				log(lvl, fmt, gxx::make_visitable_arglist<gxx::fmt::format_visitor>(std::forward<Args>(args) ...));
 			}
 
 			template <typename ... Args>
-                        inline void debug(Args&& ... args) {
-                                log(level::debug, std::forward<Args>(args)...);
+			inline void log(level lvl, std::string&& fmt, Args&& ... args) {
+				log(lvl, fmt.c_str(), gxx::make_visitable_arglist<gxx::fmt::format_visitor>(std::forward<Args>(args) ...));
 			}
 
 			template <typename ... Args>
-                        inline void info(Args&& ... args) {
-                                log(level::info, std::forward<Args>(args)...);
+			inline void log(level lvl, std::string& fmt, Args&& ... args) {
+				log(lvl, fmt.c_str(), gxx::make_visitable_arglist<gxx::fmt::format_visitor>(std::forward<Args>(args) ...));
 			}
 
 			template <typename ... Args>
-                        inline void warn(Args&& ... args) {
-                                log(level::warn, std::forward<Args>(args)...);
+			inline void trace(Args&& ... args) {
+				log(level::trace, std::forward<Args>(args)...);
 			}
 
 			template <typename ... Args>
-                        inline void error(Args&& ... args) {
-                                log(level::error, std::forward<Args>(args)...);
+			inline void debug(Args&& ... args) {
+				log(level::debug, std::forward<Args>(args)...);
 			}
 
 			template <typename ... Args>
-                        inline void fault(Args&& ... args) {
-                                log(level::fault, std::forward<Args>(args)...);
-                        }
+			inline void info(Args&& ... args) {
+				log(level::info, std::forward<Args>(args)...);
+			}
+
+			template <typename ... Args>
+			inline void warn(Args&& ... args) {
+				log(level::warn, std::forward<Args>(args)...);
+			}
+
+			template <typename ... Args>
+			inline void error(Args&& ... args) {
+				log(level::error, std::forward<Args>(args)...);
+			}
+
+			template <typename ... Args>
+			inline void fault(Args&& ... args) {
+				log(level::fault, std::forward<Args>(args)...);
+			}
 		};		
 	}
 }
