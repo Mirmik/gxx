@@ -3,6 +3,7 @@
 
 #include <utility>
 
+#include <iostream>
 #include <gxx/arglist.h>
 #include <gxx/io/stdwraper.h>
 //#include <gxx/io/debug_ostream.h>

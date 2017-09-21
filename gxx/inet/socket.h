@@ -1,7 +1,7 @@
 #ifndef GXX_SOCKET_H
 #define GXX_SOCKET_H
 
-#include <gxx/io/strm.h>
+#include <gxx/io/iostream.h>
 #include <gxx/inet/hostaddr.h>
 #include <gxx/util/setget.h>
 #include <gxx/result.h>
@@ -37,7 +37,7 @@ namespace gxx {
 		Listening,
 	};
 
-	class socket : public gxx::io::strmio {
+	class socket : public gxx::io::iostream {
 	public: 
 		static constexpr int32_t AnyAddress = 0; 
 

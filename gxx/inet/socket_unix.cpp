@@ -182,16 +182,17 @@ namespace gxx {
 	}
 
 	int socket::send(const char* data, size_t size, int flags) {
-    	__label__ __err__;
+    	//__label__ __err__;
     	int ret = ::send(m_fd, data, size, flags);	
     	if (ret < 0) {
     		setError("send", errno);	
+    		m_state = SocketState::Disconnected;
 		}
 		return ret;	
 
-		__err__:
-		close();
-		return -1;
+		//__err__:
+		//close();
+		//return -1;
     }
 
     int socket::recv(char* data, size_t size, int flags) {
@@ -199,6 +200,7 @@ namespace gxx {
     	
     	if (ret < 0) {
     		setError("recv", errno);	
+			m_state = SocketState::Disconnected;
 		}
 		return ret;	
     }

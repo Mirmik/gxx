@@ -11,7 +11,7 @@ int main() {
 	}
 
 	while(true) {
-		srv.print("{0}", "Mirmik");
+		srv.format("{0}", "Mirmik");
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 }
