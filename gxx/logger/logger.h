@@ -9,7 +9,7 @@
 #include <string>
 #include <memory>
 
-#include <gxx/io/stdwrapers.h>
+#include <gxx/io/stdwraper.h>
 #include <gxx/util/setget.h>
 
 using namespace gxx::argument_literal;

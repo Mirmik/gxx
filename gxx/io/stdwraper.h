@@ -1,6 +1,7 @@
 #ifndef GXX_SSTREAM_H
 #define GXX_SSTREAM_H
 
+#include <iostream>
 #include <gxx/io/ostream.h>
 
 namespace gxx {
