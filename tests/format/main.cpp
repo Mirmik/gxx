@@ -20,6 +20,12 @@ int main() {
 	str = gxx::format("rint {}", i);
 	dprln(str);
 	
+	str = gxx::format("float {}", (float)1.89);
+	dprln(str);
+
+	str = gxx::format("double {}", (double)1.83);
+	dprln(str);
+
 	str = gxx::format("astring {}", world);
 	dprln(str);
 	

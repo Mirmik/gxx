@@ -36,6 +36,9 @@ namespace gxx {
 		template<> size_t format_visitor::visit_implementation<unsigned long>(void* ptr, gxx::io::ostream&, gxx::buffer);
 		template<> size_t format_visitor::visit_implementation<unsigned long long>(void* ptr, gxx::io::ostream&, gxx::buffer);
 
+		template<> size_t format_visitor::visit_implementation<float>(void* ptr, gxx::io::ostream&, gxx::buffer);
+		template<> size_t format_visitor::visit_implementation<double>(void* ptr, gxx::io::ostream&, gxx::buffer);
+
 		template<> size_t format_visitor::visit_implementation<char*>(void* ptr, gxx::io::ostream&, gxx::buffer);
 		template<> size_t format_visitor::visit_implementation<std::string>(void* ptr, gxx::io::ostream&, gxx::buffer);
 	
@@ -68,6 +71,11 @@ namespace gxx {
 		struct spec_integer : public spec_text {
 		public:
 			spec_integer(gxx::buffer buf) : spec_text(buf) {}
+		};
+
+		struct spec_float : public spec_text {
+		public:
+			spec_float(gxx::buffer buf) : spec_text(buf) {}
 		};
 	}
 }

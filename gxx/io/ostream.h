@@ -136,6 +136,19 @@ namespace gxx {
 				return print(buf);  
 			}
 
+			int print(double d) {
+				char buf[48];
+				ftoa(d, buf);
+				return print(buf); 
+			}
+			
+			int print(float f) {
+				char buf[48];
+				ftoa(f, buf);
+				return print(buf); 
+			}
+			
+
 			int print(const std::string str) {
 				return write(str.data(), str.size());
 			}
@@ -153,6 +166,11 @@ namespace gxx {
 			int print(char str, const fmt::spec_cstring& spec) {
 				return print("print char with spec");
 			}
+
+			int print(double str, const fmt::spec_float& spec) {
+				return print("print double with spec");
+			}
+
 
 			template<typename ... Args>
 			int println(Args ... args) {

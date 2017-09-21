@@ -78,3 +78,15 @@ template<> size_t gxx::fmt::format_visitor::visit_implementation<unsigned char>(
 	if (opts.empty()) return out.print(i);
 	else return out.print(i, gxx::fmt::spec_cstring(opts));
 }
+
+template<> size_t gxx::fmt::format_visitor::visit_implementation<double>(void* ptr, gxx::io::ostream& out, gxx::buffer opts) {
+	double& i = *(double*)ptr;
+	if (opts.empty()) return out.print(i);
+	else return out.print((double) i, gxx::fmt::spec_float(opts));
+}
+
+template<> size_t gxx::fmt::format_visitor::visit_implementation<float>(void* ptr, gxx::io::ostream& out, gxx::buffer opts) {
+	float& i = *(float*)ptr;
+	if (opts.empty()) return out.print(i);
+	else return out.print((double) i, gxx::fmt::spec_float(opts));
+}
