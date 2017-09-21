@@ -21,6 +21,7 @@ namespace gxx {
 
 			int format_argument(const char*& fmt, const gxx::visitable_arglist& list, uint8_t argnum) {
 				int ret;		
+				char* pend;
 				assert(*fmt++ == '{');
 		
 				const visitable_argument* varg = nullptr;
@@ -31,7 +32,7 @@ namespace gxx {
 					while(isalpha(*count_ptr++)) len++;
 					varg = &list[gxx::buffer(fmt, len)];
 				} else if (isdigit(*fmt)) {
-					varg = &list[atou32(fmt, 10)];
+					varg = &list[atou32(fmt, 10, &pend)];
 				} else {
 					varg = &list[argnum];
 				}

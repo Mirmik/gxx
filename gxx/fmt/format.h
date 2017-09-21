@@ -52,7 +52,8 @@ namespace gxx {
 					//dprln("here");
 					char c = *ptr;
 					if (isdigit(c)) {
-						width = atou32(ptr, 10);
+						char* end;
+						width = atou32(ptr, 10, &end);
 						while(isdigit(*ptr)) ++ptr; --ptr;
 						continue;
 					}
