@@ -1,7 +1,7 @@
 #ifndef GXX_IO_FSTREAM_H
 #define GXX_IO_FSTREAM_H
 
-#include <gxx/io/ostream.h>
+#include <gxx/io/iostream.h>
 
 namespace gxx {
 	namespace io {
@@ -14,7 +14,7 @@ namespace gxx {
 			Truncate = 0x10
 		};
 
-		class fstream : public gxx::io::ostream {
+		class fstream : public gxx::io::iostream {
 			int m_fd = -1;
 			//std::string path;
 
