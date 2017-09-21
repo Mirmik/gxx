@@ -4,6 +4,7 @@
 namespace gxx {
 	namespace io {
 		class istream {
+		public:
 			virtual int read(char* str, size_t sz) {
 				return readData(str, sz);
 			}
