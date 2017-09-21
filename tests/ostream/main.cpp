@@ -17,8 +17,9 @@ int main() {
 	int i = 33;
 	const char* str = "world";
 
-	gxx::io::fstream cout(1);
-	
+	//gxx::io::fstream cout(1);
+	gxx::io::no_buffered_fstream cout("hello", gxx::io::WriteOnly);
+
 	cout.fmtln("hello {}", "world");
 	cout.fmtln("hello {}", str);
 	cout.fmtln("hello {w}", "w"_a = "world");
