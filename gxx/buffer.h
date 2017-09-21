@@ -12,7 +12,7 @@ namespace gxx {
 	public:
 		buffer() : buf(nullptr), sz(0) {}
 		buffer(const char* buf, size_t sz) : buf((char*)buf), sz(sz) {}
-		buffer(std::string& str) : buf((char*)str.data()), sz(str.size()) {}
+		buffer(const std::string& str) : buf((char*)str.data()), sz(str.size()) {}
 
 		bool empty() { return buf == nullptr; }
 

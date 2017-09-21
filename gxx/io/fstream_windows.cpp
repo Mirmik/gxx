@@ -1,15 +1,15 @@
-#include <gxx/io/fdfile.h>
+#include <gxx/io/fstream.h>
 #include <fcntl.h>
 #include <unistd.h>
 
 namespace gxx {
 	namespace io {
 
-		fdfile::fdfile(){}
-		fdfile::fdfile(const char* path) : path(path) {}
-		fdfile::fdfile(int m_fd) : m_fd(m_fd) {}
+		fstream::fstream(){}
+		fstream::fstream(const char* path) : path(path) {}
+		fstream::fstream(int m_fd) : m_fd(m_fd) {}
 		
-		bool fdfile::open(uint8_t mode) {
+		bool fstream::open(uint8_t mode) {
 			//uint16_t flags = O_CREAT | O_NOCTTY;
             uint16_t flags = O_CREAT;
 			if (mode == gxx::io::NotOpen) return false;
@@ -22,35 +22,35 @@ namespace gxx {
     		return true;
 		}
 
-		bool fdfile::open(const char* str, uint8_t mode) {
+		bool fstream::open(const char* str, uint8_t mode) {
 			path = str;
 			open(mode);
 			return true;
 		}
 		
-		void fdfile::close() {
+		void fstream::close() {
 			::close(m_fd);
 		}
 		
-		int32_t fdfile::readData(char *data, size_t maxSize) {
+		int32_t fstream::readData(char *data, size_t maxSize) {
 			//dprln(m_fd);
 			return ::read(m_fd, data, maxSize);
 		}
 		
-		int32_t fdfile::writeData(const char *data, size_t maxSize) {
+		int32_t fstream::writeData(const char *data, size_t maxSize) {
 			return ::write(m_fd, data, maxSize);
 		}
 	
 	
-		void fdfile::setFileDescriptor(int m_fd) {
+		void fstream::setFileDescriptor(int m_fd) {
 			this->m_fd = m_fd;
 		}
 		
-		void fdfile::setPath(const std::string& path) {
+		void fstream::setPath(const std::string& path) {
 			this->path = path;
 		}
 
-		int fdfile::nodelay(bool en) {
+		int fstream::nodelay(bool en) {
             //int flags = fcntl(m_fd, F_GETFL);
             //flags = en ? flags | O_NDELAY : flags & (~O_NDELAY);      /* turn off delay flag */
             //fcntl(m_fd, F_SETFL, flags);
@@ -59,13 +59,13 @@ namespace gxx {
 	
 		}	
 
-		bool fdfile::is_open() {
+		bool fstream::is_open() {
 			return m_fd >= 0;
 		}
 	}
 
-	io::fdfile cout(0);
-	io::fdfile cin(1);
-	io::fdfile crr(2);
+	io::fstream cout(0);
+	io::fstream cin(1);
+	io::fstream crr(2);
 
 }
