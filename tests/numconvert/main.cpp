@@ -2,5 +2,6 @@
 #include <iostream>
 
 int main() {
-	std::cout << atod("33.687") << std::endl;
+	char* end;
+	std::cout << atod("33.687", &end) << std::endl;
 }

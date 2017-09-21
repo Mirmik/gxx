@@ -294,7 +294,7 @@ static inline int32_t atoi32(const char *buf, uint8_t base, char** end) {
 
 
 #include <gxx/debug/dprint.h>
-static double atod(const char* str) {
+static double atod(const char* str, char** pend) {
 	if (!isdigit(*str)) {
 		return 0;
 	}
@@ -304,8 +304,10 @@ static double atod(const char* str) {
 	str = end;
 	if (*str == '.') {
 		int d = atou32(++str, 10, &end);
+		*pend = end; 
 		return (double)i + d / (pow(10, end - str));
 	} else {
+		*pend = end;
 		return i;
 	}
 }
