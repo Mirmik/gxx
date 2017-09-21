@@ -127,13 +127,14 @@ static inline uint32_t atou32(const char *buf, uint8_t base, char** end) {
 	return res; 
 }
 
+#include <iostream>
 static inline int32_t atoi32(const char *buf, uint8_t base, char** end) {
 	uint8_t minus = 0;
 	if (*buf == '-') {
 		minus = 1;
 		buf++;
 	}
-	uint32_t u = atou32(buf, base, end);
+	int32_t u = atou32(buf, base, end);
 	return minus ? -u : u;
 }
 
@@ -295,17 +296,25 @@ static inline int32_t atoi32(const char *buf, uint8_t base, char** end) {
 
 #include <gxx/debug/dprint.h>
 static double atod(const char* str, char** pend) {
-	if (!isdigit(*str)) {
+	if (!isdigit(*str) && *str != '-') {
 		return 0;
 	}
 
 	char* end;
 	int i = atoi32(str, 10, &end);
+	uint8_t minus = i < 0 ? 1 : 0; 
+	if (minus) {
+		i = -i;
+	}
+
 	str = end;
 	if (*str == '.') {
 		int d = atou32(++str, 10, &end);
-		*pend = end; 
-		return (double)i + d / (pow(10, end - str));
+		dprln(d);
+
+		*pend = end;
+		double ret = (double)i + d / (pow(10, end - str)); 
+		return minus ? -ret : ret;
 	} else {
 		*pend = end;
 		return i;
