@@ -2,7 +2,7 @@
 #define GXX_FMT_FORMAT_H
 
 #include <gxx/arglist.h>
-#include <gxx/debug/dprint.h>
+//#include <gxx/debug/dprint.h>
 #include <gxx/util/numconvert.h>
 
 namespace gxx {

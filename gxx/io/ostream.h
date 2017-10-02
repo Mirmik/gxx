@@ -16,7 +16,7 @@ namespace gxx {
 			}
 
 			virtual int putchar(char c) {
-				return write(&c,1);
+				return writeData(&c,1);
 			}
 
 			int format_argument(const char*& fmt, const gxx::visitable_arglist& list, uint8_t argnum) {
@@ -90,6 +90,10 @@ namespace gxx {
 				return write(str, strlen(str));
 			}
 
+			int print(gxx::buffer buf) {
+				return write(buf.data(), buf.size());
+			}
+
 			int print(const char* str, const fmt::spec_text& spec) {
 				int len = strlen(str);
 				if (spec.width != 0) {
@@ -109,7 +113,7 @@ namespace gxx {
 				return write(str, len);
 			}
 
-			int fill(int n, char s) {
+			int fill(char s, int n) {
 				for (int i = 0; i < n; i++) {
 					putchar(s);
 				}

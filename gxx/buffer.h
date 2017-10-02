@@ -3,7 +3,9 @@
 
 #include <string>
 #include <cstring>
-#include <gxx/object_buffer.h>
+#include <vector>
+
+#include <gxx/util/setget.h>
 
 namespace gxx {
 	class buffer {
@@ -11,10 +13,14 @@ namespace gxx {
 		size_t sz;
 	public:
 		buffer() : buf(nullptr), sz(0) {}
-		buffer(const char* buf, size_t sz) : buf((char*)buf), sz(sz) {}
+		buffer(const char* buf) : buf((char*)buf), sz(strlen(buf)) {}
+		buffer(const void* buf, size_t sz) : buf((char*)buf), sz(sz) {}
 		buffer(const std::string& str) : buf((char*)str.data()), sz(str.size()) {}
 
-		bool empty() { return buf == nullptr; }
+		template<typename T, size_t N>
+		inline buffer(T (&arr) [N]) : buf((char*)arr), sz(N) {}
+
+		//bool empty() { return buf == nullptr; }
 
 		bool operator==(const buffer& other) const {
 			return (sz == other.sz) && (strncmp(buf, other.buf, std::min(sz, other.sz)) == 0);
@@ -22,6 +28,21 @@ namespace gxx {
 
 		ACCESSOR(data, buf);
 		ACCESSOR(size, sz);
+	};
+
+	static inline gxx::buffer allocate_buffer(int sz) {
+		void* ptr = malloc(sz);
+		return gxx::buffer(ptr, sz);
+	}
+
+	class line_buffer {
+		char* m_data;
+		char* m_end;
+		char* m_cursor;
+
+		line_buffer(const void* buf, size_t sz);
+
+
 	};
 }
 

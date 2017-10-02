@@ -3,13 +3,27 @@
 
 #include <gxx/debug/dprint.h>
 #include <gxx/io/ostream.h>
+#include <gxx/util/setget.h>
 
 namespace gxx {
 	class debug_ostream : public gxx::io::ostream {
+		bool _hexmode = false;
+	public:
+		ACCESSOR(hexmode, _hexmode);
+
+	protected:
 		int32_t writeData(const char *data, size_t maxSize) {
-			debug_write(data, maxSize);
-			return maxSize;
+			if (_hexmode) {
+				while(maxSize--) {
+					debug_printhex_uint8(*data++);
+				}
+			} else {
+				debug_write(data, maxSize);
+				return maxSize; 
+			}
 		}
+
+
 	};
 }
 

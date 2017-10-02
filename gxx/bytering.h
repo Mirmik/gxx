@@ -3,8 +3,7 @@
 
 #include <stdlib.h>
 #include <gxx/buffer.h>
-#include <gxx/io/strm.h>
-
+#include <gxx/panic.h>
 
 namespace gxx {
 
@@ -38,17 +37,17 @@ namespace gxx {
 			return head == (tail ? tail : m_buf.size()) - 1;
 		}
 	
-		int putchar(char c) {
+		int push(char c) {
 			if (full()) return 0;
 			*(m_buf.data() + head++) = c;
 			fixup(head);
 			return 1;
 		}
 		
-		int write(const char* data, size_t size) {
+		int push(const char* data, size_t size) {
 			int ret = 0;
 			while(size--) {
-				if(!putchar(*data++)) {
+				if(!push(*data++)) {
 					return ret;
 				};
 				ret++;
@@ -56,14 +55,14 @@ namespace gxx {
 			return ret;
 		}
 	
-		int getchar() {
+		int pop() {
 			if (empty()) return -1;
 			char c = *(m_buf.data() + tail++);
 			fixup(tail);
 			return c;
 		}
 	
-		int read(char* data, size_t size) {
+		int popn(char* data, size_t size) {
 			int ret = 0;
 			while(size--) {
 				int r = getchar();
@@ -75,7 +74,32 @@ namespace gxx {
 			}
 			return ret;
 		}
+
+		int pick() {
+			gxx::panic("NeedToImplement");
+		}
+
+		int pickn(char* data, size_t size) {
+			int e = tail + size;
+			
+			if (e < m_buf.size()) {
+				memcpy(data, m_buf.data() + tail, size);
+			} else {
+				e = e % m_buf.size();
+				memcpy(m_buf.data() + tail, data, e);
+				memcpy(m_buf.data(), data, size - e);	
+			}
+			return size;
+		}
+
+		gxx::buffer first_part_as_buffer() {
+			return gxx::buffer(m_buf.data() + tail, head >= tail ? head - tail : m_buf.size() - tail);
+		}
 	
+		gxx::buffer last_part_as_buffer() {
+			return gxx::buffer(m_buf.data(), head >= tail ? 0 : tail);
+		}
+
 		size_t avail() { 
 			return (head >= tail) ? head - tail : m_buf.size() + head - tail; 
 		};
@@ -84,9 +108,9 @@ namespace gxx {
 			return (head >= tail) ? m_buf.size() - 1 + ( tail - head ) : ( tail - head ) - 1;
 		};
 	
-		size_t size() {
-			return m_buf.size();
-		};
+		//size_t size() {
+		//	return m_buf.size();
+		//};
 	};
 }
 
