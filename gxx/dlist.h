@@ -44,7 +44,7 @@ namespace gxx {
 		};
 	
 		void pop(type& obj) {
-			assert(is_linked(obj));
+			//assert(is_linked(obj));
 			dlist_del(&(obj.*member));
 		};
 

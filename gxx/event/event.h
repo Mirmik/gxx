@@ -2,38 +2,47 @@
 #define GXX_EVENT_H
 
 #include <gxx/dlist.h>
-#include <gxx/pool.h>
+#include <gxx/delegate.h>
 
 namespace gxx {
 	namespace event {
-		constexpr uint8_t SelfDestruct = 0x01;
-		constexpr uint8_t Nothing = 0x01;
-		constexpr uint8_t Unbind = 0x01;
+		class waiter_processor;
 
-		class event_processor {
-
-		};
-
-		template <typename ... Args>
-		class node {
+		class waiter {
 		public:
-			bool en;
-			gxx::delegate<void, node*, Args ...>
+			dlist_head lnk;
+			waiter_processor* processor;
+			gxx::delegate<void> dlg;
 		};
 
-		class event {
+		class waiter_processor {
+			dlist<waiter, &waiter::lnk> list;
+
+			void execute() {
+				while(!list.empty()) {
+					auto& ref = *list.begin();
+					list.pop(ref);
+					ref.dlg();
+				}
+			}
+		};
+
+		class waiter_head {
 		public:
-			dlist<node, &node::lnk> list;
+			dlist<waiter, &waiter::lnk> list;
+
+			void emit_node(waiter*) {
+
+			}
+
+			void emit() {
+
+			}
 		};
 
-		class flag : public event {
+		class flag : public waiter_head {
 		public:
 		};
-
-		extern gxx::pool<node> node_pool;
-
-		node* get_event_node();
-		void  put_event_node(node*);
 	}
 }
 

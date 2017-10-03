@@ -28,6 +28,10 @@ namespace gxx {
 
 		ACCESSOR(data, buf);
 		ACCESSOR(size, sz);
+
+		bool empty() {
+			return buf == nullptr;
+		}
 	};
 
 	static inline gxx::buffer allocate_buffer(int sz) {
