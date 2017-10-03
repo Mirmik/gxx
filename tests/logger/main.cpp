@@ -27,7 +27,7 @@ int main() {
 
 	//spam_target.start(10);
 
-	logger.set_pattern("Mirmik: {time}[{level:U5}]{logger}| {msg}");
+	logger.set_pattern("Mirmik: {time}[{level}]{logger}| {msg}");
 	logger.link(console_target);
 //	logger.link(spam_target);
 	

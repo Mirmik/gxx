@@ -24,3 +24,9 @@ module("gxx",
 
 	include_paths = ["."]
 )
+
+module("gxx.panic", impl="abort",
+	srcdir = "gxx/impl",
+	sources = ["panic_abort.cpp"]
+)
+	

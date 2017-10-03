@@ -13,7 +13,6 @@
 #define GXX_DELEGATE_H
 	
 #include "gxx/util/horrible_cast.h"
-//#include "gxx/utility.h"
 #include "gxx/util/stub.h"
 #include <utility>
 
@@ -29,11 +28,6 @@ namespace gxx {
 	{ 
 		using type =  R(T::*)(V...); 
 	};
-	
-	//#define delegate_mtd(mtd,obj) gxx::make_pair(horrible_cast<typename change_basic<AbstractDelegate, decltype(mtd)>::type, decltype(mtd)>(mtd), \
-	reinterpret_cast<AbstractDelegate*>(obj))		
-	
-	//#define _dmtd(obj,mtd) delegate_mtd(mtd,obj)
 	
 	template<typename R ,typename ... Args>	class delegate;
 	template<typename R ,typename ... Args>	class fastdelegate;
@@ -342,62 +336,6 @@ namespace gxx {
 		return delegate<Ret, Args...>(mtd, ptr);
 	}
 
-}
-
-#include <vector> 
-
-namespace gxx {
-	template<typename ... Args>
-	class multi_delegate {
-	public:
-	
-		using dlg_t = delegate<void, Args ... >;
-		using fnc_t = void (*)(Args ...);
-		
-		template <typename Abstract>
-		using member = void (Abstract::*)(Args ...);
-		
-		std::vector<delegate<void,Args...>> vect;
-	
-		void operator()(Args ... args) {
-			for(auto dlg : vect) {
-				dlg(args ...);
-			}
-		}
-	
-		template <typename T>
-		void connect(member<T> mbr, T* obj) {
-			vect.emplace_back(mbr, obj);
-		}
-	
-		void connect(fnc_t func) {
-			vect.emplace_back(func);
-		}
-	
-		template <typename T>
-		void priorityConnect(member<T> mbr, T* obj) {
-			vect.emplace(vect.begin(),mbr, obj);
-		}
-	
-		void priorityConnect(fnc_t func) {
-			vect.emplace(vect.begin(),func);
-		}
-	
-		bool erase(dlg_t&& dlg) {
-			for(auto it = vect.begin(); it != vect.end(); it++) {
-				if (*it == dlg) { 
-					vect.erase(it);
-					return true;
-				}
-			}
-			return false;
-		}
-	
-		template <typename T>
-		bool erase(member<T> mbr, T* obj) {
-			return erase(dlg_t(mbr, obj));
-		}
-	};
 }
 
 #endif
