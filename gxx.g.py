@@ -18,8 +18,8 @@ module("gxx",
 		"fmt/format.cpp",
 		"logger/targets/stdout.cpp", 
 		#"print.cpp",
-		#"serialize/json.cpp",
-		#"serialize/datatree.cpp",
+		"serialize/json.cpp",
+		"serialize/datatree.cpp",
 	],
 
 	include_paths = ["."]
