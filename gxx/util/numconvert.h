@@ -127,7 +127,6 @@ static inline uint32_t atou32(const char *buf, uint8_t base, char** end) {
 	return res; 
 }
 
-#include <iostream>
 static inline int32_t atoi32(const char *buf, uint8_t base, char** end) {
 	uint8_t minus = 0;
 	if (*buf == '-') {
@@ -310,7 +309,7 @@ static double atod(const char* str, char** pend) {
 	str = end;
 	if (*str == '.') {
 		int d = atou32(++str, 10, &end);
-		dprln(d);
+//		dprln(d);
 
 		*pend = end;
 		double ret = (double)i + d / (pow(10, end - str)); 

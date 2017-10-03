@@ -47,7 +47,7 @@ namespace gxx {
 		}
 
 		class logger {
-			const char* logger_name = "Logger";
+			std::string logger_name;
 			std::vector<gxx::log::target*> targets;
 			std::string pattern = "[{level}]{logger}: {msg}";
 
@@ -61,7 +61,7 @@ namespace gxx {
 			SETTER(set_timestamp_callback, timestamp);
 			CONSTREF_GETTER(timestamp_callback, timestamp);
 
-			logger(const char* name) : logger_name(name) {}
+			logger(const std::string& name) : logger_name(name) {}
 
 			void link(target& tgt) {
 				targets.push_back(&tgt);
