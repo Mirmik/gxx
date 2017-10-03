@@ -70,7 +70,12 @@ namespace gxx {
 		datatree& operator[](const gxx::buffer& key);
 
 		std::map<std::string, datatree>& as_dictionary();
-		std::vector<datatree>& as_vector();
+                result<std::map<std::string, datatree>&> as_dictionary_critical();
+
+                std::vector<datatree>& as_array();
+                result<std::vector<datatree>&> as_array_critical();
+                std::vector<datatree>& as_vector();
+                result<std::vector<datatree>&> as_vector_critical();
 		
 		const double& as_numer();
 		const double as_numer_default(const double i);
@@ -98,7 +103,7 @@ namespace gxx {
 		bool is_dictionary()	{ return m_type == type::dictionary; }
 		bool is_string() 		{ return m_type == type::string; }
 		
-		strlst check_dict(strlst lst, check_type ct);
+                strlst check_dict(strlst lst, check_type ct);
 		std::pair<strlst,strlst> check_dict_symmetric(strlst lst);
 
 	public:

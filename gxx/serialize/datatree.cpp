@@ -119,11 +119,18 @@ namespace gxx {
 		return m_dict;
 	}
 	
-	std::vector<datatree>& datatree::as_vector() {
+    std::vector<datatree>& datatree::as_array() {
 		if (m_type != datatree::type::array) init(datatree::type::array);
 		return m_arr;
 	}
-	
+    std::vector<datatree>& datatree::as_vector() { return as_array(); }
+
+    result<std::vector<datatree>&> datatree::as_array_critical() {
+        if (!is_array()) return error("is't array");
+        return m_arr;
+    }
+    result<std::vector<datatree>&> datatree::as_vector_critical() { return as_array_critical(); }
+
 	const std::string& datatree::as_string() {
 		if (m_type != datatree::type::string) init(datatree::type::string);
 		return m_str;
@@ -237,7 +244,7 @@ namespace gxx {
 		} 
 	}	
 
-	strlst datatree::check_dict(strlst lst, check_type ct) {
+    strlst datatree::check_dict(strlst lst, check_type ct) {
 		if (!is_dictionary()) return strlst();
 
 
@@ -282,7 +289,7 @@ namespace gxx {
 
 	}
 
-	std::pair<strlst, strlst> datatree::check_dict_symmetric(strlst lst) {
+    std::pair<strlst, strlst> datatree::check_dict_symmetric(strlst lst) {
 		std::pair<strlst, strlst> ret;
 		if (!is_dictionary()) return ret;
 
