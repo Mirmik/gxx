@@ -10,13 +10,17 @@ namespace gxx {
 		template<typename ... Args> 
 		json(Args ... args) : datatree(std::forward<Args>(args) ...) {}
 
-		public:
 		void printTo(std::ostream& os);
 		void prettyPrintTo(std::ostream& os, int tab = 0);
-	
-		static void print_datatree(datatree& dt, std::ostream& os) {
-			(*(json*)&dt).prettyPrintTo(os);
-		}
+	};
+
+	class json_parser {
+	public:
+		static result<json> parse(std::istream& is);
+		static json parse_number(std::istream& is);
+		static result<json> parse_string(std::istream& is);
+		static result<json> parse_array(std::istream& is);
+		static result<json> parse_dictionary(std::istream& is);
 	};
 }
 

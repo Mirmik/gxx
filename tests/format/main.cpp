@@ -2,7 +2,7 @@
 #include <gxx/format.h>
 
 using namespace gxx::argument_literal;
-using namespace gxx::print_funcs;
+//using namespace gxx::print_funcs;
 
 int main() {
 	char world[] = "World";
@@ -11,45 +11,41 @@ int main() {
 
 	std::string str;
 
-	str = gxx::format("int {}", 42);
+	str = gxx::fmt::format("int {}", 42);
 	dprln(str);
 	
-	str = gxx::format("string {}", "world");
+	str = gxx::fmt::format("string {}", "world");
 	dprln(str);
 	
-	str = gxx::format("rint {}", i);
+	str = gxx::fmt::format("rint {}", i);
 	dprln(str);
 	
-	str = gxx::format("float {}", (float)1.89);
-	dprln(str);
-
-	str = gxx::format("double {}", (double)1.83);
+	str = gxx::fmt::format("float {}", (float)1.89);
 	dprln(str);
 
-	str = gxx::format("astring {}", world);
+	str = gxx::fmt::format("double {}", (double)1.83);
+	dprln(str);
+
+	str = gxx::fmt::format("astring {}", world);
 	dprln(str);
 	
-	str = gxx::format("pstring {}", world2);
+	str = gxx::fmt::format("pstring {}", world2);
 	dprln(str);
 	
-	str = gxx::format("int {a}", "a"_a=42);
+	str = gxx::fmt::format("int {a}", "a"_a=42);
 	dprln(str);
 	
-	str = gxx::format("string {a}", "a"_a=std::string("world"));
+	str = gxx::fmt::format("string {a}", "a"_a=std::string("world"));
 	dprln(str);
 	
-	str = gxx::format("rint {a}", "a"_a=i);
+	str = gxx::fmt::format("rint {a}", "a"_a=i);
 	dprln(str);
 	
-	str = gxx::format("astring {a}", "a"_a=world);
+	str = gxx::fmt::format("astring {a}", "a"_a=world);
 	dprln(str);
 	
-	str = gxx::format("pstring {a}", "a"_a=world2);
+	str = gxx::fmt::format("pstring {a}", "a"_a=world2);
 	dprln(str);
 	
-	fmtpr("pstring {a}\r\n", "a"_a=world2);
-	
-	//println("{0}", "Mirmik");	
-	
-	//println("What are you doing here, {who}, {uuu}", "who"_a="my darling", "uuu"_a="Another opinion is always fake.");
+	gxx::fmt::print("pstring {a}\r\n", "a"_a=world2);
 }

@@ -1,4 +1,6 @@
-#include <gxx/serialize/json_parser.h>
+#include <gxx/serialize/json.h>
+
+#include <istream>
 #include <limits.h>
 
 using namespace gxx::result_type;

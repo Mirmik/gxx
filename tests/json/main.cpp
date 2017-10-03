@@ -1,9 +1,8 @@
 #include <gxx/serialize/json.h>
-#include <gxx/serialize/json_parser.h>
-
-#include <gxx/print.h>
+#include <gxx/serialize/json_settings.h>
 
 #include <sstream>
+#include <iostream>
 
 int main() {
 	std::stringstream text(R"(
@@ -17,12 +16,18 @@ int main() {
 	); 
 
 	gxx::json js = gxx::json_parser::parse(text).unwrap();
-
 	js.prettyPrintTo(std::cout);
 
-	js["quadro"]["mirmik"] = 678;
+	js["quadro"][6][1] = 678;
+	js.printTo(std::cout);
 
-	dprln(js["mir"].as_string());
+	gxx::json_settings settings("settings.json");
+	settings.load();
 
-	js.prettyPrintTo(std::cout);
+	if (settings.settings().is_nil()) {
+		settings.settings()["summer"] = "winter";
+		settings.save();
+	}
+
+	settings.settings().printTo(std::cout);
 }
