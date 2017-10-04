@@ -5,6 +5,7 @@
 #include <assert.h>
 #include <gxx/buffer.h>
 #include <gxx/debug/dprint.h>
+#include <gxx/panic.h>
 
 namespace gxx {
 	template <typename T> class argpair; 
@@ -34,12 +35,11 @@ namespace gxx {
 		} 
 	}
 
-	class visitable_argument {
-	public:
+	struct visitable_argument {
 		void* 		ptr;
-		gxx::buffer name;
 		void* 		visit;
-
+		gxx::buffer name;
+		
 		visitable_argument(){}
 		visitable_argument(void* ptr, void* visit, const gxx::buffer& buf) : ptr(ptr), visit(visit), name(buf) {}
 	};
@@ -57,11 +57,10 @@ namespace gxx {
 	class visitable_arglist {
 	public:
 		size_t N;
-		visitable_argument arr[15];
+		visitable_argument* arr;
 
 		template <typename ... Args>
-		visitable_arglist(Args&& ... args) : N(sizeof ... (Args)) {
-			//static_assert(N == sizeof ... (Args), "Illegal arguments amount");
+		visitable_arglist(visitable_argument* buffer, Args&& ... args) : arr(buffer), N(sizeof ... (Args)) {
 			visitable_arglist_former(arr, args ...);
 		}
 
@@ -82,8 +81,7 @@ namespace gxx {
 			for(uint8_t i = 0; i < N; ++i) {
 				if (str == arr[i].name) return arr[i]; 
 			}
-			dprln("visitable_arglist: name error");
-			abort();
+			gxx::panic("visitable_arglist: name error");
 		}
 	};
 
@@ -106,35 +104,21 @@ namespace gxx {
 	inline visitable_argument make_visitable_argument(argpair<Object>& pair) {
 		return visitable_argument(pair.body, (void*)&Visitor::template visit_implementation<std::remove_const_t<std::remove_reference_t<Object>>>, pair.name);
 	}
-	//
+	
 	template <typename Visitor, typename Object, size_t N>
 	inline visitable_argument make_visitable_argument(argpair<Object[N]>& pair) {
 		return visitable_argument(pair.body, (void*)&Visitor::template visit_implementation<std::remove_const_t<std::remove_reference_t<Object>>*>, pair.name);
 	}
-//
+
 	template <typename Visitor, typename Object>
 	inline visitable_argument make_visitable_argument(argpair<Object*>& pair) {
 		return visitable_argument(*(void**)pair.body, (void*)&Visitor::template visit_implementation<std::remove_const_t<std::remove_reference_t<Object>>*>, pair.name);
 	}
-//
-	//////////////////////////////////////////////////	
+
 	template <typename Visitor, typename ... Args>
-	inline visitable_arglist make_visitable_arglist(Args&& ... args) {
-		return visitable_arglist(make_visitable_argument<Visitor>(args) ...);
+	inline visitable_arglist make_visitable_arglist(visitable_argument* buffer, Args&& ... args) {
+		return visitable_arglist(buffer, make_visitable_argument<Visitor>(args) ...);
 	}
 }
-
-#define GXX_REGISTER_ARGUMENT_VISITOR(visitor, ...) struct visitor {		\
-	template<typename Object> static void* get_visit();						\
-	using ftype = __VA_ARGS__;												\
-																			\
-	template<typename ... Args>												\
-	static auto visit(gxx::visitable_argument varg, Args&& ... args) {		\
-		ftype fptr = (ftype) varg.visit;									\
-		return fptr(varg.ptr, std::forward<Args>(args) ...);				\
-	}																		\
-};
-
-#define GXX_REGISTER_ARGUMENT_VISIT(visitor, type, func) namespace gxx { template<> void* visitor::get_visit<type>() { return (void*)&func; } }
 
 #endif

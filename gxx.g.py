@@ -19,7 +19,8 @@ module("gxx",
 		"logger/targets/stdout.cpp", 
 		#"print.cpp",
 		"serialize/json.cpp",
-		"serialize/datatree.cpp",
+		"serialize/trent.cpp",
+		"impl/panic_abort.cpp"
 	],
 
 	include_paths = ["."]

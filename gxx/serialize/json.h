@@ -2,25 +2,18 @@
 #define JSON_OBJECT_H
 
 #include <ostream>
-#include <gxx/serialize/datatree.h>
+#include <gxx/serialize/trent.h>
 
 namespace gxx {
-	class json : public datatree {
-	public:
-		template<typename ... Args> 
-		json(Args ... args) : datatree(std::forward<Args>(args) ...) {}
+	namespace json {
+		void print_to(const trent& tr, std::ostream& os);
+		void pretty_print_to(const trent& tr, std::ostream& os, int tab = 0);
 
-		void printTo(std::ostream& os);
-		void prettyPrintTo(std::ostream& os, int tab = 0);
-	};
-
-	class json_parser {
-	public:
-		static result<json> parse(std::istream& is);
-		static json parse_number(std::istream& is);
-		static result<json> parse_string(std::istream& is);
-		static result<json> parse_array(std::istream& is);
-		static result<json> parse_dictionary(std::istream& is);
+		result<trent> parse(std::istream& is);
+		trent parse_number(std::istream& is);
+		result<trent> parse_string(std::istream& is);
+		result<trent> parse_array(std::istream& is);
+		result<trent> parse_dictionary(std::istream& is);
 	};
 }
 

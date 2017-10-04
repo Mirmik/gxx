@@ -11,7 +11,7 @@
 namespace gxx {
 
 	class json_settings {
-		json m_settings;
+		trent m_settings;
 		std::string pathstr;
 
 	public:
@@ -25,17 +25,17 @@ namespace gxx {
 			if (!file.good()) return;
 			std::stringstream file_contents;
 			file_contents << file.rdbuf();
-			m_settings = json_parser::parse(file_contents).unwrap();
+			m_settings = json::parse(file_contents).unwrap();
 			file.close();
 		}
 
 		void save() {
 			std::fstream file(pathstr, std::ios_base::trunc | std::ios::out);
-			m_settings.prettyPrintTo(file);	
+			json::pretty_print_to(m_settings, file);	
 			file.close();
 		}
 
-		json& settings() {
+		trent& settings() {
 			return m_settings;
 		}
 	};
