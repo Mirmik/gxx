@@ -25,6 +25,13 @@ namespace gxx {
 			out.format(fmt, std::forward<Args>(args) ...);
 		}
 
+        template<typename ... Args>
+        void println(const char* fmt, Args&& ... args) {
+            gxx::debug_ostream out;
+            gxx::fmt::print(fmt, std::forward<Args>(args) ...);
+            out.println();
+        }
+
 	/*inline namespace print_funcs {
 		template<typename ... Args>
 		void fmtpr(Args&& ... args) {

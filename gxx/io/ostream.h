@@ -181,7 +181,11 @@ namespace gxx {
 			int println(Args ... args) {
 				int ret = print(args ...);
 				return ret + write("\r\n", 2);
-			}	
+                        }
+
+                        int println() {
+                            return write("\r\n", 2);
+                        }
 
 		protected: 
 			virtual int writeData(const char* str, size_t sz) = 0;
