@@ -13,14 +13,10 @@ namespace detail {
 			__try__:
 
 			is >> c;
-			//is.unget();
-
 			if (c == '/') {
-				//next = is.peek(); 
 				next = is.get();
 				switch (next) {
 					case '*': 
-						//is.ignore();
 						while(true) {
 							is >> c;
 							if (c == '*') if (is.peek() == '/') { 
@@ -66,13 +62,11 @@ namespace detail {
 		is.ignore();
 		std::getline(is, str, '"');
 		trent ret(str);
-		//is.ignore();
-
+		
 		return ret;
 	}
 	
 	result<trent> json::parse_array(std::istream& is) {
-		//dprln("parse_array");
 		char c;
 		trent js(trent::type::array);
 		
@@ -80,8 +74,6 @@ namespace detail {
 		while(true) {
 			c = detail::getnext(is);
 			
-			//dprln(c);
-
 			if (c == ']') {
 				is.ignore();
 				return js;
@@ -89,7 +81,6 @@ namespace detail {
 				
 			if (c == ',' || c == '[') {
 				is.ignore();
-				//is.ignore_while(isspace);
 				
 				c = detail::getnext(is);
 				
@@ -107,7 +98,6 @@ namespace detail {
 	}
 
 	result<trent> json::parse_dictionary(std::istream& is) {
-		//dprln("parse_dictionary");
 		char c;
 		trent js(trent::type::dictionary);
 		
@@ -135,8 +125,6 @@ namespace detail {
 				std::string key;
 				std::getline(is, key, '"');
 
-				//dprln(key);
-				//is.ignore();
 				c = detail::getnext(is);
 
 				if ( c != ':' ) return error("wrong dicionary syntax: not find colomn");
@@ -144,9 +132,7 @@ namespace detail {
 
 				c = detail::getnext(is);
 
-				//dprf("add to dictionary {}", key);
 				js.as_dictionary().insert(std::make_pair(key, tryS(parse(is))));
-				//is.ignore_while(isspace);
 			}
 			else return error("trent::internal:dict_parse");
 		}
@@ -197,7 +183,7 @@ namespace detail {
 
 		switch(tr.get_type()) {
 			case trent::type::number: 
-				os << tr.unsafe_number();
+				os << std::fixed << tr.unsafe_number();
 				break;
 			
 			case trent::type::string: 
