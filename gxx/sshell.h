@@ -1,6 +1,7 @@
 #ifndef GXX_SIMPLE_SHELL_H
 #define GXX_SIMPLE_SHELL_H
 
+#include <string>
 #include <gxx/hashtable.h>
 #include <gxx/datastruct/argvc.h>
 #include <gxx/event/delegate.h>

@@ -106,7 +106,8 @@ namespace gxx {
 
 			template <typename ... Args>
 			inline void log(level lvl, const char* fmt, Args&& ... args) {
-				log(lvl, fmt, gxx::make_visitable_arglist<gxx::fmt::format_visitor>(std::forward<Args>(args) ...));
+                                gxx::visitable_argument arr[sizeof ... (Args)];
+                                log(lvl, fmt, gxx::make_visitable_arglist<gxx::fmt::format_visitor>(arr, std::forward<Args>(args) ...));
 			}
 
 //			template <typename ... Args>

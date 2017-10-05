@@ -1,7 +1,7 @@
 #ifndef GXX_READLINE_H
 #define GXX_READLINE_H
 
-#include <gxx/delegate.h>
+#include <gxx/event/multiple_delegate.h>
 #include <gxx/util/setget.h>
 #include <gxx/buffer.h>
 #include <gxx/debug/dprint.h>
