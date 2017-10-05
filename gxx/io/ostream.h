@@ -77,7 +77,8 @@ namespace gxx {
 			
 			template<typename ... Args>
 			int format(const char* fmt, Args&& ... args) {
-				return format_args(fmt, gxx::make_visitable_arglist<gxx::fmt::format_visitor>(std::forward<Args>(args) ...));
+				visitable_argument buffer[sizeof ... (Args)];
+				return format_args(fmt, gxx::make_visitable_arglist<gxx::fmt::format_visitor>(buffer, std::forward<Args>(args) ...));
 			}
 
 			template<typename ... Args>

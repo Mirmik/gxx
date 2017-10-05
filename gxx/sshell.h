@@ -3,7 +3,7 @@
 
 #include <gxx/hashtable.h>
 #include <gxx/datastruct/argvc.h>
-#include <gxx/delegate.h>
+#include <gxx/event/delegate.h>
 
 namespace gxx{
 
@@ -78,6 +78,10 @@ namespace gxx{
 			char str[128];
 			strcpy(str,_str);
 			return __execute_nosafe(str, sts);
+		}
+
+		int execute(const std::string& str, int* sts) {
+			return execute(str.c_str(), sts);
 		}
 
 		int execute(const char* _str, int len, int* sts) {	

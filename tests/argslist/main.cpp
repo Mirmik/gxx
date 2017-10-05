@@ -1,4 +1,4 @@
-#include <gxx/arglist2.h>
+#include <gxx/arglist.h>
 #include <gxx/debug/dprint.h>
 
 using namespace gxx::argument_literal;
@@ -62,7 +62,8 @@ template<> int format_visitor::visit_implementation<char*>(void* ptr, int i) {
 
 template <typename ... Args>
 void func(Args&& ... inargs) {	
-	auto args = gxx::make_visitable_arglist<format_visitor>(std::forward<Args>(inargs) ...);
+	gxx::visitable_argument buffer[sizeof ... (Args)];
+	auto args = gxx::make_visitable_arglist<format_visitor>(buffer, std::forward<Args>(inargs) ...);
 
 	//format_visitor::visit(args["a"], 2);
 	format_visitor::visit(args[0], 3);

@@ -38,9 +38,8 @@ namespace gxx {
 	//@1 тип возвращаемый тип.
 	//@2 - ... Типы параметров. Доступно неограниченное количество параметров.
 	template<typename R ,typename ... Args>	
-	class delegate
-	{public:
-		
+	class delegate {	
+	protected:	
 		enum { METHOD, FUNCTION };
 				
 		using obj_t 		= AbstractDelegate*;			
@@ -62,64 +61,41 @@ namespace gxx {
 	
 		obj_t object;
 		method_union method;
-				
-		//Конструктор пустого делегата.		
-		delegate(): 
-			delegate(&DoNothing::do_nothing<R,Args...>, (DoNothing*)0) 
-			{
 	
-			}		
+	public:			
+		void clean() {
+			method.method = horrible_cast<mtd_t, R(DoNothing::*)(Args ...)>(&DoNothing::do_nothing<R,Args...>);
+			object = 0;
+		}
+
+		bool armed() {
+			return method.method != horrible_cast<mtd_t, R(DoNothing::*)(Args ...)>(&DoNothing::do_nothing<R,Args...>);			
+		}
+
+		delegate(): delegate(&DoNothing::do_nothing<R,Args...>, (DoNothing*)0) {}		
 	
-		//Конструктор копирования
 		delegate(const delegate& d) {
 			object = d.object;
 			method.method = d.method.method;
 		};
 		
-		//Конструктор копирования
 		delegate(delegate&& d) {
 			object = d.object;
 			method.method = d.method.method;
 		};
 	
-		//Конструктор. Делегат функции.
-		//@1 указатель на функцию.
 		delegate(fnc_t func) {
 			object = 0;
 			method.function = func;
 			method.attributes = 0;
 		};			
 	
-		//Конструктор. Делегат метода класса. Ручная инициализация 
-		//@1 указатель на объект, метод которого вызывается.
-		//@2 указатель на метод.
-		//Пример delegate<void, int> d(&a, &A::func);
 		template <typename T>
 		delegate(R(T::*mtd)(Args ...), T* ptr_obj) {
 			object = reinterpret_cast <obj_t> (ptr_obj);
 			method.method = horrible_cast<mtd_t, R(T::*)(Args ...)>(mtd);
 		}
 		
-		//Бывает, что и с volatile делегатами приходится 
-		//работать.
-		//delegate(volatile const delegate& d)
-		//: delegate(const_cast<delegate>(d)) {};
-				
-	
-		//Конструктор перемещения
-		//delegate(delegate&& d)
-		//{
-		//	object = d.object;
-		//	method = d.method;
-		//};
-	
-		/*template <typename Functor>
-		delegate(const Functor& functor) {
-			object = reinterpret_cast <obj_t> (ptr_obj);
-			method.method = horrible_cast<mtd_t, R(T::*)(Args ...)>(mtd);
-		};*/
-	
-				
 		delegate& operator=(const delegate& d) {
 			object = d.object;
 			method.method = d.method.method;
@@ -132,100 +108,6 @@ namespace gxx {
 			return *this;
 		};
 	
-		/*explicit delegate(const fastdelegate<R,Args...>& fd)
-		: object(fd.object)
-		{
-			method.attributes = 0;
-			method.function = reinterpret_cast<fnc_t>(fd.extfunction);
-		};*/
-	
-	
-	/*
-		template <typename T1, typename T2>
-		void set(T1* ptr_obj, R(T2::*mtd)(Args ...))
-		{
-			object = reinterpret_cast <obj_t> (ptr_obj);
-			method.method = horrible_cast<mtd_t, R(T2::*)(Args ...)>(mtd);
-		};
-				
-		void set(fnc_t func)
-		{
-			object = 0;
-			method.attributes = 0;
-			method.function = func;
-		};
-				
-		void set(const absmemb_t& pr)
-		{
-			object = pr.first;
-			method.method = pr.second;
-		};	
-	
-	
-		//BLACK_MAGIC
-		void set_ext(extfnc_t func, void* obj)
-		{
-			object = reinterpret_cast<obj_t>(obj);
-			method.attributes = 0;
-			method.function = reinterpret_cast<fnc_t>(func);
-		};
-		///////////////
-	*/
-		//Конструктор. Делегат метода класса. Ручная инициализация 
-		//@1 указатель на объект, метод которого вызывается.
-		//@2 указатель на метод.
-		//Пример delegate<void, int> d(&a, &A::func);
-		//template <typename T1, typename T2>
-		//delegate(T1* ptr_obj, R(T2::*mtd)(Args ...)) :
-		//	delegate(delegate_mtd(ptr_obj, mtd))
-		//	{};	
-		
-		//Конструктор. Делегат метода класса. Для использования в delegate_method
-		//@1 пара, состоящая из объекта и указателя на метод.
-		//Вы можете использовать макрос method для создания пары.
-		//Пример delegate<void, int> d(method(a, A::func));
-		//template <typename T1, typename T2>
-		/*explicit delegate(const absmemb_t& pr)
-		{
-			set(pr);
-		};	
-	
-		explicit delegate(absmemb_t&& pr)
-		{
-			set(pr);
-		};	*/
-	
-	
-		/*delegate& operator=(fnc_t func) 
-		{
-			set(func);	
-			return *this;
-		};
-	
-		delegate& operator=(const absmemb_t& pr) 
-		{
-			set(pr);	
-			return *this;
-		};*/
-	
-		//Осторожно, черная магия!!!
-		//Конструктор. Делегат метода класса.
-		//@1 указатель на объект, метод которого вызывается.
-		//@2 мануальное задание указателя на метод класса. 
-		//Пример delegate<void, int> d(method(a, 0x00010002)); 
-		//(Смотри стандартную реализацию виртуальных функций)
-		/*delegate(gxx::pair<void* , delegate_mtd_t> pr) 
-		{
-			object = reinterpret_cast <obj_t> (pr.first);
-			method = horrible_cast<mtd_t, delegate_mtd_t>(pr.second);
-		};	*/		
-		
-		
-		
-		
-		//Вызов делегата. В зависимости от типа делегата вызывается одна
-		//из двух реализаций. Оператору передаются параметры 
-		//в соответствии с сигнатурой делегата.
 		R operator()(Args ... arg) {
 			uint8_t type = object ? METHOD : FUNCTION;
 			switch (type)
@@ -238,16 +120,10 @@ namespace gxx {
 			};
 		};
 	
-		//Сравнение делегатов.
-		bool operator==(delegate<R ,Args ... > b)
-			{
-				return method.method==b.method.method && object==b.object;
-			};
-	};	
-			
-			//Макрос для создания пары объект - метод.
-			//#define d_member(obj, mtd) gxx::make_pair(&obj, &mtd)
-			
+		bool operator==(delegate<R ,Args ... > b) {
+			return method.method==b.method.method && object==b.object;
+		};
+	};
 			
 	/*template<typename R ,typename ... Args>	
 	class fastdelegate
@@ -305,32 +181,8 @@ namespace gxx {
 			return extfunction(object, arg ...);
 		};
 	};
-	
-	template<typename R, typename ... Args>
-	class callback
-	{
-		using fnc_t = R (*)(Args ...);
-		fnc_t function;
-	
-	public:
-		callback(): function(do_nothing<R, Args...>){};
-		callback(fnc_t func): function(func) {};
-	
-		R operator()(Args ... args)
-		{
-			return function(args ...);
-		};
-	};
-	
-	template<typename B> struct hdfunction{};
-	template<typename R, typename ... V>
-	struct hdfunction<R(*)(V...)>
-	{ 
-		using deltype =  delegate<R,V...>; 
-	};
-	#define _dfnc(fnc) hdfunction<decltype(&fnc)>::deltype(fnc)
-	
 	*/
+	
 	template<typename T, typename Ret, typename ... Args> 
 	delegate<Ret, Args ...> make_delegate(Ret(T::* mtd)(Args...), T* ptr) {
 		return delegate<Ret, Args...>(mtd, ptr);

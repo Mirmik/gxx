@@ -15,11 +15,11 @@ int main() {
 	)"
 	); 
 
-	gxx::json js = gxx::json_parser::parse(text).unwrap();
-	js.prettyPrintTo(std::cout);
+	gxx::trent js = gxx::json::parse(text).unwrap();
+	gxx::json::pretty_print_to(js, std::cout);
 
 	js["quadro"][6][1] = 678;
-	js.printTo(std::cout);
+	gxx::json::pretty_print_to(js, std::cout);
 
 	gxx::json_settings settings("settings.json");
 	settings.load();
@@ -29,5 +29,8 @@ int main() {
 		settings.save();
 	}
 
-	settings.settings().printTo(std::cout);
+	gxx::trent t = settings.settings();
+
+	gxx::json::pretty_print_to(t, std::cout);
+	gxx::json::pretty_print_to(settings.settings(), std::cout);
 }
