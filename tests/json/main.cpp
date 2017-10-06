@@ -8,7 +8,7 @@ int main() {
 	std::stringstream text(R"(
 	{
 		"mirmik" : 768,
-		"mir" : 4338793721,
+		"mir" : -12222222222222222222222222.000,
 		"kein" : ["mirmik","fasdfa"],
 		"quadro" : {"i" : "a", "g" : "s"},
 	}
