@@ -1,6 +1,7 @@
 #ifndef GXX_RESULT_H
 #define GXX_RESULT_H
 
+#include <cstdlib>
 #include <cassert>
 #include <string>
 #include <functional>

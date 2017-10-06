@@ -4,6 +4,7 @@
 #include <string>
 #include <cstring>
 #include <vector>
+#include <cstdlib>
 
 #include <gxx/util/setget.h>
 
