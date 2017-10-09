@@ -51,8 +51,8 @@ namespace detail {
 	}
 
 	trent json::parse_number(std::istream& is) {
-		double num;
-		is >> num;
+        double num;
+        is >> num;
 		return trent(num);
 	}
 
