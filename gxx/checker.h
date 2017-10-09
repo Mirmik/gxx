@@ -32,6 +32,10 @@ namespace gxx {
 						return true;
 				} 
 			}
+
+                        bool isstart() {
+                            return phase == 0 || phase == 2;
+                        }
 		};
 
 		template <typename Predicate>
