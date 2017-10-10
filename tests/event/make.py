@@ -1,10 +1,10 @@
 #!/usr/bin/env	python3.5
 #coding: utf-8
 
-from glink.modules import submodule
-from glink.cxx_modules import application, doit
+from licant.modules import submodule
+from licant.cxx_modules import application, doit
 
-from glink.scripter import scriptq
+from licant.scripter import scriptq
 scriptq.execute("../../gxx.g.py")
 
 application("main",

@@ -1,5 +1,5 @@
-from glink.modules import module
-from glink.scripter import scriptq
+from licant.modules import module
+from licant.scripter import scriptq
 
 scriptq.execute("libc/libc.g.py")
 scriptq.execute("std/std.g.py")
@@ -23,6 +23,10 @@ module("gxx",
 		"impl/panic_abort.cpp"
 	],
 
+	include_paths = ["."]
+)
+
+module("gxx.include", 
 	include_paths = ["."]
 )
 

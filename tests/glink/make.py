@@ -1,14 +1,14 @@
 #!/usr/bin/env	python3.5
 #coding: utf-8
 
-import glink
-from glink.core import core
-from glink.modules import module, submodule
-from glink.cxx_modules import make as make_module
-from glink.make import make as make
-import glink.util as gu
+import licant
+from licant.core import core
+from licant.modules import module, submodule
+from licant.cxx_modules import make as make_module
+from licant.make import make as make
+import licant.util as gu
 
-from glink.scripter import scriptq
+from licant.scripter import scriptq
 
 scriptq.execute("../../gxx.g.py")
 
@@ -23,19 +23,19 @@ module("main",
 
 make_module("main",
 	cxxstd = "gnu++14",
-	target = "glinktest"
+	target = "licanttest"
 )
 
-target = "glinktest"
+target = "licanttest"
 
 def all():
-	return glink.make.make(target)
+	return licant.make.make(target)
 
 def clean():
-	return glink.make.clean(target)
+	return licant.make.clean(target)
 
 def install():
 	print("Делаю вид, что инсталирую")
 
 result = gu.do_argv_routine(arg=1, default="all", locs=locals())
-glink.make.print_result_string(result)
+licant.make.print_result_string(result)

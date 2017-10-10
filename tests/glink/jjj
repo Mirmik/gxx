@@ -1,7 +1,7 @@
 Traceback (most recent call last):
   File "./make.py", line 6, in <module>
-    from glink.cxx_modules import make as make_module
-  File "/usr/lib/python3.5/glink/cxx_modules.py", line 89
+    from licant.cxx_modules import make as make_module
+  File "/usr/lib/python3.5/licant/cxx_modules.py", line 89
     cxx_flags = cxxstd + " " modopts["cxx_flags"]
                                    ^
 SyntaxError: invalid syntax
