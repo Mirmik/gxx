@@ -64,6 +64,8 @@ namespace gxx {
 			visitable_arglist_former(arr, args ...);
 		}
 
+		visitable_arglist() : N(0), arr(nullptr) {}
+
 		visitable_argument* begin() {
 			return arr;
 		}
