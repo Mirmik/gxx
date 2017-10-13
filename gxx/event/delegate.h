@@ -192,6 +192,8 @@ namespace gxx {
 	delegate<Ret, Args ...> make_delegate(Ret(* fnc)(Args...)) {
 		return delegate<Ret, Args...>(fnc);
 	}
+
+	using action = gxx::delegate<void>;
 }
 
 #endif

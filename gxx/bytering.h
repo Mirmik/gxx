@@ -33,6 +33,10 @@ namespace gxx {
 			return head == tail;
 		}
 	
+		int clean() {
+			head = tail = 0;	
+		}
+
 		bool full() {
 			return head == (tail ? tail : m_buf.size()) - 1;
 		}
