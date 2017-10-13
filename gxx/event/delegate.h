@@ -188,6 +188,10 @@ namespace gxx {
 		return delegate<Ret, Args...>(mtd, ptr);
 	}
 
+	template<typename Ret, typename ... Args> 
+	delegate<Ret, Args ...> make_delegate(Ret(* fnc)(Args...)) {
+		return delegate<Ret, Args...>(fnc);
+	}
 }
 
 #endif
