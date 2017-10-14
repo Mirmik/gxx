@@ -1,7 +1,7 @@
 from licant.modules import implementation
 
 implementation("gxx.dprint", "stub", 
-	sources = "dprint_func_stub.c dprint_stub.c".split(" ")
+	sources = "dprint_func_stub.c dprint_stub.c dprintxx.cpp".split(" ")
 )
 
 implementation("gxx.dprint", "diag", 

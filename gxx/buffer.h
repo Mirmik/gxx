@@ -1,10 +1,8 @@
 #ifndef GENOS_UTILXX_BUFFER_H
 #define GENOS_UTILXX_BUFFER_H
 
-#include <string>
-#include <cstring>
-#include <vector>
-#include <cstdlib>
+#include <string.h>
+#include <stdlib.h>
 
 #include <gxx/util/setget.h>
 
@@ -24,7 +22,7 @@ namespace gxx {
 		//bool empty() { return buf == nullptr; }
 
 		bool operator==(const buffer& other) const {
-			return (sz == other.sz) && (strncmp(buf, other.buf, std::min(sz, other.sz)) == 0);
+			return (sz == other.sz) && (strncmp(buf, other.buf, sz < other.sz ? sz : other.sz) == 0);
 		}
 
 		ACCESSOR(data, buf);

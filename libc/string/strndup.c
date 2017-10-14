@@ -10,7 +10,8 @@
 
 char *strndup(const char *s, size_t size) {
 	char *ret;
-	size_t len = min(strlen(s), size);
+	size_t slen = strlen(s);
+	size_t len = slen < size ? slen : size;
 
 	ret = malloc(len + 1);
 	if (ret == NULL) {

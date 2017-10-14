@@ -229,9 +229,9 @@ double      fabs(double);
 //float       nexttowardf(float, long double);
 //long double nexttowardl(long double, long double);
 //
-//double      pow(double, double);
-//float       powf(float, float);
-//long double powl(long double, long double);
+double      pow(double, double);
+float       powf(float, float);
+long double powl(long double, long double);
 //
 //double      remainder(double, double);
 //float       remainderf(float, float);

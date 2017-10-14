@@ -1,0 +1,12 @@
+#ifndef GXX_STD_STRING_H
+#define GXX_STD_STRING_H
+
+namespace std {
+	class string {
+	public:
+		char* data() const;
+		size_t size() const;
+	};
+}
+
+#endif
