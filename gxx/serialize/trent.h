@@ -23,7 +23,8 @@ namespace gxx {
 			string,
 			array,
 			dictionary,
-			number,
+                        integer,
+                        floating,
 			noinit,
 		};
 
@@ -33,10 +34,18 @@ namespace gxx {
 		static constexpr check_type check_superset = 1;
 		static constexpr check_type check_equal = 2;
 
+                using float_type = double;
+                using numer_type = double;
+                using integer_type = int64_t;
+                using array_type = std::vector<trent>;
+                using dictionary_type = std::map<std::string, trent>;
+                //using _type = double;
+
 	protected:
 		trent::type m_type = trent::type::noinit;
 
 		union {
+                        int64_t m_i64;
 			double m_num;
 			std::string m_str;
 			std::vector<trent> m_arr;
@@ -49,7 +58,11 @@ namespace gxx {
 		trent(const trent& other);
 		trent(const std::string& str);
 		trent(const trent::type& t);
-		trent(double i64);
+                trent(double num);
+                trent(int i);
+                trent(long i);
+                trent(long long i);
+                trent(short i);
 
 	private:
 		template <typename T>	
@@ -60,11 +73,17 @@ namespace gxx {
 
 		void init(trent::type t);
 		void init(const std::string& str);
-		void init(const double& i64);
+                void init(double i);
+                void init(short i);
+                void init(int i);
+                void init(long i);
+                void init(long long i);
+
+                void init_array(size_t reserve);
 		void invalidate();
 
 	public:
-		trent& operator[](size_t i);
+                trent& operator[](int i);
 		trent& operator[](const char* key);
 		trent& operator[](const std::string& key);
 		trent& operator[](const gxx::buffer& key);
@@ -77,32 +96,43 @@ namespace gxx {
                 std::vector<trent>& as_vector();
                 result<std::vector<trent>&> as_vector_critical();
 		
-		const double& as_numer();
+                numer_type as_numer();
+                float_type as_floating();
+                integer_type as_integer();
+
 		const double as_numer_default(const double i);
 		result<const double&> as_numer_critical();
 
 		const std::string& as_string();
+                const gxx::buffer as_buffer() const;
 		const std::string& as_string_default(const std::string& str);
 		result<const std::string&> as_string_critical();
 		
 		
-		//double get_number(const char*, double def);
-		//double get_number(const std::string&, double def);
+                //double get_numer(const char*, double def);
+                //double get_numer(const std::string&, double def);
 
-		//result<double> get_number_critical(const std::string&);
-		
-		REFERENCE_GETTER(unsafe_number, m_num);
+                //result<double> get_numer_critical(const std::string&);
+
+                REFERENCE_GETTER(unsafe_integer, m_i64);
+                REFERENCE_GETTER(unsafe_float, m_num);
 		REFERENCE_GETTER(unsafe_string, m_str);
 		REFERENCE_GETTER(unsafe_array, m_arr);
 		REFERENCE_GETTER(unsafe_dictionary, m_dict);
+
+                CONSTREF_GETTER(unsafe_integer_const, m_i64);
+                CONSTREF_GETTER(unsafe_float_const, m_num);
+                CONSTREF_GETTER(unsafe_string_const, m_str);
+                CONSTREF_GETTER(unsafe_array_const, m_arr);
+                CONSTREF_GETTER(unsafe_dictionary_const, m_dict);
 
 
 		trent::type get_type() const;
 		const char * type_to_str();
 
 		bool is_nil() 			{ return m_type == type::noinit; }
-		bool is_numer() 		{ return m_type == type::number; }
-		//bool is_float() 		{ return m_type == type::float; }
+                bool is_numer() 		{ return m_type == type::floating || m_type == type::integer; }
+                bool is_float() 		{ return m_type == type::floating; }
 		bool is_array() 		{ return m_type == type::array; }
 		bool is_dictionary()	{ return m_type == type::dictionary; }
 		bool is_string() 		{ return m_type == type::string; }
@@ -112,8 +142,12 @@ namespace gxx {
 
 	public:
 		trent& operator= (const trent& other);
-		trent& operator= (const std::string& str);
-		trent& operator= (const double& i64);
+                trent& operator= (const std::string& str);
+                trent& operator= (double num);
+                trent& operator= (short i);
+                trent& operator= (int i);
+                trent& operator= (long i);
+                trent& operator= (long long i);
 		int size();
 
 		bool contains(gxx::buffer buf);

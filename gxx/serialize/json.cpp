@@ -141,17 +141,17 @@ namespace detail {
 	void json::print_to(const trent& tr, std::ostream& os) {
 		bool sep = false;
 		switch(tr.get_type()) {
-			case trent::type::number: 
-				os << tr.unsafe_number();
+            case trent::type::floating:
+                os << tr.unsafe_float_const();
 				return;
 			case trent::type::string: 
 				os << '"'; 
-				os << tr.unsafe_string();
+                os << tr.unsafe_string_const();
 				os << '"';
 				return;
 			case trent::type::array: 
 				os << '[';
-				for(auto& v : tr.unsafe_array()) {
+                for(auto& v : tr.unsafe_array_const()) {
 					if (sep) os << ',';
 					json::print_to(v, os);
 					sep = true;
@@ -160,7 +160,7 @@ namespace detail {
 				return; 
 			case trent::type::dictionary: 
 				os << '{';
-				for(auto& p : tr.unsafe_dictionary()) {
+                for(auto& p : tr.unsafe_dictionary_const()) {
 					if (sep) os << ',';
 					os << '"';
 					os << p.first;
@@ -182,17 +182,17 @@ namespace detail {
 		bool havedict;
 
 		switch(tr.get_type()) {
-			case trent::type::number: 
-				os << std::fixed << tr.unsafe_number();
+            case trent::type::floating:
+                os << std::fixed << tr.unsafe_float_const();
 				break;
 			
 			case trent::type::string: 
-				os << '"' << tr.unsafe_string() << '"';
+                os << '"' << tr.unsafe_string_const() << '"';
 				break;
 			
 			case trent::type::array: 
 				havedict = false;
-				for (const auto& m : tr.unsafe_array()) {
+                for (const auto& m : tr.unsafe_array_const()) {
 					if (m.get_type() == trent::trent::type::dictionary) {
 						havedict = true; break;
 					}
@@ -200,13 +200,13 @@ namespace detail {
 
 				os << '[';
 
-				if (havedict) for(auto& v : tr.unsafe_array()) {
+                if (havedict) for(auto& v : tr.unsafe_array_const()) {
 					if (sep) os << ", ";
 					json::pretty_print_to(v, os, tab+1);
 					sep = true;
 				}
 				else { 
-					for(auto& v : tr.unsafe_array()) {
+                    for(auto& v : tr.unsafe_array_const()) {
 						if (sep) os.put(',');
 						os << std::endl;
 						for(int i = 0; i < tab + 1; i++) os.put('\t');
@@ -221,7 +221,7 @@ namespace detail {
 
 			case trent::type::dictionary: 
 				os.put('{');
-				for(auto& p : tr.unsafe_dictionary()) {
+                for(auto& p : tr.unsafe_dictionary_const()) {
 					if (sep) os << ',';
 					os.put('\n');
 					for(int i = 0; i < tab + 1; i++) os.put('\t');

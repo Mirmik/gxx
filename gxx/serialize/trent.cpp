@@ -26,9 +26,12 @@ namespace gxx {
 			case trent::type::dictionary: 
 				gxx::constructor(&m_dict, other.m_dict);
 				return;
-			case trent::type::number:
+            case trent::type::floating:
 				m_num = other.m_num;
 				return;
+            case trent::type::integer:
+                m_i64 = other.m_i64;
+                return;
 			case trent::type::noinit:
 				return; 
 		}	
@@ -45,6 +48,22 @@ namespace gxx {
 	trent::trent(double num) {
 		init(num);
 	}
+
+    trent::trent(int i) {
+        init(i);
+    }
+
+    trent::trent(long i) {
+        init(i);
+    }
+
+    trent::trent(long long i) {
+        init(i);
+    }
+
+    trent::trent(short i) {
+        init(i);
+    }
 	
 	void trent::init(trent::type t) {
 		m_type = t;
@@ -58,7 +77,8 @@ namespace gxx {
 			case trent::type::dictionary: 
 				gxx::constructor(&m_dict);
 				return;
-			case trent::type::number:
+            case trent::type::floating:
+            case trent::type::integer:
 			case trent::type::noinit:
 				return; 
 		}
@@ -70,10 +90,30 @@ namespace gxx {
 	
 	}
 	
-	void trent::init(const double& num) {
-		m_type = trent::type::number;
+    void trent::init(double num) {
+        m_type = trent::type::floating;
 		m_num = num;
 	}
+
+    void trent::init(short i) {
+        m_type = trent::type::integer;
+        m_i64 = i;
+    }
+
+    void trent::init(int i) {
+        m_type = trent::type::integer;
+        m_i64 = i;
+    }
+
+    void trent::init(long i) {
+        m_type = trent::type::integer;
+        m_i64 = i;
+    }
+
+    void trent::init(long long i) {
+        m_type = trent::type::integer;
+        m_i64 = i;
+    }
 	
 	void trent::invalidate() {
 		switch(m_type) {
@@ -87,13 +127,14 @@ namespace gxx {
 				gxx::destructor(&m_dict);
 				return; 
 			case trent::type::noinit:
-			case trent::type::number:
+            case trent::type::floating:
+            case trent::type::integer:
 				return;
 		}
 		m_type = trent::type::noinit;
 	}
 	
-	trent& trent::operator[](size_t i) {
+    trent& trent::operator[](int i) {
 		if (m_type != trent::type::array) init(trent::type::array); 
 		if(m_arr.size() <= i) m_arr.resize(i + 1);
 		return m_arr[i];
@@ -136,24 +177,37 @@ namespace gxx {
 		return m_str;
 	}
 	
-	const double& trent::as_numer() {
-		if (m_type != trent::type::number) init(trent::type::number);
-		return m_num;
+    const gxx::buffer trent::as_buffer() const {
+        if (m_type == trent::type::string) return gxx::buffer(m_str.data(), m_str.size());
+        return gxx::buffer();
+    }
+
+    trent::float_type trent::as_numer() {
+        if (m_type == trent::type::floating) return m_num;
+        if (m_type == trent::type::integer) return m_i64;
+        return 0;
+
 	}
+
+    trent::integer_type trent::as_integer() {
+        if (m_type == trent::type::floating) return m_num;
+        if (m_type == trent::type::integer) return m_i64;
+        return 0;
+    }
 	
-	/*double trent::get_number(const char* str, double def) {
+    /*double trent::get_numer(const char* str, double def) {
 		trent* cur = this;
 		for (auto& s : gxx::split_tokenizer(str, '/')) {
 			dprln(s);
 			if (cur->contains(s)) cur = &cur->m_dict[std::string(s.data(), s.size())];
 			else return def;
 		}       
-		if (cur->get_type() != gxx::trent::type::number) return def;
+        if (cur->get_type() != gxx::trent::type::numer) return def;
 		return cur->as_numer();
 	}
 
-	double trent::get_number(const std::string& str, double def) {
-		return get_number(str.c_str(), def);
+    double trent::get_numer(const std::string& str, double def) {
+        return get_numer(str.c_str(), def);
 	}*/
 
 	result<const std::string&> trent::as_string_critical() {
@@ -162,7 +216,7 @@ namespace gxx {
 	}
 
 	result<const double&> trent::as_numer_critical() {
-		if (!is_numer()) return error("is't number");
+        if (!is_numer()) return error("is't numer");
 		return m_num;
 	}
 
@@ -199,7 +253,8 @@ namespace gxx {
 			case trent::type::string: 		return "String";
 			case trent::type::array: 		return "Array";
 			case trent::type::dictionary: 	return "Dictionary";
-			case trent::type::number: 		return "number";
+            case trent::type::floating: 	return "Float";
+            case trent::type::integer: 		return "Integer";
 			case trent::type::noinit: 		return "NoInit";
 		}
 	}
@@ -217,9 +272,12 @@ namespace gxx {
 			case trent::type::dictionary: 
 				gxx::constructor(&m_dict, other.m_dict);
 				return *this;
-			case trent::type::number:
+            case trent::type::floating:
 				m_num = other.m_num;
-				return *this;
+				return *this;   
+            case trent::type::integer:
+                m_i64 = other.m_i64;
+                return *this;
 			case trent::type::noinit:
 				return *this; 
 		}	
@@ -230,14 +288,35 @@ namespace gxx {
 		return *this;
 	}
 	
-	trent& trent::operator= (const double& num) {
+    trent& trent::operator= (double num) {
 		reset(num);
 		return *this;
 	}	
+
+    trent& trent::operator= (short i){
+        reset(i);
+        return *this;
+    }
+
+    trent& trent::operator= (int i){
+        reset(i);
+        return *this;
+    }
+
+    trent& trent::operator= (long i){
+        reset(i);
+        return *this;
+    }
+
+    trent& trent::operator= (long long i){
+        reset(i);
+        return *this;
+    }
 	
 	int trent::size() {
 		switch(m_type) {
-			case trent::type::number:
+            case trent::type::integer:
+            case trent::type::floating:
 			case trent::type::string: return -1;
 			case trent::type::array: return m_arr.size();
 			case trent::type::dictionary: return m_dict.size();

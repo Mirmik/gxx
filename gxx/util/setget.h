@@ -20,7 +20,7 @@ auto name() const {							\
 } 
 
 #define REFERENCE_GETTER(name,param)		\
-auto & name() const {						\
+auto & name() {						\
 	return param;							\
 } 
 
