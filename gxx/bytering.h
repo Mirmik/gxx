@@ -69,7 +69,7 @@ namespace gxx {
 		int popn(char* data, size_t size) {
 			int ret = 0;
 			while(size--) {
-				int r = getchar();
+				int r = pop();
 				if (r == -1) {
 					return ret;
 				}

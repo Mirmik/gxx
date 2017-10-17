@@ -36,7 +36,7 @@ namespace gxx {
         protected:
             int writeData(const char* str, size_t sz) override {
                 while(sz--) {
-                    char c = *str++;
+                    uint8_t c = *str++;
                     strmcrc8(&crc, c);
                     switch(c) {
                         case strt:

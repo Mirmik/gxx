@@ -32,7 +32,7 @@ int main() {
     auto res = gxx::gbson::parse(gxx::io::bufreader(nbuf));
 
 //dprln(res.unwrap()[0].as_integer());
-    gxx::json::print_to(res, std::cout);
+    gxx::json::pretty_print_to(res, std::cout);
 
     dprln();
 
@@ -44,6 +44,7 @@ int main() {
     messenger.println("HelloWorld");
     messenger.end_message();
 
+    dprln();
 
     return 0;
 }

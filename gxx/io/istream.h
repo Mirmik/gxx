@@ -11,7 +11,7 @@ namespace gxx {
 
 			virtual int getchar() {
 				char c;
-                                read(&c,1);
+				read(&c,1);
 				return c;
 			}
 

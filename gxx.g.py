@@ -19,6 +19,7 @@ module("gxx",
 		"logger/targets/stdout.cpp", 
 		#"print.cpp",
 		"serialize/json.cpp",
+		"serialize/gbson.cpp",
 		"serialize/trent.cpp",
 		"impl/panic_abort.cpp"
 	],
