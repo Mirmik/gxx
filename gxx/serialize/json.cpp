@@ -141,9 +141,19 @@ namespace detail {
 	void json::print_to(const trent& tr, std::ostream& os) {
 		bool sep = false;
 		switch(tr.get_type()) {
-            case trent::type::floating:
-                os << tr.unsafe_float_const();
+
+            case trent::type::integer:
+                os << tr.unsafe_integer_const();
+                break;
+
+            case trent::type::single_floating:
+                os << tr.unsafe_sfloat_const();
 				return;
+
+            case trent::type::double_floating:
+                os << tr.unsafe_dfloat_const();
+                return;
+
 			case trent::type::string: 
 				os << '"'; 
                 os << tr.unsafe_string_const();
@@ -182,9 +192,18 @@ namespace detail {
 		bool havedict;
 
 		switch(tr.get_type()) {
-            case trent::type::floating:
-                os << std::fixed << tr.unsafe_float_const();
+
+            case trent::type::integer:
+                os << tr.unsafe_integer_const();
+                break;
+
+            case trent::type::single_floating:
+                os << std::fixed << tr.unsafe_sfloat_const();
 				break;
+
+            case trent::type::double_floating:
+                os << std::fixed << tr.unsafe_dfloat_const();
+                break;
 			
 			case trent::type::string: 
                 os << '"' << tr.unsafe_string_const() << '"';

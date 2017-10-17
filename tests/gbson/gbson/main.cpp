@@ -1,8 +1,13 @@
 #include <iostream>
 #include <gxx/serialize/gbson.h>
+#include <gxx/serialize/json.h>
 
 #include <string>
 #include <gxx/io/bufwriter.h>
+#include <gxx/io/bufreader.h>
+
+#include <gxx/io/ostream_messenger.h>
+#include <gxx/debug/debug_ostream.h>
 
 int main() {
     char nbuf[128];
@@ -12,17 +17,33 @@ int main() {
     gxx::trent tr(gxx::trent::type::array);
     gxx::trent::array_type& arr = tr.unsafe_array();
     arr.reserve(4);
-    arr.push_back(0.785);
-    arr.push_back(2.0);
-    arr.push_back(3.0);
-    arr.push_back(4.0);
+    arr.push_back(22);
+    //arr.push_back((float)2.0);
+    arr.push_back(280);
+    arr.push_back(4);
 
-    gxx::gbson::print_to(tr, writer);
+    gxx::gbson::dump(tr, writer);
 
     //writer.print("HelloWorld");
     //writer.print("HelloWorld");
     //writer.putchar(0);
     debug_print_dump(nbuf, writer.size());
+
+    auto res = gxx::gbson::parse(gxx::io::bufreader(nbuf));
+
+//dprln(res.unwrap()[0].as_integer());
+    gxx::json::print_to(res, std::cout);
+
+    dprln();
+
+    gxx::debug_ostream dout;
+    dout.hexmode(true);
+    gxx::io::gmessenger messenger(dout);
+
+    messenger.start_message();
+    messenger.println("HelloWorld");
+    messenger.end_message();
+
 
     return 0;
 }

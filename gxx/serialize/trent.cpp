@@ -26,9 +26,12 @@ namespace gxx {
 			case trent::type::dictionary: 
 				gxx::constructor(&m_dict, other.m_dict);
 				return;
-            case trent::type::floating:
-				m_num = other.m_num;
-				return;
+            case trent::type::single_floating:
+                m_sflt = other.m_sflt;
+				return;   
+            case trent::type::double_floating:
+                m_dflt = other.m_dflt;
+                return;
             case trent::type::integer:
                 m_i64 = other.m_i64;
                 return;
@@ -44,10 +47,18 @@ namespace gxx {
 	trent::trent(const trent::type& t) {
 		init(t);
 	}
-	
-	trent::trent(double num) {
-		init(num);
-	}
+
+    trent::trent(float num) {
+        init(num);
+    }
+
+    trent::trent(double num) {
+        init(num);
+    }
+
+    trent::trent(long double num) {
+        init(num);
+    }
 
     trent::trent(int i) {
         init(i);
@@ -77,7 +88,8 @@ namespace gxx {
 			case trent::type::dictionary: 
 				gxx::constructor(&m_dict);
 				return;
-            case trent::type::floating:
+            case trent::type::single_floating:
+            case trent::type::double_floating:
             case trent::type::integer:
 			case trent::type::noinit:
 				return; 
@@ -90,10 +102,20 @@ namespace gxx {
 	
 	}
 	
-    void trent::init(double num) {
-        m_type = trent::type::floating;
-		m_num = num;
+    void trent::init(float num) {
+        m_type = trent::type::single_floating;
+        m_sflt = num;
 	}
+
+    void trent::init(double num) {
+        m_type = trent::type::double_floating;
+        m_dflt = num;
+    }
+
+    void trent::init(long double num) {
+        m_type = trent::type::double_floating;
+        m_dflt = num;
+    }
 
     void trent::init(short i) {
         m_type = trent::type::integer;
@@ -127,7 +149,8 @@ namespace gxx {
 				gxx::destructor(&m_dict);
 				return; 
 			case trent::type::noinit:
-            case trent::type::floating:
+            case trent::type::single_floating:
+            case trent::type::double_floating:
             case trent::type::integer:
 				return;
 		}
@@ -182,15 +205,17 @@ namespace gxx {
         return gxx::buffer();
     }
 
-    trent::float_type trent::as_numer() {
-        if (m_type == trent::type::floating) return m_num;
+    trent::dfloat_type trent::as_numer() {
+        if (m_type == trent::type::single_floating) return m_sflt;
+        if (m_type == trent::type::double_floating) return m_dflt;
         if (m_type == trent::type::integer) return m_i64;
         return 0;
 
 	}
 
     trent::integer_type trent::as_integer() {
-        if (m_type == trent::type::floating) return m_num;
+        if (m_type == trent::type::single_floating) return m_sflt;
+        if (m_type == trent::type::double_floating) return m_dflt;
         if (m_type == trent::type::integer) return m_i64;
         return 0;
     }
@@ -215,14 +240,14 @@ namespace gxx {
 		return m_str;
 	}
 
-	result<const double&> trent::as_numer_critical() {
+    result<double> trent::as_numer_critical() {
         if (!is_numer()) return error("is't numer");
-		return m_num;
+        return as_numer();
 	}
 
 	const double trent::as_numer_default(const double def) {
 		if (!is_numer()) return def;
-		return m_num;
+        return as_numer();
 	}
 
 	const std::string& trent::as_string_default(const std::string& def) {
@@ -253,7 +278,8 @@ namespace gxx {
 			case trent::type::string: 		return "String";
 			case trent::type::array: 		return "Array";
 			case trent::type::dictionary: 	return "Dictionary";
-            case trent::type::floating: 	return "Float";
+            case trent::type::single_floating: 	return "Float";
+            case trent::type::double_floating: 	return "Double";
             case trent::type::integer: 		return "Integer";
 			case trent::type::noinit: 		return "NoInit";
 		}
@@ -272,9 +298,12 @@ namespace gxx {
 			case trent::type::dictionary: 
 				gxx::constructor(&m_dict, other.m_dict);
 				return *this;
-            case trent::type::floating:
-				m_num = other.m_num;
+            case trent::type::single_floating:
+                m_sflt = other.m_sflt;
 				return *this;   
+            case trent::type::double_floating:
+                m_dflt = other.m_dflt;
+                return *this;
             case trent::type::integer:
                 m_i64 = other.m_i64;
                 return *this;
@@ -316,7 +345,8 @@ namespace gxx {
 	int trent::size() {
 		switch(m_type) {
             case trent::type::integer:
-            case trent::type::floating:
+            case trent::type::single_floating:
+            case trent::type::double_floating:
 			case trent::type::string: return -1;
 			case trent::type::array: return m_arr.size();
 			case trent::type::dictionary: return m_dict.size();

@@ -1,13 +1,7 @@
 #include <gxx/serialize/gbson.h>
 
 namespace gxx {
-	namespace gbson {
-        constexpr unsigned char gbson_integer_type = 0;
-		constexpr unsigned char gbson_float_type = 2;
-		constexpr unsigned char gbson_bytes_type = 3;
-		constexpr unsigned char gbson_array_type = 4;
-		constexpr unsigned char gbson_dictionary_type = 5;
-        constexpr unsigned char gbson_boolean_type = 6;
+    namespace gbson {
 		
         void print_bytes(const gxx::buffer buf, gxx::io::ostream& os) {
 			os.putchar(gbson_bytes_type);
@@ -18,34 +12,54 @@ namespace gxx {
         void print_array(const gxx::trent::array_type& arr, gxx::io::ostream& os) {
             size_t sz = arr.size();
             os.putchar(gbson_array_type);
-            os.write((const char*)&sz, 2);
+            os.write((const char*)&sz, 1);
             for (auto& v : arr) {
-                print_to(v, os);
+                dump(v, os);
             }
         }
 
         void print_dictionary(const gxx::trent::dictionary_type& dict, gxx::io::ostream& os) {
             size_t sz = dict.size();
             os.putchar(gbson_dictionary_type);
-            os.write((const char*)&sz, 2);
+            os.write((const char*)&sz, 1);
             for (auto& d : dict) {
                 print_bytes(gxx::buffer(d.first), os);
-                print_to(d.second, os);
+                dump(d.second, os);
             }
         }
 
-		void print_to(const trent& tr, gxx::io::ostream& os) {
+        void print_integer(int64_t i64, gxx::io::ostream& os) {
+            os.putchar(gbson_integer_type);
+            uint8_t sz;
+            if
+                (i64 & 0xFFFFFFFF00000000ll) sz = 8;
+            else if
+                (i64 & 0xFFFF0000) sz = 4;
+            else if
+                (i64 & 0xFF00) sz = 2;
+            else
+                sz = 1;
+            os.putchar(sz);
+            os.write((const char*) &i64, sz);
+        }
+
+        void dump(const trent& tr, gxx::io::ostream& os) {
             switch(tr.get_type()) {
-                case(gxx::trent::type::floating) :
-					os.putchar(gbson_float_type);
-					os.putchar(sizeof(trent::float_type));
-                    os.write((const char*)&tr.unsafe_float_const(), sizeof(trent::float_type));
+                case(gxx::trent::type::single_floating) :
+                    os.putchar(gbson_float_type);
+                    os.putchar(sizeof(trent::sfloat_type));
+                    os.write((const char*)&tr.unsafe_sfloat_const(), sizeof(trent::sfloat_type));
 					break;
 
+
+                case(gxx::trent::type::double_floating) :
+                    os.putchar(gbson_float_type);
+                    os.putchar(sizeof(trent::dfloat_type));
+                    os.write((const char*)&tr.unsafe_dfloat_const(), sizeof(trent::dfloat_type));
+                    break;
+
                 case(gxx::trent::type::integer) :
-                    os.putchar(gbson_integer_type);
-                    os.putchar(sizeof(trent::integer_type));
-                    os.write((const char*)&tr.unsafe_integer_const(), sizeof(trent::integer_type));
+                    print_integer(tr.unsafe_integer_const(), os);
                     break;
 
                 case(gxx::trent::type::string) :
@@ -62,5 +76,45 @@ namespace gxx {
 								
 			}
 		}
+
+        result<trent> parse_integer(gxx::io::istream& is) {
+            dprln("integer_type");
+            uint8_t sz = is.getchar();
+            int64_t res = 0;
+            is.read((char*)&res, sz);
+            return res;
+        }
+
+        result<trent> parse_array(gxx::io::istream& is) {
+            dprln("array_type");
+            uint8_t sz = is.getchar();
+            gxx::trent res(gxx::trent::type::array);
+            for(int i = 0; i < sz; ++i) {
+                res.unsafe_array().emplace_back(parse(is));
+            }
+            return res;
+        }
+
+        result<trent> parse(gxx::io::istream& is) {
+            uint8_t type = is.getchar();
+
+            switch (type) {
+                case gbson_integer_type:
+                    return parse_integer(is);
+
+                case gbson_float_type:
+                    dprln("float_type");
+                    break;
+
+                case gbson_array_type:
+                    return parse_array(is);
+
+                case gbson_dictionary_type:
+                    dprln("dictionary_type");
+                    break;
+            }
+
+            return error("gbson error");
+        }
 	}
 }
