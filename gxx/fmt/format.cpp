@@ -7,11 +7,11 @@ template<> size_t gxx::fmt::format_visitor::visit_implementation<char*>(void* pt
 	else return out.print(str, gxx::fmt::spec_cstring(opts));
 }
 
-template<> size_t gxx::fmt::format_visitor::visit_implementation<std::string>(void* ptr, gxx::io::ostream& out, gxx::buffer opts) {
-	std::string& str = *(std::string*)ptr;
-	if (opts.empty()) return out.print(str);
-	else return out.print(str.c_str(), gxx::fmt::spec_cstring(opts));
-}
+//template<> size_t gxx::fmt::format_visitor::visit_implementation<std::string>(void* ptr, gxx::io::ostream& out, gxx::buffer opts) {
+//	std::string& str = *(std::string*)ptr;
+//	if (opts.empty()) return out.print(str);
+//	else return out.print(str.c_str(), gxx::fmt::spec_cstring(opts));
+//}
 
 template<> size_t gxx::fmt::format_visitor::visit_implementation<short>(void* ptr, gxx::io::ostream& out, gxx::buffer opts) {
 	short& i = *(short*)ptr;

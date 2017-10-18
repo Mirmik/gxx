@@ -39,4 +39,7 @@ module("gxx.panic", impl="abort",
 module("gxx.std", 
 	include_paths = ["std"]
 )
-	
+
+module("gxx.format", 
+	sources = ["gxx/fmt/format.cpp"],
+)

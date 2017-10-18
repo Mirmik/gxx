@@ -1,6 +1,7 @@
 #ifndef GXX_STD_UTILITY
 #define GXX_STD_UTILITY
 
+#include <new>
 #include <type_traits>
 #include <utility_impl/pair.hpp>
 

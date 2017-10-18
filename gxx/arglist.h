@@ -1,7 +1,7 @@
 #ifndef GXX_ARGLIST2_H
 #define GXX_ARGLIST2_H
 
-#include <array>
+#include <utility>
 #include <assert.h>
 #include <gxx/buffer.h>
 #include <gxx/debug/dprint.h>

@@ -1,6 +1,7 @@
 #ifndef GENOS_UTILXX_BUFFER_H
 #define GENOS_UTILXX_BUFFER_H
 
+#include <string>
 #include <string.h>
 #include <stdlib.h>
 

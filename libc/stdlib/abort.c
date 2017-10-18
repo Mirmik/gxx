@@ -1,12 +1,7 @@
-/**
- * @file
- * @brief
- * @date 12.07.12
- * @author Ilia Vaprol
- */
-
-#include <genos/panic.h>
+#include <gxx/debug/dprint.h>
 
 void abort(void) {
-	panic("Aborted");
+	debug_print("abort");
+	while(1);
+	//panic("Aborted");
 }
