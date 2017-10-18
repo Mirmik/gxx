@@ -1,10 +1,10 @@
 #ifndef GENOS_dlist_H
 #define GENOS_dlist_H
 
-#include <stdlib.h>
+//#include <stdlib.h>
 #include "gxx/datastruct/dlist_head.h"
 #include "gxx/util/member.h" 
-#include <algorithm>
+//#include <algorithm>
 
 namespace gxx {
 
@@ -79,7 +79,7 @@ namespace gxx {
 
 		class iterator {
 		public:
-			using iterator_category = std::bidirectional_iterator_tag;
+			//using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = type;
 			using difference_type = ptrdiff_t;
 			using pointer = type*;
@@ -134,9 +134,9 @@ namespace gxx {
 			dlist_move_prev(&(obj.*member), it.current);			
 		}
 
-		iterator insert_sorted(type & item) {
-		    return insert(std::upper_bound(begin(), end(), item ), item);
-		}
+		//iterator insert_sorted(type & item) {
+		//    return insert(std::upper_bound(begin(), end(), item ), item);
+		//}
 
 	/*	gxx::string to_info() const
 		{
