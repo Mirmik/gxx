@@ -34,15 +34,13 @@ namespace gxx {
 		};
 		
 		void move_next(type& obj, type& head) {
-			assert(is_linked(head));
 			dlist_move_next(&(obj.*member), &(head.*member));
 		};
 		
 		void move_prev(type& obj, type& head) {
-			assert(is_linked(head));
 			dlist_move_prev(&(obj.*member), &(head.*member));
 		};
-	
+
 		void pop(type& obj) {
 			//assert(is_linked(obj));
 			dlist_del(&(obj.*member));
@@ -133,6 +131,14 @@ namespace gxx {
 		iterator insert(iterator it, type & obj) {
 			dlist_move_prev(&(obj.*member), it.current);			
 		}
+		
+		void move_next(type& obj, iterator head) {
+			dlist_move_next(&(obj.*member), head.current);
+		};
+		
+		void move_prev(type& obj, iterator head) {
+			dlist_move_prev(&(obj.*member), head.current);
+		};
 
 		//iterator insert_sorted(type & item) {
 		//    return insert(std::upper_bound(begin(), end(), item ), item);
