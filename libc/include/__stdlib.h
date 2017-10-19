@@ -19,7 +19,7 @@
 #include <genos/defines/wchar_t.h>
 #include <genos/defines/null.h>
 #include <util/extlibc/itoa.h>
-#include <genos/compiler.h>
+#include <sys/cdefs.h>
 
 /* In addition, the following symbolic names and macros shall be defined as in
  * <sys/wait.h> , for use in decoding the return value from system():

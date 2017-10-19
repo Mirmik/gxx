@@ -14,10 +14,9 @@
 #ifndef STDLIB_H_
 #define STDLIB_H_
 
-#include <genos/defines/size_t.h>
-#include <genos/defines/wchar_t.h>
-#include <genos/defines/null.h>
-#include <genos/compiler.h>
+#include <stddef.h>
+#include <gxx/util/compiler.h>
+#include <sys/cdefs.h>
 
 /* In addition, the following symbolic names and macros shall be defined as in
  * <sys/wait.h> , for use in decoding the return value from system():
@@ -167,7 +166,7 @@ extern void abort(void);
 
 #define EXIT_FAILURE 1
 #define EXIT_SUCCESS 0
-extern void _NORETURN exit(int status);
+extern void __NORETURN exit(int status);
 
 /**
  * Returns the absolute value of an argument. If the argument is not negative,

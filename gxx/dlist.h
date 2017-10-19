@@ -46,6 +46,10 @@ namespace gxx {
 			dlist_del(&(obj.*member));
 		};
 
+		static void unbind(type& obj) {
+			dlist_del(&(obj.*member));
+		};
+
 		void del_init(type& obj) {
 			dlist_del_init(&(obj.*member));
 		};

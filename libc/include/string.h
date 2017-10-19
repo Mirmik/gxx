@@ -16,10 +16,8 @@
 #ifndef STRING_H_
 #define STRING_H_
 
-#include <genos/defines/null.h>
-#include <genos/defines/size_t.h>
-
-#include <genos/compiler.h>
+#include <stddef.h>
+#include <sys/cdefs.h>
 __BEGIN_DECLS
 
 /**

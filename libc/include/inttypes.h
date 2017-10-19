@@ -11,7 +11,7 @@
 /* The <inttypes.h> header shall include the <stdint.h> header. */
 #include <stdint.h>
 #include <stddef.h>
-#include <genos/compiler.h>
+#include <sys/cdefs.h>
 
 /**
  * imaxdiv_t - Structure type that is the type of the value returned by the

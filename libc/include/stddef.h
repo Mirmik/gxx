@@ -19,13 +19,12 @@
 	__builtin_offsetof(type, member)
 #endif
 
-#include <genos/defines/null.h>
+#include <libc/defines/null.h>
+#include <libc/defines/size_t.h>
+#include <libc/defines/wchar_t.h>
+#include <libc/defines/ptrdiff_t.h>
 
-#include <genos/defines/size_t.h>
-
-#include <genos/defines/wchar_t.h>
-
-#include <genos/defines/ptrdiff_t.h>
-
+//FIXME remove off_t to sys/types.h 
+#include <libc/defines/off_t.h>
 
 #endif /* STDDEF_H_ */

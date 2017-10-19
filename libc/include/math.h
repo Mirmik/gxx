@@ -1,7 +1,7 @@
 #ifndef _MATH_H
 #define _MATH_H
 
-#include <genos/compiler.h>
+#include <sys/cdefs.h>
 //#include "util/math.h"
 
 __BEGIN_DECLS

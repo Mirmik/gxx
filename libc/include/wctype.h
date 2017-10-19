@@ -48,7 +48,7 @@ static inline wint_t towupper(wint_t wc) {
 	return (wc < (wint_t)0x100 ? toupper(wc) : wc);
 }
 
-#include <genos/compiler.h>
+#include <sys/cdefs.h>
 
 __BEGIN_DECLS
 

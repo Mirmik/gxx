@@ -11,7 +11,7 @@
 #ifndef ERRNO_H_
 #define ERRNO_H_
 
-#include <genos/errno.h>
+extern int* __errno_location();
 #define errno (*__errno_location())
 #define SET_ERRNO(x) (errno = x)
 
