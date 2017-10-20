@@ -9,6 +9,10 @@ namespace gxx {
 		bytearray(const char* data, size_t sz) : gxx::buffer(new char[sz], sz) {
 			memcpy(gxx::buffer::data(), data, sz);
 		}
+
+		~bytearray() {
+			delete[](data());
+		}
 	};
 }
 

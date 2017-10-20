@@ -196,4 +196,6 @@ void dprtab(uint8_t obj);
 
 #endif //__cplusplus
 
+#define DTRACE() { debug_print("DTRACE: "); debug_print(__PRETTY_FUNCTION__); debug_print_line(); }
+
 #endif

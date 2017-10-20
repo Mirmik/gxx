@@ -21,7 +21,7 @@ namespace gxx {
 			hist.emplace(data, strlen(data));
 		}
 
-		gxx::bytearray& operator[](int i) {
+		const gxx::bytearray& operator[](int i) {
 			return hist[i];
 		}
 	};

@@ -3,7 +3,7 @@
 
 #include <gxx/debug/dprint.h>
 
-static inline void __assert(const char* message, const char* file, int line) { dprln("assert"); while(1); }
+static inline void __assert(const char* message, const char* file, int line) { debug_print("assert"); debug_print_line(); while(1); }
 #define assert(EX) (void)((EX) || (__assert (#EX, __FILE__, __LINE__),0))
 
 #ifndef __cplusplus
