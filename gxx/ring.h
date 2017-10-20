@@ -20,6 +20,7 @@ namespace gxx {
 
 	public:
 		ring() : head(0), tail(0), isfull(false), buffer(nullptr), reserved(0) {}
+		ring(int len) : ring() { reserve(len); }
 
 		void init() {
 			head = 0;
@@ -55,16 +56,43 @@ namespace gxx {
 		}
 
 		void push(const T& obj) {
+			if (isfull) return;
 			alloc.construct(buffer + head++, obj);
+			if (head == reserved) head = 0;
+			if (head == tail) isfull = true; 
+		}
+
+		template<typename ... Args>
+		void emplace(Args&& ... args) {
+			if (isfull) return;
+			alloc.construct(buffer + head++, std::forward<Args>(args) ... );
 			if (head == reserved) head = 0;
 			if (head == tail) isfull = true; 
 		}
 
 		void pop() {
 			if (!empty()) {
+				alloc.destroy(buffer + tail);
 				if (++tail == reserved) tail = 0;
 				isfull = false;
 			}
+		}
+
+		size_t size() {
+			if (isfull) return reserved;
+ 			int res = head - tail;
+			return res < 0 ? res + reserved : res;
+		}
+
+		size_t capacity() {
+			return reserved;
+		}
+
+		T& operator[](int index) {
+			size_t sz = size();
+			int cell;
+			cell = index >= 0 ? (tail + index) % reserved : (head + index + reserved) % reserved;
+			return *(buffer + cell);
 		}
 	};
 }
