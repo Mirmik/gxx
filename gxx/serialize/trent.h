@@ -81,6 +81,7 @@ namespace gxx {
 
 		void init(trent::type t);
 		void init(const std::string& str);
+                void init(const char* str);
 
                 void init(float i);
                 void init(double i);

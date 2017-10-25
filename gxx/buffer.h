@@ -13,12 +13,12 @@ namespace gxx {
 		size_t sz;
 	public:
 		buffer() : buf(nullptr), sz(0) {}
-		buffer(const char* buf) : buf((char*)buf), sz(strlen(buf)) {}
+		//buffer(const char* buf) : buf((char*)buf), sz(strlen(buf)) {}
 		buffer(const void* buf, size_t sz) : buf((char*)buf), sz(sz) {}
 		buffer(const std::string& str) : buf((char*)str.data()), sz(str.size()) {}
 
-		template<typename T, size_t N>
-		inline buffer(T (&arr) [N]) : buf((char*)arr), sz(N) {}
+		//template<typename T, size_t N>
+		//inline buffer(T (&arr) [N]) : buf((char*)arr), sz(N) {}
 
 		//bool empty() { return buf == nullptr; }
 
@@ -45,9 +45,11 @@ namespace gxx {
 		char* m_cursor;
 
 		line_buffer(const void* buf, size_t sz);
-
-
 	};
+
+	namespace buffer_literal {
+		inline gxx::buffer operator"" _b(const char* str, size_t sz) { return gxx::buffer(str, sz); }
+	}
 }
 
 #endif 

@@ -44,6 +44,10 @@ namespace gxx {
 		init(str);
 	}
 	
+	trent::trent(const char* str) {
+		init(str);
+	}
+
 	trent::trent(const trent::type& t) {
 		init(t);
 	}
@@ -97,6 +101,12 @@ namespace gxx {
 	}
 	
 	void trent::init(const std::string& str) {
+		m_type = trent::type::string;
+		gxx::constructor(&m_str, str);
+	
+	}
+	
+	void trent::init(const char* str) {
 		m_type = trent::type::string;
 		gxx::constructor(&m_str, str);
 	

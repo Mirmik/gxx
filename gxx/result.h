@@ -230,7 +230,7 @@ namespace gxx { namespace result_type {
 		__result.restore();											\
 	}; 																\
 	try_label:														\
-	__result._data;													\
+	__result.getData();												\
 })
 
 #define try_restore(val) ({__result.restore(val); goto try_label;})
