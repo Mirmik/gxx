@@ -2,7 +2,7 @@
 #define GXX_FMT_FORMAT_H
 
 #include <gxx/arglist.h>
-//#include <gxx/debug/dprint.h>
+#include <gxx/util/print.h>
 #include <gxx/util/numconvert.h>
 
 namespace gxx {
@@ -11,10 +11,15 @@ namespace gxx {
 		struct format_visitor {
 			using ftype = size_t(*)(void*, gxx::io::ostream&, gxx::buffer opts);												
 		
-			template<typename Object> static size_t visit_implementation(void* obj, gxx::io::ostream& o, gxx::buffer opts) {
-				return reinterpret_cast<Object*>(obj)->fmtPrintTo(o, opts);
+			//template<typename Object> static size_t visit_implementation(void* obj, gxx::io::ostream& o, gxx::buffer opts) {
+			//	return reinterpret_cast<Object*>(obj)->fmtPrintTo(o, opts);
+			//}
+		
+			template<typename Object>
+			static void* get_visit() {
+				return reinterpret_cast<void*>(&print_functions<Object>::format_print);
 			}
-																						
+
 			template<typename ... Args>												
 			static inline constexpr auto visit(gxx::visitable_argument varg, Args&& ... args) {		
 				ftype fptr = (ftype) varg.visit;									
@@ -22,7 +27,7 @@ namespace gxx {
 			}																		
 		};
 		
-		template<> size_t format_visitor::visit_implementation<char>(void* ptr, gxx::io::ostream&, gxx::buffer);
+		/*template<> size_t format_visitor::visit_implementation<char>(void* ptr, gxx::io::ostream&, gxx::buffer);
 		
 		template<> size_t format_visitor::visit_implementation<signed char>(void* ptr, gxx::io::ostream&, gxx::buffer);
 		template<> size_t format_visitor::visit_implementation<short>(void* ptr, gxx::io::ostream&, gxx::buffer);
@@ -40,7 +45,7 @@ namespace gxx {
 		template<> size_t format_visitor::visit_implementation<double>(void* ptr, gxx::io::ostream&, gxx::buffer);
 
 		template<> size_t format_visitor::visit_implementation<char*>(void* ptr, gxx::io::ostream&, gxx::buffer);
-		template<> size_t format_visitor::visit_implementation<std::string>(void* ptr, gxx::io::ostream&, gxx::buffer);
+		template<> size_t format_visitor::visit_implementation<std::string>(void* ptr, gxx::io::ostream&, gxx::buffer);*/
 	
 		struct spec_text {
 			unsigned char width = 0;

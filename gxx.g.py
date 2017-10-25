@@ -28,6 +28,7 @@ module("gxx",
 )
 
 module("gxx.include", 
+	sources = [],
 	include_paths = ["."]
 )
 
@@ -42,4 +43,8 @@ module("gxx.std",
 
 module("gxx.format", 
 	sources = ["gxx/fmt/format.cpp"],
+)
+
+module("gxx.print", 
+	sources = ["gxx/print.cpp"],
 )

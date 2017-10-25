@@ -3,9 +3,14 @@
 
 #include <string.h>
 #include <string>
+#include <map>
+#include <vector>
+#include <array>
 
 #include <gxx/fmt/format.h>
 #include <gxx/util/numconvert.h>
+
+#include <gxx/io/printable.h>
 
 namespace gxx {
 	namespace io {
@@ -19,7 +24,7 @@ namespace gxx {
 				return writeData(&c,1);
 			}
 
-			int format_argument(const char*& fmt, const gxx::visitable_arglist& list, uint8_t argnum) {
+			/*int format_argument(const char*& fmt, const gxx::visitable_arglist& list, uint8_t argnum) {
 				int ret;		
 				char* pend;
 				assert(*fmt++ == '{');
@@ -76,25 +81,18 @@ namespace gxx {
 			}
 			
 			template<typename ... Args>
-			int format(const char* fmt, Args&& ... args) {
+			int fmtprint(const char* fmt, Args&& ... args) {
 				visitable_argument buffer[sizeof ... (Args)];
 				return format_args(fmt, gxx::make_visitable_arglist<gxx::fmt::format_visitor>(buffer, std::forward<Args>(args) ...));
 			}
 
 			template<typename ... Args>
-			int fmtln(Args ... args) {
+			int fmtprintln(Args ... args) {
 				int ret = format(args ...);
 				return ret + write("\r\n", 2);
 			}				
 
-			int print(const char* str) {
-				return write(str, strlen(str));
-			}
-
-			int print(gxx::buffer buf) {
-				return write(buf.data(), buf.size());
-			}
-
+			
 			int print(const char* str, const fmt::spec_text& spec) {
 				int len = strlen(str);
 				if (spec.width != 0) {
@@ -123,7 +121,7 @@ namespace gxx {
 			int print(bool obj) {
 				return print(obj ? "true" : "false");
 			}
-
+			*/
 			int print(const short i) { return print((long long) i); }
 			int print(const int i) { return print((long long) i); }
 			int print(const long i) { return print((long long) i); }
@@ -154,12 +152,23 @@ namespace gxx {
 				return print(buf); 
 			}
 			
+			int print(const char* str) {
+				return write(str, strlen(str));
+			}
+
+			int print(gxx::buffer buf) {
+				return write(buf.data(), buf.size());
+			}
 
 			int print(const std::string str) {
 				return write(str.data(), str.size());
 			}
 
-			int print(long long i, const fmt::spec_integer& spec) {
+			int print(const gxx::io::printable& obj) {
+				obj.printTo(*this);
+			}
+
+			/*int print(long long i, const fmt::spec_integer& spec) {
 				char buf[48];
 				i64toa(i, buf, 10);
 				return print(buf, spec);  
@@ -175,21 +184,62 @@ namespace gxx {
 
 			int print(double str, const fmt::spec_float& spec) {
 				return print("print double with spec");
+			}*/
+
+			/*
+			template <typename T>
+			int print(const std::vector<T>& vec) {
+				putchar('[');
+				for (int i = 0; i < vec.size() - 1; ++i) {
+					print(vec[i]);
+					putchar(',');
+				}
+				print(vec[vec.size() - 1]);
+				putchar(']');
 			}
 
+			template <typename T, size_t N>
+			int print(const std::array<T,N>& vec) {
+				putchar('[');
+				for (int i = 0; i < N - 1; ++i) {
+					print(vec[i]);
+					putchar(',');
+				}
+				print(vec[N - 1]);
+				putchar(']');
+			}
 
-			template<typename ... Args>
-			int println(Args ... args) {
-				int ret = print(args ...);
+			template <typename K, typename T>
+			int print(const std::map<K,T>& dict) {
+				putchar('{');
+				if (dict.size() != 0) {
+					auto it = dict.begin();
+					auto end = dict.end();
+
+					print((*it).first); putchar(':'); print((*it).second);
+					it++;
+					while(it != end) {
+						putchar(',');
+						print((*it).first); putchar(':'); print((*it).second);	
+						it++;
+					}
+				} 
+				putchar('}');
+			}
+*/
+			template<typename Arg>
+			int println(Arg&& arg) {
+				int ret = print(std::forward<Arg>(arg));
 				return ret + write("\r\n", 2);
-                        }
+			}
 
-                        int println() {
-                            return write("\r\n", 2);
-                        }
-
+			int println() {
+				return write("\r\n", 2);
+			}
+		
 		protected: 
 			virtual int writeData(const char* str, size_t sz) = 0;
+		
 		};
 	}
 }

@@ -6,13 +6,13 @@
 
 namespace gxx {
 	namespace io {
-		class ostream;
+		//class ostream;
 		class printable {
 		public:
 			virtual size_t printTo(gxx::io::ostream& o) const = 0;
-			virtual size_t fmtPrintTo(gxx::io::ostream& o, gxx::buffer opts) {
-				return printTo(o);
-			}
+		//	virtual size_t fmtPrintTo(gxx::io::ostream& o, gxx::buffer opts) {
+		//		return printTo(o);
+		//	}
 		};
 	}
 }

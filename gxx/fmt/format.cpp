@@ -1,7 +1,7 @@
 #include <gxx/fmt/format.h>
 #include <gxx/io/ostream.h>
 
-template<> size_t gxx::fmt::format_visitor::visit_implementation<char*>(void* ptr, gxx::io::ostream& out, gxx::buffer opts) {
+/*template<> size_t gxx::fmt::format_visitor::visit_implementation<char*>(void* ptr, gxx::io::ostream& out, gxx::buffer opts) {
 	char* str = (char*)ptr;
 	if (opts.empty()) return out.print(str);
 	else return out.print(str, gxx::fmt::spec_cstring(opts));
@@ -90,3 +90,4 @@ template<> size_t gxx::fmt::format_visitor::visit_implementation<float>(void* pt
 	if (opts.empty()) return out.print(i);
 	else return out.print((double) i, gxx::fmt::spec_float(opts));
 }
+*/

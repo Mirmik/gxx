@@ -11,26 +11,8 @@
 namespace gxx {
 	//std::string format_args(const char* fmt, const visitable_arglist& args);
 	
-	namespace fmt {
-		template<typename ... Args>
-		std::string format(const char* fmt, Args&& ... args) {
-			std::string str;
-			gxx::io::std_string_writer(str).format(fmt, std::forward<Args>(args) ...);	
-			return str; 
-		}
+	//namespace fmt {
 	
-		template<typename ... Args>
-		void print(const char* fmt, Args&& ... args) {
-			gxx::debug_ostream out;
-			out.format(fmt, std::forward<Args>(args) ...);
-		}
-
-        template<typename ... Args>
-        void println(const char* fmt, Args&& ... args) {
-            gxx::debug_ostream out;
-            gxx::fmt::print(fmt, std::forward<Args>(args) ...);
-            out.println();
-        }
 
 	/*inline namespace print_funcs {
 		template<typename ... Args>

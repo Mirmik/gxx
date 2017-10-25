@@ -3,41 +3,30 @@
 
 using namespace gxx::argument_literal;
 
-//using visitor = argument_visitor<void>;
-
-//GXX_REGISTER_ARGUMENT_VISITOR(format_visitor, int(*)(void*, int));
-
-//int hello(int& i, int t) {
-//	dpr("HelloWorld "); dprln(i); dprln(t);
-//	return t + 1;
-//}
-
-//int hello_str(const char* i, int t) {
-//	dpr("HelloWorld "); dprln(i); dprln(t);
-//	return t + 1;
-//}
-
-//GXX_REGISTER_ARGUMENT_VISIT(format_visitor, int, hello);
-//GXX_REGISTER_ARGUMENT_VISIT(format_visitor, const char*, hello_str);
-
 class A {
+	int i = 42;
 public:
-
-	int mtd(int i) {
-		dprln("mtd");
+	int mtd() {
+		dprln(i);
 	} 
 };
+
+template <typename T> struct print_functions;
+
+template <> struct print_functions<A> : print_functions_basic { static void print(A& a, int i) { a.mtd(); dprln(i); }};
+template <> struct print_functions<int> { static void print(int& a, int i) { dprln(a); dprln(i); }};
+template <> struct print_functions<char*> { static void print(char* a, int i) { dprln(a); dprln(i); }};
 
 struct format_visitor {
 	using ftype = int(*)(void*, int);												
 
-	template<typename Object> static int visit_implementation(void* obj, int i) {
-		return reinterpret_cast<Object*>(obj)->mtd(i);
+	//template<typename Object> static int visit_implementation(void* obj, int i) {
+	//	return reinterpret_cast<Object*>(obj)->mtd(i);
+	//}
+	template<typename Object>
+	static void* get_visit() {
+		return (void*) visit_helper<Object>::print;
 	}
-	
-	//template<typename Object> static void* get_visit() {
-	//	return reinterpret_cast<void*>(&visit_implementation<Object>);
-	//} 						
 																			
 	template<typename ... Args>												
 	static auto visit(gxx::visitable_argument varg, Args&& ... args) {		
@@ -45,20 +34,6 @@ struct format_visitor {
 		return fptr(varg.ptr, std::forward<Args>(args) ...);				
 	}																		
 };
-
-template<> int format_visitor::visit_implementation<int>(void* ptr, int i) {
-	int& obj = *(int*)ptr;
-
-	dprln(i);
-	dprln(obj);
-}
-
-template<> int format_visitor::visit_implementation<char*>(void* ptr, int i) {
-	const char* obj = (const char*) ptr;
-
-	dprln(i);
-	dprln(obj);
-}
 
 template <typename ... Args>
 void func(Args&& ... inargs) {	

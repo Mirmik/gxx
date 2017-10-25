@@ -4,7 +4,7 @@
 #include <utility>
 #include <assert.h>
 #include <gxx/buffer.h>
-#include <gxx/debug/dprint.h>
+//#include <gxx/debug/dprint.h>
 #include <gxx/panic.h>
 
 namespace gxx {
@@ -89,32 +89,32 @@ namespace gxx {
 
 	template <typename Visitor, typename Object>
 	inline visitable_argument make_visitable_argument(Object& obj) {
-		return visitable_argument((void*)&obj, (void*)&Visitor::template visit_implementation<std::remove_const_t<std::remove_reference_t<Object>>>, gxx::buffer());
+		return visitable_argument((void*)&obj, Visitor::template get_visit<std::remove_const_t<std::remove_reference_t<Object>>>(), gxx::buffer());
 	}
 	
 	template <typename Visitor, typename Object, size_t N>
 	inline visitable_argument make_visitable_argument(Object(&obj)[N]) {
-		return visitable_argument((void*)obj, (void*)&Visitor::template visit_implementation<std::remove_const_t<std::remove_reference_t<Object>>*>, gxx::buffer());
+		return visitable_argument((void*)obj, Visitor::template get_visit<std::remove_const_t<std::remove_reference_t<Object>>*>(), gxx::buffer());
 	}
 
 	template <typename Visitor, typename Object>
 	inline visitable_argument make_visitable_argument(Object*& obj) {
-		return visitable_argument((void*)obj, (void*)&Visitor::template visit_implementation<std::remove_const_t<std::remove_reference_t<Object>>*>, gxx::buffer());
+		return visitable_argument((void*)obj, Visitor::template get_visit<std::remove_const_t<std::remove_reference_t<Object>>*>(), gxx::buffer());
 	}
 	
 	template <typename Visitor, typename Object>
 	inline visitable_argument make_visitable_argument(argpair<Object>& pair) {
-		return visitable_argument(pair.body, (void*)&Visitor::template visit_implementation<std::remove_const_t<std::remove_reference_t<Object>>>, pair.name);
+		return visitable_argument(pair.body, Visitor::template get_visit<std::remove_const_t<std::remove_reference_t<Object>>>(), pair.name);
 	}
 	
 	template <typename Visitor, typename Object, size_t N>
 	inline visitable_argument make_visitable_argument(argpair<Object[N]>& pair) {
-		return visitable_argument(pair.body, (void*)&Visitor::template visit_implementation<std::remove_const_t<std::remove_reference_t<Object>>*>, pair.name);
+		return visitable_argument(pair.body, Visitor::template get_visit<std::remove_const_t<std::remove_reference_t<Object>>*>(), pair.name);
 	}
 
 	template <typename Visitor, typename Object>
 	inline visitable_argument make_visitable_argument(argpair<Object*>& pair) {
-		return visitable_argument(*(void**)pair.body, (void*)&Visitor::template visit_implementation<std::remove_const_t<std::remove_reference_t<Object>>*>, pair.name);
+		return visitable_argument(*(void**)pair.body, Visitor::template get_visit<std::remove_const_t<std::remove_reference_t<Object>>*>(), pair.name);
 	}
 
 	template <typename Visitor, typename ... Args>
