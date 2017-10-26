@@ -6,7 +6,7 @@
 #include <list>
 
 #include <string.h>
-#include <gxx/format.h>
+//#include <gxx/print.h>
 
 #include <gxx/debug.h>
 
@@ -16,7 +16,7 @@ namespace gxx {
 		std::list<gxx::socket> clients;
 
 	public:
-		spam_server(int port) : server(gxx::SocketType::Tcp, port) {};
+                spam_server(int port) : server(gxx::socket::type::tcp, port) {};
 
 		int start() {
 			if (server::listen() < 0) { 

@@ -15,6 +15,17 @@ namespace gxx {
 				return c;
 			}
 
+                        virtual int read_until(char* str, size_t max, char symb) {
+                            char c;
+                            char* strt = str;
+                            do {
+                                c = getchar();
+                                //dprhexln(c);
+                                *str++ = c;
+                            } while(c != symb);
+                            return str - strt;
+                        }
+
 		protected: 
 			virtual int readData(char* str, size_t sz) = 0;
 		};

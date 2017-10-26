@@ -113,10 +113,45 @@ namespace gxx {
 		}
 	};
 
+    /*template<typename C, typename F>
+    class iterate {
+        using iterator = gxx::gen<K, keys_of_map_t<K,T>>;
+        using rawiterator = typename C::iterator;
+
+        rawiterator it;
+        rawiterator eit;
+
+        F&
+
+    public:
+        iterate(C& c, F& f) {
+            it = c.begin();
+            eit = c.end();
+        }
+
+        auto& value() {
+            return *it;
+        }
+
+        bool next() {
+            it++;
+            if (it == eit) return true;
+            return false;
+        }
+
+        iterator begin() {
+            return iterator(*this, dict.empty() ? true : false);
+        }
+
+        iterator end() {
+            return iterator(*this, true);
+        }
+    };
+
 	template<typename K, typename T>
 	keys_of_map_t<K,T> keys_of_map(std::map<K,T>& dict) {
 		return keys_of_map_t<K,T>(dict);
-	}
+    }*/
 }
 
 #endif

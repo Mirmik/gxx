@@ -109,7 +109,7 @@ namespace gxx {
 		class printable {
 		public:
 			virtual size_t printTo(gxx::io::ostream& o) const = 0;
-			virtual size_t fmtPrintTo(gxx::io::ostream& o, gxx::buffer opts) {
+                        virtual size_t fmtPrintTo(gxx::io::ostream& o, gxx::buffer opts) const {
 				return printTo(o);
 			}
 		};

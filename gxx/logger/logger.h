@@ -4,6 +4,7 @@
 #include <gxx/datastruct/dlist_head.h>
 #include <gxx/logger/target.h>
 #include <gxx/fmt/format.h>
+#include <gxx/print.h>
 
 #include <vector>
 #include <string>
@@ -83,14 +84,15 @@ namespace gxx {
 				if (minlevel <= lvl) {
 					std::string msg;
 					gxx::io::std_string_writer msgwriter(msg);
-					msgwriter.format_args(fmt, args);
+                                        gxx::fprint_impl(msgwriter,fmt, args);
 
 					char tstamp[64] = "";
 					if (timestamp != nullptr) timestamp(tstamp, 64);
 
 					std::string logmsg;
 					gxx::io::std_string_writer logwriter(logmsg);
-					logwriter.format(
+                                        gxx::fprint(
+                                                logwriter,
 						pattern.c_str(), 
 						"msg"_a=msg.c_str(), 
 						"logger"_a=logger_name,

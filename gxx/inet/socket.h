@@ -11,14 +11,8 @@
 using namespace gxx::result_type;
 
 namespace gxx {
-	enum class SocketType : uint8_t {
-		Tcp,
-		Udp,
-		Unix,
-	};
-
 	enum class SocketError : uint8_t {
-		WrongSocketType,
+                WrongSocketType,
 		ConnectionRefused,
 		UnknownError,
 		AllreadyInUse,
@@ -38,7 +32,13 @@ namespace gxx {
 	};
 
 	class socket : public gxx::io::iostream {
-	public: 
+        public:
+            enum class type : uint8_t {
+                    tcp,
+                    udp,
+                    unix,
+            };
+
 		static constexpr int32_t AnyAddress = 0; 
 
 		socket(const socket&) = delete;
@@ -54,7 +54,7 @@ namespace gxx {
 		hostaddr m_addr;
 		uint16_t m_port;
 
-		SocketType m_type;
+                type m_type;
 		SocketError m_error = SocketError::OK;
 		SocketState m_state = SocketState::Disconnected;
 
@@ -63,12 +63,12 @@ namespace gxx {
 
 	public:
 		socket();
-		socket(SocketType type, const hostaddr& addr, uint16_t port);
+		socket(socket::type type, const hostaddr& addr, uint16_t port);
 
 		int open();
 		int close();
 
-		void init(SocketType type, const hostaddr& addr, uint16_t port);
+		void init(socket::type type, const hostaddr& addr, uint16_t port);
 
 		int bind();
 		int connect();
@@ -105,7 +105,7 @@ namespace gxx {
 	public:
 		const char* error() {
 			switch(m_error) {
-				case SocketError::WrongSocketType: return "WrongSocketType";
+                                case SocketError::WrongSocketType: return "WrongSocketType";
 				case SocketError::AllreadyInUse: return "AllreadyInUse";
 				case SocketError::ConnectionRefused: return "ConnectionRefused";
 				case SocketError::Unavailable: return "Unavailable";

@@ -1,6 +1,7 @@
 #ifndef GXX_STD_PRINT_H
 #define GXX_STD_PRINT_H
 
+#include <gxx/print.h>
 #include <array>
 #include <vector>
 #include <map>
@@ -9,11 +10,13 @@ namespace gxx {
 	template<typename T> struct print_functions<std::vector<T>> {
 		static int print(gxx::io::ostream& o, std::vector<T> const& vec) {
 			o.putchar('[');
-			for (int i = 0; i < vec.size() - 1; ++i) {
-				gxx::print(o, vec[i]);
-				o.putchar(',');
-			}
-			gxx::print(o, vec[vec.size() - 1]);
+                        if (vec.size() != 0) {
+                            for (int i = 0; i < vec.size() - 1; ++i) {
+                                    gxx::print(o, vec[i]);
+                                    o.putchar(',');
+                            }
+                            gxx::print(o, vec[vec.size() - 1]);
+                        }
 			o.putchar(']');
 		}
 
@@ -29,7 +32,8 @@ namespace gxx {
 				gxx::print(o, vec[i]);
 				o.putchar(',');
 			}
-			gxx::print(o, vec[N - 1]);
+                        if (N != 0)
+                            gxx::print(o, vec[N - 1]);
 			o.putchar(']');
 		}
 
@@ -61,6 +65,16 @@ namespace gxx {
 			return print(o, vec);
 		}
 	};
+
+        template<> struct print_functions<std::string> {
+        static int print(gxx::io::ostream& o, const std::string& str) {
+                o.print(str.c_str());
+        }
+
+        static int format_print(std::string const& vec, gxx::io::ostream& o, gxx::buffer opt) {
+                return print(o, vec);
+        }
+};
 }
 
 

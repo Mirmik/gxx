@@ -1,4 +1,4 @@
-#include <gxx/format.h>
+#include <gxx/print.h>
 #include <gxx/linux/epoll.h>
 #include <gxx/inet/socket.h>
 
@@ -8,7 +8,7 @@ int main() {
 	gxx::epoll epl;
 	epl.create();
 
-	gxx::socket sock(gxx::SocketType::Tcp, "127.0.0.1", 7777);
+	gxx::socket sock(gxx::socket::type::Tcp, "127.0.0.1", 7777);
 	sock.connect();
 
 	epl.add(sock.fd());

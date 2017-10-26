@@ -103,7 +103,8 @@ namespace gxx {
 	template<typename ... Args>
 	std::string format(const char* fmt, Args&& ... args) {
 		std::string str;
-		gxx::fprint(gxx::io::std_string_writer(str), fmt, std::forward<Args>(args) ...);	
+        gxx::io::std_string_writer writer(str);
+        gxx::fprint(writer, fmt, std::forward<Args>(args) ...);
 		return str; 
 	}
 }

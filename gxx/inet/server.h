@@ -11,12 +11,12 @@ namespace gxx {
 
 		server() {}
 		
-		server(SocketType type, int port) : socket(type, socket::AnyAddress, port) {
+		server(socket::type type, int port) : socket(type, socket::AnyAddress, port) {
 			//m_type = type;
 			//listen(socket::AnyAddress, port);
 		}
 
-		server(SocketType type, hostaddr addr, int port) : socket(type, addr, port) {
+		server(socket::type type, hostaddr addr, int port) : socket(type, addr, port) {
 			//m_type = type;
 			//listen(addr, port);
 		}

@@ -1,4 +1,4 @@
-#include <gxx/format.h>
+#include <gxx/print.h>
 
 int main() {
 	auto spl = gxx::split("abra kadabra 2fgg", ' ');

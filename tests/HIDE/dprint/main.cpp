@@ -1,5 +1,5 @@
 #include <gxx/debug/dprint.h>
-#include <gxx/format.h>
+#include <gxx/print.h>
 
 int main() {
 	dprln("HelloWorld");
