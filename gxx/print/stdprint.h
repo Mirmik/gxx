@@ -16,6 +16,10 @@ namespace gxx {
 			gxx::print(o, vec[vec.size() - 1]);
 			o.putchar(']');
 		}
+
+		static int format_print(std::vector<T> const& vec, gxx::io::ostream& o, gxx::buffer opt) {
+			return print(o, vec);
+		}
 	};
 
 	template<typename T, size_t N> struct print_functions<std::array<T,N>> {
@@ -28,6 +32,11 @@ namespace gxx {
 			gxx::print(o, vec[N - 1]);
 			o.putchar(']');
 		}
+
+		static int format_print(std::array<T,N> const& vec, gxx::io::ostream& o, gxx::buffer opt) {
+			return print(o, vec);
+		}
+		
 	};
 
 	template<typename T, typename K> struct print_functions<std::map<K,T>> {
@@ -46,6 +55,10 @@ namespace gxx {
 				}
 			} 
 			o.putchar('}');
+		}
+		
+		static int format_print(std::map<K,T> const& vec, gxx::io::ostream& o, gxx::buffer opt) {
+			return print(o, vec);
 		}
 	};
 }

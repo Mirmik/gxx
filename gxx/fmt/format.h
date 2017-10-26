@@ -17,7 +17,7 @@ namespace gxx {
 		
 			template<typename Object>
 			static void* get_visit() {
-				return reinterpret_cast<void*>(&print_functions<Object>::format_print);
+				return reinterpret_cast<void*>(&fprint_functions<Object>::format_print);
 			}
 
 			template<typename ... Args>												

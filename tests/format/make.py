@@ -11,10 +11,10 @@ application("main",
 	sources = ["main.cpp"],
 	include_paths = ["../.."],
 	modules = [
-		submodule("gxx.include"),
+		submodule("gxx"),
 		submodule("gxx.dprint", "stdout"),
-		submodule("gxx.panic", "abort"),
-		submodule("gxx.print"),
+		#submodule("gxx.panic", "abort"),
+		#submodule("gxx.print"),
 	]
 )
 

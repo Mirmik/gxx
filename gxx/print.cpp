@@ -4,7 +4,7 @@
 
 namespace gxx {
 	
-	template<> int print_functions<int>::print(gxx::io::ostream& o, const int& i) { 
+	/*int print_functions<int>::print(gxx::io::ostream& o, const int& i) { 
 		char buf[48]; 
 		i64toa(i, buf, 10); 
 		return o.print(buf); 
@@ -44,5 +44,5 @@ namespace gxx {
 
 	int print_functions<char*>::print(gxx::io::ostream& o, const char* const& i) { 
 		return o.print(i); 
-	}
+	}*/
 }
