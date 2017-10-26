@@ -5,11 +5,12 @@ namespace gxx {
 	template<typename T, typename C>
 	class generator {
 		bool need_continue = true;
-		
+
 	public:
-		generator() {
-			operator++();
-		}
+		using iterator = generator<T,C>&;
+		using const_iterator = generator<T,C>&;
+
+		void nil() { need_continue = false; }
 
 		C& operator++() {
 			need_continue = ((C*)this)->next();
@@ -20,16 +21,20 @@ namespace gxx {
 			return ((C*)this)->value();
 		} 	
 
-		C& begin() {
+		C& begin() const {
 			return *(C*)this; 
 		}
 	
-		C& end() {
+		C& end() const {
 			return *(C*)this;
 		}
 
 		bool operator != (generator& et) {
 			return need_continue;
+		}
+
+		bool operator == (generator& et) {
+			return !need_continue;
 		}
 	};
 }
