@@ -1,7 +1,7 @@
 #include <gxx/serialize/trent.h>
 #include <gxx/iteratible.h>
 #include <gxx/debug/dprint.h>
-//#include <gxx/print.h>
+#include <gxx/container.h>
 #include <algorithm>
 
 using namespace gxx::result_type;
@@ -369,9 +369,11 @@ namespace gxx {
 
 		strlst retlist;
 
-		auto _keys = gxx::keys_of_map(m_dict);
-		//dprln("HERE");
-		strlst keys(_keys.begin(), _keys.end());
+        auto _keys = gxx::gen::keys_of_map(m_dict);
+        strlst keys;//(_keys.begin(), _keys.end());
+        for(auto k : _keys) {
+            keys.push_back(k);
+        }
 		
 		//dprln("HERE");
 		//std::sort(lst.begin(), lst.end());
@@ -412,9 +414,12 @@ namespace gxx {
 		std::pair<strlst, strlst> ret;
 		if (!is_dictionary()) return ret;
 
-		auto _keys = gxx::keys_of_map(m_dict);
-		strlst keys(_keys.begin(), _keys.end());
-		
+        auto _keys = gxx::gen::keys_of_map(m_dict);
+        strlst keys;//(_keys.begin(), _keys.end());
+        for(auto k : _keys) {
+            keys.push_back(k);
+        }
+
 		lst.sort();
 		keys.sort();
 

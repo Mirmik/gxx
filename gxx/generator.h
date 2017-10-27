@@ -7,8 +7,8 @@ namespace gxx {
 		bool need_continue = true;
 
 	public:
-		using iterator = generator<T,C>&;
-		using const_iterator = generator<T,C>&;
+                using iterator = C&;
+                using const_iterator = C&;
 
 		void nil() { need_continue = false; }
 
@@ -36,6 +36,21 @@ namespace gxx {
 		bool operator == (generator& et) {
 			return !need_continue;
 		}
+
+                decltype(auto) vector() {
+                    std::vector<typename C::value_type> vec;
+                    for (const auto& t: *this) vec.emplace_back(t);
+                    return vec;
+                }
+	};
+}
+
+namespace std {
+	template<typename T, typename C>
+	class iterator_traits<gxx::generator<T,C>> {
+	public:
+		using iterator_category = std::forward_iterator_tag;
+        using value_type = T;
 	};
 }
 

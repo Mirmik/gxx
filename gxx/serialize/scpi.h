@@ -16,7 +16,8 @@ namespace gxx {
 
 	public:
                 class header : public gxx::io::printable {
-			std::string str;
+                public:
+                    std::string str;
                         int num;
                 public:
 			header(const std::string& str, int num) : str(str), num(num) {}

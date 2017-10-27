@@ -6,7 +6,7 @@
 #include <gxx/debug/dprint.h>
 #include <string.h>
 
-namespace gxx {
+/*namespace gxx {
 
 	class range {
 		int stop;
@@ -152,6 +152,6 @@ namespace gxx {
 	keys_of_map_t<K,T> keys_of_map(std::map<K,T>& dict) {
 		return keys_of_map_t<K,T>(dict);
     }*/
-}
+//}
 
 #endif

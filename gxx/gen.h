@@ -1,7 +1,7 @@
 #ifndef GXX_GEN_H
 #define GXX_GEN_H
 
-#include <iterator>
+/*#include <iterator>
 
 namespace gxx {
 
@@ -35,6 +35,6 @@ namespace std {
 		using iterator_category = std::forward_iterator_tag;
         using value_type = T;
 	};
-}
+}*/
 
 #endif

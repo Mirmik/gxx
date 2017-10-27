@@ -37,7 +37,7 @@ namespace gxx {
 			mapping_t(const C& ctr, F&& f) : f(f), it(ctr.begin()), eit(ctr.end()) {}
 		
 			bool next() {
-				dprln("mapping ++");
+                //dprln("mapping ++");
 				return ++it != eit;
 			}
 		
@@ -83,7 +83,46 @@ namespace gxx {
 		template<typename C, typename F>
 		filter_t<C,F> filter(const C& ctr, F&& f) {
 			return filter_t<C,F>(ctr, std::forward<F>(f));
-		} 
+		}
+
+		template<typename K, typename T>
+        class keys_of_map_t : public gxx::generator<K, keys_of_map_t<K,T>> {
+			typename std::map<K,T>::iterator it;
+			typename std::map<K,T>::iterator eit;
+	
+		public:
+            using value_type = K;
+            using size_type = typename std::map<K,T>::size_type;
+
+            keys_of_map_t(std::map<K,T>& dict) : it(dict.begin()), eit(dict.end()) {
+                if (dict.empty()) keys_of_map_t<K,T>::nil();
+			}
+		
+            K value() {
+				return const_cast<K&>(it->first);
+			}
+		
+			bool next() {
+                return ++it != eit;
+			}	
+		};
+
+        template<typename K, typename T>
+        keys_of_map_t<K,T> keys_of_map(std::map<K,T>& ctr) {
+            return keys_of_map_t<K,T>(ctr);
+        }
+ 
+	}
+
+	namespace container {
+        template <typename C>
+		bool contain(const C& ctr, const typename C::value_type& pattern) {
+			using type = typename C::value_type;
+			for (const auto& a : ctr) {
+				if (a == pattern) return true;
+			}
+			return false;
+		}
 	}
 }
 
