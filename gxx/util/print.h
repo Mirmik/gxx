@@ -17,7 +17,7 @@ namespace gxx {
 	class buffer;
 
 	template<typename T> struct print_functions {
-                static int print(gxx::io::ostream& o, const T& obj) { return o.print(obj); }
+		static int print(gxx::io::ostream& o, const T& obj) { return o.print(obj); }
 	};
 
 	template<typename T, bool Printable = true> struct fprint_functions_basic {
@@ -29,15 +29,15 @@ namespace gxx {
 	template<typename T> struct fprint_functions_basic<T, false> {
 		static int format_print(const T& obj, gxx::io::ostream& o, gxx::buffer opt) { 
 			return print_functions<T>::print(o, obj); 
-                }
+		}
 	};
 
 	template<typename T> struct fprint_functions : public fprint_functions_basic<T, IsPrintable<T>::value> {};
 
-	template<> struct fprint_functions<char*> {
-		static int format_print(const char* const obj, gxx::io::ostream& o, gxx::buffer opt) { 
-			return print_functions<const char*>::print(o, obj); 
-                }
+	template<typename T> struct fprint_functions<T*> {
+		static int format_print(const T* const obj, gxx::io::ostream& o, gxx::buffer opt) { 
+			return print_functions<const T*>::print(o, obj); 
+		}
 	};
 }
 

@@ -17,8 +17,7 @@ namespace gxx {
 		buffer(const void* buf, size_t sz) : buf((char*)buf), sz(sz) {}
 		buffer(const std::string& str) : buf((char*)str.data()), sz(str.size()) {}
 
-		//template<typename T, size_t N>
-		//inline buffer(T (&arr) [N]) : buf((char*)arr), sz(N) {}
+		template<size_t N> inline buffer(char (&arr) [N]) : buf(arr), sz(N) {}
 
 		//bool empty() { return buf == nullptr; }
 
@@ -38,14 +37,6 @@ namespace gxx {
 		void* ptr = malloc(sz);
 		return gxx::buffer(ptr, sz);
 	}
-
-	class line_buffer {
-		char* m_data;
-		char* m_end;
-		char* m_cursor;
-
-		line_buffer(const void* buf, size_t sz);
-	};
 
 	namespace buffer_literal {
 		inline gxx::buffer operator"" _b(const char* str, size_t sz) { return gxx::buffer(str, sz); }

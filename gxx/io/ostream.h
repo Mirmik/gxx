@@ -19,6 +19,13 @@ namespace gxx {
 				return writeData(&c,1);
 			}
 
+			int fill(char c, size_t len) {
+				while(len--) {
+					putchar(c);
+				}
+				return len;
+			}
+
 			int print(bool obj) {
 				return print(obj ? "true" : "false");
 			}
@@ -63,6 +70,14 @@ namespace gxx {
 				return write(str, strlen(str));
 			}
 
+			int print(const void* ptr) {
+				char buf[48];
+				u64toa((uintptr_t)ptr, buf, 16);
+				size_t len = strlen(buf);
+				size_t ret = fill('0', sizeof(void*)*2 - len);
+				return ret + print(buf);  
+			}
+
 			int print(gxx::buffer buf) {
 				return write(buf.data(), buf.size());
 			}
@@ -103,7 +118,6 @@ namespace gxx {
 		
 		protected: 
 			virtual int writeData(const char* str, size_t sz) = 0;
-		
 		};
 
 		class printable {

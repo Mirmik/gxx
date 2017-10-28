@@ -45,9 +45,50 @@ namespace gxx {
 			type& operator*() {return *member_container(current,member);}
 			type* operator->() {return member_container(current,member);}
 		};
+		
+		class const_iterator {
+		public:
+			//using iterator_category = std::bidirectional_iterator_tag;
+			using value_type = type;
+			using difference_type = ptrdiff_t;
+			using pointer = type*;
+			using reference = type&;
+
+		public:
+			slist_head* current;
+		public:
+			const_iterator() : current(nullptr) {};	
+			const_iterator(slist_head* head) : current(head) {};	
+			const_iterator(const const_iterator& other) : current(other.current) {};		
+					
+			const_iterator operator++(int) { iterator i = *this; current=current->next; return i; }
+			const_iterator operator++() { current=current->next; return *this; }
+			bool operator!= (const const_iterator& b) {return current != b.current;}
+			bool operator== (const const_iterator& b) {return current == b.current;}
+					
+			const type& operator*() {return *member_container(current,member);}
+			const type* operator->() {return member_container(current,member);}
+		};
 
 		iterator begin() { return iterator(head.next); }
 		iterator end() { return iterator(nullptr); }	
+
+		const_iterator begin() const { return const_iterator(head.next); }
+		const_iterator end() const { return const_iterator(nullptr); }	
+	};
+
+	template<typename type, slist_head type::* member> 
+	struct print_functions<slist<type,member>> {
+		static int print(gxx::io::ostream& o, slist<type,member> const& lst) {
+			o.putchar('[');
+			auto it = lst.begin();
+			auto eit = lst.end();
+			for(; it != eit; ++it) {
+				gxx::print(o, *it);
+				if (it.current -> next != nullptr) o.putchar(','); 
+			}
+			o.putchar(']');			
+		}
 	};
 }
 

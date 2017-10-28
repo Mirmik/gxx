@@ -28,11 +28,11 @@ namespace gxx {
 
 	int socket::open() {
 		switch(m_type) {
-			case socket::type::Tcp: 
+			case socket::type::tcp: 
 				m_fd = ::socket(PF_INET, SOCK_STREAM, 0);
 				break;
 			default:
-				setError("open", SocketError::Wrongsocket::type);
+				setError("open", SocketError::WrongSocketType);
 				return -1;	
 		}
 		
@@ -78,10 +78,10 @@ namespace gxx {
 
 		switch(m_type) {
 			case 
-				socket::type::Tcp: addr.sin_family = AF_INET;
+				socket::type::tcp: addr.sin_family = AF_INET;
 				break;
 			default: 
-				setError("connect", SocketError::Wrongsocket::type);
+				setError("connect", SocketError::WrongSocketType);
 				return -1;
 		}
 

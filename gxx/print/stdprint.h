@@ -7,43 +7,37 @@
 #include <map>
 
 namespace gxx {
-	template<typename T> struct print_functions<std::vector<T>> {
+	template<typename T> 
+	struct print_functions<std::vector<T>> {
 		static int print(gxx::io::ostream& o, std::vector<T> const& vec) {
 			o.putchar('[');
-                        if (vec.size() != 0) {
-                            for (int i = 0; i < vec.size() - 1; ++i) {
-                                    gxx::print(o, vec[i]);
-                                    o.putchar(',');
-                            }
-                            gxx::print(o, vec[vec.size() - 1]);
-                        }
+						if (vec.size() != 0) {
+							for (int i = 0; i < vec.size() - 1; ++i) {
+									gxx::print(o, vec[i]);
+									o.putchar(',');
+							}
+							gxx::print(o, vec[vec.size() - 1]);
+						}
 			o.putchar(']');
-		}
-
-		static int format_print(std::vector<T> const& vec, gxx::io::ostream& o, gxx::buffer opt) {
-			return print(o, vec);
 		}
 	};
 
-	template<typename T, size_t N> struct print_functions<std::array<T,N>> {
+	template<typename T, size_t N> 
+	struct print_functions<std::array<T,N>> {
 		static int print(gxx::io::ostream& o, std::array<T,N> const& vec) {
 			o.putchar('[');
 			for (int i = 0; i < N - 1; ++i) {
 				gxx::print(o, vec[i]);
 				o.putchar(',');
 			}
-                        if (N != 0)
-                            gxx::print(o, vec[N - 1]);
+			if (N != 0)
+				gxx::print(o, vec[N - 1]);
 			o.putchar(']');
-		}
-
-		static int format_print(std::array<T,N> const& vec, gxx::io::ostream& o, gxx::buffer opt) {
-			return print(o, vec);
-		}
-		
+		}		
 	};
 
-	template<typename T, typename K> struct print_functions<std::map<K,T>> {
+	template<typename T, typename K>  
+	struct print_functions<std::map<K,T>> {
 		static int print(gxx::io::ostream& o, std::map<K,T> const& dict) {
 			o.putchar('{');
 			if (dict.size() != 0) {
@@ -60,21 +54,14 @@ namespace gxx {
 			} 
 			o.putchar('}');
 		}
-		
-		static int format_print(std::map<K,T> const& vec, gxx::io::ostream& o, gxx::buffer opt) {
-			return print(o, vec);
-		}
 	};
 
-        template<> struct print_functions<std::string> {
-        static int print(gxx::io::ostream& o, const std::string& str) {
-                o.print(str.c_str());
-        }
-
-        static int format_print(std::string const& vec, gxx::io::ostream& o, gxx::buffer opt) {
-                return print(o, vec);
-        }
-};
+	template<> 
+	struct print_functions<std::string> {
+		static int print(gxx::io::ostream& o, const std::string& str) {
+				o.print(str.c_str());
+		}
+	};
 }
 
 

@@ -85,7 +85,7 @@ static inline char *u64toa( uint64_t num, char *buf, uint8_t base )
 	int16_t remainder = 0;
 	do {
 		remainder = ud % base;
-		*(p++) = (remainder < 10) ? remainder + '0' : remainder + 'a' - 10;
+		*(p++) = (remainder < 10) ? remainder + '0' : remainder + 'A' - 10;
 	} while( ud /= base );
 
 	/* Terminate buf.  */
