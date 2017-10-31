@@ -17,7 +17,7 @@ namespace gxx {
 		buffer(const void* buf, size_t sz) : buf((char*)buf), sz(sz) {}
 		buffer(const std::string& str) : buf((char*)str.data()), sz(str.size()) {}
 
-		template<size_t N> inline buffer(char (&arr) [N]) : buf(arr), sz(N) {}
+        template<size_t N> inline buffer(const char (&arr) [N]) : buf((char*)arr), sz(N) {}
 
 		//bool empty() { return buf == nullptr; }
 
@@ -27,6 +27,9 @@ namespace gxx {
 
 		ACCESSOR(data, buf);
 		ACCESSOR(size, sz);
+
+        char* begin() { return buf; }
+        char* end() { return buf + sz; }
 
 		bool empty() {
 			return buf == nullptr;

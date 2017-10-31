@@ -45,11 +45,10 @@ namespace gxx {
 				else reader.skip(); 
 			}
 
-			reader.skip_while(' ');
+                        reader.skip_while(" ,\n");
                         while(!reader.next_is("\0?"_b)) {
-				if (reader.next_is(isalnum) == false) { is_error = true; return; }
-				arguments.emplace_back(reader.string_while(isalnum));		
-				reader.skip_while(" ,");			
+                                arguments.emplace_back(reader.string_while(gxx::creader::chars(" ,\0\n?", false)));
+                                reader.skip_while(" ,\n");
 			}
 
 			if (reader.next_is('?')) is_question = true;

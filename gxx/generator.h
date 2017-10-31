@@ -1,6 +1,8 @@
 #ifndef GXX_GENERATOR_H
 #define GXX_GENERATOR_H
 
+#include <vector>
+
 namespace gxx {
 	template<typename T, typename C>
 	class generator {
@@ -37,11 +39,11 @@ namespace gxx {
 			return !need_continue;
 		}
 
-                decltype(auto) vector() {
-                    std::vector<typename C::value_type> vec;
-                    for (const auto& t: *this) vec.emplace_back(t);
-                    return vec;
-                }
+        decltype(auto) vector() {
+            std::vector<typename C::value_type> vec;
+            for (const auto& t: *this) vec.emplace_back(t);
+            return vec;
+        }
 	};
 }
 

@@ -23,6 +23,8 @@ namespace gxx {
 					atoi(nums[3].c_str());
 			}
 		}
+
+                hostaddr(const std::string& str) : hostaddr(str.c_str()) {}
 	};
 }
 

@@ -9,6 +9,20 @@ namespace gxx {
 		const char* ptr;
 
 	public:
+        struct chars {
+            gxx::buffer pattern;
+            bool tgt;
+
+            chars(gxx::buffer pattern, bool tgt) : pattern(pattern), tgt(tgt) {}
+
+            bool operator()(char c) {
+                for (char p : pattern) {
+                    if (p == c) return tgt;
+                }
+                return !tgt;
+            }
+        };
+
 		creader(const char* ptr) : ptr(ptr) {}
 
 		template<typename Functor> 

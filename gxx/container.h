@@ -1,6 +1,7 @@
 #ifndef GXX_CONTAINER_H
 #define GXX_CONTAINER_H
 
+#include <map>
 #include <gxx/debug/dprint.h>
 #include <gxx/generator.h>
 
