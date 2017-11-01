@@ -60,6 +60,7 @@ namespace gxx {
 		}
 	
 		int pop() {
+			//dprln(tail);
 			if (empty()) return -1;
 			char c = *(m_buf.data() + tail++);
 			fixup(tail);

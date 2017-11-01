@@ -18,6 +18,7 @@
 #define bits_mask_eq(a,m,b) (((a) & (m)) == (b))
 
 #define bits_mask_assign(a,m,b) (a = bits_invmask(a,m) | bits_mask(b,m))
+#define bits_mask_assign_bias(a,m,b,s) (bits_mask_assign(a,(m<<s),(b<<s)))
 
 
 #define bits_multimap_uint32(input,clone,cllen) 	\
