@@ -34,6 +34,10 @@ namespace gxx {
 		bool empty() {
 			return buf == nullptr;
 		}
+
+		buffer slice(size_t idx, size_t sz) {
+			return buffer(buf + idx, sz);
+		}
 	};
 
 	static inline gxx::buffer allocate_buffer(int sz) {
