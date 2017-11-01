@@ -9,23 +9,11 @@ gxx::memory::heap heap;
 int main() {
 	gxx::buffer buf = gxx::allocate_buffer(500);
 
-	heap.engage_block(buf.slice(500,100));
-	heap.engage_block(buf.slice(300,100));
-	heap.engage_block(buf.slice(400,100));
-	heap.engage_block(buf.slice(  0,100));
-	heap.engage_block(buf.slice(100,100));
-
-	gxx::println(heap);
-
-	void* ptr1 = heap.allocate(50);
-	void* ptr2 = heap.allocate(60);
-
-	gxx::println(heap);
-
-	heap.deallocate(ptr1);
-	heap.deallocate(ptr2);
-
-	gxx::println(heap);
+//	heap.engage_block(buf.slice(500,100));
+//	heap.engage_block(buf.slice(300,100));
+//	heap.engage_block(buf.slice(400,100));
+//	heap.engage_block(buf.slice(  0,100));
+//	heap.engage_block(buf.slice(100,100));
 
 	std::vector<int, gxx::memory::heap::allocator<int>> vec{gxx::memory::heap::allocator<int>(heap)};
 

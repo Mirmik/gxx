@@ -38,7 +38,11 @@ namespace gxx {
 
 				allocator(heap& href) : href(href) {}
 
-				T* allocate(size_t n) { return (T*)href.allocate(n * sizeof(T)); } 
+				T* allocate(size_t n) { 
+					void* ret = href.allocate(n * sizeof(T));
+					if (ret == nullptr) throw std::bad_alloc();
+					return (T*)ret; 
+				} 
 				void deallocate(T* ptr) { return href.deallocate(ptr); } 
 				void deallocate(T* ptr, size_t n) { return href.deallocate(ptr); } 
 			};
@@ -108,6 +112,9 @@ namespace gxx {
 						}
 					}
 				}
+				//dprln("null");
+
+				return nullptr;
 			}
 
 			void deallocate(void* ptr) {
