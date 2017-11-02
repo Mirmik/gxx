@@ -1,4 +1,4 @@
-#!/usr/bin/env	python3.5
+#!/usr/bin/env	python
 #coding: utf-8
 
 from licant.modules import submodule

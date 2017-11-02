@@ -7,9 +7,9 @@
 #include <map>
 
 namespace gxx {
-	template<typename T> 
-	struct print_functions<std::vector<T>> {
-		static int print(gxx::io::ostream& o, std::vector<T> const& vec) {
+	template<typename T, typename A> 
+	struct print_functions<std::vector<T,A>> {
+		static int print(gxx::io::ostream& o, std::vector<T,A> const& vec) {
 			o.putchar('[');
 						if (vec.size() != 0) {
 							for (int i = 0; i < vec.size() - 1; ++i) {

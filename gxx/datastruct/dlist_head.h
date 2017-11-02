@@ -13,10 +13,15 @@ struct dlist_head {
 
 #ifdef __cplusplus
 	inline dlist_head() : next(this), prev(this) {}
+	inline dlist_head(const dlist_head& oth) : next(oth.next), prev(oth.prev) {
+	//	dprln("dlist_head_copy");
+	}
 	inline ~dlist_head() { 
 		prev->next = next;
 		next->prev = prev;
 	}
+
+
 #endif
 };
 
