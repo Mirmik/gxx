@@ -21,7 +21,8 @@ module("gxx",
 		"serialize/json.cpp",
 		"serialize/gbson.cpp",
 		"serialize/trent.cpp",
-		"impl/panic_abort.cpp"
+		"impl/panic_abort.cpp",
+		"string.cpp",
 	],
 
 	include_paths = ["."]
