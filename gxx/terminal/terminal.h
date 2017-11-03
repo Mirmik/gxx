@@ -27,6 +27,11 @@ namespace gxx {
 			out.print("input> ");
 		}
 
+		void left() {}
+		void right() {}
+		void up() {}
+		void down() {}
+
 		void newchar(char c) {
 			switch (state) {
 				case 0: 
@@ -56,12 +61,13 @@ namespace gxx {
 						return;
 					}
 					switch (c) {
-						case 'A' : dprln("up"); break;
-						case 'B' : dprln("down"); break;
-						case 'C' : dprln("C!!"); break;
-						case 'D' : dprln("D!!"); break;
+						case 'A' : up(); break;
+						case 'B' : down(); break;
+						case 'C' : left(); break;
+						case 'D' : right(); break;
 					}
 					state = 0;
+					break;
 
 				default:
 					gxx::panic("terminal, default state");
