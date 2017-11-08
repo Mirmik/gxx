@@ -11,7 +11,8 @@ namespace gxx {
 
 			virtual int getchar() {
 				char c;
-				read(&c,1);
+				int ret = read(&c,1);
+				if (ret == -1 || ret == 0) return -1;
 				return c;
 			}
 
@@ -20,7 +21,8 @@ namespace gxx {
                             char* strt = str;
                             do {
                                 c = getchar();
-        						if (c == -1)
+        						//dprln((int)c);
+        						if (c == -1) break;
                                 //dprhexln(c);
                                 *str++ = (char)c;
                             } while(c != symb);
