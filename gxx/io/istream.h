@@ -16,12 +16,13 @@ namespace gxx {
 			}
 
                         virtual int read_until(char* str, size_t max, char symb) {
-                            char c;
+                            int c;
                             char* strt = str;
                             do {
                                 c = getchar();
+        						if (c == -1)
                                 //dprhexln(c);
-                                *str++ = c;
+                                *str++ = (char)c;
                             } while(c != symb);
                             return str - strt;
                         }
