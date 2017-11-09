@@ -14,6 +14,7 @@ public:
 	}
 };
 
+using namespace gxx::argument_literal;
 int main() {
 	gxx::debug_ostream dout;
 	dout.println(35);
@@ -25,7 +26,9 @@ int main() {
 	vec.emplace_back(std::vector<int>{7,9,0});
 	
 	gxx::println(vec);
-	gxx::fprintln("{}, Hello, {}, {}", vec, A(), "Mirmik");
+	char* cstr = "Hello";
+
+	gxx::fprintln(dout, "{}, {a}, {}, {}", vec, "a"_a = cstr, A(), "Mirmik");
 
 	gxx::trent tr;
 
