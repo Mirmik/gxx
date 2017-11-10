@@ -141,6 +141,13 @@ void dpr(const Buffer& obj) {
 	debug_write(obj.data(), obj.size());
 }
 
+template <typename T, typename ... Tail>
+inline void dpr(const T& obj, const Tail& ... tail) {
+	dpr(obj); 
+	debug_putchar(' '); 
+	dpr(tail ...);
+}
+
 void dprbin(uint8_t obj);
 void dprbin(uint16_t obj);
 void dprbin(uint32_t obj);
@@ -179,8 +186,8 @@ void dpr_dump_ascii(void* obj, uint32_t size);
 template<typename T> void dprptr(const T* const& obj) 
 	{ debug_printhex_ptr((void*)obj); }
 
-template<typename T> void dprln(const T& obj) 
-	{ dpr(obj); debug_write("\r\n", 2); }
+template<typename ... T> void dprln(const T& ... obj) 
+	{ dpr(obj ...); debug_write("\r\n", 2); }
 
 template<typename T> void dprbinln(const T& obj) 
 	{ dprbin(obj); debug_write("\r\n", 2); }

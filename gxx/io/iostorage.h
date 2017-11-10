@@ -6,19 +6,19 @@
 
 namespace gxx {
 	namespace io {
-		/*class obuffer : public gxx::io::ostream {
+		class ostorage : public gxx::io::ostream {
 		public:
 			virtual int room() = 0;
-			virtual void empty_callback(gxx::action dlg) {};
-		};*/
+			virtual void set_empty_callback(gxx::delegate<void> dlg) {};
+		};
 
 		class istorage : public gxx::io::istream {
 		public:
 			virtual int avail() = 0;
-			virtual void set_avail_callback(gxx::action dlg) {};
+			virtual void set_avail_callback(gxx::delegate<void> dlg) {};
 		};
 
-		//class iobuffer : public gxx::io::obuffer, public gxx::io::ibuffer {}; 
+		class iostorage : public gxx::io::ostorage, public gxx::io::istorage {}; 
 	}
 }
 

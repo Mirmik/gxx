@@ -2,12 +2,12 @@
 #define GXX_IO_RING_STREAM_H
 
 #include <gxx/event/once_delegate.h>
-#include <gxx/io/iobuffer.h>
+#include <gxx/io/iostorage.h>
 #include <gxx/bytering.h>
 
 namespace gxx {
 	namespace io {
-		class ringbuffer : public gxx::io::iobuffer {
+		class ringbuffer : public gxx::io::iostorage {
 			bytering ring;
 
 			gxx::once_delegate<void> emptydlg;
@@ -25,7 +25,9 @@ namespace gxx {
 			}
 
 			int readData(char* str, size_t sz) override {
+				ring.popn(str, sz);
 				if (ring.empty()) emptydlg();
+				return sz;
 			}
 
 			void dump(gxx::io::ostream& out) {
@@ -43,11 +45,11 @@ namespace gxx {
 
 			void retrans(gxx::io::ostream&& out) { retrans(out); }
 
-			void empty_callback(gxx::action dlg) override {
+			void set_empty_callback(gxx::delegate<void> dlg) override {
 				emptydlg = dlg;
 			}
 
-			void avail_callback(gxx::action dlg) override {
+			void set_avail_callback(gxx::delegate<void> dlg) override {
 				availdlg = dlg;
 			}
 
