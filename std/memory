@@ -1,6 +1,8 @@
 #ifndef GXX_STD_MEMORY_H
 #define GXX_STD_MEMORY_H
 
+#include <new>
+
 namespace std {
 	template <typename T>
 	class allocator {

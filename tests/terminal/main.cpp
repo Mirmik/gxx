@@ -2,7 +2,7 @@
 #include <gxx/debug/debug_ostream.h>
 
 gxx::debug_ostream dout;
-gxx::terminal terminal(dout);
+gxx::terminal_core terminal(dout);
 
 int main() {
 	terminal.start();

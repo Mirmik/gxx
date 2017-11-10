@@ -20,8 +20,7 @@ namespace gxx {
 
 	public:
 		ring() : head(0), tail(0), isfull(false), buffer(nullptr), reserved(0) {}
-		ring(int len) : ring() { reserve(len); }
-
+		
 		void init() {
 			head = 0;
 			tail = 0;
@@ -34,8 +33,8 @@ namespace gxx {
 
 		void reserve(size_t sz) {
 			T* newbuffer = alloc.allocate(sz);
-
-			if (empty()) {
+			
+			if (buffer == nullptr) {
 				buffer = newbuffer;
 				reserved = sz;
 				head = 0;

@@ -2,6 +2,7 @@
 #define GXX_BYTEARRAY_H
 
 #include <gxx/buffer.h>
+#include <new>
 
 namespace gxx {
 	class bytearray : public gxx::buffer {

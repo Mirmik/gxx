@@ -7,22 +7,36 @@
 
 namespace gxx {
 	class history {
+	public:
 		gxx::ring<gxx::bytearray> hist;
 
 	public:
-		history(int histlen) : hist(histlen) {}
+		history() : hist() {}
 
-		void push_string(const char* data, size_t size) {
-			hist.emplace(data, size);
+		void init(int len) {
+			hist.reserve(len);
 		}
 
-		void push_string(const char* data) {
+		void push_string(const char* data, size_t size) {
+			if (size == 0) return;
 			if (hist.size() == hist.capacity()) hist.pop();
-			hist.emplace(data, strlen(data));
+			hist.emplace(data, size);
+		}			
+
+		void push_string(const char* data) {
+			push_string(data, strlen(data));
+		}
+
+		void push_string(gxx::buffer data) {
+			push_string(data.data(), data.size());
 		}
 
 		const gxx::bytearray& operator[](int i) {
 			return hist[i];
+		}
+
+		size_t size() {
+			return hist.size();
 		}
 	};
 }
