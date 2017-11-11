@@ -3,6 +3,7 @@
 
 #include <gxx/io/iostorage.h>
 #include <gxx/sline.h>
+#include <gxx/util/setget.h>
 #include <gxx/util/crc.h>
 #include <gxx/util/gmsg.h>
 
@@ -12,6 +13,7 @@ namespace gxx {
 		uint8_t crc;
 		uint8_t state = 0;
 		gxx::delegate<void, gxx::buffer> dlg;
+		bool _debug = false;
 
 	private: 
 
@@ -21,6 +23,7 @@ namespace gxx {
 		}
 
 	public:
+		ACCESSOR(debug_mode, _debug);
 		packager(gxx::buffer buf) : line(buf) {}
 
 		void init() {
@@ -37,17 +40,24 @@ namespace gxx {
 			this->dlg = dlg;
 		}
 
+		void setstate(int n) {
+			state = n;
+			if (_debug) dprln("packager::setstate", n);
+		}
+
 		void newchar(char c) {
+			if (_debug) dprln("packager::newchar", c, (int) c);
 			switch (state) {
 				case 0:
 					if (c == gxx::gmsg::strt) {
 						init();
-						state = 1;
+						setstate(1);
 					}
 					break;
 				case 1:
 					switch (c) {
 						case gxx::gmsg::strt:
+							if (line.size() == 0) break;
 							if (crc != 0) { 
 								dprln("packager::crc_error:", crc);\
 							}
@@ -55,7 +65,7 @@ namespace gxx {
 							init();
 							break;
 						case gxx::gmsg::stub:
-							state = 2;
+							setstate(2);
 							break;
 						default:
 							addchar(c);
@@ -66,16 +76,16 @@ namespace gxx {
 					switch (c) {
 						case gxx::gmsg::stub_strt:
 							addchar(gxx::gmsg::strt);
-							state = 1;
+							setstate(1);
 							break;
 						case gxx::gmsg::stub_stub:
 							addchar(gxx::gmsg::stub);
-							state = 1;
+							setstate(1);
 							break;
 						default:
 							dpr("packager::stub_error: ");
 							dprhexln(c);
-							state = 0;
+							setstate(0);
 					}				
 					break;
 

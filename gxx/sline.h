@@ -20,6 +20,10 @@ namespace gxx {
 			cursor = 0;
 		}
 
+		int size() {
+			return cursor;
+		}
+
 		int putchar(char c) {
 			*(data + cursor) = c;
 			cursor++;

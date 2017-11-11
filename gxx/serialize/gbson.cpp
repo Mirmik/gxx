@@ -23,7 +23,7 @@ namespace gxx {
             os.putchar(gbson_dictionary_type);
             os.write((const char*)&sz, 1);
             for (auto& d : dict) {
-                print_bytes(gxx::buffer(d.first), os);
+                print_bytes(gxx::buffer(d.first.data(), d.first.size()), os);
                 dump(d.second, os);
             }
         }

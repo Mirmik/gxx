@@ -6,7 +6,7 @@
 #include <gxx/io/ostream.h>
 #include <gxx/debug/debug_ostream.h>
 #include <gxx/arglist.h>
-#include <gxx/io/stdwraper.h>
+#include <gxx/io/stdstream.h>
 
 namespace gxx {
 	template<typename Arg> 
@@ -103,8 +103,16 @@ namespace gxx {
 	template<typename ... Args>
 	std::string format(const char* fmt, Args&& ... args) {
 		std::string str;
-        gxx::io::std_string_writer writer(str);
-        gxx::fprint(writer, fmt, std::forward<Args>(args) ...);
+		gxx::io::ostringstream writer(str);
+		gxx::fprint(writer, fmt, std::forward<Args>(args) ...);
+		return str; 
+	}
+
+	template<typename Arg>
+	std::string to_string(Arg&& arg) {
+		std::string str;
+		gxx::io::ostringstream writer(str);
+		gxx::print(writer, std::forward<Arg>(arg));
 		return str; 
 	}
 }

@@ -35,6 +35,10 @@ namespace gxx {
 			part(buf.data(), buf.size());
 		}
 
+		void part(const std::string& str) {
+			part(str.data(), str.size());
+		}
+
 		void part(char c) {
 			strmcrc8(&crc, c);
 			switch (c) {

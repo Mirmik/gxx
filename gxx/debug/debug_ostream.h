@@ -12,7 +12,7 @@ namespace gxx {
 		ACCESSOR(hexmode, _hexmode);
 
 	protected:
-		int32_t writeData(const char *data, size_t maxSize) {
+		int writeData(const char *data, size_t maxSize) {
 			if (_hexmode) {
 				while(maxSize--) {
 					debug_printhex_uint8(*data++);

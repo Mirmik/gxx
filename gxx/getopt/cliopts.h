@@ -1,9 +1,9 @@
 #ifndef GXX_CLIOPTS_H
 #define GXX_CLIOPTS_H
 
-#include <gxx/util/placed_new.h>
 #include <gxx/result.h>
 #include <gxx/print.h>
+#include <gxx/util/ctrdtr.h>
 
 #include <string>
 #include <vector>
@@ -160,10 +160,8 @@ namespace gxx {
 			}
 		}
 
-		result<void> parse(int strt, int argc, char* argv[]) {
+		result<void> parse(int argc, char* argv[]) {
 			int i;
-			argc -= strt;
-			argv += strt;
 
 			auto state = AutomState::Normal;
 			opt* curopt;
@@ -205,6 +203,10 @@ namespace gxx {
 			}
 			if (state == AutomState::WaitValue) return error("wrong option syntax");
 			return result<void>();
+		}
+
+		result<void> parse(int strt, int argc, char* argv[]) {
+			return parse(argc - strt, argv + strt);
 		}
 	};
 }

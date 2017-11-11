@@ -2,13 +2,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#ifdef __WIN32__
-#   define GXX_DEBUG_STDOUT 1
-#endif
-
-#ifdef __linux__
-#   define GXX_DEBUG_STDOUT 0
-#endif
+#define GXX_DEBUG_STDOUT STDOUT_FILENO
 
 void debug_putchar(char c) {
     int _ = write(GXX_DEBUG_STDOUT, &c, 1);

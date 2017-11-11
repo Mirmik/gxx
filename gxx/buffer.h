@@ -43,6 +43,13 @@ namespace gxx {
 		buffer slice(size_t idx, size_t sz) {
 			return buffer(buf + idx, sz);
 		}
+
+		static gxx::buffer from_string(const std::string& str) {
+			return gxx::buffer(str.data(), str.size());
+		}
+		static gxx::buffer on_string(const std::string& str) {
+			return gxx::buffer(str.data(), str.size());
+		}
 	};
 
 	static inline gxx::buffer allocate_buffer(int sz) {

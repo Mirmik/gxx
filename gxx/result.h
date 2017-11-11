@@ -6,6 +6,7 @@
 #include <string>
 #include <functional>
 #include <utility>
+#include <string.h>
 
 #include <gxx/debug/dprint.h>
 
@@ -15,18 +16,21 @@ namespace gxx { namespace result_type {
 	};
 
 	struct error : public exception {
-		std::string info;
+		//std::string info;
+		char* info;
 		explicit error() : info() {}
-		explicit error(const char* str) : info(str) {}
-		explicit error(std::string& str) : info(str) {}
-		explicit error(std::string&& str) : info(std::move(str)) {}
+		explicit error(const char* str) : info(strdup(str)) {}
+		explicit error(const std::string& str) : info((char*) str.c_str()) {}
 		
-		error(error&& e) = default;
-		error& operator=(error&& other) = default;		
-		~error() = default;
+		error(error&& e) = default;		
+		error& operator=(error&& other) = default;
+
+		~error() {
+			free(info);
+		};
 
 		const char* what() {
-			return info.c_str();
+			return info;
 		}
 	};
 	

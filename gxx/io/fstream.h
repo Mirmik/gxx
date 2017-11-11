@@ -15,6 +15,7 @@ namespace gxx {
 		};
 
 		class fstream : public gxx::io::iostream {
+		protected:
 			int m_fd = -1;
 			//std::string path;
 

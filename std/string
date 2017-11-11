@@ -1,11 +1,16 @@
 #ifndef GXX_STD_STRING_H
 #define GXX_STD_STRING_H
 
+#include <cstdint>
+
 namespace std {
 	class string {
 	public:
 		char* data() const;
+		const char* c_str() const;
 		size_t size() const;
+
+		void append(const char* dt, size_t sz);
 	};
 }
 

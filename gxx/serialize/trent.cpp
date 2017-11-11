@@ -271,7 +271,7 @@ namespace gxx {
 		}
 
 		for(const auto& p : m_dict) {
-			if (buf == gxx::buffer(p.first)) { 
+			if (buf == gxx::buffer::on_string(p.first)) { 
 				return true;
 			}
 		}
