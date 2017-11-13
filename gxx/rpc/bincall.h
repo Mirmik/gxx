@@ -44,6 +44,19 @@ namespace gxx {
 			virtual status invoke(gxx::archive::binary_reader& reader, gxx::archive::binary_writer& writer) = 0;
 		};
 
+		template<typename Delegate> class bincall;
+
+		template <typename R>
+		class bincall<gxx::delegate<rpcresult<R>>> : public bincaller_basic {
+			gxx::delegate<rpcresult<R>> dlg;		
+		public:
+			bincall(gxx::delegate<rpcresult<R>> dlg) : dlg(dlg) {}
+			status invoke(gxx::archive::binary_reader& keeper, gxx::archive::binary_writer& writer) override {
+				if (keeper.iserror() || keeper.avail()) return status::WrongArgsFormat;
+				return bincaller_invoke<rpcresult<R>>::impl(writer, dlg);
+			}
+		};
+
 		/*template <typename R>
 		class bincaller : public bincaller_basic {
 			gxx::delegate<R, T0> dlg;		
@@ -67,24 +80,26 @@ namespace gxx {
 		};*/
 
 		template <typename R, typename T0, typename T1>
-		class bincaller : public bincaller_basic {
+		class bincall<gxx::delegate<rpcresult<R>, T0, T1>> : public bincaller_basic {
 			gxx::delegate<rpcresult<R>, T0, T1> dlg;		
 		public:
-			bincaller(gxx::delegate<rpcresult<R>, T0, T1> dlg) : dlg(dlg) {}
+			bincall(gxx::delegate<rpcresult<R>, T0, T1> dlg) : dlg(dlg) {}
 			status invoke(gxx::archive::binary_reader& keeper, gxx::archive::binary_writer& writer) override {
 				T0 arg0;
 				T1 arg1;
 				gxx::deserialize(keeper, arg0);
 				gxx::deserialize(keeper, arg1);
-				if (keeper.iserror() && keeper.avail()) return status::WrongArgsFormat;
+				if (keeper.iserror() || keeper.avail()) return status::WrongArgsFormat;
 				return bincaller_invoke<rpcresult<R>, T0, T1>::impl(writer, dlg, arg0, arg1);
 			}
 		};
 
 		template <typename Ret, typename ... Args>
-		bincaller<Ret, Args...> make_bincaller(gxx::delegate<rpcresult<Ret>, Args ...> dlg) {
-			return bincaller<Ret, Args...>(dlg);
+		bincall<gxx::delegate<rpcresult<Ret>, Args...>> make_bincall(gxx::delegate<rpcresult<Ret>, Args ...> dlg) {
+			return bincall<gxx::delegate<rpcresult<Ret>, Args...>>(dlg);
 		}
+
+		using abstract_bincall = bincall<gxx::delegate<rpcresult<void>>>;
 	}
 
 	template<> 
