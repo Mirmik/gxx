@@ -13,6 +13,8 @@ public:
 	}
 };
 
+//ToDo методы ostream сюда и много. 
+
 int main() {
 	int i = 33;
 	const char* str = "world";

@@ -57,27 +57,18 @@ namespace gxx {
 			}
 		};
 
-		/*template <typename R>
-		class bincaller : public bincaller_basic {
-			gxx::delegate<R, T0> dlg;		
+		template <typename R, typename T0>
+		class bincall<gxx::delegate<rpcresult<R>, T0>> : public bincaller_basic {
+			gxx::delegate<rpcresult<R>, T0> dlg;		
 		public:
-			bincaller(gxx::delegate<R, T0> dlg) : dlg(dlg) {}
-			void invoke(gxx::archive::binary_reader& keeper, gxx::buffer answer) override {
-				bincaller_invoke_impl(dlg);
+			bincall(gxx::delegate<rpcresult<R>, T0> dlg) : dlg(dlg) {}
+			status invoke(gxx::archive::binary_reader& keeper, gxx::archive::binary_writer& writer) override {
+				T0 arg0;
+				gxx::deserialize(keeper, arg0);
+				if (keeper.iserror() || keeper.avail()) return status::WrongArgsFormat;
+				return bincaller_invoke<rpcresult<R>, T0>::impl(writer, dlg, arg0);
 			}
 		};
-
-		template <typename R, typename T0>
-		class bincaller : public bincaller_basic {
-			gxx::delegate<R, T0> dlg;		
-		public:
-			bincaller(gxx::delegate<R, T0> dlg) : dlg(dlg) {}
-			void invoke(gxx::archive::binary_reader& keeper, gxx::buffer answer) override {
-				T0 arg0;
-				keeper.load(arg0);
-				bincaller_invoke_impl(dlg, arg0);
-			}
-		};*/
 
 		template <typename R, typename T0, typename T1>
 		class bincall<gxx::delegate<rpcresult<R>, T0, T1>> : public bincaller_basic {
@@ -108,7 +99,7 @@ namespace gxx {
 			const char * str;
 			switch(sts) {
 				case gxx::rpc::status::OK: 				str = "OK"; break;
-				case gxx::rpc::status::WrongArgsFormat: 	str = "WrongArgsFormat"; break;
+				case gxx::rpc::status::WrongArgsFormat: str = "WrongArgsFormat"; break;
 				case gxx::rpc::status::WrongArgsData: 	str = "WrongArgsData"; break;
 				case gxx::rpc::status::InternalError: 	str = "InternalError"; break;
 			}

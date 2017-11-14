@@ -2,7 +2,7 @@
 #define GXX_PRINT_H
 
 #include <gxx/util/print.h>
-#include <gxx/fmt/format.h>
+#include <gxx/print/format.h>
 #include <gxx/io/ostream.h>
 #include <gxx/debug/debug_ostream.h>
 #include <gxx/arglist.h>

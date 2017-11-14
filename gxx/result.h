@@ -3,12 +3,15 @@
 
 #include <cstdlib>
 #include <cassert>
-#include <string>
+
 #include <functional>
 #include <utility>
+
+#include <string>
 #include <string.h>
 
 #include <gxx/debug/dprint.h>
+#include <gxx/panic.h>
 
 namespace gxx { namespace result_type {
 	struct exception {
@@ -18,12 +21,19 @@ namespace gxx { namespace result_type {
 	struct error : public exception {
 		//std::string info;
 		char* info;
-		explicit error() : info() {}
+		//explicit error() : info() {}
 		explicit error(const char* str) : info(strdup(str)) {}
-		explicit error(const std::string& str) : info((char*) str.c_str()) {}
+		//explicit error(const std::string& str) : error((const char*) str.c_str()) {}
 		
-		error(error&& e) = default;		
-		error& operator=(error&& other) = default;
+		error(error&& e) {
+			info = e.info;
+			e.info = nullptr;
+		}		
+		
+		error& operator=(error&& other) {
+			info = other.info;
+			other.info = nullptr;
+		}
 
 		~error() {
 			free(info);
@@ -109,9 +119,7 @@ namespace gxx { namespace result_type {
 	
 		Result& unwrap() {
 			if (is_error()) { 
-				dpr("unwrap error: ");
-				dprln(_error.what());
-				abort();
+				gxx::panic(_error.what());
 			}
 			return _data;
 		}
@@ -177,8 +185,7 @@ namespace gxx { namespace result_type {
 	
 		void unwrap() {
 			if (is_error()) { 
-				dpr("unwrap error: ");
-				abort_dprln(_error.what());
+				gxx::panic(_error.what());
 			}
 		}
 

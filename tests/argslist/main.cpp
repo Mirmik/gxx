@@ -3,19 +3,13 @@
 
 using namespace gxx::argument_literal;
 
-class A {
-	int i = 42;
-public:
-	int mtd() {
-		dprln(i);
-	} 
-};
-
 template <typename T> struct print_functions;
-
-template <> struct print_functions<A> : print_functions_basic { static void print(A& a, int i) { a.mtd(); dprln(i); }};
-template <> struct print_functions<int> { static void print(int& a, int i) { dprln(a); dprln(i); }};
-template <> struct print_functions<char*> { static void print(char* a, int i) { dprln(a); dprln(i); }};
+template <> struct print_functions<int> { static void print(int& a, int i) { 
+	dpr(a); dpr(" "); dprln(i); 
+}};
+template <> struct print_functions<char*> { static void print(char* a, int i) { 
+	dpr(a); dpr(" "); dprln(i); 
+}};
 
 struct format_visitor {
 	using ftype = int(*)(void*, int);												
@@ -25,7 +19,7 @@ struct format_visitor {
 	//}
 	template<typename Object>
 	static void* get_visit() {
-		return (void*) visit_helper<Object>::print;
+		return (void*) print_functions<Object>::print;
 	}
 																			
 	template<typename ... Args>												
@@ -50,5 +44,5 @@ int main() {
 	int i = 8;
 	int m = 9;
 
-	func(33, "hello", A());
+	func(33, "hello", 22);
 }

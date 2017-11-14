@@ -1,15 +1,15 @@
 {
 	"X": {
-		"backlimit": 432,
-		"forwlimit": 38,
-		"speed": 100
+		"backlimit": 432.000000,
+		"forwlimit": 38.000000,
+		"speed": 100.000000
 	},
 	"kiev": {
-		"emo": 3
+		"emo": 4
 	},
-	"mir222mik": 3231239,
-	"mirmik": 329,
+	"mir222mik": 3231239.000000,
+	"mirmik": 329.000000,
 	"quadro": {
-		"mirm": 785
+		"mirm": 785.000000
 	}
 }

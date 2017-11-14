@@ -1,18 +1,19 @@
 #ifndef GXX_SOCKET_H
 #define GXX_SOCKET_H
 
+#include <inttypes.h>
 #include <gxx/io/iostream.h>
 #include <gxx/inet/hostaddr.h>
 #include <gxx/util/setget.h>
 #include <gxx/result.h>
 
-#include <fstream>
+//#include <fstream>
 
 using namespace gxx::result_type;
 
 namespace gxx {
 	enum class SocketError : uint8_t {
-                WrongSocketType,
+				WrongSocketType,
 		ConnectionRefused,
 		UnknownError,
 		AllreadyInUse,
@@ -32,12 +33,12 @@ namespace gxx {
 	};
 
 	class socket : public gxx::io::iostream {
-        public:
-            enum class type : uint8_t {
-                    tcp,
-                    udp,
-                    unix,
-            };
+		public:
+			enum class type : uint8_t {
+				tcp,
+				udp,
+				unix
+			};
 
 		static constexpr int32_t AnyAddress = 0; 
 
@@ -54,7 +55,7 @@ namespace gxx {
 		hostaddr m_addr;
 		uint16_t m_port;
 
-                type m_type;
+				type m_type;
 		SocketError m_error = SocketError::OK;
 		SocketState m_state = SocketState::Disconnected;
 
@@ -77,8 +78,8 @@ namespace gxx {
 		int try_accept(gxx::socket& sock);
 		
 		int send(const char* data, size_t size, int flags);
-    	int recv(char* data, size_t size, int flags);
-    	
+		int recv(char* data, size_t size, int flags);
+		
 		int nodelay(bool en);
 		int blocking(bool en);
 		int reusing(bool en);
@@ -105,7 +106,7 @@ namespace gxx {
 	public:
 		const char* error() {
 			switch(m_error) {
-                                case SocketError::WrongSocketType: return "WrongSocketType";
+								case SocketError::WrongSocketType: return "WrongSocketType";
 				case SocketError::AllreadyInUse: return "AllreadyInUse";
 				case SocketError::ConnectionRefused: return "ConnectionRefused";
 				case SocketError::Unavailable: return "Unavailable";

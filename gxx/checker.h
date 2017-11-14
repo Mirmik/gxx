@@ -4,26 +4,30 @@
 #include <stdint.h>
 #include <gxx/debug/dprint.h>
 
+//Данный класс выявляет изменение результата проверки
+//некоего предиката по установленной стратегии.
+//А именно, по восходящему и низходящему фронту.
+
 namespace gxx {
 	namespace checker {
 		template <typename Predicate>
-                class predicate_edge {
+		class predicate_edge {
 		public:
 			Predicate pred;
-                        uint8_t phase = 0;
-                        bool level = false;
+			uint8_t phase = 0;
+			bool level = false;
 
-                        predicate_edge(Predicate&& pred, bool lvl) : pred(pred), level(lvl) {}
-
+			predicate_edge(Predicate&& pred, bool lvl) : pred(pred), level(lvl) {}
+			
 			bool check() {
 				bool ans = pred();
-                                dprln(ans);
+				dprln(ans);
 				switch (phase) {
 					case 0:
-                                                if (ans != level) phase = 1;
+						if (ans != level) phase = 1;
 						return false;
 					case 1:
-                                                if (ans == level) {
+						if (ans == level) {
 							phase = 2;
 							return true;
 						}
@@ -33,20 +37,24 @@ namespace gxx {
 				} 
 			}
 
-                        bool isstart() {
-                            return phase == 0 || phase == 2;
-                        }
+			bool isstart() {
+				return phase == 0 || phase == 2;
+			}
+
+			void reset() {
+				phase = 0;
+			}
 		};
 
 		template <typename Predicate>
-                static inline predicate_edge<Predicate> falling_edge(Predicate&& pred) {
-                        return predicate_edge<Predicate>(std::forward<Predicate>(pred), false);
+		static inline predicate_edge<Predicate> falling_edge(Predicate&& pred) {
+			return predicate_edge<Predicate>(std::forward<Predicate>(pred), false);
 		}
 
-                template <typename Predicate>
-                static inline predicate_edge<Predicate> rising_edge(Predicate&& pred) {
-                        return predicate_edge<Predicate>(std::forward<Predicate>(pred), true);
-                }
+		template <typename Predicate>
+		static inline predicate_edge<Predicate> rising_edge(Predicate&& pred) {
+			return predicate_edge<Predicate>(std::forward<Predicate>(pred), true);
+		}
 	}
 }
 
