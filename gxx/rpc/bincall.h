@@ -73,11 +73,7 @@ namespace gxx {
 		template <typename ... Args> class bincaller;
 
 		template <typename R, typename T0, typename T1>
-<<<<<<< HEAD
-		class bincaller<R, T0, T1> : public bincaller_basic {
-=======
 		class bincall<gxx::delegate<rpcresult<R>, T0, T1>> : public bincaller_basic {
->>>>>>> a3e040bbbfa02c62b81308877a97b4bdc98ef7ea
 			gxx::delegate<rpcresult<R>, T0, T1> dlg;		
 		public:
 			bincall(gxx::delegate<rpcresult<R>, T0, T1> dlg) : dlg(dlg) {}
