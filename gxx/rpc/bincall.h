@@ -66,8 +66,10 @@ namespace gxx {
 			}
 		};*/
 
+		template <typename ... Args> class bincaller;
+
 		template <typename R, typename T0, typename T1>
-		class bincaller : public bincaller_basic {
+		class bincaller<R, T0, T1> : public bincaller_basic {
 			gxx::delegate<rpcresult<R>, T0, T1> dlg;		
 		public:
 			bincaller(gxx::delegate<rpcresult<R>, T0, T1> dlg) : dlg(dlg) {}
@@ -78,6 +80,23 @@ namespace gxx {
 				gxx::deserialize(keeper, arg1);
 				if (keeper.iserror() && keeper.avail()) return status::WrongArgsFormat;
 				return bincaller_invoke<rpcresult<R>, T0, T1>::impl(writer, dlg, arg0, arg1);
+			}
+		};
+
+		template <typename R, typename T0, typename T1, typename T2>
+		class bincaller<R, T0, T1, T2>  : public bincaller_basic {
+			gxx::delegate<rpcresult<R>, T0, T1, T2> dlg;		
+		public:
+			bincaller(gxx::delegate<rpcresult<R>, T0, T1, T2> dlg) : dlg(dlg) {}
+			status invoke(gxx::archive::binary_reader& keeper, gxx::archive::binary_writer& writer) override {
+				T0 arg0;
+				T1 arg1;
+				T2 arg2;
+				gxx::deserialize(keeper, arg0);
+				gxx::deserialize(keeper, arg1);
+				gxx::deserialize(keeper, arg2);
+				if (keeper.iserror() && keeper.avail()) return status::WrongArgsFormat;
+				return bincaller_invoke<rpcresult<R>, T0, T1, T2>::impl(writer, dlg, arg0, arg1, arg2);
 			}
 		};
 
