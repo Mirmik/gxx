@@ -1,6 +1,7 @@
 #include <gxx/io/ringbuffer.h>
 #include <gxx/debug/dprint.h>
 #include <gxx/debug/debug_ostream.h>
+#include <gxx/print.h>
 
 gxx::io::ringbuffer* rng;
 
@@ -13,7 +14,7 @@ int main() {
 	gxx::io::ringbuffer ring(gxx::allocate_buffer(128));
 	rng =&ring;
 
-	ring.avail_callback(func);
-	ring.fmtln("AllBad");
+	ring.set_avail_callback(func);
+	gxx::print(ring, "AllBad");
 	dprln(rng->avail());
 }

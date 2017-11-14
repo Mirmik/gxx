@@ -3,7 +3,6 @@
 
 #include <gxx/datastruct/dlist_head.h>
 #include <gxx/logger/target.h>
-#include <gxx/fmt/format.h>
 #include <gxx/print.h>
 
 #include <vector>

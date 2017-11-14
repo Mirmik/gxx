@@ -1,4 +1,4 @@
-#!/usr/bin/env	python3.5
+#!/usr/bin/env	python
 #coding: utf-8
 
 from licant.modules import submodule
@@ -8,14 +8,13 @@ from licant.scripter import scriptq
 scriptq.execute("../../gxx.g.py")
 
 application("main",
-	cxxstd = "c++17",
 	sources = ["main.cpp"],
 	include_paths = ["../.."],
 	modules = [
-		submodule("gxx.include"),
+		submodule("gxx"),
 		submodule("gxx.dprint", "stdout"),
-		submodule("gxx.panic", "abort"),
-		submodule("gxx.print"),
+		#submodule("gxx.panic", "abort"),
+		#submodule("gxx.print"),
 	]
 )
 

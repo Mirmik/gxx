@@ -9,7 +9,7 @@
 namespace gxx {
 	template <typename M, typename T> 
 	struct serialize_helper {
-		static void serialize(M& keeper, const T& obj) {
+		static void serialize(M& keeper, T& obj) {
 			keeper.dump(obj);
 		}
 	
@@ -18,7 +18,7 @@ namespace gxx {
 		}
 	};
 
-	template <typename M, typename T> inline void serialize(M& keeper, const T& obj) {
+	template <typename M, typename T> inline void serialize(M& keeper, T& obj) {
 		serialize_helper<M,T>::serialize(keeper, obj);
 	}
 
@@ -35,8 +35,9 @@ namespace gxx {
 		public:
 			binary_writer(gxx::buffer buf) : buf(buf), ptr(buf.data()) {}
 
-			void operator & (int i) {
-				dump(i);
+			template<typename T>
+			void operator& (T& obj) {
+				dump(obj);
 			}
 
 			void dump(int i) {
@@ -64,8 +65,8 @@ namespace gxx {
 			} 
 
 			template<typename T>
-			void dump(const T& ref) {
-				ref.serialize(*this);
+			void dump(T& ref) {
+				ref.reflect(*this);
 			}
 
 			CONSTREF_GETTER(length, _length);
@@ -80,8 +81,9 @@ namespace gxx {
 		public:
 			binary_reader(gxx::buffer buf) : buf(buf), ptr(buf.data()), end(buf.data() + buf.size()) {}
 
-			void operator & (int i) {
-				load(i);
+			template<typename T>
+			void operator& (T& obj) {
+				load(obj);
 			}
 
 			void load(int& i) {
@@ -108,8 +110,8 @@ namespace gxx {
 			} 
 
 			template<typename T>
-			void load(const T& ref) {
-				ref.deserialize(*this);
+			void load(T& ref) {
+				ref.reflect(*this);
 			}
 
 			template<typename T>

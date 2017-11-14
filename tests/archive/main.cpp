@@ -1,32 +1,39 @@
-#include <gxx/transport/serialize.h>
+#include <gxx/serialize/serialize.h>
 #include <gxx/debug/dprint.h>
+#include <gxx/print.h>
 
-class A {
+class A : public gxx::io::printable {
 public:
-	int i = 3;
-	int j = 1;
-	int k = 2;
+	int i;
+	int j;
+	int k;
+
+	A(){};
+	A(int i, int j, int k) : i(i), j(j), k(k) {}
 
 	template <typename Archive>
-	void serialize(Archive& a) {
+	void reflect(Archive& a) {
 		a & i;
 		a & j;
 		a & k;
+	}
+
+	size_t printTo(gxx::io::ostream& o) const override {
+		return gxx::fprint("({}, {}, {})", i, j, k);
 	}
 };
 
 int main() {
 	char buf[128];
 
-	A a;
-	A bb;
+	A a(2,5,6);
+	A b;
 
-	gxx::serialize::binary_saver saver{gxx::buffer(buf)};
-	saver.dump(a);
+	gxx::archive::binary_writer saver{gxx::buffer(buf)};
+	gxx::serialize(saver, a);
 
-	gxx::buffer b = saver.getbuf();
-	dpr_dump(b.data(), b.size());
+	gxx::archive::binary_reader loader{gxx::buffer(buf)};
+	gxx::deserialize(loader, b);
 
-	gxx::serialize::binary_loader loader(b);
-	loader.load(bb);
+	gxx::println(b);
 }

@@ -6,7 +6,7 @@
 #include <gxx/io/bufwriter.h>
 #include <gxx/io/bufreader.h>
 
-#include <gxx/io/ostream_messenger.h>
+#include <gxx/gstuff/sender.h>
 #include <gxx/debug/debug_ostream.h>
 
 int main() {
@@ -38,7 +38,7 @@ int main() {
 
     gxx::debug_ostream dout;
     dout.hexmode(true);
-    gxx::io::gmessenger messenger(dout);
+    gxx::gstuff::sender messenger(dout);
 
     messenger.start_message();
     messenger.println("HelloWorld");
