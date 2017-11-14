@@ -26,6 +26,14 @@ namespace gxx {
 		serialize_helper<M,T>::deserialize(keeper, obj);
 	}
 
+	template <typename M, typename T> inline void serialize(M& keeper, T&& obj) {
+		serialize_helper<M,T>::serialize(keeper, obj);
+	}
+
+	template <typename M, typename T> inline void deserialize(M& keeper, T&& obj) {
+		serialize_helper<M,T>::deserialize(keeper, obj);
+	}
+
 	namespace archive {
 		class binary_writer {
 			int _length = 0;
