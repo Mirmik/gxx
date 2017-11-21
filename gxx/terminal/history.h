@@ -3,12 +3,12 @@
 
 #include <string>
 #include <gxx/ring.h>
-#include <gxx/bytearray.h>
+#include <gxx/buffer.h>
 
 namespace gxx {
 	class history {
 	public:
-		gxx::ring<gxx::bytearray> hist;
+		gxx::ring<gxx::smart_buffer> hist;
 
 	public:
 		history() : hist() {}
@@ -31,7 +31,7 @@ namespace gxx {
 			push_string(data.data(), data.size());
 		}
 
-		const gxx::bytearray& operator[](int i) {
+		const gxx::smart_buffer& operator[](int i) {
 			return hist[i];
 		}
 

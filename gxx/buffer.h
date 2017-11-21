@@ -10,6 +10,7 @@
 
 namespace gxx {
 	class buffer {
+	protected:
 		char* buf;
 		size_t sz;
 	public:
@@ -60,6 +61,19 @@ namespace gxx {
 	namespace buffer_literal {
 		inline gxx::buffer operator"" _b(const char* str, size_t sz) { return gxx::buffer(str, sz); }
 	}
+
+	class smart_buffer : public buffer {
+	public:
+		smart_buffer(size_t n) : buffer(allocate_buffer(n)) {}
+		
+		smart_buffer(const char* d, size_t n) : buffer(allocate_buffer(n)) {
+			memcpy(buf, d, n);
+		}
+
+		~smart_buffer() {
+			free(buf);
+		}
+	};
 }
 
 #endif 
