@@ -33,7 +33,10 @@ namespace gxx {
 			}
 	
 			void invoke_callback() {
+				//Убираем символ контрольной суммы из строки.
 				line.back(1);
+
+				//Вызов обработчика. 
 				dlg(line);
 			}
 	

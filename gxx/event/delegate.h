@@ -198,10 +198,11 @@ namespace gxx {
 		return fastdelegate<Ret, Args...>(fnc, obj);
 	}
 
-	using action = gxx::fastdelegate<void>;
+	using action = gxx::delegate<void>;
+	using fastaction = gxx::fastdelegate<void>;
 
-	static inline action make_action(void(* fnc)()) {
-		return action((void(*)(void*))fnc, nullptr);
+	static inline fastaction make_fastaction(void(* fnc)()) {
+		return make_fastdelegate(reinterpret_cast<void(*)(void*)>(fnc), nullptr);
 	}
 }
 

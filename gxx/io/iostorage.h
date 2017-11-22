@@ -15,7 +15,6 @@ namespace gxx {
 		class istorage : public gxx::io::istream {
 		public:
 			virtual int avail() = 0;
-			virtual void set_avail_callback(gxx::delegate<void> dlg) {};
 		};
 
 		class iostorage : public gxx::io::ostorage, public gxx::io::istorage {}; 
