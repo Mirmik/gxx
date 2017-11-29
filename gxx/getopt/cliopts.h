@@ -66,7 +66,7 @@ namespace gxx {
 					return &o;
 				}
 			}
-                        return error(gxx::format("wrong opt name {}", l));
+                        return error(gxx::format("wrong opt name {}", l).c_str());
 		}
 
 		result<opt*> get_opt(char c) {
@@ -75,7 +75,7 @@ namespace gxx {
 					return &o;
 				}
 			}
-                        return error(gxx::format("wrong opt short_name {}", c));
+                        return error(gxx::format("wrong opt short_name {}", c).c_str());
 		}
 
 		result<opt*> get_opt(const char* l, Type type) {
@@ -85,7 +85,7 @@ namespace gxx {
 					return &o;
 				}
 			}
-                        return error(gxx::format("wrong opt name {}", l));
+                        return error(gxx::format("wrong opt name {}", l).c_str());
 		}
 
 		result<std::string> get_string(const char* l) { 

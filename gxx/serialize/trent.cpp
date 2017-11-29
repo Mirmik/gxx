@@ -395,6 +395,7 @@ namespace gxx {
 					keys.begin(), keys.end(),
 					std::inserter(retlist, retlist.begin())
 				);
+                break;
 
 			case check_equal:
 				std::set_symmetric_difference(
