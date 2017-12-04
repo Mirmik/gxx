@@ -49,11 +49,18 @@ namespace gxx {
 			return buffer(buf + idx, sz);
 		}
 
+		//static gxx::buffer(int)
+
 		static gxx::buffer from_string(const std::string& str) {
 			return gxx::buffer(str.data(), str.size());
 		}
 		static gxx::buffer on_string(const std::string& str) {
 			return gxx::buffer(str.data(), str.size());
+		}
+
+		template<typename T>
+		static gxx::buffer on_object(T& obj) {
+			return gxx::buffer((char*)&obj, sizeof(obj));
 		}
 	};
 
