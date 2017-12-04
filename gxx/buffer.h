@@ -31,6 +31,10 @@ namespace gxx {
 			return strncmp(buf, str, sz) == 0;
 		}
 
+		char operator[](size_t num) {
+			return *(buf + num);
+		}
+
 		ACCESSOR(data, buf);
 		ACCESSOR(size, sz);
 
