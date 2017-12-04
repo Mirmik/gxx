@@ -21,8 +21,7 @@ namespace gxx {
 			
 			bool check() {
 				bool ans = pred();
-				dprln(ans);
-				switch (phase) {
+                switch (phase) {
 					case 0:
 						if (ans != level) phase = 1;
 						return false;

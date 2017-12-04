@@ -25,9 +25,6 @@ namespace gxx {
 			}
 
 		public:	
-			action_flag(gxx::action act, bool state = false) 
-				: act(act), d_en(state) {};
-
 			void set() override {
 				f_en = true;
 				check();
@@ -46,6 +43,11 @@ namespace gxx {
 				check();
 			}
 
+			void set_handler(gxx::action act, bool en = true) {
+				d_en = false;
+				this->act = act;
+				if (en) wait();
+			}
 		};
 	}
 }
