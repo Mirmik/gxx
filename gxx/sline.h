@@ -24,9 +24,21 @@ namespace gxx {
 			return cursor;
 		}
 
+		int avail() {
+			return capacity - cursor;
+		}
+
 		int putchar(char c) {
 			*(data + cursor) = c;
 			cursor++;
+		}
+
+		int write(const char* dat, size_t sz) {
+			size_t av = avail();
+			size_t len = sz < av ? sz : av;
+
+			memcpy(data + cursor, dat, len);
+			cursor += len;
 		}
 
 		operator gxx::buffer() {
