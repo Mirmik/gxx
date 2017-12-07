@@ -48,3 +48,7 @@ module("gxx.format",
 module("gxx.print", 
 	sources = ["gxx/print.cpp"],
 )
+
+module("gxx.cxx_support", 
+	sources = ["compiler/__cxa_pure_virtual.c"],
+)
