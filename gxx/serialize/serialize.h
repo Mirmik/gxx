@@ -48,6 +48,8 @@ namespace gxx {
 				dump(obj);
 			}
 
+			//Для избежания проблем с типизацией 
+			//передавать перед int его длину. 
 			void dump(int i) {
 				memcpy(ptr, (char*)&i, sizeof(int));
 				_length += sizeof(int);

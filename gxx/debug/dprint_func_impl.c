@@ -284,9 +284,24 @@ void debug_print_dump_ascii(const void* address, uint16_t size) {
 	debug_putchar('\r');
 }
 
-void debug_print_dump_simple(void* ptr, uint16_t size) {
+void debug_print_dump_simple(const void* ptr, uint16_t size) {
 	uint8_t* _ptr = (uint8_t*) ptr;
 	while(size--) {debug_printhex_uint8(*_ptr++);}
+}
+
+void debug_print_reverse_dump_simple(const void* ptr, uint16_t size) {
+	uint8_t* _ptr = (uint8_t*) ptr + size;
+	while(size--) {debug_printhex_uint8(*--_ptr);}
+}
+
+void debug_print_binary_dump_simple(const void* ptr, uint16_t size) {
+	uint8_t* _ptr = (uint8_t*) ptr;
+	while(size--) {debug_printbin_uint8(*_ptr++);}
+}
+
+void debug_print_reverse_binary_dump_simple(const void* ptr, uint16_t size) {
+	uint8_t* _ptr = (uint8_t*) ptr + size;
+	while(size--) {debug_printbin_uint8(*--_ptr);}
 }
 
 void debug_printdec_int8(int8_t x){	debug_printdec_int64((int64_t)x);}

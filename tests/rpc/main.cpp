@@ -10,8 +10,8 @@ gxx::rpc::rpcresult<std::string> sub(int a, int b) {
 }
 
 int main() {
-	auto addcall = gxx::rpc::make_bincaller(gxx::make_delegate(add));
-	auto subcall = gxx::rpc::make_bincaller(gxx::make_delegate(sub));
+	auto addcall = gxx::rpc::make_bincall(gxx::make_delegate(add));
+	auto subcall = gxx::rpc::make_bincall(gxx::make_delegate(sub));
 
 	char dump[128];
 	gxx::archive::binary_writer archive(dump);

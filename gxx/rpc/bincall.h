@@ -70,8 +70,6 @@ namespace gxx {
 			}
 		};
 
-		template <typename ... Args> class bincaller;
-
 		template <typename R, typename T0, typename T1>
 		class bincall<gxx::delegate<rpcresult<R>, T0, T1>> : public bincaller_basic {
 			gxx::delegate<rpcresult<R>, T0, T1> dlg;		
@@ -88,10 +86,10 @@ namespace gxx {
 		};
 
 		template <typename R, typename T0, typename T1, typename T2>
-		class bincaller<R, T0, T1, T2>  : public bincaller_basic {
+		class bincall<gxx::delegate<R, T0, T1, T2>>  : public bincaller_basic {
 			gxx::delegate<rpcresult<R>, T0, T1, T2> dlg;		
 		public:
-			bincaller(gxx::delegate<rpcresult<R>, T0, T1, T2> dlg) : dlg(dlg) {}
+			bincall(gxx::delegate<rpcresult<R>, T0, T1, T2> dlg) : dlg(dlg) {}
 			status invoke(gxx::archive::binary_reader& keeper, gxx::archive::binary_writer& writer) override {
 				T0 arg0;
 				T1 arg1;
