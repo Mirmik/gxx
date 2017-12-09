@@ -1,30 +1,35 @@
 #include <gxx/geom/base.h>
 
-namespace gxx { namespace geom {
+/*namespace gxx { namespace geom {
 
-xyz::xyz(float x, float y, float z) : x(x), y(y), z(z) {}
+XYZ::XYZ(float x, float y, float z) : x(x), y(y), z(z) {}
 
-vector::vector(float x, float y, float z) : xyz(x,y,z) {}
+Vector::Vector(float x, float y, float z) : XYZ(x,y,z) {}
 
-vector::vector(const xyz& oth) : xyz(oth) {}
+Vector::Vector(const XYZ& oth) : XYZ(oth) {}
 
-vector::vector(const vertex& spnt, const vertex& epnt)
-    : xyz(epnt.x - spnt.x, epnt.y - spnt.y, epnt.z - spnt.z) {}
+Vector::Vector(const Point& spnt, const Point& epnt)
+    : XYZ(epnt.x - spnt.x, epnt.y - spnt.y, epnt.z - spnt.z) {}
 
-direction::direction(float x, float y, float z) : xyz(x,y,z) {}
+Direction::Direction(float x, float y, float z) {
+    float mod = sqrt(x*x + y*y + z*z);
+    this->x = x / mod;
+    this->y = y / mod;
+    this->z = z / mod; 
+}
 
-direction::direction(const xyz& oth) : xyz(oth) {}
+Direction::Direction(const XYZ& oth) : Direction(oth.x, oth.y, oth.z) {}
 
-vertex::vertex(float x, float y, float z) : xyz(x,y,z) {}
+Point::Point(float x, float y, float z) : XYZ(x,y,z) {}
 
-vertex::vertex(const xyz& oth) : xyz(oth) {}
-
-//void xyz::translate(const xyz& vect) {
+Point::Point(const XYZ& oth) : XYZ(oth) {}
+*/
+//void XYZ::translate(const XYZ& vect) {
 //    x += vect.x; y += vect.y; z += vect.z;
 //}
 
-//xyz xyz::translated(const xyz& vect) {
-//    return vertex(x+vect.x, y+vect.y, z+vect.z);
+//XYZ XYZ::translated(const XYZ& vect) {
+//    return Point(x+vect.x, y+vect.y, z+vect.z);
 //}
 /*
 void rotate2d(float& ox, float& oy, float x, float y, float angle) {
@@ -35,41 +40,41 @@ void rotate2d(float& ox, float& oy, float x, float y, float angle) {
     oy = x*s + y*c;
 }
 
-void xyz::rotateX(float a) {
+void XYZ::rotateX(float a) {
     float ny, nz; rotate2d(ny,nz,y,z,a); y = ny; z = nz;
 }
 
-void xyz::rotateY(float a) {
+void XYZ::rotateY(float a) {
     float nx, nz; rotate2d(nz,nx,z,x,a); x = nx; z = nz;
 }
 
-void xyz::rotateZ(float a) {
+void XYZ::rotateZ(float a) {
     float nx, ny; rotate2d(nx,ny,x,y,a); x = nx; y = ny;
 }
 
-xyz xyz::rotatedX(float a) {
+XYZ XYZ::rotatedX(float a) {
     float ny, nz; rotate2d(ny,nz,y,z,a); y = ny; z = nz;
-    return xyz(x,ny,nz);
+    return XYZ(x,ny,nz);
 }
 
-xyz xyz::rotatedY(float a) {
+XYZ XYZ::rotatedY(float a) {
     float nx, nz; rotate2d(nz,nx,z,x,a); x = nx; z = nz;
-    return xyz(nx,y,nz);
+    return XYZ(nx,y,nz);
 }
 
-xyz xyz::rotatedZ(float a) {
+XYZ XYZ::rotatedZ(float a) {
     float nx, ny; rotate2d(nx,ny,x,y,a); x = nx; y = ny;
-    return xyz(nx,ny,z);
+    return XYZ(nx,ny,z);
 }*/
 
-//void vertex::translate(const gxx::geom::vector& vect) {
-//    xyz::translate(vect);
+//void Point::translate(const gxx::geom::Vector& vect) {
+//    XYZ::translate(vect);
 //}
 
-//vertex vertex::translated(const gxx::geom::vector& vect) {
-//    return vertex(xyz::translated(vect));
+//Point Point::translated(const gxx::geom::Vector& vect) {
+//    return Point(XYZ::translated(vect));
 //}
 
-axis::axis(vertex vrx, direction dir) : vrx(vrx), dir(dir) {}
+//Axis::Axis(const Point& pnt, const Direction& dir) : pnt(pnt), dir(dir) {}
 
-}}
+//}}

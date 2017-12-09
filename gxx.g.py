@@ -22,6 +22,8 @@ module("gxx",
 		"serialize/trent.cpp",
 		"impl/panic_abort.cpp",
 		"string.cpp",
+
+		"geom/base.cpp",
 	],
 
 	include_paths = ["."]

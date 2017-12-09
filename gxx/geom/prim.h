@@ -3,14 +3,14 @@
 
 #include <gxx/geom/base.h>
 
-namespace gxx {
+/*namespace gxx {
     namespace geom {
         class segment {
-            vertex v1;
-            vertex v2;
+            point v1;
+            point v2;
 
         public:
-            segment(vertex v1, vertex v2) : v1(v1), v2(v2) {}
+            segment(point v1, point v2) : v1(v1), v2(v2) {}
 
             float length() const {
                 return vector(v1, v2).abs();
@@ -22,12 +22,12 @@ namespace gxx {
         };
 
         class triangle {
-            vertex v1;
-            vertex v2;
-            vertex v3;
+            point v1;
+            point v2;
+            point v3;
 
         public:
-            triangle(vertex v1, vertex v2, vertex v3) : v1(v1), v2(v2), v3(v3) {}
+            triangle(point v1, point v2, point v3) : v1(v1), v2(v2), v3(v3) {}
 
             float area() {
                 //Находим площадь треугольника, как половину длины векторного произведения образуюших векторов.
@@ -39,6 +39,6 @@ namespace gxx {
             }
         };
     }
-}
+}*/
 
 #endif
