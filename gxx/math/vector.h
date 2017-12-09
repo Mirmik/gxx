@@ -60,6 +60,14 @@ namespace gxx {
 				return vector3(y*b.z - z*b.y, z*b.x - x*b.z, x*b.y - y*b.x);
 			}
 
+			//float vecmulmod(const vector3& b) const {
+			//	return ;
+			//}
+
+			float scalar_mul(const vector3& b) {
+				return x*b.x + y*b.y + z*b.z;
+			}
+
 			vector3 scale(float scl) {
 				return vector3(x*scl, y*scl, z*scl);
 			}
@@ -151,6 +159,10 @@ namespace gxx {
 			//static vector3 normalized(float x, float y, float z) {
 			//	float invabs = 
 			//}
+
+			bool is_equal(const vector3& oth, float e = 0.000001f) const {
+				return (fabsf(x-oth.x) < e) && (fabsf(y-oth.y) < e) && (fabsf(z-oth.z) < e);
+			}
 		};
 
 		class vector2 {

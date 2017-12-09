@@ -1,7 +1,7 @@
 #include <gxx/geom/base.h>
 
-/*namespace gxx { namespace geom {
-
+namespace gxx { namespace geom3d {
+/*
 XYZ::XYZ(float x, float y, float z) : x(x), y(y), z(z) {}
 
 Vector::Vector(float x, float y, float z) : XYZ(x,y,z) {}
@@ -19,11 +19,11 @@ Direction::Direction(float x, float y, float z) {
 }
 
 Direction::Direction(const XYZ& oth) : Direction(oth.x, oth.y, oth.z) {}
-
-Point::Point(float x, float y, float z) : XYZ(x,y,z) {}
-
-Point::Point(const XYZ& oth) : XYZ(oth) {}
 */
+point::point(float x, float y, float z) : raw(x,y,z) {}
+
+point::point(const math::vector3& oth) : raw(oth) {}
+
 //void XYZ::translate(const XYZ& vect) {
 //    x += vect.x; y += vect.y; z += vect.z;
 //}
@@ -75,6 +75,6 @@ XYZ XYZ::rotatedZ(float a) {
 //    return Point(XYZ::translated(vect));
 //}
 
-//Axis::Axis(const Point& pnt, const Direction& dir) : pnt(pnt), dir(dir) {}
+axis::axis(const point& pnt, const direction& dir) : pnt(pnt), dir(dir) {}
 
-//}}
+}}

@@ -130,106 +130,133 @@ namespace gxx {
 			}
 		};*/
 
-		class Point;
-		class Vector;
-		class Direction;
+		class point;
+		class vector;
+		class direction;
 
-		class Vector {
+		class vector {
 		public:
 			gxx::math::vector3 raw;
 
 		public:
-			Vector(float x, float y, float z);
-			Vector(const math::vector3& oth);
-			Vector(const Point& spnt, const Point& epnt);
-			Vector(const Direction& dir, float length);
+			vector(float x, float y, float z);
+			vector(const math::vector3& oth);
+			vector(const point& spnt, const point& epnt);
+			vector(const direction& dir, float length);
 
 			//float abs() { return eval_abs(); }
 
-			Vector translate(const geom3d::Vector& vect) { raw.self_add(vect.raw); }
-			Vector rotateX(float angle) { raw.self_rotateX(angle); }
-			Vector rotateY(float angle) { raw.self_rotateY(angle); }
-			Vector rotateZ(float angle) { raw.self_rotateZ(angle); }
-			Vector scale(float scl) { raw.self_scale(scl); }
+			vector translate(const geom3d::vector& vect) { raw.self_add(vect.raw); }
+			vector rotateX(float angle) { raw.self_rotateX(angle); }
+			vector rotateY(float angle) { raw.self_rotateY(angle); }
+			vector rotateZ(float angle) { raw.self_rotateZ(angle); }
+			vector scale(float scl) { raw.self_scale(scl); }
 
-			Vector translated(const geom3d::Vector& vect) { return Vector(raw.add(vect.raw)); }
-			Vector rotatedX(float angle) { return Vector(raw.rotateX(angle)); }
-			Vector rotatedY(float angle) { return Vector(raw.rotateY(angle)); }
-			Vector rotatedZ(float angle) { return Vector(raw.rotateZ(angle)); }
-			Vector scaled(float scl) { return Vector(raw.scale(scl)); }
+			vector translated(const geom3d::vector& vect) { return vector(raw.add(vect.raw)); }
+			vector rotatedX(float angle) { return vector(raw.rotateX(angle)); }
+			vector rotatedY(float angle) { return vector(raw.rotateY(angle)); }
+			vector rotatedZ(float angle) { return vector(raw.rotateZ(angle)); }
+			vector scaled(float scl) { return vector(raw.scale(scl)); }
 		};
 
-		class Point {
+		class point {
 		public:
 			gxx::math::vector3 raw;
 
 		public:
-			Point(float x, float y, float z);
-			Point(const math::vector3& oth);
+			point(float x, float y, float z);
+			point(const math::vector3& oth);
 
-			void translate(const geom3d::Vector& vect) { raw.self_add(vect.raw); }
+			void translate(const geom3d::vector& vect) { raw.self_add(vect.raw); }
 			void rotateX(float angle) { raw.self_rotateX(angle); }
 			void rotateY(float angle) { raw.self_rotateY(angle); }
 			void rotateZ(float angle) { raw.self_rotateZ(angle); }
 
-			Point translated(const geom3d::Vector& vect) { return Point(raw.add(vect.raw)); }
-			Point rotatedX(float angle) { return Point(raw.rotateX(angle)); }
-			Point rotatedY(float angle) { return Point(raw.rotateY(angle)); }
-			Point rotatedZ(float angle) { return Point(raw.rotateZ(angle)); }
+			point translated(const geom3d::vector& vect) { return point(raw.add(vect.raw)); }
+			point rotatedX(float angle) { return point(raw.rotateX(angle)); }
+			point rotatedY(float angle) { return point(raw.rotateY(angle)); }
+			point rotatedZ(float angle) { return point(raw.rotateZ(angle)); }
+
+			float distance(const point& oth) {
+				return oth.raw.sub(raw).abs();
+			}
 		};
 
-		
-
-		class Direction {
+		class direction {
 		public:
 			gxx::math::vector3 raw;
 
 		public:
-			Direction(float x, float y, float z) : raw(x,y,z) { raw.self_normalize(); }
-			Direction(const math::vector3& oth) : Direction(oth.x, oth.y, oth.z) {};
-			Direction(const geom3d::Vector& oth) : Direction(oth.raw) {};
+			direction(float x, float y, float z) : raw(x,y,z) { raw.self_normalize(); }
+			direction(const math::vector3& oth) : direction(oth.x, oth.y, oth.z) {};
+			direction(const geom3d::vector& oth) : direction(oth.raw) {};
 		};
 
-		class Axis {
-			Point 	pnt;
-			Direction dir;
+		class axis {
+		public:
+			point 	pnt;
+			direction dir;
 
 		public:
-			const Point& location() const { return pnt; }
-			const Direction& direction() const { return dir; }
+			const point& get_location() const { return pnt; }
+			const direction& get_direction() const { return dir; }
 
-		public:
-			Axis(const Point& vrx, const Direction& dir);
+			axis(const point& vrx, const direction& dir);
 		};
 /*
-		class Axis2 {
-			Point origin;
+		class axis2 {
+			point origin;
 
 		};
 
-
+*/
 		class line {
-			Axis 	ax;
+		public:
+			axis 	ax;
 
 		public:
-			const Point& 	location() const { return ax.location(); }
-			const Direction& 	direction() const { return ax.direction(); }
-			const Axis& 	position() const { return ax; }
+			const point& 		get_location() const { return ax.get_location(); }
+			const direction& 	get_direction() const { return ax.get_direction(); }
+			const axis& 		get_position() const { return ax; }
 
-			line(const Point& pnt, const Direction& dir) : ax(pnt,dir) {}
-			line(const Axis& ax) : ax(ax) {}
+			line(const point& pnt, const direction& dir) : ax(pnt,dir) {}
+			line(const axis& ax) : ax(ax) {}
+
+			float distance(const point& pnt) {
+				const auto& dir = ax.get_direction().raw;				
+				auto pntsub = pnt.raw.sub(ax.pnt.raw);
+				//gxx::fprintln("pntsub: {}", pntsub);
+
+				return dir.vecmul(pntsub).abs();
+			}
 
 			float distance(const line& oth) {
-
+				const auto& dir1 = ax.get_direction().raw;
+				const auto& dir2 = oth.ax.get_direction().raw;
+				const auto& pnt1 = ax.get_location().raw;
+				const auto& pnt2 = oth.ax.get_location().raw;
+				auto pntsub = pnt1.sub(pnt2);
+				
+				if (dir1.is_equal(dir2)) {
+					//Прямые паралельны.
+					return dir1.vecmul(pntsub).abs();
+				} 
+				
+				else {
+					//Прямые скрещиваются.
+					auto normal = dir1.vecmul(dir2);
+					normal.self_normalize();
+					return fabsf(normal.scalar_mul(pntsub));
+				}
 			}
 		};
+/*
 
 
 
 
-
-		inline Vector vector_multiply(const Vector& a, const Vector& b) {
-			return Vector(a.coord_cross_mul(b));
+		inline vector vector_multiply(const vector& a, const vector& b) {
+			return vector(a.coord_cross_mul(b));
 		}*/
 	}
 }
