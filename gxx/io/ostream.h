@@ -1,6 +1,7 @@
 #ifndef GXX_IO_OSTREAM_H
 #define GXX_IO_OSTREAM_H
 
+#include <stdlib.h>
 #include <string.h>
 #include <gxx/buffer.h>
 #include <gxx/util/numconvert.h>
@@ -50,19 +51,19 @@ namespace gxx {
 
 			int print(const long double d) {
 				char buf[48];
-				ftoa(d, buf);
+				ftoa(d, buf, 3);
 				return print(buf); 
 			}
 
 			int print(const double d) {
 				char buf[48];
-				ftoa(d, buf);
+				ftoa(d, buf, 3);
 				return print(buf); 
 			}
 			
 			int print(const float f) {
 				char buf[48];
-				ftoa(f, buf);
+				ftoa(f, buf, 3);
 				return print(buf); 
 			}
 			

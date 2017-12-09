@@ -26,5 +26,6 @@ int main() {
 	geom::line lin1(geom::point(0,0,0), geom::direction(1,1,0.1));
 	geom::line lin2(geom::point(0,0,1.3), geom::direction(1,0,0));
 
-	std::cout << lin1.distance(lin2) << std::endl;
+	gxx::print(lin1.distance(lin2));
+	//std::cout << lin1.distance(lin2) << std::endl;
 }
