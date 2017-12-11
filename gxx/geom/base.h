@@ -3,7 +3,7 @@
 
 #include <gxx/print.h>
 #include <gxx/util/setget.h>
-#include <gxx/math/vector.h>
+#include <gxx/math/vectorN.h>
 
 namespace gxx {
 	namespace geom3d {
