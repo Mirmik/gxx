@@ -24,6 +24,7 @@ module("gxx",
 		"string.cpp",
 
 		"geom/base.cpp",
+		"math/matrix.cpp",
 	],
 
 	include_paths = ["."]

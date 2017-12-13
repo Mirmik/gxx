@@ -20,7 +20,7 @@ namespace gxx {
 		VALUE_GETTER(bytesize, m_size * sizeof(T));
 
 		object_buffer() : m_data(nullptr), m_size(0) {};
-		object_buffer(T* data, size_t size) : m_data(data), m_size(size) {}
+		object_buffer(const T* data, size_t size) : m_data((T*)data), m_size(size) {}
 
 		template<size_t N>
 		object_buffer(const T (& data) [N]) : m_data((T*) data), m_size(N) {}
@@ -58,7 +58,19 @@ namespace gxx {
 			}
 			return true;
 		}
+
+		size_t printTo(gxx::io::ostream& o) const {
+			o.putchar('[');
+			for(int i = 0; i < m_size; ++i) {
+				gxx::print(*(m_data + i));
+				if (i != m_size - 1) o.putchar(' ');
+			}
+			o.putchar(']');
+		}
 	};
+
+	template<typename T>
+	using objbuf = object_buffer<T>;
 
 /*	template <typename T, typename Allocator = gxx::allocator<T>>
 	class allocated_object_buffer : public object_buffer<T> {
