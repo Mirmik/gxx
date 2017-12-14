@@ -9,8 +9,8 @@ namespace gxx {
 		bool need_continue = true;
 
 	public:
-                using iterator = C&;
-                using const_iterator = C&;
+		using iterator = C&;
+		using const_iterator = C&;
 
 		void nil() { need_continue = false; }
 
@@ -39,11 +39,11 @@ namespace gxx {
 			return !need_continue;
 		}
 
-        decltype(auto) vector() {
-            std::vector<typename C::value_type> vec;
-            for (const auto& t: *this) vec.emplace_back(t);
-            return vec;
-        }
+		decltype(auto) vector() {
+			std::vector<typename C::value_type> vec;
+			for (const auto& t: *this) vec.emplace_back(t);
+			return vec;
+		}
 	};
 }
 
@@ -52,7 +52,7 @@ namespace std {
 	class iterator_traits<gxx::generator<T,C>> {
 	public:
 		using iterator_category = std::forward_iterator_tag;
-        using value_type = T;
+		using value_type = T;
 	};
 }
 

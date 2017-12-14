@@ -26,12 +26,21 @@ namespace gxx {
 		object_buffer(const T (& data) [N]) : m_data((T*) data), m_size(N) {}
 
 		using iterator = T*;
+		using const_iterator = const T*;
 
 		iterator begin() {
 			return m_data;
 		}
 
-		iterator end() {
+		const iterator end() {
+			return m_data + m_size;
+		}
+
+		const_iterator begin() const {
+			return m_data;
+		}
+
+		const const_iterator end() const {
 			return m_data + m_size;
 		}
 
@@ -71,6 +80,12 @@ namespace gxx {
 
 	template<typename T>
 	using objbuf = object_buffer<T>;
+
+
+	template<typename T>
+	objbuf<T> make_objbuf(T* data, size_t sz) {
+		return objbuf<T>(data, sz);
+	}
 
 /*	template <typename T, typename Allocator = gxx::allocator<T>>
 	class allocated_object_buffer : public object_buffer<T> {

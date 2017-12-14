@@ -9,7 +9,7 @@ namespace gxx {
 			auto& self = *reinterpret_cast<const T*>(this);
 			o.putchar('[');
 			for (int i = 0; i < self.size(); ++i) {
-				gxx::print(self.val(i));
+				gxx::print(self[i]);
 				if (i != self.size() - 1) o.putchar(' ');
 			}
 			o.putchar(']');
