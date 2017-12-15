@@ -2,6 +2,7 @@
 #define GXX_COORDINATES_CORRECTION_TABLE_H
 
 #include <gxx/geom/ncurve.h>
+#include <gxx/print/stdprint.h>
 
 namespace gxx {
 	namespace ngeom {
@@ -32,12 +33,22 @@ namespace gxx {
 				//gxx::print(table);
 			}
 			
+			vector evaluate_point(float base) {
+				//int l;
+				//for (l = 0; l < coords.size(); ++l) {
+				//	if (coords[i] > base)
+				//}
+
+				//if (base < coords[0]) {
+
+				//}
+			}			
 
 			multiline correction( const line& l ) {
-				const auto& first_point = l.cfirst();
-				const auto& last_point = l.csecond();
-				float cstart = l.cfirst()[base_axis];
-				float cstop = l.csecond()[base_axis];
+				const auto& first_point = l.first();
+				const auto& last_point = l.second();
+				float cstart = l.first()[base_axis];
+				float cstop = l.second()[base_axis];
 				bool reversed = cstart > cstop;
 	
 				float low = reversed ? cstop : cstart;
@@ -46,25 +57,26 @@ namespace gxx {
 				auto lower = std::lower_bound(coords.begin(), coords.end(), low);
 				auto upper = std::upper_bound(coords.begin(), coords.end(), high);
 
+				std::vector<float> midcoord(lower, upper);
 				auto distance = std::distance(lower, upper);
+				auto inidx = std::distance(coords.begin(), lower);
 
 				multiline ml(distance + 2, l.dim());
 				matrix& mat = ml.raw;
 
-				auto first_row = mat.row(0);
-				auto last_row = mat.row(mat.size1() - 1);
-				std::copy(first_point.begin(), first_point.end(), first_row.begin());
-				std::copy(last_point.begin(), last_point.end(), last_row.begin());
+				mat.row(0) = first_point;
+				mat.row(mat.size1() - 1) = last_point;
+				
+				auto midmat = mat.proxy(1, 0, distance, mat.size2());
+				auto iline = line(first_point, last_point).to_infinity_line();
+				int i = 0;
+				for (float& m : midcoord) {
+					midmat.row(i++) = iline.evaluate_point(base_axis, m);
+				}
 
-				auto centermat = mat.proxy(1,0,distance,mat.size2());
-
-
-				auto iline = l.to_infinity_line();
-				//iline.evaluate_point(0, cstart[base_axis]);
-
-				gxx::println(l);
+				midmat += table.proxy(inidx, 0, midmat.size1(), midmat.size2());
+				
 				gxx::println(mat);
-				gxx::println(centermat);
 
 				return ml;
 			}		

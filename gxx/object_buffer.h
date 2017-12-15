@@ -60,6 +60,10 @@ namespace gxx {
 			return *(m_data + i);
 		}
 
+		const T& operator[](int i) const {
+			return *(m_data + i);
+		}
+
 		bool operator==(const object_buffer& other) const {
 			if (m_size != other.m_size) return false;
 			for(int i = 0; i < m_size; i++) {

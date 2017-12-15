@@ -2,6 +2,7 @@
 #define GXX_GEOM_NCURVE_H
 
 #include <stdlib.h>
+
 #include <gxx/math/matrix.h>
 #include <gxx/object_buffer.h>
 
@@ -9,6 +10,9 @@
 
 namespace gxx {
 	namespace ngeom {
+		constexpr static float infinity = std::numeric_limits<float>::infinity();
+		constexpr static float E = 0.00000001;
+
 		using matrix = gxx::math::matrix<float>;
 		using vector = gxx::math::vector<float>;
 
@@ -47,6 +51,17 @@ namespace gxx {
 				for (auto& f : loc) { *ptr++ = f; }
 				for (auto& f : dir) { *ptr++ = f; }
 			}
+
+			vector evaluate_point(int n, float c) {
+				float spd = direction()[n];
+				assert(std::fabs(spd) > E);
+
+				float refcoord = location()[n];
+				float swift = c - refcoord;
+				
+				vector vec(location() + direction().scale(swift));
+				return vec;
+			}
 				
 			infinity_line(const line& l);
 		};
@@ -60,10 +75,18 @@ namespace gxx {
 			size_t dim() const { return n; }
 			math::vector_unbounded<float> first() { return make_objbuf(storage.begin(), n); }
 			math::vector_unbounded<float> second() { return make_objbuf(storage.begin() + n, n); }
-			math::vector_unbounded<const float> cfirst() const { return make_objbuf(storage.begin(), n); }
-			math::vector_unbounded<const float> csecond() const { return make_objbuf(storage.begin() + n, n); }
+			math::vector_unbounded<const float> first() const { return make_objbuf(storage.begin(), n); }
+			math::vector_unbounded<const float> second() const { return make_objbuf(storage.begin() + n, n); }
 			
 			line(const std::initializer_list<float>& a, const std::initializer_list<float>& b) : storage(2*a.size()), curve(0, 1), n(a.size()) {
+				assert(a.size() == b.size());
+				float* ptr = storage.begin();
+				for (auto& f : a) { *ptr++ = f; }
+				for (auto& f : b) { *ptr++ = f; }
+			}
+
+			template <typename A, typename B>
+			line(const A& a, const B& b) : storage(2*a.size()), curve(0, 1), n(a.size()) {
 				assert(a.size() == b.size());
 				float* ptr = storage.begin();
 				for (auto& f : a) { *ptr++ = f; }

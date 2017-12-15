@@ -15,6 +15,9 @@ namespace gxx { namespace math {
 	public:
 		matrix_iterator(M& mat, size_t pos1, size_t pos2) : mat(mat), pos1(pos1), pos2(pos2) {}
 		typename M::reference operator*() { return mat(pos1, pos2); }
+		bool operator!=(const matrix_iterator& oth) const {
+			return pos1 != oth.pos1 || pos2 != oth.pos2;
+		}
 	};
 
 	template <typename M>
@@ -27,7 +30,13 @@ namespace gxx { namespace math {
 	public:
 		matrix_const_iterator(const M& mat, size_t pos1, size_t pos2) : mat(mat), pos1(pos1), pos2(pos2) {}
 		typename M::const_reference operator*() const { return mat(pos1, pos2); }
+		bool operator!=(const matrix_const_iterator& oth) const {
+			return pos1 != oth.pos1 || pos2 != oth.pos2;
+		}
 	};
+
+	template <typename M> class matrix_iterator1;
+	template <typename M> class matrix_iterator2;
 
 	template <typename M>
 	class matrix_iterator1 : public matrix_iterator<M> {
@@ -35,6 +44,8 @@ namespace gxx { namespace math {
 		matrix_iterator1(M& mat, size_t pos1, size_t pos2) : matrix_iterator<M>(mat, pos1, pos2) {}
 		matrix_iterator1& operator++() { ++matrix_iterator<M>::pos1; return *this; }
 		typename std::iterator_traits<matrix_iterator1>::difference_type operator-(const matrix_iterator1& oth) { return matrix_iterator<M>::pos1 - oth.pos1; }
+		matrix_iterator2<M> begin() { return matrix_iterator2<M>(matrix_iterator<M>::mat,matrix_iterator<M>::pos1,matrix_iterator<M>::pos2); }
+		const matrix_iterator2<M> end() { return matrix_iterator2<M>(matrix_iterator<M>::mat,matrix_iterator<M>::pos1,matrix_iterator<M>::mat.size2()); }
 	};
 
 	template <typename M>

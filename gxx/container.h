@@ -4,6 +4,7 @@
 #include <map>
 #include <gxx/debug/dprint.h>
 #include <gxx/generator.h>
+#include <gxx/util/cooler.h>
 
 namespace gxx { 
 	namespace gen {
@@ -12,6 +13,8 @@ namespace gxx {
 			int stop;
 		
 		public:
+			using value_type = int;
+
 			range(int start, int stop) : start(start), stop(stop) {
 				if (start == stop) nil();
 			}
@@ -25,9 +28,10 @@ namespace gxx {
 			}
 		};
 		
-		template<typename C, typename F>
-		class mapping_t : public gxx::generator<typename C::value_type, mapping_t<C,F>> {
+		template<typename C, typename R, typename F>
+		class mapping_t : public gxx::generator<typename C::value_type, mapping_t<C,R,F>> {
 			using type = typename C::value_type;
+			gxx::cooler<R> sctr;
 			typename C::const_iterator it;
 			typename C::const_iterator eit;
 			F f;
@@ -35,7 +39,7 @@ namespace gxx {
 		public:
 			using value_type = decltype(f(*it));
 
-			mapping_t(const C& ctr, F&& f) : f(f), it(ctr.begin()), eit(ctr.end()) {}
+			mapping_t(F&& f,C&& ctr) : sctr(std::forward<C>(ctr)), f(f), it(sctr->begin()), eit(sctr->end()) {}
 		
 			bool next() {
                 //dprln("mapping ++");
@@ -48,20 +52,23 @@ namespace gxx {
 		};
 		
 		template<typename C, typename F>
-		mapping_t<C,F> mapping(const C& ctr, F&& f) {
-			return mapping_t<C,F>(ctr, std::forward<F>(f));
+		mapping_t<C,C&&,F> mapping(F&& f, C&& ctr) {
+			return mapping_t<C,C&&,F>(std::forward<F>(f), std::forward<C>(ctr));
 		} 
 
-		template<typename C, typename F>
-		class filter_t : public gxx::generator<typename C::value_type, filter_t<C,F>> {
-			using parent = gxx::generator<typename C::value_type, filter_t<C,F>>;
+		template<typename C, typename R, typename F>
+		class filter_t : public gxx::generator<typename C::value_type, filter_t<C,R,F>> {
+			using parent = gxx::generator<typename C::value_type, filter_t<C,R,F>>;
 			using type = typename C::value_type;
+			gxx::cooler<R> sctr;
 			typename C::const_iterator it;
 			typename C::const_iterator eit;
 			F f;
 		
 		public:
-			filter_t(const C& ctr, F&& f) : f(f), it(ctr.begin()), eit(ctr.end()) { if (!find_next()) parent::nil(); }
+			using value_type = typename C::value_type;
+            
+			filter_t(F&& f, C&& ctr) : f(f), sctr(std::forward<C>(ctr)), it(sctr->begin()), eit(sctr->end()) { if (!find_next()) parent::nil(); }
 		
 			bool find_next() {
 				while (true) {
@@ -82,8 +89,8 @@ namespace gxx {
 		};
 		
 		template<typename C, typename F>
-		filter_t<C,F> filter(const C& ctr, F&& f) {
-			return filter_t<C,F>(ctr, std::forward<F>(f));
+		filter_t<C,C&&,F> filter(F&& f, C&& ctr) {
+			return filter_t<C,C&&,F>(std::forward<F>(f), std::forward<C>(ctr));
 		}
 
 		template<typename K, typename T>

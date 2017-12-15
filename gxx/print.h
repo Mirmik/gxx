@@ -20,6 +20,25 @@ namespace gxx {
 		gxx::print(out, arg);
 	}
 
+	template<typename T>
+	int vprint(const T& head) {
+		gxx::debug_ostream out;
+		gxx::print(out, head);
+	}
+
+	template<typename Head, typename ... Tail> 
+	int vprint(const Head& head, const Tail& ... tail) {
+		vprint(head);
+		gxx::debug_ostream().putchar(' ');
+		vprint(tail ...);
+	}
+
+	template<typename ... Args> 
+	int vprintln(Args&& ... args) {
+		vprint(std::forward<Args>(args) ...);
+		gxx::debug_ostream().println();	
+	}	
+
 	template<typename ... Args> 
 	int println(Args&& ... args) {
 		print(std::forward<Args>(args) ...);

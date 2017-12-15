@@ -24,6 +24,7 @@ module("gxx",
 		"string.cpp",
 
 		"geom/base.cpp",
+		"geom/ncurve.cpp",
 		"math/matrix.cpp",
 	],
 
