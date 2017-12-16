@@ -11,14 +11,5 @@ int main() {
 		)) 
 	{
 		gxx::println(i);
-		do_after_iteration(3) exit(0);
 	}
-
-	/*for (auto i : 
-		gxx::gen::filter([](auto i) { return i % 3 == 0; },
-			gxx::gen::range(0,30)
-		)
-	) {
-		gxx::println(i);
-	}*/
 }

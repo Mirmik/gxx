@@ -4,7 +4,7 @@
 #include <map>
 #include <gxx/debug/dprint.h>
 #include <gxx/generator.h>
-#include <gxx/util/cooler.h>
+#include <gxx/util/closure.h>
 
 namespace gxx { 
 	namespace gen {
@@ -31,7 +31,7 @@ namespace gxx {
 		template<typename C, typename R, typename F>
 		class mapping_t : public gxx::generator<typename C::value_type, mapping_t<C,R,F>> {
 			using type = typename C::value_type;
-			gxx::cooler<R> sctr;
+			gxx::closure<R> sctr;
 			typename C::const_iterator it;
 			typename C::const_iterator eit;
 			F f;
@@ -60,7 +60,7 @@ namespace gxx {
 		class filter_t : public gxx::generator<typename C::value_type, filter_t<C,R,F>> {
 			using parent = gxx::generator<typename C::value_type, filter_t<C,R,F>>;
 			using type = typename C::value_type;
-			gxx::cooler<R> sctr;
+			gxx::closure<R> sctr;
 			typename C::const_iterator it;
 			typename C::const_iterator eit;
 			F f;

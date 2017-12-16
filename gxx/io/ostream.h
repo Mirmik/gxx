@@ -51,19 +51,19 @@ namespace gxx {
 
 			int print(const long double d) {
 				char buf[48];
-				ftoa(d, buf, 3);
+				ftoa(d, buf, 5);
 				return print(buf); 
 			}
 
 			int print(const double d) {
 				char buf[48];
-				ftoa(d, buf, 3);
+				ftoa(d, buf, 5);
 				return print(buf); 
 			}
 			
 			int print(const float f) {
 				char buf[48];
-				ftoa(f, buf, 3);
+				ftoa(f, buf, 5);
 				return print(buf); 
 			}
 			
