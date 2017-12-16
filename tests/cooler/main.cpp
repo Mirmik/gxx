@@ -4,7 +4,7 @@
 
 int main() {
 	for (auto i : 
-		gxx::gen::mapping([](auto i) { return i * 3; },
+		gxx::gen::filter([](auto i) { return i % 2 == 0; },
 			gxx::gen::filter([](auto i) { return i % 3 == 0; },
 				gxx::gen::range(0,30)
 			)

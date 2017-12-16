@@ -19,6 +19,9 @@ namespace gxx {
 				if (start == stop) nil();
 			}
 		
+			~range() {
+			}
+
 			bool next() {
 				return ++start != stop;
 			}
@@ -40,10 +43,11 @@ namespace gxx {
 			using value_type = decltype(f(*it));
 
 			mapping_t(F&& f,C&& ctr) : sctr(std::forward<C>(ctr)), f(f), it(sctr->begin()), eit(sctr->end()) {}
+			mapping_t(mapping_t&& oth) : sctr(oth.sctr), it(sctr->begin()), eit(sctr->end()), f(oth.f) {}
+			mapping_t(const mapping_t& oth) : sctr(oth.sctr), it(sctr->begin()), eit(sctr->end()), f(oth.f) {}
 		
 			bool next() {
-                //dprln("mapping ++");
-				return ++it != eit;
+    			return ++it != eit;
 			}
 		
 			decltype(auto) value() {
@@ -69,7 +73,9 @@ namespace gxx {
 			using value_type = typename C::value_type;
             
 			filter_t(F&& f, C&& ctr) : f(f), sctr(std::forward<C>(ctr)), it(sctr->begin()), eit(sctr->end()) { if (!find_next()) parent::nil(); }
-		
+			filter_t(filter_t&& oth) : sctr(oth.sctr), it(sctr->begin()), eit(sctr->end()), f(oth.f) {}
+			filter_t(const filter_t& oth) : sctr(oth.sctr), it(sctr->begin()), eit(sctr->end()), f(oth.f) {}
+
 			bool find_next() {
 				while (true) {
 					if (it == eit) return false;
