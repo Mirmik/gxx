@@ -61,7 +61,7 @@ void matrix_mux(T1* A, T2* B, int m, int p, int n, T3* C)
 }
 
 template <typename T>
-float vector_sqr(T* V, size_t n) {
+T vector_sqr(T* V, size_t n) {
 	float sum;
 	while(n--) {
 		auto tmp = *V++;
@@ -75,8 +75,7 @@ auto vector_abs(T* v, size_t n) {
 	return sqrt(vector_sqr(v,n));
 }
 
-template <typename T>
-auto vector_quick_invabs(T* v, size_t n) {
+float vector_quick_invabs(float* v, size_t n) {
 	return quick_rsqrt(vector_abs(v,n));
 }
 
@@ -90,8 +89,7 @@ void vector_normalize(T* A, size_t n, T* B) {
 	vector_rscale(A, n, vector_abs(A,n), B);
 }
 
-template <typename T>
-void vector_quick_normalize(T* A, size_t n, T* B) {
+void vector_quick_normalize(float* A, size_t n, float* B) {
 	vector_scale(A, n, vector_quick_invabs(A,n), B);
 }
 
