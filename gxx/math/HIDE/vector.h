@@ -1,6 +1,7 @@
 #ifndef GXX_MATH_VECTOR_H
 #define GXX_MATH_VECTOR_H
 
+#include <gxx/math/precision.h>
 #include <gxx/print.h>
 #include <gxx/array.h>
 #include <algorithm>
@@ -8,13 +9,15 @@
 namespace gxx {
 	namespace math {
 		//template <typename V, typename OV> class vector;
-		template <typename V, typename OV> class vector_sub;
-		template <typename V, typename OV> class vector_add;
-		template <typename V, typename OV> class vector_scale;
+		//template <typename V, typename OV> class vector_sub;
+		//template <typename V, typename OV> class vector_add;
+		//template <typename V, typename OV> class vector_scale;
 		//template <typename V, typename OV> class vector_coord_div;
 
 		template<typename V> class vector_expression : public gxx::array_printable<V> {
 		public:
+			using T = typename V::value_type;
+
 			bool is_sorted() const {
 				const V& self = *static_cast<const V*>(this);
 				return std::is_sorted(self.begin(), self.end());
@@ -29,22 +32,41 @@ namespace gxx {
 				}	
 			}
 
-			float abs() {
+			auto abssqr() {
 				V& self = *static_cast<V*>(this);
-				float sum = 0;
-				for (const auto& s : self) {
-					sum += s*s;
-				}
-				return sqrt(sum);
+				decltype(v) sum();
+				for (const auto& v: self) {
+					sum += v * v;
+				} 
+				return sum;
 			}
 
-			void self_normalize() {
-				V& self = *static_cast<V*>(this);
-				float mod = abs();
-				for (auto& s : self) {
-					s /= mod;
-				} 
+			/*ScalarType abs() {
+				return sqrt(abssqr());
 			}
+
+			ScalarType quick_invabs() {
+				return quick_rsqrt(abssqr());
+			}
+
+			template <typename Scalar>
+			void self_scale(Scalar scl) {
+				V& self = *static_cast<V*>(this);
+				for (const auto& v: self) {
+					v*=scl;
+				} 
+			}*/
+
+			void self_normalize() {
+				auto mod = abs();
+				self_rscale(mod);			
+			}
+
+			void self_quick_normalize() {
+				auto invabs = quick_invabs();
+				self_scale(invabs);
+			}
+
 
 			void fill(auto val) {
 				V& self = *static_cast<V*>(this);
@@ -66,7 +88,7 @@ namespace gxx {
 				std::copy(v.begin(), v.end(), self.begin());
 			}
 
-			template<typename OV>
+			/*template<typename OV>
 			vector_sub<V,OV> operator-(const OV& v) const {
 				const V& self = *static_cast<const V*>(this);
 				return vector_sub<V,OV>(self, v);
@@ -76,16 +98,16 @@ namespace gxx {
 			vector_add<V,OV> operator+(const OV& v) const {
 				const V& self = *static_cast<const V*>(this);
 				return vector_add<V,OV>(self, v);
-			}
+			}*/
 
-			template<typename OV>
+			/*template<typename OV>
 			vector_scale<V,OV> scale(const OV& v) const {
 				const V& self = *static_cast<const V*>(this);
 				return vector_scale<V,OV>(self, v);
-			}								
+			}*/								
 		};
 
-		template <typename V>
+		/*template <typename V>
 		struct vectorop_iterator : public std::iterator<std::random_access_iterator_tag, typename V::value_type> {
 			const V& vec;
 			int n;
@@ -132,10 +154,10 @@ namespace gxx {
 			iterator end() const { return iterator(*this, a.size()); }
 			size_t size() const { return a.size(); }
 			const auto operator[](size_t i) const { return a[i] * b; }
-		};
+		};*/
 
-		template<typename T, typename S = gxx::unbounded_array<T>>
-		class vector : public vector_expression <vector<T,S>> {
+		template<typename T, typename S = gxx::unbounded_array<T>, typename ScalarType = >
+		class vector : public vector_expression <vector<T,S>, ScalarType> {
 			S storage;
 
 		public:

@@ -45,6 +45,20 @@ namespace gxx {
 		gxx::debug_ostream().println();	
 	}
 
+	template<typename C>
+	int print_as_matrix(const C& c, int rlen) {
+		int n = 0;
+		for (const auto& v : c) {
+			gxx::debug_ostream().print(v); 
+			gxx::debug_ostream().putchar(' ');
+			++n;
+			if (n == rlen) {
+				n = 0;
+				gxx::debug_ostream().println();
+			}
+		}
+	}
+
 	inline int fprint_format_argument(gxx::io::ostream& out, const char*& fmt, const gxx::visitable_arglist& list, uint8_t argnum) {
 		int ret;		
 		char* pend;

@@ -2,7 +2,7 @@
 #define GXX_MATRIX_ITERATOR_H
 
 namespace gxx { namespace math {
-	template <typename M>
+	/*template <typename M>
 	struct matrix_iterator_base : public std::iterator<std::random_access_iterator_tag, typename M::value_type> {};
 
 	template <typename M>
@@ -70,7 +70,7 @@ namespace gxx { namespace math {
 		matrix_const_iterator2(M& mat, size_t pos1, size_t pos2) : matrix_const_iterator<M>(mat, pos1, pos2) {}
 		matrix_const_iterator2& operator++() { ++matrix_const_iterator<M>::pos2; return *this; }
 		typename std::iterator_traits<matrix_const_iterator2>::difference_type operator-(const matrix_const_iterator2& oth) { return matrix_const_iterator<M>::pos2 - oth.pos2; }
-	};
+	};*/
 }}
 
 #endif

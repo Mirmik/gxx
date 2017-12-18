@@ -368,6 +368,18 @@ namespace gxx { namespace math {
 
 		const_matrix_row(M& mat, size_t i) : mat(mat), ridx(i) {}
 
+		typename M::reference operator[](int i) {
+			return mat(ridx, i);
+		}
+
+		typename M::const_reference operator[](int i) const {
+			return mat(ridx, i);
+		}
+
+		size_t size() const {
+			return mat.size2();
+		}
+
 		const_iterator begin() const {
 			return const_iterator(mat, ridx, 0);
 		}

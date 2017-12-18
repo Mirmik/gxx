@@ -23,9 +23,9 @@ module("gxx",
 		"impl/panic_abort.cpp",
 		"string.cpp",
 
-		"geom/base.cpp",
-		"geom/ncurve.cpp",
-		"math/matrix.cpp",
+		#"geom/base.cpp",
+		#"geom/ncurve.cpp",
+		#"math/matrix.cpp",
 	],
 
 	include_paths = ["."]

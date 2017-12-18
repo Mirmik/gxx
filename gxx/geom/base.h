@@ -1,7 +1,7 @@
 #ifndef GXX_GEOM_BASE_H
 #define GXX_GEOM_BASE_H
 
-#include <gxx/print.h>
+/*#include <gxx/print.h>
 #include <gxx/util/setget.h>
 #include <gxx/math/vectorN.h>
 
@@ -88,7 +88,7 @@ namespace gxx {
 		};
 
 */
-		class line {
+/*		class line {
 		public:
 			axis 	ax;
 
@@ -136,7 +136,7 @@ namespace gxx {
 		inline vector vector_multiply(const vector& a, const vector& b) {
 			return vector(a.coord_cross_mul(b));
 		}*/
-	}
-}
+//	}
+//}
 
 #endif

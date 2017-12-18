@@ -8,44 +8,41 @@ namespace gxx {
 	namespace ngeom {
 		template <typename T>
 		class single_axis_correction_table {
-			math::vector<T> coords;
-			math::matrix<T> table;
+			std::vector<T> coords;
+			std::vector<T> table;
 			uint8_t base_axis;
+			size_t dim;
 
 		public:
 			single_axis_correction_table(	
 				uint8_t dim,
 				uint8_t base, 
-				const math::vector<T>& corcoords,
+				const std::vector<T>& corcoords,
 				const std::vector<uint8_t>& numcoords,
-				const math::matrix<T>& cormatrix
-			) : base_axis(base), coords(corcoords), table(corcoords.size(), dim) {
+				const std::vector<T>& cormatrix
+			) : dim(dim), base_axis(base), coords(corcoords), table(corcoords.size()*dim) {
 
 				for (int i = 0; i < numcoords.size(); ++i) {
 					auto ax = numcoords[i];
 					
-					//Копируем столбцы
-					auto src = cormatrix.column(i);
-					auto dst = table.column(ax);
-					std::copy(src.begin(), src.end(), dst.begin());
+					//Копируем столбцы в расширенную таблицу
+					malgo::vector_copy_uncompact(cormatrix.data() + i, coords.size(),  table.data() + ax, 1, dim);
+
+
+					//auto src = cormatrix.column(i);
+					//auto dst = table.column(ax);
+					//std::copy(src.begin(), src.end(), dst.begin());
 				}
 
-				//gxx::print(table);
+				gxx::print_as_matrix(table, dim);
 			}
 			
-			vector evaluate_point(float base) {
-				//int l;
-				//for (l = 0; l < coords.size(); ++l) {
-				//	if (coords[i] > base)
-				//}
-
-				//if (base < coords[0]) {
-
-				//}
-			}			
+			//vector evaluate_point(float base) {
+			//	return linear_interpolation_matrix_rows(base, coords, table);
+			//}			
 
 			multiline correction( const line& l ) {
-				const auto& first_point = l.first();
+				/*const auto& first_point = l.first();
 				const auto& last_point = l.second();
 				float cstart = l.first()[base_axis];
 				float cstop = l.second()[base_axis];
@@ -76,9 +73,12 @@ namespace gxx {
 
 				midmat += table.proxy(inidx, 0, midmat.size1(), midmat.size2());
 				
-				gxx::println(mat);
+				gxx::println(evaluate_point(cstart));
+				gxx::println(evaluate_point(cstop));
 
-				return ml;
+				//gxx::println(mat);
+
+				return ml;*/
 			}		
 		};
 
