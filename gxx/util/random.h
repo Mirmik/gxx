@@ -13,6 +13,11 @@ namespace gxx {
 	inline float random_minmax<float>(const float& a, const float& b) {
 		return a + (rand() * (b - a) / RAND_MAX);
 	}	
+
+	template<> 
+	inline double random_minmax<double>(const double& a, const double& b) {
+		return a + (rand() * (b - a) / RAND_MAX);
+	}	
 }
 
 #endif

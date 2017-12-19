@@ -7,43 +7,30 @@
 #include <gxx/geom/ncurve.h>
 
 int main() {
-	gxx::ngeom::line_segment l({1,0,0}, {1,1,1.3});
-
-	gxx::println(l);
-	gxx::println(l.d0(2));
-
-	//auto mat = gxx::math::matrix<float>::random(3,5, -1, 1);
-
-
-
-
-	//gxx::ngeom::line line({3.4,0,0,0}, {10.3,0,0,0});
-
-	//gxx::println(line);
-	//gxx::println(line.length());
+	gxx::ngeom::line l({0.5,1,2.8,3}, {4.5,4,5,6});
 	
-	std::vector<float> corcoords(20);
+	std::vector<double> corcoords(5);
 	int count = 0;
 	for (auto& ref: corcoords) { ref = count++;}
 	
-	//gxx::print(corcoords);
-
-	//	float n = 0;
-	//auto table = gxx::math::matrix<float>::random(20, 2, -1, 1);
-	/*auto table = gxx::math::matrix<float>(20, 2);
-	for (auto it1 = table.begin1(); it1 != table.end1(); ++it1) {
-		for (auto it2 = it1.begin(); it2 != it1.end(); ++it2) {
-			*it2 = n;
-		}
-			n += 0.1;
-	}
-	*/
-	std::vector<float> table(20 * 4);
+	std::vector<double> table(5 * 2);
 	malgo::vector_random(table.data(), table.size(), -1, 1);
 
+	//table[0] = 0; 
+	//table[1] = 0;
+	//table[2] = 1; 
+	//table[3] = 1;
+	//table[4] = 2; 
+	//table[5] = 2;
+	//table[6] = 3; 
+	//table[7] = 3;
+	//table[8] = 4; 
+	//table[9] = 4;
 
-	gxx::ngeom::single_axis_correction_table<float> cortable(4, 0, corcoords, {1,2}, table);
-	//cortable.correction(line);
+	gxx::ngeom::single_axis_correction_table<double> cortable(4, 0, corcoords, {1,2}, table);
+	cortable.correction(l);
 
-	//gxx::print(corcoords);
+	malgo::vector<float> v1 {3,5,6};
+	malgo::vector<float> v2 {3,5,12};
+	malgo::vector<float> v3 {3,7,12};
 }

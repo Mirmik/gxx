@@ -10,54 +10,49 @@
 namespace gxx { 
 	namespace ngeom {
 
-		constexpr static float infinity = std::numeric_limits<float>::infinity();
-		constexpr static float E = 0.00000001;
+		constexpr static double infinity = std::numeric_limits<double>::infinity();
+		constexpr static double E = 0.00000001;
 
-		class coordinates {
+		class coordinates : public malgo::vector<double> {
 		public:
-			unbounded_array<float> raw;
-			coordinates(size_t size) : raw(size) {}
-			coordinates(gxx::objbuf<float> buf) : raw(buf) {}	
-			coordinates(const std::initializer_list<float>& buf) : raw(buf) {}	
-			size_t dim() const { return raw.size(); }
-			float& operator[](int i) { return raw[i]; }
-			const float& operator[](int i) const { return raw[i]; }
-
-			size_t printTo(gxx::io::ostream& o) const {
-				gxx::print(raw);
-			}
+			coordinates(size_t size) : malgo::vector<double>(size) {}
+			coordinates(gxx::objbuf<double> buf) : malgo::vector<double>(buf) {}	
+			coordinates(const std::initializer_list<double>& buf) : malgo::vector<double>(buf) {}	
+			coordinates(const coordinates&) = default; 
+			coordinates(coordinates&&) = default; 
+			size_t dim() const { return size(); }
 		};
 
-		class point : public coordinates {
+		class point : public coordinates  {
 		public:
 			point(size_t sz) : coordinates(sz) {}
-			point(const objbuf<float>& buf) : coordinates(buf) {}
-			point(const std::initializer_list<float>& lst) : coordinates(lst) {}
-			point(const point& oth) : coordinates(oth) {}
+			point(const objbuf<double>& buf) : coordinates(buf) {}
+			point(const std::initializer_list<double>& lst) : coordinates(lst) {}
+			point(const point& oth) = default;
+			point(point&& oth) = default;
 		};
 
 		class direction : public coordinates {
 		public:
-			direction(gxx::objbuf<float> buf) : coordinates(buf) {
-				malgo::vector_quick_normalize(raw.data(), raw.size(), raw.data());
+			direction(gxx::objbuf<double> buf) : coordinates(buf) {
+				self_normalize();
 			}			
 		};
 
-		point linear_interpolation_2point(const point& a, const point& b, float k) {
+		point linear_interpolation_2point(const point& a, const point& b, double k) {
 			size_t dim = a.dim();
-			float tmp[dim];
+			double tmp[dim];
 			point c(dim);
 			
-			auto A = a.raw.data();
-			auto B = b.raw.data();
-			auto C = c.raw.data();
+			auto A = a.data();
+			auto B = b.data();
+			auto C = c.data();
 
 			malgo::vector_scale(A, dim, 1 - k, tmp);
 			malgo::vector_scale(B, dim, k, C);
 			malgo::vector_add(tmp, C, dim, C);
 			return c;
 		}
-
 	}
 }
 #endif

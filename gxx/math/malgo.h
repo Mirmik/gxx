@@ -3,13 +3,124 @@
 
 #include <gxx/math/util.h>
 #include <gxx/util/random.h>
+#include <gxx/print.h>
 
 namespace malgo {
 
+template <typename T1, typename T2, typename T3> 		void vector_add(T1 A, T2 B, int n, T3 C) ;
+template <typename T1, typename T2, typename T3> 		void vector_sub(T1 A, T2 B, int n, T3 C) ;
+template <typename T1, typename T2, typename S>			void vector_scale(T1 A, int n, S s, T2 B);
+template <typename T1, typename T2>						void vector_normalize(T1 A, int n, T2 B);
+
+template<typename V>
+class vector_basic : public gxx::array_printable<V> {
+public:
+	//vector_basic() = default;
+	
+	template<typename OV> V& operator+=(const OV& oth) { 
+		V& self = *static_cast<V*>(this);
+		malgo::vector_add(self.begin(), oth.begin(), self.size(), self.begin()); 
+		return self;
+	}
+
+	template<typename OV> V& operator-=(const OV& oth) { 
+		V& self = *static_cast<V*>(this);
+		malgo::vector_sub(self.begin(), oth.begin(), self.size(), self.begin()); 
+		return self;
+	}
+
+	void self_scale(double arg) { 
+		V& self = *static_cast<V*>(this);
+		malgo::vector_scale(self.begin(), self.size(), arg, self.begin()); 
+	}
+
+	void self_normalize() { 
+		V& self = *static_cast<V*>(this);
+		malgo::vector_normalize(self.begin(), self.size(), self.begin()); 
+	}
+};
+
+template<typename V, typename T>
+class compact_vector_basic : public vector_basic<V> {
+public:
+	T* dat;
+	size_t sz;
+
+	CONSTREF_GETTER(size, sz);
+	CONSTREF_GETTER(data, dat);
+	
+	compact_vector_basic(T* dat, size_t sz) : dat(dat), sz(sz) {}
+	compact_vector_basic(const compact_vector_basic&) = default;
+	compact_vector_basic(compact_vector_basic&&) = default;
+	
+	T& operator[](size_t i) { return dat[i]; }
+	const T& operator[](size_t i) const { return dat[i]; }
+
+	using iterator = T*;
+	using const_iterator = T*;
+
+	iterator begin() { return dat; }
+	const iterator end() { return dat + sz; }
+	const_iterator begin() const { return dat; }
+	const const_iterator end() const { return dat + sz; }	
+};
+
+template<typename T, typename Alloc = std::allocator<T>>
+class vector : public compact_vector_basic<vector<T>, T> {
+	using parent = compact_vector_basic<vector<T>,T>;
+	Alloc alloc;
+public:
+	vector(size_t sz) : parent(alloc.allocate(sz), sz) {}
+	vector(const gxx::objbuf<T>& buf) : parent(alloc.allocate(buf.size()), buf.size()) { std::copy(buf.begin(), buf.end(), parent::begin()); }
+	vector(const std::initializer_list<T>& lst) : parent(alloc.allocate(lst.size()), lst.size()) { std::copy(lst.begin(), lst.end(), parent::begin()); }
+	vector(const vector& oth) : parent(alloc.allocate(oth.size()), oth.size()) { std::copy(oth.begin(), oth.end(), parent::begin()); }	
+	vector(vector&& oth) : parent(oth.data(), oth.size()) { oth.dat = nullptr; oth.sz = 0; }
+	~vector() { alloc.deallocate(parent::dat, parent::sz); parent::dat = nullptr; parent::sz = 0; }
+
+	vector operator+(const vector& b) const& { vector ret(parent::size()); malgo::vector_add(parent::begin(), b.begin(), parent::size(), ret.begin()); return ret; }
+	vector operator+(vector&& b) const& { vector ret(std::move(b)); malgo::vector_add(parent::begin(), ret.begin(), parent::size(), ret.begin()); return ret; }
+	vector operator+(const vector& b) && { vector ret(std::move(*this)); malgo::vector_add(ret.begin(), b.begin(), b.size(), ret.begin()); return ret; }
+
+	vector operator-(const vector& b) const& { vector ret(parent::size()); malgo::vector_sub(parent::begin(), b.begin(), parent::size(), ret.begin()); return ret; }
+	vector operator-(vector&& b) const& { vector ret(std::move(b)); malgo::vector_sub(parent::begin(), ret.begin(), parent::size(), ret.begin()); return ret; }
+	vector operator-(const vector& b) && { vector ret(std::move(*this)); malgo::vector_sub(ret.begin(), b.begin(), b.size(), ret.begin()); return ret; }
+};
+
+template<typename T>
+class compact_vector_proxy : public compact_vector_basic<compact_vector_proxy<T>, T> {
+	using parent = compact_vector_basic<compact_vector_proxy<T>,T>;
+	compact_vector_proxy(T* dat, size_t sz) : parent(dat, sz) {}
+};
+
+template<typename T>
+struct step_ptr {
+	T* ptr;
+	int step;
+	step_ptr(T* ptr) : ptr(ptr) {}
+	step_ptr& operator++() { ptr += step; return *this; }
+	step_ptr operator++(int) { auto ret = *this; ptr += step; return ret; }
+	T& operator*() { return *ptr; }
+};
+
 template <typename T1, typename T2, typename T3>
-void vector_add(const T1 *A, const T2 *B, int n, T3 *C) {
+void vector_add(T1 A, T2 B, int n, T3 C) {
 	while(n--) *C++ = *A++ + *B++;
 }
+
+template <typename T1, typename T2, typename T3>
+void vector_sub(T1 A, T2 B, int n, T3 C) {
+	while(n--) *C++ = *A++ - *B++;
+}
+
+//template <typename T1, typename T2>
+//void vector_self_add(T1 A, T2 B, int n) {
+//	while(n--) *A++ += *B++;
+//}
+//
+//template <typename T1, typename T2>
+//void vector_self_sub(T1 A, T2 B, int n) {
+//	while(n--) *A++ -= *B++;
+//}
 
 template <typename T1, typename T2, typename T3>
 void matrix_add(const T1 *A, const T2 *B, int m, int n, T3 *C) {
@@ -27,7 +138,7 @@ void matrix_copy( const T1* A, int m, int n, T2* B) {
 }
 
 template <typename T1, typename T2>
-void vector_copy_uncompact( const T1* A, int n, T2* B, int as, int bs) {
+void vector_copy_uncompact( T1 A, int n, T2 B, int as, int bs) {
 	while(n--) { 
 		*B = *A;
 		A += as;
@@ -38,7 +149,10 @@ void vector_copy_uncompact( const T1* A, int n, T2* B, int as, int bs) {
 
 template <typename T>
 void vector_random( T* A, int n, auto min, auto max) {
-	while(n--) *A++ = gxx::random_minmax<T>(min, max);
+	while(n--) { 
+		*A++ = gxx::random_minmax<T>(min, max);
+		//gxx::println(*(A-1));
+	}
 }
 
 template <typename T1, typename T2, typename T3>
@@ -61,8 +175,8 @@ void matrix_mux(T1* A, T2* B, int m, int p, int n, T3* C)
 }
 
 template <typename T>
-T vector_sqr(T* V, size_t n) {
-	float sum;
+auto vector_sqr(T V, size_t n) {
+	double sum;
 	while(n--) {
 		auto tmp = *V++;
 		sum += tmp * tmp;
@@ -71,7 +185,7 @@ T vector_sqr(T* V, size_t n) {
 }
 
 template <typename T>
-auto vector_abs(T* v, size_t n) {
+auto vector_abs(T v, size_t n) {
 	return sqrt(vector_sqr(v,n));
 }
 
@@ -79,15 +193,35 @@ float vector_quick_invabs(float* v, size_t n) {
 	return quick_rsqrt(vector_abs(v,n));
 }
 
-template <typename T, typename S>
-void vector_scale(T* A, int n, S s, T* B) {
+template <typename T1, typename T2, typename S>
+void vector_scale(T1 A, int n, S s, T2 B) {
 	while(n--) *B++ = *A++ * s;
 }
 
-template <typename T>
-void vector_normalize(T* A, size_t n, T* B) {
+template <typename T1, typename T2, typename S>
+void vector_rscale(T1 A, int n, S s, T2 B) {
+	while(n--) *B++ = *A++ / s;
+}
+
+//template <typename T, typename S>
+//void vector_self_scale(T* A, int n, S s) {
+//	while(n--) *A++ *= s;
+//}
+//
+//template <typename T, typename S>
+//void vector_self_rscale(T* A, int n, S s) {
+//	while(n--) *A++ /= s;
+//}
+
+template <typename T1, typename T2>
+void vector_normalize(T1 A, size_t n, T2 B) {
 	vector_rscale(A, n, vector_abs(A,n), B);
 }
+
+//template <typename T>
+//void vector_self_normalize(T A, size_t n) {
+//	vector_self_rscale(A, n, vector_abs(A,n));
+//}
 
 void vector_quick_normalize(float* A, size_t n, float* B) {
 	vector_scale(A, n, vector_quick_invabs(A,n), B);
@@ -135,7 +269,7 @@ void matrix_inv(const T1* C, int m, int n, T1* A)
 	int pivrow;		// keeps track of current pivot row
 	int k,i,j;		// k: overall index along diagonal; i: row index; j: col index
 	int pivrows[n]; // keeps track of rows swaps to undo at end
-	float tmp;		// used for finding max value and making column swaps
+	double tmp;		// used for finding max value and making column swaps
 
 	for (i = 0 ; i < m; i++)
 		for (j = 0 ; j < n; j++)
@@ -258,7 +392,7 @@ void matrix_exp(const T1* a, int n, T1* C)
        }
        for( i = 0; i < n; i++ )
 	 for( j = 0; j < n; j++ ){
-	   wm[i*n+j] /= (float)ii;
+	   wm[i*n+j] /= (double)ii;
 	   C[i*n+j] += wm[i*n+j];
 	   am = abs(wm[i*n+j]);
 	   emi = max(am,emi);

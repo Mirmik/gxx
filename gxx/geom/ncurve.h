@@ -2,6 +2,7 @@
 #define GXX_GEOM_NCURVE_H
 
 //#include <gxx/objbuf.h>
+#include <cmath>
 #include <gxx/geom/ngeom.h>
 #include <gxx/exception.h>
 
@@ -9,19 +10,20 @@ namespace gxx {
 	namespace ngeom {
 		class curve {
 		public:
-			virtual point d0(float t) = 0;
+			virtual point d0(double t) const = 0;
+			virtual std::vector<point> points_with(int num, double coord) const { throw GXX_NOT_IMPLEMENTED; }
 		};
 
 		class bounded_curve : public curve {
 		public:
-			float tmin;
-			float tmax;
-			bounded_curve(float tmin, float tmax) : tmin(tmin), tmax(tmax) {};
+			double tmin;
+			double tmax;
+			bounded_curve(double tmin, double tmax) : tmin(tmin), tmax(tmax) {};
 		};
 
 		class line;
 
-		class line : public curve {
+		class infinity_line : public curve {
 		public:
 			point l;
 			direction d;
@@ -29,20 +31,20 @@ namespace gxx {
 			CONSTREF_GETTER(loc, l);
 			CONSTREF_GETTER(dir, d);
 			
-			/*infinity_line(const std::initializer_list<float>& loc, const std::initializer_list<float>& dir) 
-				: storage(2*loc.size()), curve(-std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity()), n(loc.size()) {
+			/*infinity_line(const std::initializer_list<double>& loc, const std::initializer_list<double>& dir) 
+				: storage(2*loc.size()), curve(-std::numeric_limits<double>::infinity(), std::numeric_limits<double>::infinity()), n(loc.size()) {
 				assert(loc.size() == dir.size());
-				float* ptr = storage.begin();
+				double* ptr = storage.begin();
 				for (auto& f : loc) { *ptr++ = f; }
 				for (auto& f : dir) { *ptr++ = f; }
 			}
 
-			vector evaluate_point(int n, float c) {
-				//float spd = direction()[n];
+			vector evaluate_point(int n, double c) {
+				//double spd = direction()[n];
 				//assert(std::fabs(spd) > E);
 //
-				//float refcoord = location()[n];
-				//float swift = c - refcoord;
+				//double refcoord = location()[n];
+				//double swift = c - refcoord;
 				//
 				//vector vec(location() + direction().scale(swift));
 				//return vec;
@@ -51,13 +53,13 @@ namespace gxx {
 			infinity_line(const line& l);*/
 		};
 
-		class line_segment : public bounded_curve {
+		class line : public bounded_curve {
 		public:
 			point a;
 			point b;
 
-			line_segment(point a, point b) : a(a), b(b), bounded_curve(0,1) {}
-			//line_segment(std::initializer_list<float> a, gxx::objbuf<float> b) : a(a), b(b), bounded_curve(0,1) {}
+			line(const point& a, const point& b) : a(a), b(b), bounded_curve(0,1) {}
+			//line_segment(std::initializer_list<double> a, gxx::objbuf<double> b) : a(a), b(b), bounded_curve(0,1) {}
 
 			size_t dim() const { return a.dim(); }
 			
@@ -66,13 +68,29 @@ namespace gxx {
 			const point& pnt1() const { return a; }
 			const point& pnt2() const { return b; }
 
-			point d0(float t) { 
+			point d0(double t) const override { 
 				return ngeom::linear_interpolation_2point(pnt1(), pnt2(), t);
-			};
+			}
 			
-			/*line(const std::initializer_list<float>& a, const std::initializer_list<float>& b) : storage(2*a.size()), curve(0, 1), n(a.size()) {
+			std::vector<point> points_with(int n, double c) const override {
+				double diffn = b[n] - a[n];
+				if (std::fabs(diffn) < E) {
+					return std::vector<point>();
+				}
+
+	
+				double refcoord = a[n];
+				double koeff = (c - refcoord) / diffn;
+
+	
+				point ret = ngeom::linear_interpolation_2point(a, b, koeff);
+
+				return std::vector<point>{ret};
+			}
+
+			/*line(const std::initializer_list<double>& a, const std::initializer_list<double>& b) : storage(2*a.size()), curve(0, 1), n(a.size()) {
 				assert(a.size() == b.size());
-				float* ptr = storage.begin();
+				double* ptr = storage.begin();
 				for (auto& f : a) { *ptr++ = f; }
 				for (auto& f : b) { *ptr++ = f; }
 			}
@@ -80,7 +98,7 @@ namespace gxx {
 			template <typename A, typename B>
 			line(const A& a, const B& b) : storage(2*a.size()), curve(0, 1), n(a.size()) {
 				assert(a.size() == b.size());
-				float* ptr = storage.begin();
+				double* ptr = storage.begin();
 				for (auto& f : a) { *ptr++ = f; }
 				for (auto& f : b) { *ptr++ = f; }
 			}
@@ -88,8 +106,8 @@ namespace gxx {
 			line(line&&) = delete;
 			line(const line&) = delete;
 
-			float length() {
-				float sum = 0, a, b;
+			double length() {
+				double sum = 0, a, b;
 				for (int i = 0; i < n; ++i) {
 					a = storage[i];
 					b = storage[i+n];
@@ -109,15 +127,26 @@ namespace gxx {
 
 		class multiline : public bounded_curve {
 		public:
-			//gxx::math::matrix<float> raw;
+			gxx::unbounded_array<double> raw;
+			size_t dm;
+			size_t sz;
 
 		public:
-			//multiline(size_t n, size_t m) : raw(n,m), bounded_curve(0,m) {}
-			//multiline(matrix&& mat) : raw(std::move(mat)), bounded_curve(0, raw.size1()) {}
-			//multiline(const multiline&) = delete;
+			CONSTREF_GETTER(size, sz);
+			CONSTREF_GETTER(dim, dm);
+
+			multiline(size_t n, size_t m) : raw(n*m), dm(m), sz(n), bounded_curve(0,m) {}
+			multiline(const multiline&) = default;
+			multiline(multiline&&) = default;
 			//multiline(multiline&&) = default;
 
-			point d0(float t);
+			point d0(double t) const override {
+				throw GXX_NOT_IMPLEMENTED;
+			}
+
+			double* point_data(size_t i) {
+				return raw.data() + dm * i; 
+			}
 		};
 	}
 }

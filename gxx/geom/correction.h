@@ -3,6 +3,7 @@
 
 #include <gxx/geom/ncurve.h>
 #include <gxx/print/stdprint.h>
+#include <algorithm>
 
 namespace gxx {
 	namespace ngeom {
@@ -26,118 +27,90 @@ namespace gxx {
 					auto ax = numcoords[i];
 					
 					//Копируем столбцы в расширенную таблицу
-					malgo::vector_copy_uncompact(cormatrix.data() + i, coords.size(),  table.data() + ax, 1, dim);
-
-
-					//auto src = cormatrix.column(i);
-					//auto dst = table.column(ax);
-					//std::copy(src.begin(), src.end(), dst.begin());
+					malgo::vector_copy_uncompact(cormatrix.data() + i, coords.size(),  table.data() + ax, numcoords.size(), dim);
 				}
 
-				gxx::print_as_matrix(table, dim);
+				//gxx::print_as_matrix(table, dim);
 			}
 			
-			//vector evaluate_point(float base) {
+			//vector evaluate_point(double base) {
 			//	return linear_interpolation_matrix_rows(base, coords, table);
 			//}			
+			point evaluate(double coord) {
+				int anum;
+				auto lower = std::upper_bound(coords.begin(), coords.end(), coord);
+				if (lower == coords.end()) { 
+					anum = coords.size() - 2; 
+				}
+				else {
+					anum = std::distance(coords.begin(), lower) - 1;
+				}		
+
+				int bnum = anum+1;
+				point ret(dim);
+				double bkoeff = (coord - coords[anum]) / (coords[bnum] - coords[anum]);
+				double akoeff = 1 - bkoeff;
+
+				/*gxx::vprintln("c", coord);
+				gxx::vprintln("a", coords[anum]);
+				gxx::vprintln("b", coords[bnum]);
+				gxx::vprintln("an", anum);
+				gxx::vprintln("bn", bnum);
+				gxx::vprintln("k", koeff);
+				gxx::println("");*/
+
+				double* A = table.data() + dim * anum;
+				double* B = table.data() + dim * bnum;
+				double* C = ret.data();
+
+				double tmp[dim];
+
+				malgo::vector_scale(A, dim, akoeff, tmp);
+				malgo::vector_scale(B, dim, bkoeff, C);
+				malgo::vector_add(C, tmp, dim, C);
+
+				//exit(0);
+				return ret;
+
+			}
 
 			multiline correction( const line& l ) {
-				/*const auto& first_point = l.first();
-				const auto& last_point = l.second();
-				float cstart = l.first()[base_axis];
-				float cstop = l.second()[base_axis];
+				const auto& first_point = l.pnt1();
+				const auto& last_point = l.pnt2();
+				double cstart = l.pnt1()[base_axis];
+				double cstop = l.pnt2()[base_axis];
 				bool reversed = cstart > cstop;
 	
-				float low = reversed ? cstop : cstart;
-				float high = reversed ? cstart : cstop;
+				double low = reversed ? cstop : cstart;
+				double high = reversed ? cstart : cstop;
 		
 				auto lower = std::lower_bound(coords.begin(), coords.end(), low);
 				auto upper = std::upper_bound(coords.begin(), coords.end(), high);
 
-				std::vector<float> midcoord(lower, upper);
+				std::vector<double> midcoord(lower, upper);
 				auto distance = std::distance(lower, upper);
 				auto inidx = std::distance(coords.begin(), lower);
 
 				multiline ml(distance + 2, l.dim());
-				matrix& mat = ml.raw;
+				malgo::vector_copy(first_point.data(), dim, ml.point_data(0));
+				malgo::vector_copy(last_point.data(), dim, ml.point_data(ml.size() - 1));
 
-				mat.row(0) = first_point;
-				mat.row(mat.size1() - 1) = last_point;
-				
-				auto midmat = mat.proxy(1, 0, distance, mat.size2());
-				auto iline = line(first_point, last_point).to_infinity_line();
-				int i = 0;
-				for (float& m : midcoord) {
-					midmat.row(i++) = iline.evaluate_point(base_axis, m);
+				int i = 1;
+				for (double& m : midcoord) {
+					point p = l.points_with(base_axis, m)[0];
+					malgo::vector_copy(p.data(), dim, ml.point_data(i++));
 				}
 
-				midmat += table.proxy(inidx, 0, midmat.size1(), midmat.size2());
-				
-				gxx::println(evaluate_point(cstart));
-				gxx::println(evaluate_point(cstop));
-
-				//gxx::println(mat);
-
-				return ml;*/
+				for (int i = 0; i < ml.size(); ++i) {
+					point p = evaluate(ml.point_data(i)[base_axis]);
+					malgo::vector_add(ml.point_data(i), p.data(), dim, ml.point_data(i));
+				}
+				return ml;
 			}		
 		};
 
 
-		/*multiline single_axis_correction(
-			const line& l, 
-			int c,
-			const single_axis_correction_table& cortable
-		) {
-			/*const auto& first_point = l.cfirst();
-			const auto& last_point = l.csecond();
-
-			gxx::println("HelloWorld");
-			assert(corcoords.size() == cormatrix.size1());
-			assert(coords.size() == cormatrix.size2());
-			assert(corcoords.is_sorted());
-
-			float cstart = l.cfirst()[c];
-			float cstop = l.csecond()[c];
-			bool reversed = cstart > cstop;
-
-			float low = reversed ? cstop : cstart;
-			float high = reversed ? cstart : cstop;
-
-			dprln("low", low);
-			dprln("high", high);
-			dprln("reversed", reversed);
-			gxx::println(corcoords);
-
-			auto lower = std::lower_bound(corcoords.begin(), corcoords.end(), low);
-			auto upper = std::upper_bound(corcoords.begin(), corcoords.end(), high);
-			
-			assert(lower != corcoords.end()); 
-			assert(upper != corcoords.end()); 
-			
-			auto distance = std::distance(lower, upper);
-
-			dprln("lower", *lower);
-			dprln("upper", *upper);
-			dprln("distance", distance);
-
-			multiline ml(distance + 2, l.dim());
-			matrix& mat = ml.raw;
-
-			auto first_row = math::make_matrix_row(mat, 0);
-			auto last_row = math::make_matrix_row(mat, mat.size1() - 1);
-			std::copy(first_point.begin(), first_point.end(), first_row.begin());
-			std::copy(last_point.begin(), last_point.end(), last_row.begin());
-			
-
-
-			gxx::print(mat);
-
-			//auto it = ml.raw.begin1();*/
-
-			//auto fr = cormatrix.const_row_accessor(2);
-			//gxx::print(fr);
-			//return ml;
-		//}
+		
 	}
 }
 

@@ -8,14 +8,14 @@ namespace malgo3 {
 	template <typename T>
 	struct xyz {
 		T x, y, z;
-		xyz(){};
+		xyz()=default;
 		xyz(T x, T y, T z) : x(x), y(y), z(z) {}
 		xyz(const xyz& oth) : x(oth.x), y(oth.y), z(oth.z) {}
 
-		/*xyz& operator=(const xyz& oth) {
+		xyz& operator=(const xyz& oth) {
 			x = oth.x; y = oth.y; z = oth.z;
 			return *this;
-		}*/
+		}
 
 		void self_scale(double m) {
 			x *= m; y *= m; z *= m;
@@ -69,6 +69,9 @@ namespace malgo3 {
 	};
 
 	template <typename T>
+	using vector3 = xyz<T>;
+
+	template <typename T>
 	class matrix3 {
 	public:
 		T a11, a12, a13, a21, a22, a23, a31, a32, a33;
@@ -91,6 +94,10 @@ namespace malgo3 {
 				a21*v.x + a22*v.y + a23*v.z,
 				a31*v.x + a32*v.y + a33*v.z
 			);
+		}
+
+		xyz<T> operator*(const xyz<T>& v) const {
+			return dot(v);
 		}
 
 		matrix3 dot(const matrix3& m) const {
@@ -130,9 +137,10 @@ namespace malgo3 {
 	class transform {
 		matrix3<T> rotate;
 		xyz<T> translate;
+		T scl;
 
 		transform() = default;
-		transform(const matrix3<T>& mat, const xyz<T>& vec) : rotate(mat), translate(vec) {}
+		transform(const matrix3<T>& mat, const xyz<T>& vec, T scl) : rotate(mat), translate(vec), scl(scl) {}
 
 		xyz<T> doit(const xyz<T>& a) {
 			return rotate.dot(a).add(translate);
