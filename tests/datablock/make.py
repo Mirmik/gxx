@@ -1,4 +1,4 @@
-#!/usr/bin/env	python3
+#!/usr/bin/env	python
 #coding: utf-8
 
 from licant.modules import submodule
@@ -13,6 +13,8 @@ application("main",
 	modules = [
 		submodule("gxx"),
 		submodule("gxx.dprint", "stdout"),
+		#submodule("gxx.panic", "abort"),
+		#submodule("gxx.print"),
 	]
 )
 

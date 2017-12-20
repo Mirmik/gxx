@@ -28,9 +28,8 @@ int main() {
 	//table[9] = 4;
 
 	gxx::ngeom::single_axis_correction_table<double> cortable(4, 0, corcoords, {1,2}, table);
-	cortable.correction(l);
+	auto ml = cortable.correction(l);
 
-	malgo::vector<float> v1 {3,5,6};
-	malgo::vector<float> v2 {3,5,12};
-	malgo::vector<float> v3 {3,7,12};
+	gxx::println(ml);
+
 }

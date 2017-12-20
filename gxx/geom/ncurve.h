@@ -147,6 +147,12 @@ namespace gxx {
 			double* point_data(size_t i) {
 				return raw.data() + dm * i; 
 			}
+
+			size_t printTo(gxx::io::ostream& o) const {
+				for(int i = 0; i < sz; ++i) {
+					gxx::println(gxx::objbuf<double>(raw.data()+i*dm,dm));
+				}
+			}
 		};
 	}
 }

@@ -1,7 +1,7 @@
 #include <gxx/serialize/scpi.h>
 #include <gxx/print.h>
 
-std::string scpistr = "AXIS0:HEAD:TEMP2:MIRmik 32.33, Dfgrt";
+std::string scpistr = "AXIS0:HEAD:TEMP2:MIRmik 32.33, 32.11";
 
 int main() {
 	gxx::scpi_string_parser strparser(scpistr);

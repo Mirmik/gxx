@@ -116,6 +116,11 @@ namespace gxx {
 			int println() {
 				return write("\r\n", 2);
 			}
+
+			template <typename T>
+			int bwrite(T obj) {
+				return write((char*)&obj, sizeof(T));	
+			}
 		
 		protected: 
 			virtual int writeData(const char* str, size_t sz) = 0;
