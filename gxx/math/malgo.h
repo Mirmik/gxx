@@ -5,11 +5,14 @@
 #include <gxx/math/util.h>
 #include <gxx/util/random.h>
 #include <gxx/print.h>
+#include <gxx/print/array.h>
+#include <gxx/objbuf.h>
 
 namespace malgo {
 
-template <typename T1, typename T2, typename T3> 		void vector_add(T1 A, T2 B, int n, T3 C) ;
-template <typename T1, typename T2, typename T3> 		void vector_sub(T1 A, T2 B, int n, T3 C) ;
+template <typename T1, typename T2, typename T3> 		void vector_add(T1 A, T2 B, int n, T3 C);
+template <typename T1, typename T2, typename T3> 		void vector_sub(T1 A, T2 B, int n, T3 C);
+template <typename T1, typename T2> 					void vector_copy(T1 A, int n, T2 B);
 template <typename T1, typename T2, typename S>			void vector_scale(T1 A, int n, S s, T2 B);
 template <typename T1, typename T2>						void vector_normalize(T1 A, int n, T2 B);
 
@@ -58,11 +61,25 @@ public:
 		malgo::vector_sub(self.begin(), b.begin(), self.size(), ret.begin()); 
 		return ret; 
 	}
+
+	template<typename OV>
+	void copy(const OV& b) {
+		const V& self = *static_cast<const V*>(this);
+		malgo::vector_copy(b.begin(), self.size(), self.begin());
+	}
+
+	template<typename OV>
+	V& operator=(const OV& b) {
+		V& self = *static_cast<V*>(this);
+		malgo::vector_copy(b.begin(), self.size(), self.begin());
+		return self;
+	}
 };
 
 template<typename V, typename T>
 class vector_compact_basic : public vector_basic<V> {
 public:
+	using parent = vector_basic<V>;
 	T* dat;
 	size_t sz;
 
@@ -72,12 +89,13 @@ public:
 	vector_compact_basic(T* dat, size_t sz) : dat(dat), sz(sz) {}
 	vector_compact_basic(const vector_compact_basic&) = default;
 	vector_compact_basic(vector_compact_basic&&) = default;
+	using parent::operator=;
 	
 	T& operator[](size_t i) { return dat[i]; }
 	const T& operator[](size_t i) const { return dat[i]; }
 
 	using iterator = T*;
-	using const_iterator = T*;
+	using const_iterator = const T*;
 
 	iterator begin() { return dat; }
 	const iterator end() { return dat + sz; }
@@ -111,6 +129,7 @@ class vector_compact_proxy : public vector_compact_basic<vector_compact_proxy<T>
 public:
 	using parent = vector_compact_basic<vector_compact_proxy<T>,T>;
 	vector_compact_proxy(T* dat, size_t sz) : parent(dat, sz) {}
+	using parent::operator=;
 };
 
 template<typename T>

@@ -35,7 +35,11 @@ namespace gxx {
 			file.close();
 		}
 
-		trent& settings() {
+		bool ok() {
+			return !m_settings.is_nil();
+		}
+
+		trent& root() {
 			return m_settings;
 		}
 	};

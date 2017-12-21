@@ -1,6 +1,8 @@
 #ifndef GXX_MAJOR_H
 #define GXX_MAJOR_H
 
+#include <stdlib.h>
+
 namespace gxx {
 	namespace math {
 		class coord1_compact {};

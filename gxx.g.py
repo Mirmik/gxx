@@ -23,6 +23,8 @@ module("gxx",
 		"impl/panic_abort.cpp",
 		"string.cpp",
 
+		"util/base64.cpp",
+
 		#"geom/base.cpp",
 		#"geom/ncurve.cpp",
 		#"math/matrix.cpp",
