@@ -32,4 +32,26 @@ int main() {
 
 	gxx::println(ml);
 
+	malgo::vector<int> v1 {3, 6, 8};
+	malgo::vector<int> v2 {3, 6, 9};
+
+	gxx::println(v1 + v2);
+
+	malgo::matrix<int> m(3,3); 
+	m.clean();
+
+	m.row(1)[2] = 33;
+	for (auto& r : m.column(1)) {
+		r = 55;
+	}
+
+	for (auto r = m.begin_column(); r != m.end_column(); ++r) {
+		gxx::println(*r);
+	}
+	
+	gxx::println(m);
+
+
+
+
 }

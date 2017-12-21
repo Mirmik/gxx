@@ -15,5 +15,20 @@ namespace gxx {
 			o.putchar(']');
 		}
 	};
+
+	template<typename T>
+	class matrix_printable {
+	public:
+		size_t printTo(gxx::io::ostream& o) const {
+			const auto& self = *reinterpret_cast<const T*>(this);
+			for (int i = 0; i < self.size1(); ++i) {
+				for (int j = 0; j < self.size2(); ++j) {
+					gxx::print(self(i,j));
+					o.putchar(' ');
+				}
+				o.println();
+			}
+		}
+	};
 }
 #endif

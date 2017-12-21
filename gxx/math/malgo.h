@@ -1,6 +1,7 @@
 #ifndef MALGO_H
 #define MALGO_H
 
+#include <gxx/math/major.h>
 #include <gxx/math/util.h>
 #include <gxx/util/random.h>
 #include <gxx/print.h>
@@ -11,6 +12,9 @@ template <typename T1, typename T2, typename T3> 		void vector_add(T1 A, T2 B, i
 template <typename T1, typename T2, typename T3> 		void vector_sub(T1 A, T2 B, int n, T3 C) ;
 template <typename T1, typename T2, typename S>			void vector_scale(T1 A, int n, S s, T2 B);
 template <typename T1, typename T2>						void vector_normalize(T1 A, int n, T2 B);
+
+template<typename T, typename A = std::allocator<T>> class vector; 
+template<typename T, typename O = gxx::math::row_major, typename A = std::allocator<T>> class matrix;
 
 template<typename V>
 class vector_basic : public gxx::array_printable<V> {
@@ -38,10 +42,26 @@ public:
 		V& self = *static_cast<V*>(this);
 		malgo::vector_normalize(self.begin(), self.size(), self.begin()); 
 	}
+
+	template <typename OV>
+	auto operator+(const OV& b) const& { 
+		const V& self = *static_cast<const V*>(this);
+		vector<decltype(self[0] + b[0])> ret(self.size()); 
+		malgo::vector_add(self.begin(), b.begin(), self.size(), ret.begin()); 
+		return ret; 
+	}
+
+	template <typename OV>
+	auto operator-(const OV& b) const& { 
+		const V& self = *static_cast<const V*>(this);
+		vector<decltype(self[0] - b[0])> ret(self.size()); 
+		malgo::vector_sub(self.begin(), b.begin(), self.size(), ret.begin()); 
+		return ret; 
+	}
 };
 
 template<typename V, typename T>
-class compact_vector_basic : public vector_basic<V> {
+class vector_compact_basic : public vector_basic<V> {
 public:
 	T* dat;
 	size_t sz;
@@ -49,9 +69,9 @@ public:
 	CONSTREF_GETTER(size, sz);
 	CONSTREF_GETTER(data, dat);
 	
-	compact_vector_basic(T* dat, size_t sz) : dat(dat), sz(sz) {}
-	compact_vector_basic(const compact_vector_basic&) = default;
-	compact_vector_basic(compact_vector_basic&&) = default;
+	vector_compact_basic(T* dat, size_t sz) : dat(dat), sz(sz) {}
+	vector_compact_basic(const vector_compact_basic&) = default;
+	vector_compact_basic(vector_compact_basic&&) = default;
 	
 	T& operator[](size_t i) { return dat[i]; }
 	const T& operator[](size_t i) const { return dat[i]; }
@@ -65,10 +85,10 @@ public:
 	const const_iterator end() const { return dat + sz; }	
 };
 
-template<typename T, typename Alloc = std::allocator<T>>
-class vector : public compact_vector_basic<vector<T>, T> {
-	using parent = compact_vector_basic<vector<T>,T>;
-	Alloc alloc;
+template<typename T, typename A>
+class vector : public vector_compact_basic<vector<T>, T> {
+	using parent = vector_compact_basic<vector<T>,T>;
+	A alloc;
 public:
 	vector(size_t sz) : parent(alloc.allocate(sz), sz) {}
 	vector(const gxx::objbuf<T>& buf) : parent(alloc.allocate(buf.size()), buf.size()) { std::copy(buf.begin(), buf.end(), parent::begin()); }
@@ -77,30 +97,139 @@ public:
 	vector(vector&& oth) : parent(oth.data(), oth.size()) { oth.dat = nullptr; oth.sz = 0; }
 	~vector() { alloc.deallocate(parent::dat, parent::sz); parent::dat = nullptr; parent::sz = 0; }
 
-	vector operator+(const vector& b) const& { vector ret(parent::size()); malgo::vector_add(parent::begin(), b.begin(), parent::size(), ret.begin()); return ret; }
+	using parent::operator+;
 	vector operator+(vector&& b) const& { vector ret(std::move(b)); malgo::vector_add(parent::begin(), ret.begin(), parent::size(), ret.begin()); return ret; }
 	vector operator+(const vector& b) && { vector ret(std::move(*this)); malgo::vector_add(ret.begin(), b.begin(), b.size(), ret.begin()); return ret; }
 
-	vector operator-(const vector& b) const& { vector ret(parent::size()); malgo::vector_sub(parent::begin(), b.begin(), parent::size(), ret.begin()); return ret; }
+	using parent::operator-;
 	vector operator-(vector&& b) const& { vector ret(std::move(b)); malgo::vector_sub(parent::begin(), ret.begin(), parent::size(), ret.begin()); return ret; }
 	vector operator-(const vector& b) && { vector ret(std::move(*this)); malgo::vector_sub(ret.begin(), b.begin(), b.size(), ret.begin()); return ret; }
 };
 
 template<typename T>
-class compact_vector_proxy : public compact_vector_basic<compact_vector_proxy<T>, T> {
-	using parent = compact_vector_basic<compact_vector_proxy<T>,T>;
-	compact_vector_proxy(T* dat, size_t sz) : parent(dat, sz) {}
+class vector_compact_proxy : public vector_compact_basic<vector_compact_proxy<T>, T> {
+public:
+	using parent = vector_compact_basic<vector_compact_proxy<T>,T>;
+	vector_compact_proxy(T* dat, size_t sz) : parent(dat, sz) {}
 };
 
 template<typename T>
 struct step_ptr {
 	T* ptr;
 	int step;
-	step_ptr(T* ptr) : ptr(ptr) {}
+	step_ptr(T* ptr, int step) : ptr(ptr), step(step) {}
 	step_ptr& operator++() { ptr += step; return *this; }
 	step_ptr operator++(int) { auto ret = *this; ptr += step; return ret; }
 	T& operator*() { return *ptr; }
+	bool operator!=(const step_ptr& oth) { return ptr != oth.ptr; }
 };
+
+template<typename T>
+struct const_step_ptr {
+	const T* ptr;
+	int step;
+	const_step_ptr(const T* ptr, int step) : ptr(ptr), step(step) {}
+	const_step_ptr& operator++() { ptr += step; return *this; }
+	const_step_ptr operator++(int) { auto ret = *this; ptr += step; return ret; }
+	const T& operator*() { return *ptr; }
+	bool operator!=(const const_step_ptr& oth) { return ptr != oth.ptr; }
+};
+
+template<typename T>
+class vector_stepped_proxy : public vector_basic<vector_stepped_proxy<T>> {
+public:
+	T* dat;
+	size_t sz;
+	size_t step;
+	CONSTREF_GETTER(size, sz);
+	CONSTREF_GETTER(data, dat);
+	T& operator[](size_t i) { return dat[i * step]; }
+	const T& operator[](size_t i) const { return dat[i * step]; }
+	using iterator = step_ptr<T>;
+	using const_iterator = const_step_ptr<T>;
+	using parent = vector_basic<vector_compact_proxy<T>>;
+	vector_stepped_proxy(T* dat, size_t sz, size_t step) : dat(dat), sz(sz), step(step) {}
+	iterator begin() { return iterator(dat, step); }
+	const iterator end() { return iterator(dat + step * sz, step); }
+	const_iterator begin() const { return const_iterator(dat, step); }
+	const const_iterator end() const { return const_iterator(dat + step * sz, step); }	
+};
+
+template <typename T>
+struct iterator_matrix_compact {
+	T* dat;
+	size_t sz2;
+	iterator_matrix_compact(T* dat, size_t sz2) : dat(dat), sz2(sz2) {}
+	T* begin() { return dat; }
+	T* const end() { return dat + sz2; }
+	iterator_matrix_compact& operator++() { dat += sz2; return *this; }
+	iterator_matrix_compact operator++(int) { auto ret = *this; dat += sz2; return ret; }
+	vector_compact_proxy<T> operator*() { return vector_compact_proxy<T>(dat, sz2); }
+	bool operator!=(const iterator_matrix_compact& oth) { return dat != oth.dat; }
+};
+
+template <typename T>
+struct iterator_matrix_compact_column {
+	T* dat;
+	size_t sz1;
+	size_t step;
+	iterator_matrix_compact_column(T* dat, size_t sz1, size_t step) : dat(dat), sz1(sz1), step(step) {}
+	step_ptr<T> begin() { return step_ptr<T>(dat, step); }
+	T* const end() { return step_ptr<T>(dat + sz1 * step, step); }
+	iterator_matrix_compact_column& operator++() { ++dat; return *this; }
+	iterator_matrix_compact_column operator++(int) { auto ret = *this; ++dat; return ret; }
+	vector_stepped_proxy<T> operator*() { return vector_stepped_proxy<T>(dat, sz1, step); }
+	bool operator!=(const iterator_matrix_compact_column& oth) { return dat != oth.dat; }
+
+};
+
+template <typename M>
+class matrix_basic : public gxx::matrix_printable<M> {
+public:
+
+};
+
+template<typename M, typename T, typename O>
+class matrix_compact_basic : public matrix_basic<M> {
+public:
+	T* dat;
+	size_t sz1;
+	size_t sz2;
+
+	CONSTREF_GETTER(data, dat);
+	CONSTREF_GETTER(size1, sz1);
+	CONSTREF_GETTER(size2, sz2);
+
+	matrix_compact_basic(T* dat, size_t sz1, size_t sz2) : dat(dat), sz1(sz1), sz2(sz2) {}
+	void clean() { memset(dat, 0, sz1 * sz2 * sizeof(T)); }
+
+	T& operator()(size_t pos1, size_t pos2) { return gxx::math::major_accessor<T*,O>::ref(dat, pos1, pos2, sz1, sz2); }
+	const T& operator()(size_t pos1, size_t pos2) const { return gxx::math::major_accessor<const T*,O>::const_ref(dat, pos1, pos2, sz1, sz2); }
+
+	vector_compact_proxy<T> row(size_t i) { return vector_compact_proxy<T>(dat + i * sz2, sz2); }			// TODO COLUMN_ORDER
+	vector_stepped_proxy<T> column(size_t i) { return vector_stepped_proxy<T>(dat + i, sz1, sz2); }		// TODO COLUMN_ORDER
+
+	iterator_matrix_compact<T> begin_row() { return iterator_matrix_compact<T>(dat, sz2); }
+	const iterator_matrix_compact<T> end_row() { return iterator_matrix_compact<T>(dat + sz1 * sz2, sz2); }
+
+	iterator_matrix_compact_column<T> begin_column() { return iterator_matrix_compact_column<T>(dat, sz1, sz2); }
+	const iterator_matrix_compact_column<T> end_column() { return iterator_matrix_compact_column<T>(dat + sz2, sz1, sz2); }
+};
+
+template<typename T, typename O, typename A>
+class matrix : public matrix_compact_basic<matrix<T,O>,T,O> {
+	A alloc;
+public:
+	using parent = matrix_compact_basic<matrix<T,O>,T,O>;
+
+	matrix(size_t sz1, size_t sz2) : parent(alloc.allocate(sz1*sz2), sz1, sz2) {}
+};
+
+
+
+
+
+
 
 template <typename T1, typename T2, typename T3>
 void vector_add(T1 A, T2 B, int n, T3 C) {

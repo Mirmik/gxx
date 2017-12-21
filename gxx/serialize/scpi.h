@@ -12,20 +12,16 @@
 namespace gxx {
 	using buffer_literal::operator"" _b;
 
-        class scpi_string_parser : public gxx::io::printable {
-
+	class scpi_string_parser {
 	public:
-                class header : public gxx::io::printable {
-                public:
-                    std::string str;
-                        int num;
-                public:
+		struct header {
+			std::string str;
+			int num;
 			header(const std::string& str, int num) : str(str), num(num) {}
-
-                        size_t printTo(gxx::io::ostream& o) const override {
-                            if (num == -1) return gxx::print(str);
-                            else return gxx::fprint(o, "{}{}", str, num);
-                        }
+			size_t printTo(gxx::io::ostream& o) const override {
+				if (num == -1) return gxx::print(str);
+				else return gxx::fprint(o, "{}{}", str, num);
+			}
 		};
 
 		std::vector<header> 		headers;
@@ -34,9 +30,9 @@ namespace gxx {
 		bool is_error = false;
 
 	public:
-                scpi_string_parser(const std::string& str) {
+		scpi_string_parser(const std::string& str) {
 			gxx::creader reader(str.c_str());
-
+	
 			while(reader.next_is(isalpha)) {
 				std::string tempstr = reader.string_while(isalpha);
 				int tempnum = reader.next_is(isdigit) ? reader.integer() : -1;
@@ -44,19 +40,19 @@ namespace gxx {
 				if (!reader.next_is(':')) break;
 				else reader.skip(); 
 			}
-
-                        reader.skip_while(" ,\n");
-                        while(!reader.next_is("\0?"_b)) {
-                                arguments.emplace_back(reader.string_while(gxx::creader::chars(" ,\0\n?", false)));
-                                reader.skip_while(" ,\n");
+	
+			reader.skip_while(" ,\n");
+			while(!reader.next_is("\0?"_b)) {
+				arguments.emplace_back(reader.string_while(gxx::creader::chars(" ,\0\n?", false)));
+				reader.skip_while(" ,\n");
 			}
-
+	
 			if (reader.next_is('?')) is_question = true;
 		}
 
-                size_t printTo(gxx::io::ostream& o) const override {
-                    return gxx::fprint(o, "({}, {})", headers, arguments);
-                }
+		size_t printTo(gxx::io::ostream& o) const override {
+			return gxx::fprint(o, "({}, {})", headers, arguments);
+		}
 	};
 }
 
