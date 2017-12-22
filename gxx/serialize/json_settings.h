@@ -42,6 +42,10 @@ namespace gxx {
 		trent& root() {
 			return m_settings;
 		}
+
+		trent& operator[](const auto& arg) {
+			return m_settings[arg];
+		}
 	};
 	
 }

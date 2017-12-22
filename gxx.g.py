@@ -17,9 +17,6 @@ module("gxx",
 		"inet/socket.cpp",
 		"logger/targets/stdout.cpp", 
 		#"print.cpp",
-		"serialize/json.cpp",
-		"serialize/gbson.cpp",
-		"serialize/trent.cpp",
 		"impl/panic_abort.cpp",
 		"string.cpp",
 
@@ -53,6 +50,14 @@ module("gxx.format",
 
 module("gxx.print", 
 	sources = ["gxx/print.cpp"],
+)
+
+module("gxx.trent", 
+	sources = ["serialize/json.cpp", "serialize/gbson.cpp", "serialize/trent.cpp"],
+)
+
+module("gxx.geom", 
+	sources = ["gxx/geom/intersect.cpp"],
 )
 
 module("gxx.cxx_support", 

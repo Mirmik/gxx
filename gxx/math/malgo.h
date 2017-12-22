@@ -16,8 +16,17 @@ template <typename T1, typename T2> 					void vector_copy(T1 A, int n, T2 B);
 template <typename T1, typename T2, typename S>			void vector_scale(T1 A, int n, S s, T2 B);
 template <typename T1, typename T2>						void vector_normalize(T1 A, int n, T2 B);
 
+template <typename T1, typename T2, typename T3> 		void vector_add_it(T1 A, T1 EA, T2 B, T3 C);
+template <typename T1, typename T2, typename T3> 		void vector_sub_it(T1 A, T1 EA, T2 B, T3 C);
+template <typename T1, typename T2> 					void vector_copy_it(T1 A, T1 EA, T2 B);
+
+template <typename T1, typename T2, typename T3> 		void matrix_compact_mux(T1 A, T2 B, int m, int p, int n, T3 C);
+
+template <typename I1, typename I2>						void matrix_copy_by_rows(I1 A, I1 EA, I2 B);
+
 template<typename T, typename A = std::allocator<T>> class vector; 
 template<typename T, typename O = gxx::math::row_major, typename A = std::allocator<T>> class matrix;
+template<typename T, typename O = gxx::math::row_major> class matrix_accessor;
 
 template<typename V>
 class vector_basic : public gxx::array_printable<V> {
@@ -76,10 +85,10 @@ public:
 	}
 };
 
-template<typename V, typename T>
-class vector_compact_basic : public vector_basic<V> {
+template<typename T>
+class vector_compact_basic : public vector_basic<vector_compact_basic<T>> {
 public:
-	using parent = vector_basic<V>;
+	using parent = vector_basic<vector_compact_basic<T>>;
 	T* dat;
 	size_t sz;
 
@@ -104,8 +113,8 @@ public:
 };
 
 template<typename T, typename A>
-class vector : public vector_compact_basic<vector<T>, T> {
-	using parent = vector_compact_basic<vector<T>,T>;
+class vector : public vector_compact_basic<T> {
+	using parent = vector_compact_basic<T>;
 	A alloc;
 public:
 	vector(size_t sz) : parent(alloc.allocate(sz), sz) {}
@@ -125,10 +134,10 @@ public:
 };
 
 template<typename T>
-class vector_compact_proxy : public vector_compact_basic<vector_compact_proxy<T>, T> {
+class vector_compact_accessor : public vector_compact_basic<T> {
 public:
-	using parent = vector_compact_basic<vector_compact_proxy<T>,T>;
-	vector_compact_proxy(T* dat, size_t sz) : parent(dat, sz) {}
+	using parent = vector_compact_basic<T>;
+	vector_compact_accessor(T* dat, size_t sz) : parent(dat, sz) {}
 	using parent::operator=;
 };
 
@@ -155,7 +164,7 @@ struct const_step_ptr {
 };
 
 template<typename T>
-class vector_stepped_proxy : public vector_basic<vector_stepped_proxy<T>> {
+class vector_stepped_accessor : public vector_basic<vector_stepped_accessor<T>> {
 public:
 	T* dat;
 	size_t sz;
@@ -166,8 +175,8 @@ public:
 	const T& operator[](size_t i) const { return dat[i * step]; }
 	using iterator = step_ptr<T>;
 	using const_iterator = const_step_ptr<T>;
-	using parent = vector_basic<vector_compact_proxy<T>>;
-	vector_stepped_proxy(T* dat, size_t sz, size_t step) : dat(dat), sz(sz), step(step) {}
+	using parent = vector_basic<vector_stepped_accessor<T>>;
+	vector_stepped_accessor(T* dat, size_t sz, size_t step) : dat(dat), sz(sz), step(step) {}
 	iterator begin() { return iterator(dat, step); }
 	const iterator end() { return iterator(dat + step * sz, step); }
 	const_iterator begin() const { return const_iterator(dat, step); }
@@ -183,7 +192,7 @@ struct iterator_matrix_compact {
 	T* const end() { return dat + sz2; }
 	iterator_matrix_compact& operator++() { dat += sz2; return *this; }
 	iterator_matrix_compact operator++(int) { auto ret = *this; dat += sz2; return ret; }
-	vector_compact_proxy<T> operator*() { return vector_compact_proxy<T>(dat, sz2); }
+	vector_compact_accessor<T> operator*() { return vector_compact_accessor<T>(dat, sz2); }
 	bool operator!=(const iterator_matrix_compact& oth) { return dat != oth.dat; }
 };
 
@@ -194,10 +203,10 @@ struct iterator_matrix_compact_column {
 	size_t step;
 	iterator_matrix_compact_column(T* dat, size_t sz1, size_t step) : dat(dat), sz1(sz1), step(step) {}
 	step_ptr<T> begin() { return step_ptr<T>(dat, step); }
-	T* const end() { return step_ptr<T>(dat + sz1 * step, step); }
+	step_ptr<T> const end() { return step_ptr<T>(dat + sz1 * step, step); }
 	iterator_matrix_compact_column& operator++() { ++dat; return *this; }
 	iterator_matrix_compact_column operator++(int) { auto ret = *this; ++dat; return ret; }
-	vector_stepped_proxy<T> operator*() { return vector_stepped_proxy<T>(dat, sz1, step); }
+	vector_stepped_accessor<T> operator*() { return vector_stepped_accessor<T>(dat, sz1, step); }
 	bool operator!=(const iterator_matrix_compact_column& oth) { return dat != oth.dat; }
 
 };
@@ -205,11 +214,11 @@ struct iterator_matrix_compact_column {
 template <typename M>
 class matrix_basic : public gxx::matrix_printable<M> {
 public:
-
+	/////////////////////
 };
 
-template<typename M, typename T, typename O>
-class matrix_compact_basic : public matrix_basic<M> {
+template<typename T, typename O>
+class matrix_compact_basic : public matrix_basic<matrix_compact_basic<T,O>> {
 public:
 	T* dat;
 	size_t sz1;
@@ -219,29 +228,71 @@ public:
 	CONSTREF_GETTER(size1, sz1);
 	CONSTREF_GETTER(size2, sz2);
 
+	bool ok() { return dat != nullptr; }
+
 	matrix_compact_basic(T* dat, size_t sz1, size_t sz2) : dat(dat), sz1(sz1), sz2(sz2) {}
 	void clean() { memset(dat, 0, sz1 * sz2 * sizeof(T)); }
 
 	T& operator()(size_t pos1, size_t pos2) { return gxx::math::major_accessor<T*,O>::ref(dat, pos1, pos2, sz1, sz2); }
 	const T& operator()(size_t pos1, size_t pos2) const { return gxx::math::major_accessor<const T*,O>::const_ref(dat, pos1, pos2, sz1, sz2); }
 
-	vector_compact_proxy<T> row(size_t i) { return vector_compact_proxy<T>(dat + i * sz2, sz2); }			// TODO COLUMN_ORDER
-	vector_stepped_proxy<T> column(size_t i) { return vector_stepped_proxy<T>(dat + i, sz1, sz2); }		// TODO COLUMN_ORDER
+	vector_compact_accessor<T> row(size_t i) { return vector_compact_accessor<T>(dat + i * sz2, sz2); }			// TODO COLUMN_ORDER
+	vector_stepped_accessor<T> column(size_t i) { return vector_stepped_accessor<T>(dat + i, sz1, sz2); }		// TODO COLUMN_ORDER
+
+	T* begin() { return dat; }
+	T* const end() { return dat + sz1 * sz2; }
+
+	const T* begin() const { return dat; }
+	const T* const end() const { return dat + sz1 * sz2; }
 
 	iterator_matrix_compact<T> begin_row() { return iterator_matrix_compact<T>(dat, sz2); }
 	const iterator_matrix_compact<T> end_row() { return iterator_matrix_compact<T>(dat + sz1 * sz2, sz2); }
 
+	iterator_matrix_compact<T> begin_row() const { return iterator_matrix_compact<T>(dat, sz2); }
+	const iterator_matrix_compact<T> end_row() const { return iterator_matrix_compact<T>(dat + sz1 * sz2, sz2); }
+
 	iterator_matrix_compact_column<T> begin_column() { return iterator_matrix_compact_column<T>(dat, sz1, sz2); }
 	const iterator_matrix_compact_column<T> end_column() { return iterator_matrix_compact_column<T>(dat + sz2, sz1, sz2); }
+
+	auto operator+(const matrix_compact_basic& b) const& { matrix<T> ret(size1(), size2()); malgo::vector_add_it(begin(), end(), b.begin(), ret.begin()); return ret; }
+	auto operator+(matrix_compact_basic&& b) const& { matrix<T> ret(std::move(b)); malgo::vector_add_it(begin(), end(), ret.begin(), ret.begin()); return ret; }
+	auto operator+(const matrix_compact_basic& b) && { matrix<T> ret(std::move(*this)); malgo::vector_add_it(ret.begin(), ret.end(), b.begin(), ret.begin()); return ret; }
+
+	auto operator-(const matrix_compact_basic& b) const& { matrix<T> ret(size1(), size2()); malgo::vector_sub_it(begin(), end(), b.begin(), ret.begin()); return ret; }
+	auto operator-(matrix_compact_basic&& b) const& { matrix<T> ret(std::move(b)); malgo::vector_sub_it(begin(), end(), ret.begin(), ret.begin()); return ret; }
+	auto operator-(const matrix_compact_basic& b) && { matrix<T> ret(std::move(*this)); malgo::vector_sub_it(ret.begin(), ret.end(), b.begin(), ret.begin()); return ret; }
+
+	auto dot(const matrix_compact_basic& b) const& { 
+		if (size2() != b.size1()) return matrix<T>();
+		matrix<T> ret(size1(), b.size2()); 
+		malgo::matrix_compact_mux(begin(), b.begin(), size1(), size2(), b.size2(), ret.begin()); 
+		return ret; 
+	}
+};
+
+template<typename T, typename O>
+class matrix_accessor : public matrix_compact_basic<T,O>  {
+	using parent = matrix_compact_basic<T,O>;
+public:
+	matrix_accessor(T* dat, size_t sz1, size_t sz2) : parent(dat,sz1,sz2) {}
 };
 
 template<typename T, typename O, typename A>
-class matrix : public matrix_compact_basic<matrix<T,O>,T,O> {
+class matrix : public matrix_compact_basic<T,O> {
 	A alloc;
 public:
-	using parent = matrix_compact_basic<matrix<T,O>,T,O>;
-
+	using parent = matrix_compact_basic<T,O>;
+	matrix() : parent(nullptr,0,0) {}
 	matrix(size_t sz1, size_t sz2) : parent(alloc.allocate(sz1*sz2), sz1, sz2) {}
+	
+	template <typename OM> //TODO: для компактных матриц оптимизировать векторным копированием.
+	matrix(const OM& oth) : parent(alloc.allocate(oth.sz1*oth.sz2), oth.sz1, oth.sz2) {
+		malgo::vector_copy_it(oth.begin(), oth.end(), parent::begin());
+	}
+
+	//matrix(const matrix& oth) : parent(alloc.allocate(oth.sz1*oth.sz2), oth.sz1, oth.sz2) {
+	//	malgo::vector_copy(oth.begin_row(), oth.end_row(), parent::begin_row());
+	//}
 };
 
 
@@ -256,8 +307,18 @@ void vector_add(T1 A, T2 B, int n, T3 C) {
 }
 
 template <typename T1, typename T2, typename T3>
+void vector_add_it(T1 A, T1 EA, T2 B, T3 C) {
+	while(A != EA) *C++ = *A++ + *B++;
+}
+
+template <typename T1, typename T2, typename T3>
 void vector_sub(T1 A, T2 B, int n, T3 C) {
 	while(n--) *C++ = *A++ - *B++;
+}
+
+template <typename T1, typename T2, typename T3>
+void vector_sub_it(T1 A, T1 EA, T2 B, T3 C) {
+	while(A != EA) *C++ = *A++ - *B++;
 }
 
 //template <typename T1, typename T2>
@@ -280,10 +341,15 @@ void vector_copy( const T1* A, int n, T2* B) {
 	while(n--) *B++ = *A++;
 }
 
-template <typename T1, typename T2>
-void matrix_copy( const T1* A, int m, int n, T2* B) {
-	vector_copy(A,m*n,B);
+template <typename I1, typename I2>
+void vector_copy_it( I1 A, I1 EA, I2 B) {
+	while(A != EA) *B++ = *A++;
 }
+
+//template <typename T1, typename T2>
+//void matrix_copy( const T1* A, int m, int n, T2* B) {
+//	vector_copy(A,m*n,B);
+//}
 
 template <typename T1, typename T2>
 void vector_copy_uncompact( T1 A, int n, T2 B, int as, int bs) {
@@ -304,7 +370,7 @@ void vector_random( T* A, int n, auto min, auto max) {
 }
 
 template <typename T1, typename T2, typename T3>
-void matrix_mux(T1* A, T2* B, int m, int p, int n, T3* C)
+void matrix_compact_mux(T1 A, T2 B, int m, int p, int n, T3 C)
 {
 	// A = input matrix (m x p)
 	// B = input matrix (p x n)
@@ -313,11 +379,11 @@ void matrix_mux(T1* A, T2* B, int m, int p, int n, T3* C)
 	// n = number of columns in B
 	// C = output matrix = A*B (m x n)
 	int i, j, k;
-	for (i=0;i<m;i++)
-		for(j=0;j<n;j++)
+	for (i=0;i<m;++i)
+		for(j=0;j<n;++j)
 		{
 			C[n*i+j]=0;
-			for (k=0;k<p;k++)
+			for (k=0;k<p;++k)
 				C[n*i+j]= C[n*i+j]+A[p*i+k]*B[n*k+j];
 		}
 }
@@ -373,6 +439,14 @@ void vector_normalize(T1 A, size_t n, T2 B) {
 
 void vector_quick_normalize(float* A, size_t n, float* B) {
 	vector_scale(A, n, vector_quick_invabs(A,n), B);
+}
+
+template <typename I1, typename I2>	
+void matrix_copy_by_rows(I1 A, I1 EA, I2 B) {
+	while(A != EA) {
+		malgo::vector_copy_it(A.begin(), A.end(), B.begin());
+		++A; ++B;
+	}
 }
 
 /*
