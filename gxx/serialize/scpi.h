@@ -18,7 +18,7 @@ namespace gxx {
 			std::string str;
 			int num;
 			header(const std::string& str, int num) : str(str), num(num) {}
-			size_t printTo(gxx::io::ostream& o) const override {
+			size_t printTo(gxx::io::ostream& o) const {
 				if (num == -1) return gxx::print(str);
 				else return gxx::fprint(o, "{}{}", str, num);
 			}
@@ -50,7 +50,7 @@ namespace gxx {
 			if (reader.next_is('?')) is_question = true;
 		}
 
-		size_t printTo(gxx::io::ostream& o) const override {
+		size_t printTo(gxx::io::ostream& o) const {
 			return gxx::fprint(o, "({}, {})", headers, arguments);
 		}
 	};

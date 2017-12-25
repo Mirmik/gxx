@@ -5,6 +5,7 @@
 #include <array>
 #include <vector>
 #include <map>
+#include <set>
 
 namespace gxx {
 	template<typename T, typename A> 

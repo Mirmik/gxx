@@ -9,22 +9,14 @@ scriptq.execute("gxx/diag/diag.g.py")
 module("gxx", 
 	srcdir = "gxx",
 	sources = [
-#		"format.cpp", 
-		#"arglist.cpp", 
 		"io/fstream_posix.cpp",
 		"io/fstream_unix.cpp",
 		"inet/socket_unix.cpp",
 		"inet/socket.cpp",
 		"logger/targets/stdout.cpp", 
-		#"print.cpp",
 		"impl/panic_abort.cpp",
 		"string.cpp",
-
 		"util/base64.cpp",
-
-		#"geom/base.cpp",
-		#"geom/ncurve.cpp",
-		#"math/matrix.cpp",
 	],
 
 	include_paths = ["."]
@@ -53,7 +45,7 @@ module("gxx.print",
 )
 
 module("gxx.trent", 
-	sources = ["serialize/json.cpp", "serialize/gbson.cpp", "serialize/trent.cpp"],
+	sources = ["gxx/serialize/json.cpp", "gxx/serialize/gbson.cpp", "gxx/serialize/trent.cpp"],
 )
 
 module("gxx.geom", 

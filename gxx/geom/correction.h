@@ -10,7 +10,7 @@ namespace gxx {
 		template <typename T>
 		class single_axis_correction_table {
 			std::vector<T> coords;
-			std::vector<T> table;
+			malgo::matrix<T> table;
 			uint8_t base_axis;
 			size_t dim;
 
@@ -20,14 +20,15 @@ namespace gxx {
 				uint8_t base, 
 				const std::vector<T>& corcoords,
 				const std::vector<uint8_t>& numcoords,
-				const std::vector<T>& cormatrix
-			) : dim(dim), base_axis(base), coords(corcoords), table(corcoords.size()*dim) {
+				const malgo::matrix<T>& cormatrix
+			) : dim(dim), base_axis(base), coords(corcoords), table(corcoords.size(), dim) {
 
 				for (int i = 0; i < numcoords.size(); ++i) {
 					auto ax = numcoords[i];
 					
 					//Копируем столбцы в расширенную таблицу
-					malgo::vector_copy_uncompact(cormatrix.data() + i, coords.size(),  table.data() + ax, numcoords.size(), dim);
+					//malgo::vector_copy_it(cormatrix.data() + i, coords.size(),  table.data() + ax, numcoords.size(), dim);
+					table.column(ax) = cormatrix.column(i);
 				}
 
 				//gxx::print_as_matrix(table, dim);

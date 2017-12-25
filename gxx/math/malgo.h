@@ -239,6 +239,9 @@ public:
 	vector_compact_accessor<T> row(size_t i) { return vector_compact_accessor<T>(dat + i * sz2, sz2); }			// TODO COLUMN_ORDER
 	vector_stepped_accessor<T> column(size_t i) { return vector_stepped_accessor<T>(dat + i, sz1, sz2); }		// TODO COLUMN_ORDER
 
+	const vector_compact_accessor<T> row(size_t i) const { return vector_compact_accessor<T>(dat + i * sz2, sz2); }			// TODO COLUMN_ORDER
+	const vector_stepped_accessor<T> column(size_t i) const { return vector_stepped_accessor<T>(dat + i, sz1, sz2); }		// TODO COLUMN_ORDER
+
 	T* begin() { return dat; }
 	T* const end() { return dat + sz1 * sz2; }
 
