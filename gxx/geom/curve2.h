@@ -13,6 +13,8 @@ namespace gxx { namespace curve2 {
 		virtual bool is_periodic() { return false; }
 		virtual double tmin() { return 0; }
 		virtual double tmax() { return 0; }
+		virtual ~curve() {}
+		virtual size_t printTo(gxx::io::ostream& o) const { return gxx::print("curve2"); }		
 	};
 
 	class line : public curve {

@@ -6,6 +6,8 @@
 #include <cmath>
 
 namespace malgo3 {
+	static constexpr double standart_precision = 0.00000001;
+
 	template <typename T>
 	struct vector3 {
 		T x, y, z;
@@ -18,7 +20,7 @@ namespace malgo3 {
 			return *this;
 		}
 
-		bool is_same(const vector3& oth, double prec) {
+		bool is_same(const vector3& oth, double prec = malgo3::standart_precision) {
 			auto diff = sub(oth);
 			return diff.abs0() < prec;
 		}

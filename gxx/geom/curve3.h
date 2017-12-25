@@ -14,6 +14,11 @@ namespace gxx { namespace curve3 {
 		virtual bool is_periodic() { return false; }
 		virtual double tmin() { return 0; }
 		virtual double tmax() { return 0; }
+		virtual ~curve() {}
+
+		virtual size_t printTo(gxx::io::ostream& o) const {
+			return gxx::print("curve3");
+		}; 
 	};
 
 	class line : public curve {
@@ -30,6 +35,10 @@ namespace gxx { namespace curve3 {
 
 		double tmin() override { return - geom3::infinity; }
 		double tmax() override { return   geom3::infinity; }
+
+		size_t printTo(gxx::io::ostream& o) const {
+			return gxx::fprint("line(l:{},d:{})",l,d);
+		} 
 	};
 
 	/*class circle : public curve {

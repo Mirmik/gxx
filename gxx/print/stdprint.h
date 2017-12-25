@@ -22,6 +22,19 @@ namespace gxx {
 		}
 	};
 
+	template<typename T, typename A> 
+	struct print_functions<std::set<T,A>> {
+		static int print(gxx::io::ostream& o, std::set<T,A> const& vec) {
+			o.putchar('[');
+			int s = vec.size();
+			for (const auto& g : vec) {
+				gxx::print(o, g);
+				if (--s) o.putchar(' ');
+			}
+			o.putchar(']');
+		}
+	};
+
 	template<typename T, size_t N> 
 	struct print_functions<std::array<T,N>> {
 		static int print(gxx::io::ostream& o, std::array<T,N> const& vec) {

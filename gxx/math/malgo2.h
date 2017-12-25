@@ -1,6 +1,8 @@
 #ifndef MALGO2_H
 #define MALGO2_H
 
+#include <gxx/print.h>
+
 namespace malgo2 {
 	template <typename T>
 	class vector2 {

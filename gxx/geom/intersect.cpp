@@ -3,12 +3,12 @@
 namespace gxx { namespace geom3 {
 
 
-	intersect_curve_curve_s intersect_infline_infline(const line& l1, const line& l2) {
+	/*intersect_curve_curve_s intersect_infline_infline(const line& l1, const line& l2) {
 		auto& loc1 = l1.loc();
 		auto& loc2 = l2.loc();
 		auto& dir1 = l1.dir();
 		auto& dir2 = l2.dir();
-	}
+	}*/
 
 	/*intersect_curve_curve_s intersect_line_curve(const line& l, const curve& crv) {
 		if (typeid(crv) == typeid(line)) { return intersect_line_line(l, crv); }

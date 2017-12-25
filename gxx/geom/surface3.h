@@ -6,6 +6,7 @@ namespace gxx {
 		using namespace geom3;
 
 		class surface {
+		public:
 			virtual point d0(double v, double u) = 0; 
 			virtual bool is_v_closed() { return false; }
 			virtual bool is_v_periodic() { return false; }
@@ -15,6 +16,8 @@ namespace gxx {
 			virtual double vmax() { return 0; }
 			virtual double umin() { return 0; }
 			virtual double umax() { return 0; }
+			virtual ~surface() {}
+			virtual size_t printTo(gxx::io::ostream& o) const { return gxx::print("surface"); }
 		};
 
 		class cylinder : public surface {

@@ -4,6 +4,7 @@
 #include <gxx/math/malgo3.h>
 #include <gxx/util/setget.h>
 #include <gxx/print.h>
+#include <limits>
 
 namespace gxx { namespace geom3 {
 	constexpr static double infinity = std::numeric_limits<double>::infinity();
@@ -65,6 +66,13 @@ namespace gxx { namespace geom3 {
 
 			dy = n.vecmul(vx); 
 			dx = dy.vecmul(n); 
+		}
+
+		axis2(point a, point b, point c) : l(a) {
+			dx = direction(b-a);
+			auto dpy = b-c;
+			n = dx.vecmul(dpy);
+			dy = direction(n.vecmul(dx));
 		}
 
 		CONSTREF_GETTER(loc, l);

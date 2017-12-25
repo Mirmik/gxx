@@ -57,7 +57,7 @@ module("gxx.trent",
 )
 
 module("gxx.geom", 
-	sources = ["gxx/geom/intersect.cpp"],
+	sources = ["gxx/geom/intersect.cpp", "gxx/geom/topo.cpp"],
 )
 
 module("gxx.cxx_support", 
