@@ -6,28 +6,32 @@
 #include <gxx/print.h>
 
 namespace gxx { namespace geom3 {
-	class point : public malgo3::xyz<double> {
+	constexpr static double infinity = std::numeric_limits<double>::infinity();
+	constexpr static double precision = 0.00000001;
+
+	class point : public malgo3::vector3<double> {
 	public: 
-		point();
-		point(double x, double y, double z) : malgo3::xyz<double>(x,y,z) {}
-		point(const point& oth) : malgo3::xyz<double>(oth) {}
-		point(const malgo3::xyz<double>& oth) : malgo3::xyz<double>(oth) {}
+		point() = default;
+		point(double x, double y, double z) : malgo3::vector3<double>(x,y,z) {}
+		point(const point& oth) : malgo3::vector3<double>(oth) {}
+		point(const malgo3::vector3<double>& oth) : malgo3::vector3<double>(oth) {}
+		double distance(const point& oth) { return sub(oth).abs(); }
 	};
 
-	class vector : public malgo3::xyz<double> {
+	class vector : public malgo3::vector3<double> {
 	public:
-		vector();
-		vector(double x, double y, double z) : malgo3::xyz<double>(x,y,z) {}
-		vector(const vector& oth) : malgo3::xyz<double>(oth) {}
-		vector(const malgo3::xyz<double>& oth) : malgo3::xyz<double>(oth) {}
+		vector() = default;
+		vector(double x, double y, double z) : malgo3::vector3<double>(x,y,z) {}
+		vector(const vector& oth) : malgo3::vector3<double>(oth) {}
+		vector(const malgo3::vector3<double>& oth) : malgo3::vector3<double>(oth) {}
 	};
 
-	class direction : public malgo3::xyz<double> {
+	class direction : public malgo3::vector3<double> {
 	public:
-		direction(){};
-		direction(double x, double y, double z, bool norm = true) : malgo3::xyz<double>(x,y,z) { if (norm) self_normalize(); }
-		direction(const direction& oth) : malgo3::xyz<double>(oth) {}
-		direction(const malgo3::xyz<double>& oth, bool norm = true) : malgo3::xyz<double>(oth) { if (norm) self_normalize(); }
+		direction() : malgo3::vector3<double>(0,0,1) {};
+		direction(double x, double y, double z, bool norm = true) : malgo3::vector3<double>(x,y,z) { if (norm) self_normalize(); }
+		direction(const direction& oth) : malgo3::vector3<double>(oth) {}
+		direction(const malgo3::vector3<double>& oth, bool norm = true) : malgo3::vector3<double>(oth) { if (norm) self_normalize(); }
 	};
 
 	class axis {
@@ -49,6 +53,16 @@ namespace gxx { namespace geom3 {
 		direction dy;
 	
 		axis2(point l, direction n, direction vx) : l(l), n(n) {
+			dy = n.vecmul(vx); 
+			dx = dy.vecmul(n); 
+		}
+
+		axis2(point l, direction n) : l(l), n(n) {
+			vector vx;
+
+			if (n.is_same(vector(0,0,1), precision)) vx = vector(1,0,0);
+			else vx = direction(0,0,1);
+
 			dy = n.vecmul(vx); 
 			dx = dy.vecmul(n); 
 		}
@@ -101,7 +115,7 @@ namespace gxx { namespace geom3 {
 	inline axis2 Ozy() { return axis2(origin(), direction(1,0,0), direction(0,0,1)); }
 	inline axis2 Oxz() { return axis2(origin(), direction(0,1,0), direction(1,0,0)); }*/
 	
-	inline axis3 Oxyz() { return axis3(origin(), direction(0,0,1), direction(1,0,0)); }
+	inline axis3 Ovector3() { return axis3(origin(), direction(0,0,1), direction(1,0,0)); }
 }}
 
 #endif

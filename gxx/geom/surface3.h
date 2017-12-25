@@ -7,24 +7,23 @@ namespace gxx {
 
 		class surface {
 			virtual point d0(double v, double u) = 0; 
+			virtual bool is_v_closed() { return false; }
+			virtual bool is_v_periodic() { return false; }
+			virtual bool is_u_closed() { return false; }
+			virtual bool is_u_periodic() { return false; }
+			virtual double vmin() { return 0; }
+			virtual double vmax() { return 0; }
+			virtual double umin() { return 0; }
+			virtual double umax() { return 0; }
 		};
 
-		class bounded_surface : public surface {
-		public:
-			double vmin, vmax, umin, umax;	
-			bool vcls, vper, ucls, uper;
-			bounded_surface(double vmin, double vmax, double umin, double umax, bool vcls, bool vper, bool ucls, bool uper) 
-				: vmin(vmin), vmax(vmax), umin(umin), umax(umax), vcls(vcls), vper(vper), ucls(ucls), uper(uper) {}
-		};
-
-		class cylinder : public bounded_surface {
+		class cylinder : public surface {
 		public:
 			double r;
 			double h;
 			axis3 ax3;
 
-			cylinder(double r, double h, const axis3& ax3) : r(r), h(h), ax3(ax3), 
-				bounded_surface(0, 2*M_PI, 0, 1, true, true, false, false) {}
+			cylinder(double r, double h, const axis3& ax3) : r(r), h(h), ax3(ax3) {}
 
 			point d0(double v, double u) {
 				double c = r * cos(v);
@@ -38,13 +37,12 @@ namespace gxx {
 			}
 		};
 
-		class sphere : public bounded_surface {
+		class sphere : public surface {
 		public:
 			double r;
 			axis3 ax3;
 
-			sphere(double r, double h, const axis3& ax3) : r(r), ax3(ax3), 
-				bounded_surface(0, 2*M_PI, -M_PI/2, M_PI/2, true, true, false, false) {}
+			sphere(double r, double h, const axis3& ax3) : r(r), ax3(ax3) {}
 
 			point d0(double v, double u) override {
 				double a = r * cos(v) * cos(u);
@@ -56,6 +54,17 @@ namespace gxx {
 					ax3.l.z + ax3.dx.z * a + ax3.dy.z * b + ax3.dz.z * c
 				);
 			}
+		};
+
+		class plane : public surface {
+		public:
+			axis2 ax2;
+
+			plane(const axis2& ax2) : ax2(ax2) {}
+
+			point d0(double v, double u) override {
+				return point(ax2.loc() + ax2.dirx().scale(v) + ax2.diry().scale(u));				
+			} 
 		};
 	}
 }

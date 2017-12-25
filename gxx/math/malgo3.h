@@ -3,34 +3,40 @@
 
 #include <gxx/math/util.h>
 #include <gxx/print.h>
+#include <cmath>
 
 namespace malgo3 {
 	template <typename T>
-	struct xyz {
+	struct vector3 {
 		T x, y, z;
-		xyz()=default;
-		xyz(T x, T y, T z) : x(x), y(y), z(z) {}
-		xyz(const xyz& oth) : x(oth.x), y(oth.y), z(oth.z) {}
+		vector3()=default;
+		vector3(T x, T y, T z) : x(x), y(y), z(z) {}
+		vector3(const vector3& oth) : x(oth.x), y(oth.y), z(oth.z) {}
 
-		xyz& operator=(const xyz& oth) {
+		vector3& operator=(const vector3& oth) {
 			x = oth.x; y = oth.y; z = oth.z;
 			return *this;
+		}
+
+		bool is_same(const vector3& oth, double prec) {
+			auto diff = sub(oth);
+			return diff.abs0() < prec;
 		}
 
 		void self_scale(double m) {
 			x *= m; y *= m; z *= m;
 		}
 
-		xyz scale(double m) {
-			return xyz(x*m, y*m, z*m);
+		vector3 scale(double m) const {
+			return vector3(x*m, y*m, z*m);
 		}
 
 		void self_rscale(double m) {
 			x /= m; y /= m; z /= m;
 		}
 
-		xyz rscale(double m) {
-			return xyz(x/m, y/m, z/m);
+		vector3 rscale(double m) {
+			return vector3(x/m, y/m, z/m);
 		}
 
 		double abssqr() {
@@ -41,21 +47,33 @@ namespace malgo3 {
 			return sqrt(abssqr());
 		}	
 
+		T abs0() {
+			return std::max(std::max(std::fabs(x), std::fabs(y)), std::fabs(z));
+		}	
+
 		void self_normalize() {
 			double mod = abs();
 			return self_rscale(mod);
 		}
 
-		xyz add(const xyz& b) {
-			return xyz(x + b.x, y + b.y, z + b.z);
+		vector3 add(const vector3& b) const {
+			return vector3(x + b.x, y + b.y, z + b.z);
 		}		
 
-		xyz sub(const xyz& b) {
-			return xyz(x - b.x, y - b.y, z - b.z);
+		inline vector3 operator+(const vector3& b) const {
+			return add(b);
 		}		
 
-		xyz vecmul(const xyz& b) {
-			return xyz(y*b.z - z*b.y, z*b.x - x*b.z, x*b.y - y*b.x);
+		vector3 sub(const vector3& b) const {
+			return vector3(x - b.x, y - b.y, z - b.z);
+		}		
+
+		inline vector3 operator-(const vector3& b) const {
+			return sub(b);
+		}		
+
+		vector3 vecmul(const vector3& b) {
+			return vector3(y*b.z - z*b.y, z*b.x - x*b.z, x*b.y - y*b.x);
 		}
 
 		size_t printTo(gxx::io::ostream& o) const {	return gxx::fprint(o, "({},{},{})", x, y, z); }
@@ -67,9 +85,6 @@ namespace malgo3 {
 			r & z;
 		}
 	};
-
-	template <typename T>
-	using vector3 = xyz<T>;
 
 	template <typename T>
 	class matrix3 {
@@ -88,15 +103,15 @@ namespace malgo3 {
 			return a11*(a22*a33-a23*a32) - a12*(a21*a33+a23*a31) + a13*(a21*a32-a22*a31); 
 		}
 
-		xyz<T> dot(const xyz<T>& v) const {
-			return xyz<T>(
+		vector3<T> dot(const vector3<T>& v) const {
+			return vector3<T>(
 				a11*v.x + a12*v.y + a13*v.z,
 				a21*v.x + a22*v.y + a23*v.z,
 				a31*v.x + a32*v.y + a33*v.z
 			);
 		}
 
-		xyz<T> operator*(const xyz<T>& v) const {
+		vector3<T> operator*(const vector3<T>& v) const {
 			return dot(v);
 		}
 
@@ -136,13 +151,13 @@ namespace malgo3 {
 	template <typename T>
 	class transform {
 		matrix3<T> rotate;
-		xyz<T> translate;
+		vector3<T> translate;
 		T scl;
 
 		transform() = default;
-		transform(const matrix3<T>& mat, const xyz<T>& vec, T scl) : rotate(mat), translate(vec), scl(scl) {}
+		transform(const matrix3<T>& mat, const vector3<T>& vec, T scl) : rotate(mat), translate(vec), scl(scl) {}
 
-		xyz<T> doit(const xyz<T>& a) {
+		vector3<T> doit(const vector3<T>& a) {
 			return rotate.dot(a).add(translate);
 		}
 	};
