@@ -119,8 +119,17 @@ namespace gxx {
 				dump(buf.data(), buf.size());
 			} */
 
+			void dump(char i) { dump_data((char*)&i, sizeof(i)); }
+			void dump(short i) { dump_data((char*)&i, sizeof(i)); }
+			void dump(int i) { dump_data((char*)&i, sizeof(i)); }
+			void dump(long i) { dump_data((char*)&i, sizeof(i)); } 
 			void dump(unsigned char i) { dump_data((char*)&i, sizeof(i)); }
+			void dump(unsigned short i) { dump_data((char*)&i, sizeof(i)); }
+			void dump(unsigned int i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(unsigned long i) { dump_data((char*)&i, sizeof(i)); } 
+			void dump(float i) { dump_data((char*)&i, sizeof(i)); }
+			void dump(double i) { dump_data((char*)&i, sizeof(i)); }
+			void dump(long double i) { dump_data((char*)&i, sizeof(i)); } 
 
 			/*template<typename T>
 			void dump(const gxx::archive::data<T> dat) {
