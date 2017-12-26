@@ -39,6 +39,10 @@ namespace gxx {
 		return outdata;
 	}
 	
+	std::string base64_encode(std::string const& str) {
+		return base64_encode((const uint8_t*)str.data(), str.size());
+	}
+
 	std::string base64_decode(std::string const& encoded_string) {
 		int in_len = encoded_string.size();
 		int i = 0;

@@ -9,10 +9,11 @@ namespace gxx {
 	namespace ngeom {
 		template <typename T>
 		class single_axis_correction_table {
+		public:
 			std::vector<T> coords;
 			malgo::matrix<T> table;
 			uint8_t base_axis;
-			size_t dim;
+			//size_t dim;
 
 		public:
 			single_axis_correction_table(	
@@ -21,7 +22,7 @@ namespace gxx {
 				const std::vector<T>& corcoords,
 				const std::vector<uint8_t>& numcoords,
 				const malgo::matrix<T>& cormatrix
-			) : dim(dim), base_axis(base), coords(corcoords), table(corcoords.size(), dim) {
+			) : base_axis(base), coords(corcoords), table(corcoords.size(), dim) {
 
 				for (int i = 0; i < numcoords.size(); ++i) {
 					auto ax = numcoords[i];
@@ -29,15 +30,26 @@ namespace gxx {
 					//Копируем столбцы в расширенную таблицу
 					//malgo::vector_copy_it(cormatrix.data() + i, coords.size(),  table.data() + ax, numcoords.size(), dim);
 					table.column(ax) = cormatrix.column(i);
+
+					gxx::println(ax);
+					gxx::println(cormatrix);
+					gxx::println(table);
 				}
 
 				//gxx::print_as_matrix(table, dim);
 			}
+
+			single_axis_correction_table(	
+				uint8_t base, 
+				const std::vector<T>& coords,
+				const malgo::matrix<T>& table
+			) : base_axis(base), coords(coords), table(table) {}
 			
 			//vector evaluate_point(double base) {
 			//	return linear_interpolation_matrix_rows(base, coords, table);
 			//}			
 			point evaluate(double coord) {
+				int dim = table.size2();
 				int anum;
 				auto lower = std::upper_bound(coords.begin(), coords.end(), coord);
 				if (lower == coords.end()) { 
@@ -76,6 +88,8 @@ namespace gxx {
 			}
 
 			multiline correction( const line& l ) {
+				int dim = table.size2();
+
 				const auto& first_point = l.pnt1();
 				const auto& last_point = l.pnt2();
 				double cstart = l.pnt1()[base_axis];
@@ -108,6 +122,13 @@ namespace gxx {
 				}
 				return ml;
 			}		
+
+			template<typename R>
+			void reflect(R& r) {
+				r & base_axis;
+				r & table;
+				r & coords;
+			}
 		};
 
 

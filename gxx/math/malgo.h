@@ -7,6 +7,7 @@
 #include <gxx/print.h>
 #include <gxx/print/array.h>
 #include <gxx/objbuf.h>
+#include <gxx/serialize/serialize.h>
 
 namespace malgo {
 
@@ -73,7 +74,7 @@ public:
 
 	template<typename OV>
 	void copy(const OV& b) {
-		const V& self = *static_cast<const V*>(this);
+		V& self = *static_cast<V*>(this);
 		malgo::vector_copy(b.begin(), self.size(), self.begin());
 	}
 
@@ -166,6 +167,7 @@ struct const_step_ptr {
 template<typename T>
 class vector_stepped_accessor : public vector_basic<vector_stepped_accessor<T>> {
 public:
+	using parent = vector_basic<vector_stepped_accessor<T>>;
 	T* dat;
 	size_t sz;
 	size_t step;
@@ -175,12 +177,18 @@ public:
 	const T& operator[](size_t i) const { return dat[i * step]; }
 	using iterator = step_ptr<T>;
 	using const_iterator = const_step_ptr<T>;
-	using parent = vector_basic<vector_stepped_accessor<T>>;
+
+	//using parent::operator=;
+	vector_stepped_accessor& operator=(const vector_stepped_accessor& vec) {
+		return parent::operator=(vec);
+	}
+
 	vector_stepped_accessor(T* dat, size_t sz, size_t step) : dat(dat), sz(sz), step(step) {}
 	iterator begin() { return iterator(dat, step); }
 	const iterator end() { return iterator(dat + step * sz, step); }
 	const_iterator begin() const { return const_iterator(dat, step); }
 	const const_iterator end() const { return const_iterator(dat + step * sz, step); }	
+	size_t size() { return sz; }
 };
 
 template <typename T>
@@ -271,6 +279,22 @@ public:
 		malgo::matrix_compact_mux(begin(), b.begin(), size1(), size2(), b.size2(), ret.begin()); 
 		return ret; 
 	}
+
+	template<typename M>
+	void serialize(M& r) const {
+		r & sz1;
+		r & sz2;
+		r & gxx::archive::data<T>{ dat, sz1 * sz2 };	
+	}
+
+	template<typename M>
+	void deserialize(M& r) const {
+		size_t dsz1, dsz2;
+		r & dsz1;
+		r & dsz2;
+		assert(sz1 == dsz1 && sz2 == dsz2);
+		r & gxx::archive::data<T>(dat, sz1 * sz2);	
+	}
 };
 
 template<typename T, typename O>
@@ -296,6 +320,17 @@ public:
 	//matrix(const matrix& oth) : parent(alloc.allocate(oth.sz1*oth.sz2), oth.sz1, oth.sz2) {
 	//	malgo::vector_copy(oth.begin_row(), oth.end_row(), parent::begin_row());
 	//}
+
+	template<typename M>
+	void deserialize(M& r) const {
+		if (parent::dat) {
+			alloc.deallocate(parent::dat, parent::sz1 * parent::sz2);
+		}
+		r & parent::sz1;
+		r & parent::sz2;
+		parent::dat = alloc.allocate(parent::sz1 * parent::sz2);
+		r & gxx::archive::data<T>(parent::dat, parent::sz1 * parent::sz2);	
+	}
 };
 
 
@@ -340,7 +375,7 @@ void matrix_add(const T1 *A, const T2 *B, int m, int n, T3 *C) {
 }
 
 template <typename T1, typename T2>
-void vector_copy( const T1* A, int n, T2* B) {
+void vector_copy(T1 A, int n, T2 B) {
 	while(n--) *B++ = *A++;
 }
 

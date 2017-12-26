@@ -94,6 +94,11 @@ namespace gxx {
 		void init(long i);
 		void init(long long i);
 
+		void init(unsigned short i);
+		void init(unsigned int i);
+		void init(unsigned long i);
+		void init(unsigned long long i);
+
 		void init_array(size_t reserve);
 		void invalidate();
 
@@ -103,27 +108,45 @@ namespace gxx {
 		trent& operator[](const std::string& key);
 		trent& operator[](const gxx::buffer& key);
 
+		trent& at(int i);
+		trent& at(const char* key);
+		trent& at(const std::string& key);
+		trent& at(const gxx::buffer& key);
+
+		const trent& at(int i) const;
+		const trent& at(const char* key) const;
+		const trent& at(const std::string& key) const;
+		const trent& at(const gxx::buffer& key) const;
+
 		std::map<std::string, trent>& as_dictionary();
 		result<std::map<std::string, trent>&> as_dictionary_critical();
 
 		std::vector<trent>& as_array();
-		result<std::vector<trent>&> as_array_critical();
-		std::vector<trent>& as_vector();
-		result<std::vector<trent>&> as_vector_critical();
-		
-		numer_type as_numer();
+		const std::vector<trent>& as_array() const;
 
-		integer_type as_integer();
-		sfloat_type as_sfloat();
-		dfloat_type as_dfloat();
+		result<std::vector<trent>&> as_array_critical();
+		result<const std::vector<trent>&> as_array_critical() const;
+		
+		std::vector<trent>& as_vector();
+		const std::vector<trent>& as_vector() const;
+
+		result<std::vector<trent>&> as_vector_critical();
+		result<const std::vector<trent>&> as_vector_critical() const;
+		
+		numer_type as_numer() const;
+
+		integer_type as_integer() const;
+		sfloat_type as_sfloat() const;
+		dfloat_type as_dfloat() const;
 
 		const double as_numer_default(const double i);
-		result<double> as_numer_critical();
+		result<double> as_numer_critical() const;
 
-		const std::string& as_string();
+		std::string& as_string();
 		const gxx::buffer as_buffer() const;
-		const std::string& as_string_default(const std::string& str);
-		result<const std::string&> as_string_critical();
+		std::string& as_string_default(std::string& str);
+		result<std::string&> as_string_critical();
+		result<const std::string&> as_string_critical() const;
 		
 		
 		//double get_numer(const char*, double def);
@@ -149,13 +172,13 @@ namespace gxx {
 		trent::type get_type() const;
 		const char * type_to_str();
 
-		bool is_nil() 			{ return m_type == type::noinit; }
-		bool is_numer() 		{ return m_type == type::single_floating || m_type == type::double_floating || m_type == type::integer; }
-		bool is_float() 		{ return m_type == type::single_floating || m_type == type::double_floating; }
-		bool is_integer() 		{ return m_type == type::integer; }
-		bool is_array() 		{ return m_type == type::array; }
-		bool is_dictionary()            { return m_type == type::dictionary; }
-		bool is_string() 		{ return m_type == type::string; }
+		bool is_nil() const 		{ return m_type == type::noinit; }
+		bool is_numer() const 		{ return m_type == type::single_floating || m_type == type::double_floating || m_type == type::integer; }
+		bool is_float() const 		{ return m_type == type::single_floating || m_type == type::double_floating; }
+		bool is_integer() const 	{ return m_type == type::integer; }
+		bool is_array() const		{ return m_type == type::array; }
+		bool is_dictionary() const  { return m_type == type::dictionary; }
+		bool is_string() const 		{ return m_type == type::string; }
 		
 		strlst check_dict(strlst lst, check_type ct);
 		std::pair<strlst,strlst> check_dict_symmetric(strlst lst);
@@ -172,6 +195,11 @@ namespace gxx {
 		trent& operator= (int i);
 		trent& operator= (long i);
 		trent& operator= (long long i);
+
+		trent& operator= (unsigned short i);
+		trent& operator= (unsigned int i);
+		trent& operator= (unsigned long i);
+		trent& operator= (unsigned long long i);
 		int size();
 
 		bool contains(gxx::buffer buf);

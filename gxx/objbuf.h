@@ -83,6 +83,16 @@ namespace gxx {
 			}
 			o.putchar(']');
 		}
+
+		//template<typename M>
+		//void serialize(M& m) {
+		//	m & gxx::buffer(m_data, sizeof(T) * sz);
+		//}
+
+		//template<typename M>
+		//void deserialize(M& m) {
+			///m & gxx::buffer(m_data, sizeof(T) * sz);
+		//}
 	};
 
 	template<typename T>
