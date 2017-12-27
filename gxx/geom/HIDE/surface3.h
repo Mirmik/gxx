@@ -63,6 +63,8 @@ namespace gxx {
 		public:
 			axis2 ax2;
 
+			ACCESSOR(pos, ax2);
+
 			plane(const axis2& ax2) : ax2(ax2) {}
 
 			point d0(double v, double u) override {

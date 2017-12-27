@@ -28,7 +28,7 @@ namespace malgo2 {
 			x *= m; y *= m;
 		}
 
-		vector2 scale(double m) {
+		vector2 scale(double m) const {
 			return vector2(x*m, y*m);
 		}
 
@@ -36,15 +36,15 @@ namespace malgo2 {
 			x /= m; y /= m;
 		}
 
-		vector2 rscale(double m) {
+		vector2 rscale(double m) const {
 			return vector2(x/m, y/m);
 		}
 
-		double abssqr() {
+		double abssqr() const {
 			return x*x + y*y;
 		}
 
-		double abs() {
+		double abs() const {
 			return sqrt(abssqr());
 		}	
 
@@ -53,11 +53,11 @@ namespace malgo2 {
 			return self_rscale(mod);
 		}
 
-		vector2 add(const vector2& b) {
+		vector2 add(const vector2& b) const {
 			return vector2(x + b.x, y + b.y);
 		}		
 
-		vector2 sub(const vector2& b) {
+		vector2 sub(const vector2& b) const {
 			return vector2(x - b.x, y - b.y);
 		}		
 

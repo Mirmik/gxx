@@ -26,6 +26,9 @@ namespace gxx { namespace curve3 {
 		point l;
 		direction d;
 
+		ACCESSOR(loc, l);
+		ACCESSOR(dir, d);
+
 		line(point l, direction d) : l(l), d(d) {}
 		line(point l1, point l2) : l(l1), d(l2 - l1) {}
 
@@ -36,7 +39,7 @@ namespace gxx { namespace curve3 {
 		double tmin() override { return - geom3::infinity; }
 		double tmax() override { return   geom3::infinity; }
 
-		size_t printTo(gxx::io::ostream& o) const {
+		size_t printTo(gxx::io::ostream& o) const override {
 			return gxx::fprint("line(l:{},d:{})",l,d);
 		} 
 	};

@@ -41,11 +41,11 @@ namespace malgo3 {
 			return vector3(x/m, y/m, z/m);
 		}
 
-		double abssqr() {
+		double abssqr() const {
 			return x*x + y*y + z*z;
 		}
 
-		double abs() {
+		double abs() const {
 			return sqrt(abssqr());
 		}	
 
@@ -77,6 +77,11 @@ namespace malgo3 {
 		vector3 vecmul(const vector3& b) {
 			return vector3(y*b.z - z*b.y, z*b.x - x*b.z, x*b.y - y*b.x);
 		}
+
+		double sclmul(const vector3& b) const {
+			return x*b.x + y*b.y + z*b.z;
+		}
+
 
 		size_t printTo(gxx::io::ostream& o) const {	return gxx::fprint(o, "({},{},{})", x, y, z); }
 
@@ -149,21 +154,6 @@ namespace malgo3 {
 
 		size_t printTo(gxx::io::ostream& o) const {	return gxx::fprint(o, "{} {} {}\r\n{} {} {}\r\n{} {} {}", a11, a12, a13, a21, a22, a23, a31, a32, a33); }
 	};
-
-	template <typename T>
-	class transform {
-		matrix3<T> rotate;
-		vector3<T> translate;
-		T scl;
-
-		transform() = default;
-		transform(const matrix3<T>& mat, const vector3<T>& vec, T scl) : rotate(mat), translate(vec), scl(scl) {}
-
-		vector3<T> doit(const vector3<T>& a) {
-			return rotate.dot(a).add(translate);
-		}
-	};
-
 }
 
 #endif

@@ -22,7 +22,7 @@ int main() {
 	gxx::topo::wire wr3 {edg1, edg5, edg4};
 
 	gxx::topo::face f0(wr0);
-
+/*
 	//auto s = wr0.list_of_vertex();
 	//for (auto& r : s) {
 	//	gxx::println(*r);

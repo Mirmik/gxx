@@ -1,5 +1,6 @@
 #include <gxx/geom/topo.h>
 #include <gxx/print/stdprint.h>
+#include <gxx/geom/project.h>
 
 namespace gxx {
 	namespace topo {
@@ -102,12 +103,41 @@ namespace gxx {
 			return ret;
 		}
 
+		std::vector<edge>& wire::edges() {
+			return impl->edges;
+		}
+
+		const std::vector<edge>& wire::edges() const {
+			return impl->edges;
+		}
+
 		std::set<vertex_impl*> wire::list_of_vertex() {
 			return impl->list_of_vertex(); 
 		}
 
 		surface wire::cycle_plane() const {
 			return impl->cycle_plane();
+		}
+
+		/*bool wire::cycle_orientation() const {
+			
+		}
+
+		void face_impl::evaluate_cycles_orientation() {
+			//wire& fcycle = cycles[0];
+			//bool forient = fcycle.cycle_orientation();
+		}*/
+
+		void face_impl::find_edges_projection() {
+			for (auto& w : cycles) {
+				for (auto& e : w.edges()) {
+					e.project_to(surf);
+				}
+			}
+		}
+
+		void edge::project_to(const surface& surf) {
+			crv2 = impl->crv.project_to(surf);
 		}
 	}
 }

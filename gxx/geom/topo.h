@@ -4,20 +4,27 @@
 #include <memory>
 #include <vector>
 #include <set>
-#include <gxx/geom/curve2.h>
-#include <gxx/geom/curve3.h>
-#include <gxx/geom/surface3.h>
+
+#include <gxx/geom/geom2.h>
+#include <gxx/geom/geom3.h>
 
 namespace gxx {
 	namespace topo {
+		using curve2 = gxx::geom2::curve;
+		using curve3 = gxx::geom3::curve;
+		using surface = gxx::geom3::surface;
+
 		//using namespace geom3;
 
-		class surface {
+		/*class surface {
 			std::shared_ptr<gxx::surf3::surface> impl;
 		public:
 			template<typename Surface>
 			surface(const Surface& surf) : impl(new Surface(surf)) {}
 			surface() = default;
+			bool is_plane() const { return typeid(*impl) == typeid(gxx::surf3::plane); }
+			gxx::surf3::plane& as_plane() { return static_cast<gxx::surf3::plane&>(*impl); }
+			const gxx::surf3::plane& as_plane() const { return static_cast<const gxx::surf3::plane&>(*impl); }
 			size_t printTo(gxx::io::ostream& o) const { return gxx::print(*impl); }
 		};
 
@@ -27,6 +34,8 @@ namespace gxx {
 			template<typename Curve>
 			curve3(const Curve& crv) : impl(new Curve(crv)) {}
 			curve3() = default;
+			bool is_line() const { return typeid(*impl) == typeid(gxx::curve3::line); }
+			gxx::curve3::line& as_line() { return static_cast<gxx::curve3::line&>(*impl); }
 			size_t printTo(gxx::io::ostream& o) const { return gxx::print(*impl); }
 		};
 
@@ -37,7 +46,7 @@ namespace gxx {
 			curve2(const Curve& crv) : impl(new Curve(crv)) {}
 			curve2() = default;
 			size_t printTo(gxx::io::ostream& o) const { return gxx::print(*impl); }
-		};
+		};*/
 
 		class shape;
 		class vertex;
@@ -58,6 +67,7 @@ namespace gxx {
 		public:
 			std::shared_ptr<vertex_impl> impl;
 
+		public:
 			vertex(vertex& oth) : impl(oth.impl) {}
 			vertex(const vertex& oth) : impl(oth.impl) {}
 			vertex(vertex&& oth) : impl(std::move(oth.impl)) {}
@@ -66,22 +76,23 @@ namespace gxx {
 			vertex(Args&& ... args) : impl(new vertex_impl(std::forward<Args>(args) ...)) {}
 		
 			bool is_same(const vertex& oth);
-
 			const geom3::point& loc() const;
-			size_t printTo(gxx::io::ostream& o) const;
-
-			//vertex& operator=(const vertex& oth) {
-			//	impl = oth.impl;
-			//}
 
 			void sew(vertex& oth);
 			void add_sinew(edge_impl* edg);
+
+			size_t printTo(gxx::io::ostream& o) const;
 		};
 
 		class edge {
 			std::shared_ptr<edge_impl> impl;
 		public:
+			//Данные цикла.
 			bool reversed;
+
+			//Данные грани.
+			curve2 crv2;
+			//double tmin2, tmax2;
 		
 		public:
 			const geom3::point& start() const;
@@ -104,6 +115,7 @@ namespace gxx {
 
 			//vertex first_vertex();
 			//vertex last_vertex();	
+			void project_to(const surface& surf);
 
 			size_t printTo(gxx::io::ostream& o) const;
 		};
@@ -112,6 +124,7 @@ namespace gxx {
 			std::shared_ptr<wire_impl> impl;
 		public:
 			surface cycle_plane() const;
+			bool cycle_orientation() const;
 			bool reversed;
 
 			template <typename ... Args>
@@ -119,6 +132,9 @@ namespace gxx {
 			wire(const std::initializer_list<edge>& lst);
 
 			std::set<vertex_impl*> list_of_vertex();
+			
+			std::vector<edge>& edges();
+			const std::vector<edge>& edges() const;
 		};
 
 		class face {
@@ -140,7 +156,6 @@ namespace gxx {
 		public:
 		};
 
-
 		class vertex_impl {
 		public:
 			geom3::point pnt;
@@ -156,29 +171,29 @@ namespace gxx {
 		class edge_impl {
 		public:
 			curve3 crv;
-			double tmin3d, tmax3d;
+			//double tmin3d, tmax3d;
 			
+			std::vector<face*> faces; // Не более двух.
+
 			//Представления граничной кривой, в пространстве координат lface и rface.
-			curve2 rcrv;
-			curve2 lcrv;
-			double tmin2dr, tmax2dr;
-			double tmin2dl, tmax2dl;
+			//curve2 rcrv;
+			//curve2 lcrv;
+			//double tmin2dr, tmax2dr;
+			//double tmin2dl, tmax2dl;
 			
 			//Вершины, на которые опирается ребро. 
 			vertex avtx;
 			vertex bvtx;
 
 			//Грани, премыкающие к ребру.
-			face* rface;
-			face* lface;
+			//face* rface;
+			//face* lface;
 
 			edge_impl(gxx::geom3::point pnt1, gxx::geom3::point pnt2) : 
-				crv(gxx::curve3::line(pnt1, pnt2)), avtx(pnt1), bvtx(pnt2) 
+				crv(pnt1, pnt2), avtx(pnt1), bvtx(pnt2) 
 			{
 				avtx.add_sinew(this);
 				bvtx.add_sinew(this);
-				tmin3d = 0;
-				tmax3d = (pnt2 - pnt1).abs();
 			}
 		};
 
@@ -192,9 +207,10 @@ namespace gxx {
 				auto pnt1 = edges[0].start();
 				auto pnt2 = edges[0].start();
 				auto pnt3 = edges[1].finish();
-
-				return surface(surf3::plane(geom3::axis2(pnt1, pnt2, pnt3)));
+				return geom3::axis2(pnt1, pnt2, pnt3);
 			}
+
+			bool cycle_orientation() const;
 
 			wire_impl(const std::initializer_list<edge>& lst) : edges(lst) {
 				evaluate_edges_orientation();
@@ -213,10 +229,13 @@ namespace gxx {
 			std::vector<wire> cycles;
 
 			void evaluate_cycles_orientation();
+			void find_edges_projection();
 
 			//face(surf3::surface* surf) : surf(surf) {}
 			face_impl(const wire& wr) : surf(wr.cycle_plane()) {
-				//cycles.push_back(wr);
+				cycles.push_back(wr);
+				find_edges_projection();
+				//evaluate_cycles_orientation();
 			}
 		};
 

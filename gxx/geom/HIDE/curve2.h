@@ -9,6 +9,7 @@ namespace gxx { namespace curve2 {
 	class curve {
 	public:
 		virtual point d0(double t) = 0;
+		virtual vector d1(double t) = 0;
 		virtual bool is_closed() { return false; }
 		virtual bool is_periodic() { return false; }
 		virtual double tmin() { return 0; }
@@ -25,6 +26,11 @@ namespace gxx { namespace curve2 {
 		geom2::point d0(double t) override {
 			return point(l.x + d.x * t, l.y + d.y * t);
 		}
+
+		geom2::vector d1(double t) override {
+			return d;
+		}
+
 		double tmin() override { return - geom2::infinity; }
 		double tmax() override { return   geom2::infinity; }
 	};
