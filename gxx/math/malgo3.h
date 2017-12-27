@@ -70,8 +70,25 @@ namespace malgo3 {
 			return vector3(x - b.x, y - b.y, z - b.z);
 		}		
 
+		void self_sub(const vector3& b) {
+			x -= b.x; y -= b.y; z -= b.z;
+		}		
+
+		vector3 reverse() const {
+			return vector3(-x,-y,-z);
+		}
+
+		inline vector3 operator-() const {
+			return reverse();
+		}		
+
 		inline vector3 operator-(const vector3& b) const {
 			return sub(b);
+		}		
+
+		inline vector3& operator-=(const vector3& b) {
+			self_sub(b);
+			return *this;
 		}		
 
 		vector3 vecmul(const vector3& b) {

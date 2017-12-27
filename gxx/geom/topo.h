@@ -85,14 +85,14 @@ namespace gxx {
 		};
 
 		class edge {
-			std::shared_ptr<edge_impl> impl;
 		public:
+			std::shared_ptr<edge_impl> impl;
+
 			//Данные цикла.
 			bool reversed;
 
 			//Данные грани.
 			curve2 crv2;
-			//double tmin2, tmax2;
 		
 		public:
 			const geom3::point& start() const;
@@ -102,8 +102,9 @@ namespace gxx {
 			edge(const edge& oth) : impl(oth.impl) {}
 			edge(edge&& oth) : impl(std::move(oth.impl)) {}
 
-			template <typename ... Args>
-			edge(Args&& ... args) : impl(new edge_impl(std::forward<Args>(args) ...)) {}
+			edge(const gxx::geom3::point&, const gxx::geom3::point&);
+			//template <typename ... Args>
+			//edge(Args&& ... args) : impl(new edge_impl(std::forward<Args>(args) ...)) {}
 		
 			vertex& a_vertex();
 			vertex& b_vertex();
@@ -112,6 +113,8 @@ namespace gxx {
 
 			vertex& start_vertex();
 			vertex& finish_vertex();
+			double start_2dparam() const;
+			double finish_2dparam() const;
 
 			//vertex first_vertex();
 			//vertex last_vertex();	
@@ -125,11 +128,12 @@ namespace gxx {
 		public:
 			surface cycle_plane() const;
 			bool cycle_orientation() const;
+			bool impl_cycle_orientation() const;
 			bool reversed;
 
-			template <typename ... Args>
-			wire(Args&& ... args) : impl(new wire_impl(std::forward<Args>(args) ...)) {}
 			wire(const std::initializer_list<edge>& lst);
+			//template <typename ... Args>
+			//wire(Args&& ... args) : impl(new wire_impl(std::forward<Args>(args) ...)) {}
 
 			std::set<vertex_impl*> list_of_vertex();
 			
@@ -141,19 +145,27 @@ namespace gxx {
 			std::shared_ptr<face_impl> impl;
 		public:
 			//face(const wire& wr);
+			std::vector<wire>& cycles();
 
-			template <typename ... Args>
-			face(Args&& ... args) : impl(new face_impl(std::forward<Args>(args) ...)) {}
+			face(const face& oth) : impl(oth.impl) {}
+			face(face&& oth) : impl(std::move(oth.impl)) {}
+			face(const wire& wr);
+			//template <typename ... Args>
+			//face(Args&& ... args) : impl(new face_impl(std::forward<Args>(args) ...)) {}
+			
 		};
 
 		class shell {
 			std::shared_ptr<shell_impl> impl;
 		public:
+			shell(const std::initializer_list<face>& lst);
+			std::set<edge_impl*> list_of_edges();
 		};
 
 		class solid {
 			std::shared_ptr<solid_impl> impl;
 		public:
+			solid(const shell&);
 		};
 
 		class vertex_impl {
@@ -195,6 +207,10 @@ namespace gxx {
 				avtx.add_sinew(this);
 				bvtx.add_sinew(this);
 			}
+
+			size_t printTo(gxx::io::ostream& o) const {
+				return gxx::print(crv);
+			}
 		};
 
 		class wire_impl {
@@ -205,7 +221,7 @@ namespace gxx {
 			//Только для плоского цикла.
 			surface cycle_plane() const {
 				auto pnt1 = edges[0].start();
-				auto pnt2 = edges[0].start();
+				auto pnt2 = edges[0].finish();
 				auto pnt3 = edges[1].finish();
 				return geom3::axis2(pnt1, pnt2, pnt3);
 			}
@@ -235,9 +251,54 @@ namespace gxx {
 			face_impl(const wire& wr) : surf(wr.cycle_plane()) {
 				cycles.push_back(wr);
 				find_edges_projection();
-				//evaluate_cycles_orientation();
+				evaluate_cycles_orientation();
 			}
 		};
+
+		class shell_impl {
+		public:
+			std::vector<face> faces;
+			bool closed;
+
+			//Только для плоского цикла.
+			/*surface cycle_plane() const {
+				auto pnt1 = edges[0].start();
+				auto pnt2 = edges[0].finish();
+				auto pnt3 = edges[1].finish();
+				return geom3::axis2(pnt1, pnt2, pnt3);
+			}
+
+			bool cycle_orientation() const;*/
+
+			shell_impl(const std::initializer_list<face>& lst) : faces(lst) {
+				//evaluate_faces_orientation();
+				//sew_edges();
+			} 
+
+			std::set<edge_impl*> list_of_edges() {
+				std::set<edge_impl*> ret;
+				for (auto& f : faces) {
+					for (auto& c: f.cycles()) {
+						for (auto& e: c.edges()) {
+							ret.insert(e.impl.get());
+						}
+					}
+				}
+				return ret;
+			}
+
+			//void evaluate_faces_orientation();
+			void sew_faces();
+
+			std::set<vertex_impl*> list_of_vertex();
+		};
+
+		class solid_impl { 
+		public:
+			std::vector<shell> shells;
+			solid_impl(const shell& shl) { shells.push_back(shl); }
+		};
+		
 
 		/*class shape {
 		public:

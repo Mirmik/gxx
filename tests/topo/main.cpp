@@ -9,6 +9,7 @@ int main() {
 	gxx::geom3::point c = gxx::geom3::point(0,1,0);
 	gxx::geom3::point d = gxx::geom3::point(0,0,1);
 
+
 	gxx::topo::edge edg0(a,b);
 	gxx::topo::edge edg1(b,c);
 	gxx::topo::edge edg2(c,a);
@@ -16,12 +17,27 @@ int main() {
 	gxx::topo::edge edg4(d,b);
 	gxx::topo::edge edg5(d,c);
 
+
 	gxx::topo::wire wr0 {edg0, edg1, edg2};
-	gxx::topo::wire wr1 {edg0, edg4, edg3};
+	gxx::topo::wire wr1 {edg3, edg4, edg0};
 	gxx::topo::wire wr2 {edg2, edg5, edg3};
 	gxx::topo::wire wr3 {edg1, edg5, edg4};
 
-	gxx::topo::face f0(wr0);
+
+	gxx::topo::face f0 ( wr0 );
+	gxx::topo::face f1 ( wr1 );
+	gxx::topo::face f2 ( wr2 );
+	gxx::topo::face f3 ( wr3 );
+
+	gxx::topo::shell shl { f0,f1,f2,f3 };
+	gxx::topo::solid sld(shl);
+
+	/*auto r = shl.list_of_edges();
+
+	for (auto& l : r) {
+		gxx::println(*l);
+	}*/
+
 /*
 	//auto s = wr0.list_of_vertex();
 	//for (auto& r : s) {

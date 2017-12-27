@@ -56,11 +56,13 @@ namespace gxx { namespace geom3 {
 		direction dy;
 	
 		axis2(point l, direction n, direction vx) : l(l), n(n) {
+			//dprln("point l, direction n, direction vx");
 			dy = n.vecmul(vx); 
 			dx = dy.vecmul(n); 
 		}
 
 		axis2(point l, direction n) : l(l), n(n) {
+			//dprln("point l, direction n");
 			vector vx;
 
 			if (n.is_same(vector(0,0,1), precision)) vx = vector(1,0,0);
@@ -71,6 +73,8 @@ namespace gxx { namespace geom3 {
 		}
 
 		axis2(point a, point b, point c) : l(a) {
+			//dprln("point a, point b, point c");
+			//gxx::vprint(a,b,c);
 			dx = direction(b-a);
 			auto dpy = b-c;
 			n = dx.vecmul(dpy);
@@ -149,32 +153,47 @@ namespace gxx { namespace geom3 {
 		}
 	};
 
+	using curve2 = gxx::geom2::curve; 
+	using line2 = gxx::geom2::line; 
+	using point2 = gxx::geom2::point; 
+	using direction2 = gxx::geom2::direction; 
+	using vector2 = gxx::geom2::vector; 
 
+	enum class curve_enum : uint8_t {
+		none,
+		line
+	};
 
-
-
-
-
+	enum class surface_enum : uint8_t {
+		none,
+		plane
+	};
 
 	
 
 	class basic_curve {
 	public:
 		double bmax, bmin;
-		virtual point d0(double t) = 0;
+		virtual point d0(double t) const = 0;
+		virtual vector d1(double t) const = 0;
 		virtual bool is_closed() { return false; }
 		virtual bool is_periodic() { return false; }
 		virtual double tmin() { return 0; }
 		virtual double tmax() { return 0; }
 		virtual ~basic_curve() {}
+		virtual curve_enum gettype() const { return curve_enum::none; }
 
 		virtual size_t printTo(gxx::io::ostream& o) const {
-			dprln("HERE3");
 			return gxx::print("curve3");
 		}; 
 
 		basic_curve() : bmax(tmax()), bmin(tmin()) {}
 		basic_curve(double bmin, double bmax) : bmax(bmax), bmin(bmin) {}
+	};
+
+	class nilcurve : public basic_curve {
+		point d0(double t) const override { return point(); }
+		vector d1(double t) const override { return vector(); }
 	};
 
 	class line : public basic_curve {
@@ -189,35 +208,34 @@ namespace gxx { namespace geom3 {
 		line(point l1, point l2) : l(l1), d(l2 - l1), basic_curve(0, (l2 - l1).abs()) {}
 		line(point l, vector v) : l(l), d(v), basic_curve(0, v.abs()) {}
 
-		point d0(double t) override {
+		vector vec() const {
+			return d0(bmax) - l;
+		}
+
+		point d0(double t) const override {
 			return point(l.x + d.x * t, l.y + d.y * t, l.z + d.z * t);
+		}
+
+		vector d1(double t) const override {
+			return d;
 		}
 
 		double tmin() override { return - geom3::infinity; }
 		double tmax() override { return   geom3::infinity; }
 
 		size_t printTo(gxx::io::ostream& o) const override {
-			dprln("HERE");
-			return gxx::fprint("line(l:{},d:{})",l,d);
+			return gxx::fprint("line(l:{},d:{},bmin:{},bmax:{})",l,d,bmin,bmax);
 		} 
+
+		virtual curve_enum gettype() const { return curve_enum::line; }
 	};
 
-	enum class curve_enum : uint8_t {
-		none,
-		line
-	};
-
-	enum class surface_enum : uint8_t {
-		none,
-		plane
-	};
 
 	class curve {
-		using curve2 = gxx::geom2::curve; 
 	public:
-		curve_enum type;
+		//curve_enum type;
 		union {
-			char stub;
+			nilcurve nil;
 			line ln;
 		};
 		double tmin = 0, tmax = 0;
@@ -228,9 +246,12 @@ namespace gxx { namespace geom3 {
 		basic_curve& abstract() { return *static_cast<basic_curve*>(&ln); }
 		const basic_curve& abstract() const { return *static_cast<const basic_curve*>(&ln); }
 
+		curve() {
+			new (&nil) nilcurve();
+		}
+
 		curve(const point& pnt1, const point& pnt2) {
 			new (&ln) line(pnt1, pnt2);
-			type = curve_enum::line;
 		}
 
 		size_t printTo(gxx::io::ostream& o) const {
@@ -238,11 +259,14 @@ namespace gxx { namespace geom3 {
 		}
 
 		const char* strtype() const {
-			switch (type) {
+			switch (abstract().gettype()) {
+				case curve_enum::none: return "none";
 				case curve_enum::line: return "line";
 				default: return "undefined curve3";
 			}
 		}
+
+		curve_enum gettype() const { return abstract().gettype(); }
 
 		//curve2 project_line_to(const surface& surf);
 		//curve2 project_to(const surface& surf);
@@ -260,7 +284,7 @@ namespace gxx { namespace geom3 {
 
 	class basic_surface {
 	public:
-		virtual point d0(double v, double u) = 0; 
+		virtual point d0(double v, double u) const = 0; 
 		virtual bool is_v_closed() { return false; }
 		virtual bool is_v_periodic() { return false; }
 		virtual bool is_u_closed() { return false; }
@@ -269,8 +293,16 @@ namespace gxx { namespace geom3 {
 		virtual double vmax() { return 0; }
 		virtual double umin() { return 0; }
 		virtual double umax() { return 0; }
+		virtual curve2 projection(const curve& crv) const { return curve2(); }
 		virtual ~basic_surface() {}
 		virtual size_t printTo(gxx::io::ostream& o) const { return gxx::print("surface"); }
+		virtual surface_enum gettype() const { return surface_enum::none; }
+	};
+
+
+	class nilsurf : public basic_surface {
+		point d0(double v, double u) const override { return point(); }
+		//vector d1(double t) const override { return vector(); }
 	};
 
 	class cylinder : public basic_surface {
@@ -281,7 +313,7 @@ namespace gxx { namespace geom3 {
 
 		cylinder(double r, double h, const axis3& ax3) : r(r), h(h), ax3(ax3) {}
 
-		point d0(double v, double u) {
+		point d0(double v, double u) const override {
 			double c = r * cos(v);
 			double s = r * sin(v);
 			double w = h * u;
@@ -300,7 +332,7 @@ namespace gxx { namespace geom3 {
 
 		sphere(double r, double h, const axis3& ax3) : r(r), ax3(ax3) {}
 
-		point d0(double v, double u) override {
+		point d0(double v, double u) const override {
 			double a = r * cos(v) * cos(u);
 			double b = r * sin(v) * cos(u);
 			double c = r * sin(u);
@@ -320,47 +352,53 @@ namespace gxx { namespace geom3 {
 
 		plane(const axis2& ax2) : ax2(ax2) {}
 
-		point d0(double v, double u) override {
+		point d0(double v, double u) const override {
 			return point(ax2.loc() + ax2.dirx().scale(v) + ax2.diry().scale(u));				
 		} 
+
+		curve2 projection(const curve& crv) const override;// { 
+		//	gxx::println("projection to plane");
+		//	return line2(point2(0,0), direction2(0,1));
+		//}
+
+		virtual surface_enum gettype() const { return surface_enum::plane; }
 	};
-
-
 
 
 
 
 	class surface {
 	public:
-		surface_enum type;
+		//surface_enum type;
 		union {
-			char stub;
+			nilsurf nil;
 			plane pln;
 		};
 
 		plane& as_plane() { return pln; }
 		const plane& as_plane() const { return pln; }
 
-		surface& abstract() { return *reinterpret_cast<surface*>(&stub); }
-		const surface& abstract() const { return *reinterpret_cast<const surface*>(&stub); }
+		basic_surface& abstract() { return *static_cast<basic_surface*>(&pln); }
+		const basic_surface& abstract() const { return *static_cast<const basic_surface*>(&pln); }
 
 		surface(const plane& ctr) {
 			new (&pln) plane(ctr);
-			type = surface_enum::plane;
 		}
 
 		surface(const axis2& ctr) {
 			new (&pln) plane(ctr);
-			type = surface_enum::plane;
 		}
 
 		surface(const surface& oth) {
-			switch(oth.type) {
-				case surface_enum::plane:
-					pln = oth.pln;
-					type = surface_enum::plane;
+			switch(oth.gettype()) {
+				case surface_enum::none: new (&nil) nilsurf(); return;
+				case surface_enum::plane: new (&pln) plane(oth.pln); return;
 				default: gxx::panic("surface: undefined surface");
 			}
+		}
+
+		curve2 projection(const curve& crv) const {				
+			return abstract().projection(crv);
 		}
 
 		size_t printTo(gxx::io::ostream& o) const {
@@ -368,6 +406,8 @@ namespace gxx { namespace geom3 {
 		}
 
 		~surface(){}
+
+		surface_enum gettype() const { return abstract().gettype(); }
 	};
 
 }}

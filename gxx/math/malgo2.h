@@ -61,6 +61,30 @@ namespace malgo2 {
 			return vector2(x - b.x, y - b.y);
 		}		
 
+
+		double sclmul(const vector2& b) const {
+			return x * b.x + y * b.y; 
+		}
+
+		double crossmul(const vector2& b) const {
+			return x * b.y - b.x * y; 
+		}
+
+		double evalrot(const vector2& b) {
+			auto c = sclmul(b);
+			auto s = crossmul(b);
+			return atan2(s,c);
+		} 
+
+
+		vector2 reverse() const {
+			return vector2(-x,-y);
+		}
+
+		inline vector2 operator-() const {
+			return reverse();
+		}		
+
 		size_t printTo(gxx::io::ostream& o) const {	return gxx::fprint(o, "({},{})", x, y); }
 
 		template<typename R>
