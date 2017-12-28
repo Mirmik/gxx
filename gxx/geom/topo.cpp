@@ -1,10 +1,10 @@
-#include <gxx/geom/topo.h>
+//#include <gxx/geom/topo.h>
 #include <gxx/print/stdprint.h>
-#include <gxx/geom/project.h>
+//#include <gxx/geom/project.h>
 
 namespace gxx {
 	namespace topo {
-		wire::wire(const std::initializer_list<edge>& lst) : impl(new wire_impl(lst)) {}
+		/*wire::wire(const std::initializer_list<edge>& lst) : impl(new wire_impl(lst)) {}
 		face::face(const wire& wr) : impl(new face_impl(wr)) {}
 		shell::shell(const std::initializer_list<face>& lst) : impl(new shell_impl(lst)) {}
 		edge::edge(const gxx::geom3::point& a, const gxx::geom3::point& b) : impl(new edge_impl(a,b)) {}
@@ -191,7 +191,7 @@ namespace gxx {
 
 		void edge::project_to(const surface& surf) {
 			crv2 = surf.projection(impl->crv);
-		}
+		}*/
 	}
 }
 

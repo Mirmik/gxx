@@ -36,7 +36,7 @@ namespace gxx { namespace geom2 {
 		line
 	};
 
-	class basic_curve {
+	class curve {
 	public:
 		virtual point d0(double t) const = 0;
 		virtual vector d1(double t) const = 0;
@@ -45,26 +45,29 @@ namespace gxx { namespace geom2 {
 		virtual double tmin() { return 0; }
 		virtual double tmax() { return 0; }
 		virtual double rotation_angle() const { return 0; }
-		virtual ~basic_curve() {}
+		virtual ~curve() {}
 		virtual size_t printTo(gxx::io::ostream& o) const { return gxx::print("nilcurve"); }	
 		virtual curve_enum gettype() const { return curve_enum::none; }	
 
+		point start() const { return d0(bmin); }
+		point finish() const { return d0(bmax); }
+
 		double bmax, bmin;
-		basic_curve() : bmax(tmax()), bmin(tmin()) {}
-		basic_curve(double bmin, double bmax) : bmax(bmax), bmin(bmin) {}
+		curve() : bmax(tmax()), bmin(tmin()) {}
+		curve(double bmin, double bmax) : bmax(bmax), bmin(bmin) {}
 	};
 
-	class nilcurve : public basic_curve {
+	class nilcurve : public curve {
 		point d0(double t) const override { return point(); }
 		vector d1(double t) const override { return vector(); }
 	};
 
-	class line : public basic_curve {
+	class line : public curve {
 	public:
 		point l;
 		direction d;
 
-		line(const point& l, const vector& v) : l(l), d(v), basic_curve(0, v.abs()) {}
+		line(const point& l, const vector& v) : l(l), d(v), curve(0, v.abs()) {}
 
 		point d0(double t) const override {
 			return point(l.x + d.x * t, l.y + d.y * t);
@@ -84,7 +87,7 @@ namespace gxx { namespace geom2 {
 		} 
 	};
 
-	class curve {
+	/*class curve {
 	public:
 		union {
 			nilcurve nil;
@@ -159,7 +162,7 @@ namespace gxx { namespace geom2 {
 		size_t printTo(gxx::io::ostream& o) const {
 			return abstract().printTo(o);
 		}
-	};
+	};*/
 }}
 
 #endif

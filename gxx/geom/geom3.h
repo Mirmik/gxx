@@ -153,7 +153,7 @@ namespace gxx { namespace geom3 {
 		}
 	};
 
-	using curve2 = gxx::geom2::curve; 
+	/*using curve2 = gxx::geom2::curve; 
 	using line2 = gxx::geom2::line; 
 	using point2 = gxx::geom2::point; 
 	using direction2 = gxx::geom2::direction; 
@@ -408,7 +408,7 @@ namespace gxx { namespace geom3 {
 		~surface(){}
 
 		surface_enum gettype() const { return abstract().gettype(); }
-	};
+	};*/
 
 }}
 
