@@ -443,7 +443,7 @@ auto vector_abs(T v, size_t n) {
 	return sqrt(vector_sqr(v,n));
 }
 
-float vector_quick_invabs(float* v, size_t n) {
+inline float vector_quick_invabs(float* v, size_t n) {
 	return gxx::math::quick_rsqrt(vector_abs(v,n));
 }
 
@@ -477,7 +477,7 @@ void vector_normalize(T1 A, size_t n, T2 B) {
 //	vector_self_rscale(A, n, vector_abs(A,n));
 //}
 
-void vector_quick_normalize(float* A, size_t n, float* B) {
+inline void vector_quick_normalize(float* A, size_t n, float* B) {
 	vector_scale(A, n, vector_quick_invabs(A,n), B);
 }
 

@@ -39,7 +39,7 @@ namespace gxx {
 			}			
 		};
 
-		point linear_interpolation_2point(const point& a, const point& b, double k) {
+		inline point linear_interpolation_2point(const point& a, const point& b, double k) {
 			size_t dim = a.dim();
 			double tmp[dim];
 			point c(dim);
