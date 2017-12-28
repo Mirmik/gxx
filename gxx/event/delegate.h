@@ -96,11 +96,11 @@ namespace gxx {
 			method.method = horrible_cast<mtd_t, R(T::*)(Args ...)>(mtd);
 		}
 
-                template <typename F>
-                delegate(const F& functor) {
-                        object = reinterpret_cast <obj_t> ((F*) &functor);
-                        method.method = horrible_cast<mtd_t, decltype(&F::operator())>(&F::operator());
-                }
+		template <typename F>
+		delegate(const F& functor) {
+				object = reinterpret_cast <obj_t> ((F*) &functor);
+				method.method = horrible_cast<mtd_t, decltype(&F::operator())>(&F::operator());
+		}
 		
 		delegate& operator=(const delegate& d) {
 			object = d.object;

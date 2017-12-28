@@ -310,7 +310,9 @@ class matrix : public matrix_compact_basic<T,O> {
 public:
 	using parent = matrix_compact_basic<T,O>;
 	matrix() : parent(nullptr,0,0) {}
-	matrix(size_t sz1, size_t sz2) : parent(alloc.allocate(sz1*sz2), sz1, sz2) {}
+	matrix(size_t sz1, size_t sz2) : parent(alloc.allocate(sz1*sz2), sz1, sz2) {
+		parent::clean();
+	}
 	
 	template <typename OM> //TODO: для компактных матриц оптимизировать векторным копированием.
 	matrix(const OM& oth) : parent(alloc.allocate(oth.sz1*oth.sz2), oth.sz1, oth.sz2) {
@@ -322,7 +324,7 @@ public:
 	//}
 
 	template<typename M>
-	void deserialize(M& r) const {
+	void deserialize(M& r) {
 		if (parent::dat) {
 			alloc.deallocate(parent::dat, parent::sz1 * parent::sz2);
 		}
@@ -442,7 +444,7 @@ auto vector_abs(T v, size_t n) {
 }
 
 float vector_quick_invabs(float* v, size_t n) {
-	return quick_rsqrt(vector_abs(v,n));
+	return gxx::math::quick_rsqrt(vector_abs(v,n));
 }
 
 template <typename T1, typename T2, typename S>

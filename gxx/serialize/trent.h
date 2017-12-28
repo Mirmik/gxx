@@ -136,6 +136,7 @@ namespace gxx {
 		numer_type as_numer() const;
 
 		integer_type as_integer() const;
+		result<integer_type> as_integer_critical() const;
 		sfloat_type as_sfloat() const;
 		dfloat_type as_dfloat() const;
 

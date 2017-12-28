@@ -5,6 +5,7 @@
 #include <gxx/result.h>
 #include <gxx/buffer.h>
 #include <tuple>
+#include <sstream>
 
 namespace gxx {
 	template <typename M, typename T, typename U = int>
@@ -31,6 +32,10 @@ namespace gxx {
 		}
 	
 		static void deserialize(M& keeper, T& obj) {
+			keeper.load(obj);
+		}
+
+		static void deserialize(M& keeper, T&& obj) {
 			keeper.load(obj);
 		}
 	};
@@ -62,7 +67,7 @@ namespace gxx {
 			size_t sz;
 			data(T* ptr, size_t sz) : ptr(ptr), sz(sz) {}
 			data(const T* ptr, size_t sz) : ptr((T*)ptr), sz(sz) {}
-			template<typename R> void reflect(R& r) { r.dump_data((const char*)ptr, sz * sizeof(T)); }
+			template<typename R> void reflect(R& r) { r.do_data((char*)ptr, sz * sizeof(T)); }
 		};
 
 		/*template <typename T, typename S, typename A = std::allocator<T>>
@@ -87,38 +92,20 @@ namespace gxx {
 		};*/
 
 		class writer_basic {
-
-
-			//int _length = 0;
-			//gxx::buffer buf;
-			//char* ptr;
-
 		public:
-			//binary_writer(gxx::buffer buf) : buf(buf), ptr(buf.data()) {}
-
 			template<typename T>
 			void operator& (const T& obj) {
 				gxx::serialize(*this, obj);
 			}
-
-			//Для избежания проблем с типизацией 
-			//передавать перед int его длину. 
-			/*void dump(int i) {
-				memcpy(ptr, (char*)&i, sizeof(int));
-				_length += sizeof(int);
-				ptr += sizeof(int);
-			} */
-			virtual void dump(const char* dat, uint16_t sz) = 0;
-			virtual void dump_data(const char* dat, uint16_t sz) = 0;
 			
-			/*void dump(const char* str) {
-				dump(str, strlen(str));
-			} 
-
-			void dump(gxx::buffer buf) {
-				dump(buf.data(), buf.size());
-			} */
-
+			virtual void dump_data(const char* dat, uint16_t sz) = 0;
+			void do_data(const char* dat, uint16_t sz) { dump_data(dat, sz); }
+			
+			void dump(const char* dat, uint16_t sz) {
+				dump(sz);
+				dump_data(dat, sz);
+			}
+			
 			void dump(char i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(short i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(int i) { dump_data((char*)&i, sizeof(i)); }
@@ -131,115 +118,71 @@ namespace gxx {
 			void dump(double i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(long double i) { dump_data((char*)&i, sizeof(i)); } 
 
-			/*template<typename T>
-			void dump(const gxx::archive::data<T> dat) {
-				dump_data((char*)dat.ptr, dat.sz * sizeof(T));
-			} 
-*/
 			template<typename T>
 			void dump(const T& ref) {
 				((std::remove_cv_t<std::remove_reference_t<T>>&)(ref)).reflect(*this);
 			}
-
-			//CONSTREF_GETTER(length, _length);
 		};
 
 		class binary_string_writer : public writer_basic {
 		public:
 			std::string str;
 
-			void dump(const char* dat, uint16_t size) override {
-				str.append((char*)&size, sizeof(uint16_t));
-				str.append(dat, size);
-				//memcpy(ptr, (char*)&sz, sizeof(uint16_t));
-				//_length += sizeof(uint16_t);
-				//ptr += sizeof(uint16_t);
-				//memcpy(ptr, str, sz);
-				//_length += sz;
-				//ptr += sz;
-			} 
-
 			void dump_data(const char* dat, uint16_t size) override {
 				str.append(dat, size);
 			} 
-
-			using writer_basic::dump;
 		};
 
-		class binary_reader {
-			gxx::buffer buf;
-			char* ptr;
-			char* end;
-			bool _iserror = false;
-
+		class reader_basic {
 		public:
-			binary_reader(gxx::buffer buf) : buf(buf), ptr(buf.data()), end(buf.data() + buf.size()) {}
-
 			template<typename T>
-			void operator& (T& obj) {
-				load(obj);
+			void operator& (T&& obj) {
+				gxx::deserialize(*this, obj);
 			}
 
-			void load(int& i) {
-				if (_iserror || avail() < sizeof(int)) { _iserror = true; return; }
-				memcpy((char*)&i, ptr, sizeof(int));
-				ptr += sizeof(int);
-			} 
+			virtual void load_data(char* dat, uint16_t sz) = 0;
+			void do_data(char* dat, uint16_t sz) { load_data(dat, sz); }
 
-			void load(long& i) {
-				if (_iserror || avail() < sizeof(long)) { _iserror = true; return; }
-				memcpy((char*)&i, ptr, sizeof(long));
-				ptr += sizeof(long);
-			} 
-
-			void load(gxx::buffer& buf) {
+			void load(char* dat, uint16_t maxsz) {
 				uint16_t sz;
-				if (_iserror || avail() < sizeof(uint16_t)) { _iserror = true; return; }
-				memcpy((char*)&sz, ptr, sizeof(uint16_t));
-				ptr += sizeof(uint16_t);
-				if (_iserror || avail() < sz) { _iserror = true; return; }
-				buf.size(sz);
-				buf.data(ptr);
-				ptr += sz;
+				load(sz);
+				assert(sz <= maxsz);
+				load_data(dat, sz);
+			}
+
+			void load(char& i) { load_data((char*)&i, sizeof(i)); }
+			void load(short& i) { load_data((char*)&i, sizeof(i)); }
+			void load(int& i) { load_data((char*)&i, sizeof(i)); }
+			void load(long& i) { load_data((char*)&i, sizeof(i)); } 
+			void load(unsigned char& i) { load_data((char*)&i, sizeof(i)); }
+			void load(unsigned short& i) { load_data((char*)&i, sizeof(i)); }
+			void load(unsigned int& i) { load_data((char*)&i, sizeof(i)); }
+			void load(unsigned long& i) { load_data((char*)&i, sizeof(i)); } 
+			void load(float& i) { load_data((char*)&i, sizeof(i)); }
+			void load(double& i) { load_data((char*)&i, sizeof(i)); }
+			void load(long double& i) { load_data((char*)&i, sizeof(i)); } 
+
+			template<typename T>
+			void load(T&& ref) {
+				((std::remove_cv_t<std::remove_reference_t<T>>&)(ref)).reflect(*this);
+			}
+		};
+
+		class binary_string_reader : public reader_basic {
+		public:
+			std::istringstream stream;
+
+			void load_data(char* dat, uint16_t size) override {
+				stream.read(dat, size);
 			} 
 
-			template<typename T>
-			void load(T& ref) {
-				ref.reflect(*this);
-			}
-
-			template<typename T>
-			T retload() {
-				T ret; 
-				gxx::deserialize(*this, ret);
-				return ret;
-			}
-
-			bool iserror() {
-				return _iserror;
-			}
-
-			int avail() {
-				return end - ptr; 
-			}
-
+			binary_string_reader(const std::string& str) : stream(str) {}
 		};
 	}
 
-	/*template<typename M, typename T>
-	struct serializer {
-		static void serialize(M& keeper, const T& obj);
-		static result<void> deserialize(M& keeper, T& obj);
-	};
 
-	template <typename M, typename T> void serialize(M& keeper, const T& obj) {
-		serializer<M,T>::serialize(keeper, obj);
-	}
 
-	template <typename M, typename T> result<void> deserialize(M& keeper, T& obj) {
-		return serializer<M,T>::deserialize(keeper, obj);
-	}*/
-
+	
 	template<typename Archive, typename ... Args> 
 	struct serialize_helper<Archive, std::tuple<Args...>> {
 		using Tuple = std::tuple<Args...>;
@@ -286,7 +229,10 @@ namespace gxx {
 		}
 	
 		static void deserialize(Archive& keeper, std::vector<T>& vec) {
-			gxx::panic("todo");
+			size_t sz;
+			gxx::deserialize(keeper, sz);
+			vec.resize(sz);
+			gxx::deserialize(keeper, gxx::archive::data<T>{vec.data(), sz});
 		}
 	};
 }

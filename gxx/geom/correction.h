@@ -39,6 +39,8 @@ namespace gxx {
 				//gxx::print_as_matrix(table, dim);
 			}
 
+			single_axis_correction_table() = default;
+
 			single_axis_correction_table(	
 				uint8_t base, 
 				const std::vector<T>& coords,
