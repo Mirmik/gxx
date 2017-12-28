@@ -1,9 +1,13 @@
 #ifndef MALGO2_H
 #define MALGO2_H
 
+#include <gxx/math/util.h>
 #include <gxx/print.h>
+#include <cmath>
 
 namespace malgo2 {
+	static constexpr double standart_precision = 0.00000001;
+
 	template <typename T>
 	class vector2 {
 	public:
@@ -18,6 +22,15 @@ namespace malgo2 {
 		vector2()=default;
 		vector2(T x, T y) : x(x), y(y) {}
 		vector2(const vector2& oth) : x(oth.x), y(oth.y) {}
+
+
+		bool is_same(const vector2& oth, double prec = malgo2::standart_precision) {
+			return sub(oth).abs0() < prec;
+		}
+
+		bool is_not_same(const vector2& oth, double prec = malgo2::standart_precision) {
+			return !is_same(oth,prec);
+		}
 
 		vector2& operator=(const vector2& oth) {
 			x = oth.x; y = oth.y;
@@ -48,6 +61,10 @@ namespace malgo2 {
 			return sqrt(abssqr());
 		}	
 
+		T abs0() {
+			return std::max(std::fabs(x), std::fabs(y));
+		}	
+
 		void self_normalize() {
 			double mod = abs();
 			return self_rscale(mod);
@@ -61,6 +78,21 @@ namespace malgo2 {
 			return vector2(x - b.x, y - b.y);
 		}		
 
+		void self_sub(const vector2& b) {
+			x -= b.x; y -= b.y;
+		}		
+
+		vector2 reverse() const {
+			return vector2(-x,-y);
+		}
+
+		inline vector2 operator-() const {
+			return reverse();
+		}		
+
+		inline vector2 operator-(const vector2& b) const {
+			return sub(b);
+		}		
 
 		double sclmul(const vector2& b) const {
 			return x * b.x + y * b.y; 
@@ -75,15 +107,6 @@ namespace malgo2 {
 			auto s = crossmul(b);
 			return atan2(s,c);
 		} 
-
-
-		vector2 reverse() const {
-			return vector2(-x,-y);
-		}
-
-		inline vector2 operator-() const {
-			return reverse();
-		}		
 
 		size_t printTo(gxx::io::ostream& o) const {	return gxx::fprint(o, "({},{})", x, y); }
 

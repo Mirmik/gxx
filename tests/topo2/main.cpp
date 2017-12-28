@@ -8,4 +8,5 @@ namespace prim2 = gxx::topo2::prim;
 
 int main() {
 	prim2::triangle(g2::point(0,0), g2::point(10,0), g2::point(0,10));
+	prim2::square(33);
 }

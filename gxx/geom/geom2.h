@@ -6,6 +6,7 @@
 
 namespace gxx { namespace geom2 {
 	constexpr static double infinity = std::numeric_limits<double>::infinity();
+	constexpr static double precision = 0.00000001;
 
 	class point : public malgo2::vector2<double> {
 	public: 
@@ -68,6 +69,7 @@ namespace gxx { namespace geom2 {
 		direction d;
 
 		line(const point& l, const vector& v) : l(l), d(v), curve(0, v.abs()) {}
+		line(const point& p1, const point& p2) : l(p1), d(p2-p1), curve(0, (p2-p1).abs()) {}
 
 		point d0(double t) const override {
 			return point(l.x + d.x * t, l.y + d.y * t);
