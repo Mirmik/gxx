@@ -57,8 +57,14 @@ namespace gxx {
 				v1.swap(v2);
 			}
 
-			g2::point crvstart() { return reversed ? crv->finish() : crv->start(); }
-			g2::point crvfinish() { return reversed ? crv->start() : crv->finish(); }
+			g2::point crvstart() const { return reversed ? crv->finish() : crv->start(); }
+			g2::point crvfinish() const { return reversed ? crv->start() : crv->finish(); }
+
+			g2::vector start_d1() const { return reversed ? -crv->finish_d1() : crv->start_d1(); }
+			g2::vector finish_d1() const { return reversed ? -crv->start_d1() : crv->finish_d1(); }
+
+			double rotation_angle() const { return reversed ? -crv->rotation_angle() : crv->rotation_angle(); }
+
 			g2::point start() const { return v1.loc(); }
 			g2::point finish() const { return v2.loc(); }
 		};
@@ -111,11 +117,30 @@ namespace gxx {
 				}
 			}
 
+			bool cycle_orientation() const {
+				double sum = 0;
+				g2::vector last = segs[segs.size() - 1].finish_d1();
+				for (int i = 0; i < segs.size(); ++i) {
+					sum += segs[i].rotation_angle();
+					sum += last.evalrot(segs[i].start_d1());
+					last = segs[i].finish_d1();
+				}
+				if (gxx::math::is_same(sum, - 2 * M_PI, g2::precision)) return false;
+				if (gxx::math::is_same(sum,   2 * M_PI, g2::precision)) return true;
+				gxx::panic("strange cycle");
+			}
+
 			contour(const std::initializer_list<segment>& segs) : segs(segs) {
 				orient_segments();
 				check_critical();
 				sew_vertexs();
 				check_critical();
+			}
+
+			void reverse() {
+				for(auto& e : segs) {
+					e.reverse();
+				}
 			}
 		};
 
@@ -124,6 +149,7 @@ namespace gxx {
 			std::vector<contour> conts;
 			figure(const contour& cntr) : conts{cntr} {
 				cntr.check_closed_critical();
+				if (!cntr.cycle_orientation()) conts[0].reverse();
 			}			
 		};
 	}

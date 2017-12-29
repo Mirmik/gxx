@@ -1,6 +1,8 @@
 #ifndef GXX_MATH_UTIL_H
 #define GXX_MATH_UTIL_H
 
+#include <cmath>
+
 namespace gxx { namespace math {
 
 	inline float veryquick_rsqrt( float number ) {
@@ -40,6 +42,10 @@ namespace gxx { namespace math {
 	template <typename T, typename P>
 	inline bool is_same(T a, T b, P prec) {
 		return fabs(a-b) < prec;
+	}
+
+	inline double rad2angle(double r) {
+		return r / 2 / M_PI * 360;
 	}
 }}
 #endif

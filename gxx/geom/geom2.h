@@ -52,6 +52,8 @@ namespace gxx { namespace geom2 {
 
 		point start() const { return d0(bmin); }
 		point finish() const { return d0(bmax); }
+		point start_d1() const { return d1(bmin); }
+		point finish_d1() const { return d1(bmax); }
 
 		double bmax, bmin;
 		curve() : bmax(tmax()), bmin(tmin()) {}
