@@ -44,6 +44,12 @@ namespace gxx { namespace math {
 		return fabs(a-b) < prec;
 	}
 
+	template <typename T, typename P>
+	inline bool early_zero(T a, P prec) {
+		return fabs(a) < prec;
+	}
+
+
 	inline double rad2angle(double r) {
 		return r / 2 / M_PI * 360;
 	}

@@ -3,6 +3,7 @@
 
 #include <ctype.h>
 #include <stdlib.h>
+#include <string.h>
 #include <inttypes.h>
 #include <math.h>
 #include <gxx/util/asciiconvert.h>
@@ -163,239 +164,244 @@ static inline int32_t atoi32(const char *buf, uint8_t base, char** end) {
  **************************************************/
  /*static void ftoa(float Value, char* Buffer)
  {
-     union
-     {
-         float f;
-     
-         struct
-         {
-             unsigned int    mantissa_lo : 16;
-             unsigned int    mantissa_hi : 7;    
-             unsigned int     exponent : 8;
-             unsigned int     sign : 1;
-         };
-     } helper;
-     
-     unsigned long mantissa;
-     signed char exponent;
-     unsigned int int_part;
-     char frac_part[3];
-     int i, count = 0;
-     
-     helper.f = Value;
-     //mantissa is LS 23 bits
-     mantissa = helper.mantissa_lo;
-     mantissa += ((unsigned long) helper.mantissa_hi << 16);
-     //add the 24th bit to get 1.mmmm^eeee format
-     mantissa += 0x00800000;
-     //exponent is biased by 127
-     exponent = (signed char) helper.exponent - 127;
-     
-     //too big to shove into 8 chars
-     if (exponent > 18)
-     {
-         Buffer[0] = 'I';
-         Buffer[1] = 'n';
-         Buffer[2] = 'f';
-         Buffer[3] = '\0';
-         return;
-     }
-     
-     //too small to resolve (resolution of 1/8)
-     if (exponent < -3)
-     {
-         Buffer[0] = '0';
-         Buffer[1] = '\0';
-         return;
-     }
-     
-     count = 0;
-     
-     //add negative sign (if applicable)
-     if (helper.sign)
-     {
-         Buffer[0] = '-';
-         count++;
-     }
-     
-     //get the integer part
-     int_part = mantissa >> (23 - exponent);    
-     //convert to string
-     i32toa(int_part, &Buffer[count], 10);
-     
-     //find the end of the integer
-     for (i = 0; i < 8; i++)
-         if (Buffer[i] == '\0')
-         {
-             count = i;
-             break;
-         }        
+	 union
+	 {
+		 float f;
+	 
+		 struct
+		 {
+			 unsigned int    mantissa_lo : 16;
+			 unsigned int    mantissa_hi : 7;    
+			 unsigned int     exponent : 8;
+			 unsigned int     sign : 1;
+		 };
+	 } helper;
+	 
+	 unsigned long mantissa;
+	 signed char exponent;
+	 unsigned int int_part;
+	 char frac_part[3];
+	 int i, count = 0;
+	 
+	 helper.f = Value;
+	 //mantissa is LS 23 bits
+	 mantissa = helper.mantissa_lo;
+	 mantissa += ((unsigned long) helper.mantissa_hi << 16);
+	 //add the 24th bit to get 1.mmmm^eeee format
+	 mantissa += 0x00800000;
+	 //exponent is biased by 127
+	 exponent = (signed char) helper.exponent - 127;
+	 
+	 //too big to shove into 8 chars
+	 if (exponent > 18)
+	 {
+		 Buffer[0] = 'I';
+		 Buffer[1] = 'n';
+		 Buffer[2] = 'f';
+		 Buffer[3] = '\0';
+		 return;
+	 }
+	 
+	 //too small to resolve (resolution of 1/8)
+	 if (exponent < -3)
+	 {
+		 Buffer[0] = '0';
+		 Buffer[1] = '\0';
+		 return;
+	 }
+	 
+	 count = 0;
+	 
+	 //add negative sign (if applicable)
+	 if (helper.sign)
+	 {
+		 Buffer[0] = '-';
+		 count++;
+	 }
+	 
+	 //get the integer part
+	 int_part = mantissa >> (23 - exponent);    
+	 //convert to string
+	 i32toa(int_part, &Buffer[count], 10);
+	 
+	 //find the end of the integer
+	 for (i = 0; i < 8; i++)
+		 if (Buffer[i] == '\0')
+		 {
+			 count = i;
+			 break;
+		 }        
  
-     //not enough room in the buffer for the frac part    
-     if (count > 5)
-         return;
-     
-     //add the decimal point    
-     Buffer[count++] = '.';
-     
-     //use switch to resolve the fractional part
-     switch (0x7 & (mantissa  >> (20 - exponent)))
-     {
-         case 0:
-             frac_part[0] = '0';
-             frac_part[1] = '0';
-             frac_part[2] = '0';
-             break;
-         case 1:
-             frac_part[0] = '1';
-             frac_part[1] = '2';
-             frac_part[2] = '5';            
-             break;
-         case 2:
-             frac_part[0] = '2';
-             frac_part[1] = '5';
-             frac_part[2] = '0';            
-             break;
-         case 3:
-             frac_part[0] = '3';
-             frac_part[1] = '7';
-             frac_part[2] = '5';            
-             break;
-         case 4:
-             frac_part[0] = '5';
-             frac_part[1] = '0';
-             frac_part[2] = '0';            
-             break;
-         case 5:
-             frac_part[0] = '6';
-             frac_part[1] = '2';
-             frac_part[2] = '5';            
-             break;
-         case 6:
-             frac_part[0] = '7';
-             frac_part[1] = '5';
-             frac_part[2] = '0';            
-             break;
-         case 7:
-             frac_part[0] = '8';
-             frac_part[1] = '7';
-             frac_part[2] = '5';                    
-             break;
-     }
-     
-     //add the fractional part to the output string
-     for (i = 0; i < 3; i++)
-         if (count < 7)
-             Buffer[count++] = frac_part[i];
-     
-     //make sure the output is terminated
-     Buffer[count] = '\0';
+	 //not enough room in the buffer for the frac part    
+	 if (count > 5)
+		 return;
+	 
+	 //add the decimal point    
+	 Buffer[count++] = '.';
+	 
+	 //use switch to resolve the fractional part
+	 switch (0x7 & (mantissa  >> (20 - exponent)))
+	 {
+		 case 0:
+			 frac_part[0] = '0';
+			 frac_part[1] = '0';
+			 frac_part[2] = '0';
+			 break;
+		 case 1:
+			 frac_part[0] = '1';
+			 frac_part[1] = '2';
+			 frac_part[2] = '5';            
+			 break;
+		 case 2:
+			 frac_part[0] = '2';
+			 frac_part[1] = '5';
+			 frac_part[2] = '0';            
+			 break;
+		 case 3:
+			 frac_part[0] = '3';
+			 frac_part[1] = '7';
+			 frac_part[2] = '5';            
+			 break;
+		 case 4:
+			 frac_part[0] = '5';
+			 frac_part[1] = '0';
+			 frac_part[2] = '0';            
+			 break;
+		 case 5:
+			 frac_part[0] = '6';
+			 frac_part[1] = '2';
+			 frac_part[2] = '5';            
+			 break;
+		 case 6:
+			 frac_part[0] = '7';
+			 frac_part[1] = '5';
+			 frac_part[2] = '0';            
+			 break;
+		 case 7:
+			 frac_part[0] = '8';
+			 frac_part[1] = '7';
+			 frac_part[2] = '5';                    
+			 break;
+	 }
+	 
+	 //add the fractional part to the output string
+	 for (i = 0; i < 3; i++)
+		 if (count < 7)
+			 Buffer[count++] = frac_part[i];
+	 
+	 //make sure the output is terminated
+	 Buffer[count] = '\0';
  }*/
 
 
 #define MAX_PRECISION   (10)
 static const double rounders[MAX_PRECISION + 1] =
 {
-    0.5,                // 0
-    0.05,               // 1
-    0.005,              // 2
-    0.0005,             // 3
-    0.00005,            // 4
-    0.000005,           // 5
-    0.0000005,          // 6
-    0.00000005,         // 7
-    0.000000005,        // 8
-    0.0000000005,       // 9
-    0.00000000005       // 10
+	0.5,                // 0
+	0.05,               // 1
+	0.005,              // 2
+	0.0005,             // 3
+	0.00005,            // 4
+	0.000005,           // 5
+	0.0000005,          // 6
+	0.00000005,         // 7
+	0.000000005,        // 8
+	0.0000000005,       // 9
+	0.00000000005       // 10
 };
 
 inline char * ftoa(double f, char * buf, int precision)
 {
-    char * ptr = buf;
-    char * p = ptr;
-    char * p1;
-    char c;
-    long intPart;
+	if (auto r = isinf(f)) {
+		*buf++ = r == 1 ? '+' : '-';
+		return ::strcpy(buf, "inf");
+	}
 
-    // check precision bounds
-    if (precision > MAX_PRECISION)
-        precision = MAX_PRECISION;
+	char * ptr = buf;
+	char * p = ptr;
+	char * p1;
+	char c;
+	long intPart;
 
-    // sign stuff
-    if (f < 0)
-    {
-        f = -f;
-        *ptr++ = '-';
-    }
+	// check precision bounds
+	if (precision > MAX_PRECISION)
+		precision = MAX_PRECISION;
 
-    if (precision < 0)  // negative precision == automatic precision guess
-    {
-        if (f < 1.0) precision = 6;
-        else if (f < 10.0) precision = 5;
-        else if (f < 100.0) precision = 4;
-        else if (f < 1000.0) precision = 3;
-        else if (f < 10000.0) precision = 2;
-        else if (f < 100000.0) precision = 1;
-        else precision = 0;
-    }
+	// sign stuff
+	if (f < 0)
+	{
+		f = -f;
+		*ptr++ = '-';
+	}
 
-    // round value according the precision
-    if (precision)
-        f += rounders[precision];
+	if (precision < 0)  // negative precision == automatic precision guess
+	{
+		if (f < 1.0) precision = 6;
+		else if (f < 10.0) precision = 5;
+		else if (f < 100.0) precision = 4;
+		else if (f < 1000.0) precision = 3;
+		else if (f < 10000.0) precision = 2;
+		else if (f < 100000.0) precision = 1;
+		else precision = 0;
+	}
 
-    // integer part...
-    intPart = f;
-    f -= intPart;
+	// round value according the precision
+	if (precision)
+		f += rounders[precision];
 
-    if (!intPart)
-        *ptr++ = '0';
-    else
-    {
-        // save start pointer
-        p = ptr;
+	// integer part...
+	intPart = f;
+	f -= intPart;
 
-        // convert (reverse order)
-        while (intPart)
-        {
-            *p++ = '0' + intPart % 10;
-            intPart /= 10;
-        }
+	if (!intPart)
+		*ptr++ = '0';
+	else
+	{
+		// save start pointer
+		p = ptr;
 
-        // save end pos
-        p1 = p;
+		// convert (reverse order)
+		while (intPart)
+		{
+			*p++ = '0' + intPart % 10;
+			intPart /= 10;
+		}
 
-        // reverse result
-        while (p > ptr)
-        {
-            c = *--p;
-            *p = *ptr;
-            *ptr++ = c;
-        }
+		// save end pos
+		p1 = p;
 
-        // restore end pos
-        ptr = p1;
-    }
+		// reverse result
+		while (p > ptr)
+		{
+			c = *--p;
+			*p = *ptr;
+			*ptr++ = c;
+		}
 
-    // decimal part
-    if (precision)
-    {
-        // place decimal point
-        *ptr++ = '.';
+		// restore end pos
+		ptr = p1;
+	}
 
-        // convert
-        while (precision--)
-        {
-            f *= 10.0;
-            c = f;
-            *ptr++ = '0' + c;
-            f -= c;
-        }
-    }
+	// decimal part
+	if (precision)
+	{
+		// place decimal point
+		*ptr++ = '.';
 
-    // terminating zero
-    *ptr = 0;
+		// convert
+		while (precision--)
+		{
+			f *= 10.0;
+			c = f;
+			*ptr++ = '0' + c;
+			f -= c;
+		}
+	}
 
-    return buf;
+	// terminating zero
+	*ptr = 0;
+
+	return buf;
 }
 
 
