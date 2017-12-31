@@ -82,6 +82,10 @@ namespace malgo2 {
 			x -= b.x; y -= b.y;
 		}		
 
+		void self_reverse() {
+			x = -x; y = -y;
+		}
+
 		vector2 reverse() const {
 			return vector2(-x,-y);
 		}
