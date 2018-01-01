@@ -312,7 +312,7 @@ static const double rounders[MAX_PRECISION + 1] =
 
 inline char * ftoa(double f, char * buf, int precision)
 {
-	if (auto r = isinf(f)) {
+	if (auto r = __builtin_isinf_sign(f)) {
 		*buf++ = r == 1 ? '+' : '-';
 		return ::strcpy(buf, "inf");
 	}

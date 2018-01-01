@@ -6,7 +6,13 @@
 #include <limits>
 #include <memory>
 
-namespace gxx { namespace geom2 {
+#include <gxx/geom/sgeom2.h>
+#include <gxx/exception.h>
+
+namespace gxx { 
+	class drawer2d;
+
+namespace geom2 {
 	constexpr static double infinity = std::numeric_limits<double>::infinity();
 	constexpr static double precision = 0.00000001;
 
@@ -16,6 +22,7 @@ namespace gxx { namespace geom2 {
 		point(double x, double y) : malgo2::vector2<double>(x,y) {}
 		point(const point& oth) : malgo2::vector2<double>(oth) {}
 		point(const malgo2::vector2<double>& oth) : malgo2::vector2<double>(oth) {}
+		//gxx::sgeom2::point<double> operator gxx::sgeom2::point<double> { return sgeom2::point<double>(x,y); }
 	};
 
 	class vector : public malgo2::vector2<double> {
@@ -51,15 +58,21 @@ namespace gxx { namespace geom2 {
 		//virtual double rotation_angle() const { return 0; }
 		virtual size_t printTo(gxx::io::ostream& o) const { return gxx::print("nilcurve"); }	
 		virtual curve_enum gettype() const { return curve_enum::none; }	
+		virtual void drawTo(drawer2d& cntxt) const { throw GXX_NOT_IMPLEMENTED; };
 
 		//point start() const { return d0(bmin); }
 		//point finish() const { return d0(bmax); }
 		//point start_d1() const { return d1(bmin); }
 		//point finish_d1() const { return d1(bmax); }
 
-		//double bmax, bmin;
-		//curve() : bmax(tmax()), bmin(tmin()) {}
-		//curve(double bmin, double bmax) : bmax(bmax), bmin(bmin) {}
+		double bmax, bmin;
+		bool trimmed;
+
+		virtual bool in(double t) const { return !trimmed || ((t >= bmin) && (t <= bmax)); }
+		virtual bool is_bound(double t) const { return trimmed && (gxx::math::is_same(t, bmin, precision) || gxx::math::is_same(t, bmax, precision)); }
+
+		curve() : trimmed(false) {}
+		curve(double bmin, double bmax) : bmax(bmax), bmin(bmin), trimmed(true) {}
 	};
 
 	class nilcurve : public curve {
@@ -72,7 +85,8 @@ namespace gxx { namespace geom2 {
 		point l;
 		direction d;
 		double angle;
-		line(const point& l, const vector& v) : l(l), d(v), angle(atan2(v.y, v.x)) {}
+		line(const point& l, const direction& v) : l(l), d(v), angle(atan2(v.y, v.x)) {}
+		line(const point& l1, const point& l2) : l(l1), d(l2-l1), curve(0, (l2-l1).abs()) { angle = atan2(d.y, d.x); }
 		point d0(double t) const override { return point(l.x + d.x * t, l.y + d.y * t); }
 		double rev_d0(point pnt) const { return (pnt-l).sclmul(d); }
 		vector d1(double t) const override { return d; }
@@ -80,6 +94,7 @@ namespace gxx { namespace geom2 {
 		double tmax() override { return   geom2::infinity; }
 		curve_enum gettype() const override { return curve_enum::line; }	
 		size_t printTo(gxx::io::ostream& o) const override { return gxx::fprint("line(l:{},d:{})",l,d); } 
+		void drawTo(drawer2d& cntxt) const override;
 
 		double distance(point pnt) const {
 			auto l21 = pnt - l;
@@ -106,20 +121,42 @@ namespace gxx { namespace geom2 {
 		curve_enum gettype() const override { return curve_enum::circle; }	
 		size_t printTo(gxx::io::ostream& o) const override { return gxx::fprint("circle(r:{},c:{},v:{})",r,l,dirx); } 
 		double sparam() { return atan2(dirx.x, dirx.y); }
+		void drawTo(drawer2d& cntxt) const override;
 	};
 
 	class curve_segment : public curve {
 	public:
 		double bmin, bmax;
 		std::shared_ptr<curve> crv;
-		curve_segment(std::shared_ptr<curve> sptr) : crv(sptr) {}
+		curve_segment(std::shared_ptr<curve> sptr, double bmin, double bmax) : crv(sptr) {}
+	};
+
+	//struct intersection_curve_point {
+	//	double value;
+	//	bool tangent;
+	//	intersection_point(double a, bool tangent = false) : value(a), tangent(tangent) {}
+	//	operator double() { return value; }
+	//	size_t printTo(gxx::io::ostream& o) const {
+	//		return gxx::fprint("({},tan:{})", value, tangent);
+	//	}
+	//};
+
+
+	struct intersection_point2d {
+		double value;
+		bool bound;
+		intersection_point2d(double a, bool bound = false) : value(a), bound(bound) {}
+		operator double() { return value; }
+		size_t printTo(gxx::io::ostream& o) const {
+			return gxx::fprint("({},tan:{})", value, bound);
+		}
 	};
 
 	struct intersection_point {
-		double value;
+		point value;
 		bool tangent;
-		intersection_point(double a, bool tangent = false) : value(a), tangent(tangent) {}
-		operator double() { return value; }
+		intersection_point(point a, bool tangent = false) : value(a), tangent(tangent) {}
+		operator point() { return value; }
 		size_t printTo(gxx::io::ostream& o) const {
 			return gxx::fprint("({},tan:{})", value, tangent);
 		}
@@ -134,9 +171,9 @@ namespace gxx { namespace geom2 {
 		}
 	};
 
-	class curve_parts {
+	class intresult_parts {
 	public:
-		std::vector<intersection_point> points;
+		std::vector<intersection_point2d> points;
 		std::vector<interval> intervals;
 	public:
 		size_t printTo(gxx::io::ostream& o) const {
@@ -144,8 +181,24 @@ namespace gxx { namespace geom2 {
 		}
 	};
 
+	class intresult_common {
+	public:
+		std::vector<intersection_point> points;
+	public:	
+		size_t printTo(gxx::io::ostream& o) const {
+			return gxx::fprint("(pnts:{})", points);
+		}
+	};
+
+	class intresult {
+	public:
+		intresult_common common;
+		intresult_parts first;	
+		intresult_parts second;
+	};
+
 	
-	inline void intersect_line2_line2(const line& a, const line& b, curve_parts& ares, curve_parts& bres) {
+	inline void intersect_line2_line2(const line& a, const line& b, intresult_common& com, intresult_parts& ares, intresult_parts& bres) {
 		point l12 = a.l - b.l;
 		double dd = a.d.crossmul(b.d);
 
@@ -153,8 +206,13 @@ namespace gxx { namespace geom2 {
 			if (gxx::math::early_zero(l12.crossmul(a.d), precision)) {
 				//прямые совпадают
 				gxx::println("same");
-				ares.intervals.emplace_back(-infinity, infinity);
-				bres.intervals.emplace_back(-infinity, infinity);
+				if (!a.trimmed && !b.trimmed) {
+					ares.intervals.emplace_back(-infinity, infinity);
+					bres.intervals.emplace_back(-infinity, infinity);
+				}
+				else {
+					gxx::panic("undef");
+				}
 			}
 			else {
 				gxx::println("not intersect");
@@ -166,14 +224,17 @@ namespace gxx { namespace geom2 {
 			//одна точка пересечения
 			double t1 = b.d.crossmul(l12) / dd;
 			double t2 = a.d.crossmul(l12) / dd;
-			ares.points.emplace_back(t1);
-			bres.points.emplace_back(t2);
+			if (a.in(t1) && b.in(t2)) {
+				ares.points.emplace_back(t1, a.is_bound(t1));
+				bres.points.emplace_back(t2, b.is_bound(t1));
+				com.points.emplace_back(a.d0(t1));
+			}
 		}
 
 		return;
 	}
 
-	inline void intersect_line2_circle2(const line& a, const circle& b, curve_parts& ares, curve_parts& bres) {
+	inline void intersect_line2_circle2(const line& a, const circle& b, intresult_common& com, intresult_parts& ares, intresult_parts& bres) {
 		auto linenorm = a.normal();
 		auto distance = linenorm.sclmul(a.l - b.l);
 		auto r = b.radius();
@@ -181,16 +242,19 @@ namespace gxx { namespace geom2 {
 		if (distance < 0) { linenorm.self_reverse(); distance = -distance; }
 				
 		if (gxx::math::is_same(distance, r, precision)) {
-			gxx::println("касание");			
 			auto t1 = a.d.sclmul(b.l-a.l);
 			auto t2 = -b.sp + atan2(linenorm.y, linenorm.x); 
-			ares.points.emplace_back(t1,true);
-			bres.points.emplace_back(t2,true);
+			
+			if (a.in(t1) && b.in(t2)) {
+				ares.points.emplace_back(t1);
+				bres.points.emplace_back(t2);
+				com.points.emplace_back(a.d0(t1), true);
+			}
+			
 			return;
 		}
 
 		if (distance > r) {
-			gxx::println("нет пересечения");
 			return;
 		}
 
@@ -198,27 +262,56 @@ namespace gxx { namespace geom2 {
 		auto diff_angle = acos(cos_diff_angle);
 		auto t2 = -b.sp + atan2(linenorm.y, linenorm.x); 
 
-		ares.points.emplace_back(a.rev_d0(b.d0(t2 - diff_angle)));
-		bres.points.emplace_back(t2 - diff_angle);
-		ares.points.emplace_back(a.rev_d0(b.d0(t2 + diff_angle)));
-		bres.points.emplace_back(t2 + diff_angle);
-			
-		gxx::println("два пересечения");
+		auto t21 = t2 - diff_angle;
+		auto pnt1 = b.d0(t21);
+		auto t11 = a.rev_d0(pnt1);
+
+		auto t22 = t2 + diff_angle;
+		auto pnt2 = b.d0(t22);
+		auto t12 = a.rev_d0(pnt2);
+
+		if (a.in(t11) && b.in(t21)) {
+			ares.points.emplace_back(t11, a.is_bound(t11));
+			bres.points.emplace_back(t21, b.is_bound(t21));
+			com.points.emplace_back(pnt1);
+		}
+
+		if (a.in(t12) && b.in(t22)) {
+			ares.points.emplace_back(t12, a.is_bound(t12));
+			bres.points.emplace_back(t22, b.is_bound(t22));
+			com.points.emplace_back(pnt2);
+		}
 		return;
 	}
 
-	inline void intersect_line2_curve2(const line& a, const curve& b, curve_parts& ares, curve_parts& bres) {
-		if (typeid(b) == typeid(line)) { intersect_line2_line2(a, static_cast<const line&>(b), ares, bres); return; }
-		if (typeid(b) == typeid(circle)) { intersect_line2_circle2(a, static_cast<const circle&>(b), ares, bres); return; }
+
+	inline void intersect_circle2_circle2(const circle& a, const circle& b, intresult_common& com, intresult_parts& ares, intresult_parts& bres) {
+		gxx::println("circ circ intersect");
+	}
+
+	inline void intersect_line2_curve2(const line& a, const curve& b, intresult_common& com, intresult_parts& ares, intresult_parts& bres) {
+		if (typeid(b) == typeid(line)) { intersect_line2_line2(a, static_cast<const line&>(b), com, ares, bres); return; }
+		if (typeid(b) == typeid(circle)) { intersect_line2_circle2(a, static_cast<const circle&>(b), com, ares, bres); return; }
 		gxx::panic("undefined curve");
 	}
 
-	inline std::pair<curve_parts, curve_parts> intersect_curve2_curve2(const curve& a, const curve& b) {
-		std::pair<curve_parts, curve_parts> res;
-		if (typeid(a) == typeid(line)) { intersect_line2_curve2(static_cast<const line&>(a), b, res.first, res.second); return res; }
-		if (typeid(b) == typeid(line)) { intersect_line2_curve2(static_cast<const line&>(b), a, res.second, res.first); return res; }
+	inline void intersect_circle2_curve2(const circle& a, const curve& b, intresult_common& com, intresult_parts& ares, intresult_parts& bres) {
+		if (typeid(b) == typeid(circle)) { intersect_circle2_circle2(a, static_cast<const circle&>(b), com, ares, bres); return; }
+		gxx::panic("undefined curve");
+	}
+
+	inline intresult intersect_curve2_curve2(const curve& a, const curve& b) {
+		intresult res;
+		if (typeid(a) == typeid(line)) { intersect_line2_curve2(static_cast<const line&>(a), b, res.common, res.first, res.second); return res; }
+		if (typeid(b) == typeid(line)) { intersect_line2_curve2(static_cast<const line&>(b), a, res.common, res.second, res.first); return res; }
+		if (typeid(a) == typeid(circle)) { intersect_circle2_curve2(static_cast<const circle&>(a), b, res.common, res.first, res.second); return res; }
+		if (typeid(b) == typeid(circle)) { intersect_circle2_curve2(static_cast<const circle&>(b), a, res.common, res.second, res.first); return res; }
 		gxx::panic("undefined curve");
 		return res;
+	}
+
+	inline intresult operator ^ (const curve& a, const curve& b) {
+		return intersect_curve2_curve2(a, b);
 	}
 
 	/*class curve {
