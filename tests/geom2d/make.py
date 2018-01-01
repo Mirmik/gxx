@@ -15,7 +15,8 @@ application("main",
 		submodule("gxx.dprint", "stdout"),
 		#submodule("gxx.panic", "abort"),
 		#submodule("gxx.print"),
-	]
+	],
+	ld_flags = "-lX11"
 )
 
 doit("main")

@@ -115,15 +115,15 @@ namespace gxx { namespace geom2 {
 		curve_segment(std::shared_ptr<curve> sptr) : crv(sptr) {}
 	};
 
-	/*struct point_intersection {
-		double first;
-		double second;
+	struct intersection_point {
+		double value;
 		bool tangent;
-		point_intersection(double a, double b, bool tangent = false) : first(a), second(b), tangent(tangent) {}
+		intersection_point(double a, bool tangent = false) : value(a), tangent(tangent) {}
+		operator double() { return value; }
 		size_t printTo(gxx::io::ostream& o) const {
-			return gxx::fprint("({},{},tan:{})", first, second, tangent);
+			return gxx::fprint("({},tan:{})", value, tangent);
 		}
-	};*/
+	};
 
 	struct interval {
 		double start;
@@ -136,7 +136,7 @@ namespace gxx { namespace geom2 {
 
 	class curve_parts {
 	public:
-		std::vector<double> points;
+		std::vector<intersection_point> points;
 		std::vector<interval> intervals;
 	public:
 		size_t printTo(gxx::io::ostream& o) const {
@@ -184,8 +184,8 @@ namespace gxx { namespace geom2 {
 			gxx::println("касание");			
 			auto t1 = a.d.sclmul(b.l-a.l);
 			auto t2 = -b.sp + atan2(linenorm.y, linenorm.x); 
-			ares.points.emplace_back(t1);
-			bres.points.emplace_back(t2);
+			ares.points.emplace_back(t1,true);
+			bres.points.emplace_back(t2,true);
 			return;
 		}
 
