@@ -7,7 +7,7 @@ namespace gxx {
 	namespace topo2 {
 		namespace prim {
 			namespace t2 = topo2;
-
+/*
 			figure triangle(g2::point pnt1, g2::point pnt2, g2::point pnt3) {
 				t2::vertex v1(pnt1);
 				t2::vertex v2(pnt2);
@@ -53,7 +53,7 @@ namespace gxx {
 				t2::figure fig(cntr);
 				return fig;
 			};
-		}
+*/		}
 	}
 }
 

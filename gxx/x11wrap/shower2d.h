@@ -3,6 +3,7 @@
 
 #include <X11/Xlib.h>
 #include <gxx/geom/geom2.h>
+#include <gxx/geom/topo2.h>
 #include <gxx/geom/sgeom2.h>
 
 namespace g2 = gxx::geom2;
@@ -18,7 +19,7 @@ namespace gxx {
 		std::vector<gxx::sgeom2::arc<double>> arcs;	
 
 
-		void add_point(gxx::geom2::point pnt) {
+		/*void add_point(gxx::geom2::point pnt) {
 			points.emplace_back(pnt.x, pnt.y);
 		}
 
@@ -44,7 +45,15 @@ namespace gxx {
 
 		void add_curve(const gxx::geom2::curve& crv) {
 			crv.drawTo(*this);
-		}		
+		}*/
+
+		/*void add_figure(const gxx::topo2::figure& fig) {
+			for (auto & c : fig.conts) {
+				for (auto & s : c.segs) {
+					add_curve(*s.crv);
+				}
+			}
+		}*/				
 	};
 
 	class shower2d : public drawer2d {
@@ -62,25 +71,25 @@ namespace gxx {
 		double scale = 1;
 			
 		void draw_point(const gxx::sgeom2::point<double>& pnt) {
-			int x = scale * (+ pnt.x + 0.5) + xcenter;
-			int y = scale * (- pnt.y - 0.5) + ycenter;
+			int x = scale * (+ pnt.x) + xcenter + 0.5;
+			int y = scale * (- pnt.y) + ycenter + 0.5;
 			
 			XDrawLine(d, w, DefaultGC(d, s), x - 5, y - 5, x + 5, y + 5);
 			XDrawLine(d, w, DefaultGC(d, s), x - 5, y + 5, x + 5, y - 5);
 		}
 
 		void draw_line(const gxx::sgeom2::line<double>& lin) {
-			int x1 = scale * (+ lin.x1 + 0.5) + xcenter;
-			int y1 = scale * (- lin.y1 - 0.5) + ycenter;
-			int x2 = scale * (+ lin.x2 + 0.5) + xcenter;
-			int y2 = scale * (- lin.y2 - 0.5) + ycenter;
+			int x1 = scale * (+ lin.x1) + xcenter + 0.5;
+			int y1 = scale * (- lin.y1) + ycenter + 0.5;
+			int x2 = scale * (+ lin.x2) + xcenter + 0.5;
+			int y2 = scale * (- lin.y2) + ycenter + 0.5;
 			
 			XDrawLine(d, w, DefaultGC(d, s), x1, y1, x2, y2);
 		}
 
 		void draw_arc(const gxx::sgeom2::arc<double>& arc) {
-			int x = scale * (+ arc.x + 0.5) + xcenter;
-			int y = scale * (- arc.y - 0.5) + ycenter;
+			int x = scale * (+ arc.x) + xcenter + 0.5;
+			int y = scale * (- arc.y) + ycenter + 0.5;
 			int we = scale * arc.w + 0.5;
 			int he = scale * arc.h + 0.5;
 			int a1 = arc.a1 * 64 + 0.5;

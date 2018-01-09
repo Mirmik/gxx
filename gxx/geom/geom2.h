@@ -41,11 +41,11 @@ namespace geom2 {
 		direction(const malgo2::vector2<double>& oth, bool norm = true) : malgo2::vector2<double>(oth) { if (norm) self_normalize(); }
 	};
 
-	enum class curve_enum : uint8_t {
+	/*enum class curve_enum : uint8_t {
 		none,
 		line,
 		circle
-	};
+	};*/
 
 	class curve {
 	public:
@@ -55,27 +55,28 @@ namespace geom2 {
 		virtual bool is_periodic() { return false; }
 		virtual double tmin() { return 0; }
 		virtual double tmax() { return 0; }
-		//virtual double rotation_angle() const { return 0; }
+		virtual double rotation_angle() const { return 0; }
 		virtual size_t printTo(gxx::io::ostream& o) const { return gxx::print("nilcurve"); }	
-		virtual curve_enum gettype() const { return curve_enum::none; }	
+		//virtual curve_enum gettype() const { return curve_enum::none; }	
 		virtual void drawTo(drawer2d& cntxt) const { throw GXX_NOT_IMPLEMENTED; };
 
 		//point start() const { return d0(bmin); }
 		//point finish() const { return d0(bmax); }
-		//point start_d1() const { return d1(bmin); }
-		//point finish_d1() const { return d1(bmax); }
+		//vector start_d1() const { return d1(bmin); }
+		//vector finish_d1() const { return d1(bmax); }
 
-		double bmax, bmin;
-		bool trimmed;
+		//double bmax, bmin;
+		//bool trimmed;
 
-		virtual bool in(double t) const { return !trimmed || ((t >= bmin) && (t <= bmax)); }
-		virtual bool is_bound(double t) const { return trimmed && (gxx::math::is_same(t, bmin, precision) || gxx::math::is_same(t, bmax, precision)); }
+		//virtual bool in(double t) const { return !trimmed || ((t >= bmin) && (t <= bmax)); }
+		//virtual bool is_bound(double t) const { return trimmed && (gxx::math::is_same(t, bmin, precision) || gxx::math::is_same(t, bmax, precision)); }
 
-		curve() : trimmed(false) {}
-		curve(double bmin, double bmax) : bmax(bmax), bmin(bmin), trimmed(true) {}
+		//curve() {}
+		//curve(double bmin, double bmax) : bmax(bmax), bmin(bmin), trimmed(true) {}
 	};
 
 	class nilcurve : public curve {
+	public:
 		point d0(double t) const override { return point(); }
 		vector d1(double t) const override { return vector(); }
 	};
@@ -86,15 +87,15 @@ namespace geom2 {
 		direction d;
 		double angle;
 		line(const point& l, const direction& v) : l(l), d(v), angle(atan2(v.y, v.x)) {}
-		line(const point& l1, const point& l2) : l(l1), d(l2-l1), curve(0, (l2-l1).abs()) { angle = atan2(d.y, d.x); }
+		//line(const point& l1, const point& l2) : l(l1), d(l2-l1), curve(0, (l2-l1).abs()) { angle = atan2(d.y, d.x); }
 		point d0(double t) const override { return point(l.x + d.x * t, l.y + d.y * t); }
 		double rev_d0(point pnt) const { return (pnt-l).sclmul(d); }
 		vector d1(double t) const override { return d; }
 		double tmin() override { return - geom2::infinity; }
 		double tmax() override { return   geom2::infinity; }
-		curve_enum gettype() const override { return curve_enum::line; }	
+		//curve_enum gettype() const override { return curve_enum::line; }	
 		size_t printTo(gxx::io::ostream& o) const override { return gxx::fprint("line(l:{},d:{})",l,d); } 
-		void drawTo(drawer2d& cntxt) const override;
+		//void drawTo(drawer2d& cntxt) const override;
 
 		double distance(point pnt) const {
 			auto l21 = pnt - l;
@@ -118,30 +119,12 @@ namespace geom2 {
 		point d0(double t) const override { auto c = cos(t+sp); auto s = sin(t+sp); return point(l.x + c*r, l.y + s*r); }
 		vector d1(double t) const override { gxx::panic("circle"); }
 		double tmax() override { return 2 * M_PI; }
-		curve_enum gettype() const override { return curve_enum::circle; }	
+		//curve_enum gettype() const override { return curve_enum::circle; }	
 		size_t printTo(gxx::io::ostream& o) const override { return gxx::fprint("circle(r:{},c:{},v:{})",r,l,dirx); } 
 		double sparam() { return atan2(dirx.x, dirx.y); }
 		void drawTo(drawer2d& cntxt) const override;
 	};
-
-	class curve_segment : public curve {
-	public:
-		double bmin, bmax;
-		std::shared_ptr<curve> crv;
-		curve_segment(std::shared_ptr<curve> sptr, double bmin, double bmax) : crv(sptr) {}
-	};
-
-	//struct intersection_curve_point {
-	//	double value;
-	//	bool tangent;
-	//	intersection_point(double a, bool tangent = false) : value(a), tangent(tangent) {}
-	//	operator double() { return value; }
-	//	size_t printTo(gxx::io::ostream& o) const {
-	//		return gxx::fprint("({},tan:{})", value, tangent);
-	//	}
-	//};
-
-
+/*
 	struct intersection_point2d {
 		double value;
 		bool bound;
@@ -312,84 +295,7 @@ namespace geom2 {
 
 	inline intresult operator ^ (const curve& a, const curve& b) {
 		return intersect_curve2_curve2(a, b);
-	}
-
-	/*class curve {
-	public:
-		union {
-			nilcurve nil;
-			line ln;
-		};
-
-		curve() {
-			new (&nil) nilcurve();
-		}
-
-		curve(const line& ctr) {
-			new (&ln) line(ctr);
-		}
-		
-		curve(const curve& oth){
-			copy(oth);
-		}
-		
-		curve(const point& pnt, const vector& vec) {
-			new (&ln) line(pnt, vec);
-		}
-
-		~curve(){}
-
-		curve& operator=(curve&& oth) {				
-			invalidate();
-			move(std::move(oth));
-		}
-
-		void copy(const curve& oth) {
-			switch(oth.gettype()) {
-				case curve_enum::none: new (&nil) nilcurve(); return;
-				case curve_enum::line: new (&ln) line(oth.ln); return;
-				default: gxx::panic("copy: undefined curve2");
-			}
-		}
-
-		void move(curve&& oth) {
-			switch(oth.gettype()) {
-				case curve_enum::none: new (&nil) nilcurve(); return;
-				case curve_enum::line: new (&ln) line(oth.ln); return;
-				default: gxx::panic("move: undefined curve2");
-			}
-		}
-
-		void invalidate() {}
-
-		basic_curve& abstract() { return *static_cast<basic_curve*>(&ln); }
-		const basic_curve& abstract() const { return *static_cast<const basic_curve*>(&ln); }
-		curve_enum gettype() const { return abstract().gettype(); }
-
-		point d0(double t) const {
-			return abstract().d0(t);
-		}
-
-		vector d1(double t) const {
-			return abstract().d1(t);
-		}
-
-		double bmin() const {
-			return abstract().bmin;
-		}
-
-		double bmax() const {
-			return abstract().bmax;
-		}
-
-		double rotation_angle() const {
-			return abstract().rotation_angle();
-		}
-
-		size_t printTo(gxx::io::ostream& o) const {
-			return abstract().printTo(o);
-		}
-	};*/
+	}*/
 }}
 
 #endif

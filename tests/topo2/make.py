@@ -16,7 +16,8 @@ application("main",
 		submodule("gxx.geom"),
 		#submodule("gxx.panic", "abort"),
 		#submodule("gxx.print"),
-	]
+	],
+	ld_flags = "-lX11"
 )
 
 doit("main")
