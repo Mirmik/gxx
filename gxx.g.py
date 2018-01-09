@@ -17,6 +17,7 @@ module("gxx",
 		"impl/panic_abort.cpp",
 		"string.cpp",
 		"util/base64.cpp",
+		"util/numconvert.c"
 	],
 
 	include_paths = ["."]
