@@ -20,7 +20,8 @@ namespace gxx {
 
 	public:
 		ring() : head(0), tail(0), isfull(false), buffer(nullptr), reserved(0) {}
-		
+		ring(int size) : ring() { reserve(size); }
+
 		void init() {
 			head = 0;
 			tail = 0;
@@ -55,7 +56,7 @@ namespace gxx {
 		}
 
 		void push(const T& obj) {
-			if (isfull) return;
+			if (isfull) __pop();
 			alloc.construct(buffer + head++, obj);
 			if (head == reserved) head = 0;
 			if (head == tail) isfull = true; 
@@ -69,10 +70,14 @@ namespace gxx {
 			if (head == tail) isfull = true; 
 		}
 
+		void __pop() {
+			alloc.destroy(buffer + tail);
+			if (++tail == reserved) tail = 0;	
+		}
+
 		void pop() {
 			if (!empty()) {
-				alloc.destroy(buffer + tail);
-				if (++tail == reserved) tail = 0;
+				__pop();
 				isfull = false;
 			}
 		}

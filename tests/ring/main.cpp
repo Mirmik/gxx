@@ -2,8 +2,7 @@
 #include <gxx/debug/dprint.h>
 
 int main() {
-	gxx::ring<int> r;
-	r.reserve(15);
+	gxx::ring<int> r(15);
 
 	r.push(33);
 	r.push(32);

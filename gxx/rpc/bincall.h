@@ -8,13 +8,6 @@
 
 namespace gxx {
 	namespace rpc {
-		enum class status : uint8_t {
-			OK,
-			WrongArgsFormat,
-			WrongArgsData,
-			InternalError,
-		};
-
 		/*class error : public gxx::result_type::exception {
 		public:
 			gxx::rpc::status status; 
