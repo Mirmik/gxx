@@ -25,7 +25,7 @@ namespace gxx {
 			fstream(const std::string& path, uint8_t mode = ReadWrite);
 
 			//bool open(uint8_t mode);
-			bool open(const std::string& path, uint8_t mode);
+			bool open(const std::string& path, uint8_t mode = ReadWrite);
 			void close();	
 
 			int nodelay(bool en);

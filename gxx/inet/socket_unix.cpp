@@ -50,7 +50,8 @@ namespace gxx {
 	
 			if (!is_disconnected()) {
 				int ret = ::shutdown(m_fd, SHUT_RDWR);
-				
+				dprln("shutdown", ret);
+
 				if (ret < 0) {
 					setError("shutdown", errno);
    					m_state = SocketState::Disconnected;	
