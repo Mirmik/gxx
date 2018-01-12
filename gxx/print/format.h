@@ -2,7 +2,7 @@
 #define GXX_FMT_FORMAT_H
 
 #include <gxx/arglist.h>
-#include <gxx/util/print.h>
+#include <gxx/print/meta.h>
 #include <gxx/util/numconvert.h>
 
 namespace gxx {
@@ -10,10 +10,6 @@ namespace gxx {
 	namespace fmt {
 		struct format_visitor {
 			using ftype = size_t(*)(void*, gxx::io::ostream&, gxx::buffer opts);												
-		
-			//template<typename Object> static size_t visit_implementation(void* obj, gxx::io::ostream& o, gxx::buffer opts) {
-			//	return reinterpret_cast<Object*>(obj)->fmtPrintTo(o, opts);
-			//}
 		
 			template<typename Object>
 			static void* get_visit() {
@@ -27,27 +23,7 @@ namespace gxx {
 			}																		
 		};
 		
-		/*template<> size_t format_visitor::visit_implementation<char>(void* ptr, gxx::io::ostream&, gxx::buffer);
-		
-		template<> size_t format_visitor::visit_implementation<signed char>(void* ptr, gxx::io::ostream&, gxx::buffer);
-		template<> size_t format_visitor::visit_implementation<short>(void* ptr, gxx::io::ostream&, gxx::buffer);
-		template<> size_t format_visitor::visit_implementation<int>(void* ptr, gxx::io::ostream&, gxx::buffer);
-		template<> size_t format_visitor::visit_implementation<long>(void* ptr, gxx::io::ostream&, gxx::buffer);
-		template<> size_t format_visitor::visit_implementation<long long>(void* ptr, gxx::io::ostream&, gxx::buffer);
-		
-		template<> size_t format_visitor::visit_implementation<unsigned char>(void* ptr, gxx::io::ostream&, gxx::buffer);
-		template<> size_t format_visitor::visit_implementation<unsigned short>(void* ptr, gxx::io::ostream&, gxx::buffer);
-		template<> size_t format_visitor::visit_implementation<unsigned int>(void* ptr, gxx::io::ostream&, gxx::buffer);
-		template<> size_t format_visitor::visit_implementation<unsigned long>(void* ptr, gxx::io::ostream&, gxx::buffer);
-		template<> size_t format_visitor::visit_implementation<unsigned long long>(void* ptr, gxx::io::ostream&, gxx::buffer);
-
-		template<> size_t format_visitor::visit_implementation<float>(void* ptr, gxx::io::ostream&, gxx::buffer);
-		template<> size_t format_visitor::visit_implementation<double>(void* ptr, gxx::io::ostream&, gxx::buffer);
-
-		template<> size_t format_visitor::visit_implementation<char*>(void* ptr, gxx::io::ostream&, gxx::buffer);
-		template<> size_t format_visitor::visit_implementation<std::string>(void* ptr, gxx::io::ostream&, gxx::buffer);*/
-	
-		struct spec_text {
+		/*struct spec_text {
 			unsigned char width = 0;
 			signed char allign = 0;
 
@@ -82,7 +58,7 @@ namespace gxx {
 		struct spec_float : public spec_text {
 		public:
 			spec_float(gxx::buffer buf) : spec_text(buf) {}
-		};
+		};*/
 	}
 }
 

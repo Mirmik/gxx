@@ -6,9 +6,7 @@
 
 namespace gxx {
 	namespace io {
-		class iostream : public ostream, public istream {
-
-		};
+		class iostream : public ostream, public istream {};
 	}
 }
 

@@ -8,10 +8,10 @@
 
 namespace gxx {
 	template <typename T, typename U = int>
-	struct IsPrintable : std::false_type { };
+	struct is_have_fmtPrintTo : std::false_type { };
 
 	template <typename T>
-	struct IsPrintable <T, decltype((void) &T::fmtPrintTo, 0)> : std::true_type { };
+	struct is_have_fmtPrintTo <T, decltype((void) &T::fmtPrintTo, 0)> : std::true_type { };
 
 	template <typename T, typename U = int>
 	struct is_have_printTo : std::false_type { };
@@ -54,7 +54,7 @@ namespace gxx {
 	};
 
 	template<typename T>
-	struct fprint_functions : public fprint_functions_basic<T, IsPrintable<T>::value> {};
+	struct fprint_functions : public fprint_functions_basic<T, is_have_fmtPrintTo<T>::value> {};
 
 	template<typename T>
 	struct fprint_functions<T*> {

@@ -17,8 +17,6 @@ namespace gxx {
 			}
 		};*/
 
-		template <typename T>
-		using rpcresult = gxx::result_type::result<T, status>;
 
 		template<typename Ret, typename ... Args>
 		struct bincaller_invoke { 

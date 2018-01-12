@@ -1,13 +1,15 @@
 #ifndef MALGO_H
 #define MALGO_H
 
+#include <gxx/print/printable.h>
+#include <gxx/serialize/serialize.h>
+
 #include <gxx/math/major.h>
 #include <gxx/math/util.h>
+
 #include <gxx/util/random.h>
-#include <gxx/print.h>
-#include <gxx/print/array.h>
+
 #include <gxx/objbuf.h>
-#include <gxx/serialize/serialize.h>
 
 namespace malgo {
 

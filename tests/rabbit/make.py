@@ -12,9 +12,11 @@ application("main",
 	include_paths = ["../.."],
 	modules = [
 		submodule("gxx"),
-		submodule("gxx.dprint", "cout"),
 		submodule("gxx.print", "cout"),
-	]
+		submodule("gxx.dprint", "cout"),
+		#submodule("gxx.geom"),
+	],
+	ld_flags = "-lX11"
 )
 
 doit("main")
