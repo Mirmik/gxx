@@ -8,7 +8,7 @@
 #include <gxx/arglist.h>
 
 namespace gxx {
-	extern gxx::io::ostream* stdout;
+	extern gxx::io::ostream* standart_output;
 
 	template<typename Arg> 
 	int print_to(gxx::io::ostream& out, const Arg& arg) {
@@ -30,32 +30,32 @@ namespace gxx {
 
 	template<typename Arg> 
 	int print(const Arg& arg) {
-		gxx::print_to(*stdout, arg);
+		gxx::print_to(*standart_output, arg);
 	}
 
 	template<typename Head, typename ... Tail> 
 	int print(const Head& head, const Tail& ... tail) {
 		print(head);
-		stdout->putchar(' ');
+		standart_output->putchar(' ');
 		print(tail ...);
 	}
 	
 	template<typename ... Args> 
 	int println(const Args& ... args) {
 		print(args ...);
-		stdout->println();	
+		standart_output->println();	
 	}
 
 	template<typename C>
 	int print_as_matrix(const C& c, int rlen) {
 		int n = 0;
 		for (const auto& v : c) {
-			stdout->print(v); 
-			stdout->putchar(' ');
+			standart_output->print(v); 
+			standart_output->putchar(' ');
 			++n;
 			if (n == rlen) {
 				n = 0;
-				stdout->println();
+				standart_output->println();
 			}
 		}
 	}
@@ -124,20 +124,26 @@ namespace gxx {
 		
 	template<typename ... Args>
 	int fprint(const char* fmt, Args&& ... args) {
-		gxx::fprint_to(*stdout, fmt,  std::forward<Args>(args) ...);		
+		gxx::fprint_to(*standart_output, fmt,  std::forward<Args>(args) ...);		
 	}
 		
 	template<typename ... Args> 
 	int fprintln(Args&& ... args) {
-		fprint_to(*stdout, std::forward<Args>(args) ...);
-		stdout->println();	
+		fprint_to(*standart_output, std::forward<Args>(args) ...);
+		standart_output->println();	
+	}
+
+	template<typename ... Args> 
+	int fprintln_to(gxx::io::ostream& out, Args&& ... args) {
+		fprint_to(out, std::forward<Args>(args) ...);
+		standart_output->println();	
 	}
 
 	template<typename ... Args>
 	std::string format(const char* fmt, Args&& ... args) {
 		std::string str;
 		gxx::io::ostringstream writer(str);
-		gxx::fprint(writer, fmt, std::forward<Args>(args) ...);
+		gxx::fprint_to(writer, fmt, std::forward<Args>(args) ...);
 		return str; 
 	}
 

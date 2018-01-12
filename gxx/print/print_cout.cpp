@@ -2,5 +2,5 @@
 #include <gxx/io/std.h>
 
 namespace gxx {
-	gxx::io::ostream* stdout = &gxx::io::cout;
+	gxx::io::ostream* standart_output = &gxx::io::cout;
 }

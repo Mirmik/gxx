@@ -13,7 +13,7 @@ namespace gxx {
 	public:
 		location_exception(struct location loc, const char* format) {
 			gxx::io::ostringstream strm(str);
-			gxx::fprintln(strm, format, "file"_a = loc.file, "line"_a = loc.line, "func"_a = loc.func);
+			gxx::fprintln_to(strm, format, "file"_a = loc.file, "line"_a = loc.line, "func"_a = loc.func);
 		}
 		
 		const char* what() const noexcept override {
