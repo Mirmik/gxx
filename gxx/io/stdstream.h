@@ -14,6 +14,7 @@ namespace gxx {
 		protected: 
 			virtual int writeData(const char* ptr, size_t sz) {
 				str.append(ptr, sz);
+				return sz;
 			}
 		};
 

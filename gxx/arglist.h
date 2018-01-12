@@ -83,6 +83,7 @@ namespace gxx {
 				if (str == arr[i].name) return arr[i]; 
 			}
 			gxx::panic("visitable_arglist: name error");
+			return arr[0]; // -Wreturn-type
 		}
 	};
 

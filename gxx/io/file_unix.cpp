@@ -53,7 +53,7 @@ namespace gxx {
 			fcntl(m_fd, F_SETFL, flags);
 			//perror("ss");
 			//while(1);
-	
+			return 0;
 		}	
 
 		bool file::is_open() {

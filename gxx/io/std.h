@@ -12,8 +12,8 @@ namespace gxx {
 			std_string_writer(std::string& str) : str(str) {}
 		protected: 
 			virtual int writeData(const char* ptr, size_t sz) {
-				//debug_write(ptr,sz);
 				str.append(ptr, sz);
+				return sz;
 			}
 		};
 
@@ -24,6 +24,7 @@ namespace gxx {
 		protected: 
 			virtual int writeData(const char* ptr, size_t sz) {
 				out.write(ptr, sz);
+				return sz;
 			}
 		};
 
@@ -32,6 +33,7 @@ namespace gxx {
 			std_ostream(std::basic_streambuf<char>* sb) : std::ostream(sb) {}
 			int writeData(const char* ptr, size_t sz) override {
 				std::ostream::write(ptr, sz);
+				return sz;				
 			}
 		};
 
@@ -40,6 +42,7 @@ namespace gxx {
 			std_istream(std::basic_streambuf<char>* sb) : std::istream(sb) {}
 			int readData(char* ptr, size_t sz) override {
 				std::istream::read(ptr, sz);
+				return sz;
 			}
 		};
 

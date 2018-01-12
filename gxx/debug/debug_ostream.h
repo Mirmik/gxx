@@ -21,6 +21,7 @@ namespace gxx {
 				debug_write(data, maxSize);
 				return maxSize; 
 			}
+			return maxSize;
 		}
 
 
