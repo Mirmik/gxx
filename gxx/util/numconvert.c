@@ -160,7 +160,8 @@ inline char * ftoa(double f, char * buf, int precision)
 	long intPart;
 	signed char r;
 
-	if (r = __builtin_isinf_sign(f)) {
+	r = __builtin_isinf_sign(f);
+	if (r) {
 		*buf++ = r == 1 ? '+' : '-';
 		return strcpy(buf, "inf");;
 	}
