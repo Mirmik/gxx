@@ -33,12 +33,12 @@ namespace gxx {
 	};
 
 	class socket : public gxx::io::iostream {
-		public:
-			enum class type : uint8_t {
-				tcp,
-				udp,
-				unix
-			};
+	public:
+		enum class type : uint8_t {
+			Unix,
+			tcp,
+			udp,
+		};
 
 		static constexpr int32_t AnyAddress = 0; 
 

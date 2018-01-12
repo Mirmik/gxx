@@ -17,7 +17,7 @@ namespace gxx {
 			}
 
 			template<typename ... Args>												
-			static inline auto visit(gxx::visitable_argument varg, Args&& ... args) {		
+			static inline size_t visit(gxx::visitable_argument varg, Args&& ... args) {		
 				ftype fptr = (ftype) varg.visit;									
 				return fptr(varg.ptr, std::forward<Args>(args) ...);				
 			}																		
