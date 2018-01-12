@@ -14,10 +14,10 @@ namespace gxx {
 			o.putchar('[');
 						if (vec.size() != 0) {
 							for (int i = 0; i < vec.size() - 1; ++i) {
-									gxx::print(o, vec[i]);
+									gxx::print_to(o, vec[i]);
 									o.putchar(',');
 							}
-							gxx::print(o, vec[vec.size() - 1]);
+							gxx::print_to(o, vec[vec.size() - 1]);
 						}
 			o.putchar(']');
 		}
@@ -29,7 +29,7 @@ namespace gxx {
 			o.putchar('[');
 			int s = vec.size();
 			for (const auto& g : vec) {
-				gxx::print(o, g);
+				gxx::print_to(o, g);
 				if (--s) o.putchar(' ');
 			}
 			o.putchar(']');
@@ -41,11 +41,11 @@ namespace gxx {
 		static int print(gxx::io::ostream& o, std::array<T,N> const& vec) {
 			o.putchar('[');
 			for (int i = 0; i < N - 1; ++i) {
-				gxx::print(o, vec[i]);
+				gxx::print_to(o, vec[i]);
 				o.putchar(',');
 			}
 			if (N != 0)
-				gxx::print(o, vec[N - 1]);
+				gxx::print_to(o, vec[N - 1]);
 			o.putchar(']');
 		}		
 	};
@@ -58,11 +58,11 @@ namespace gxx {
 				auto it = dict.begin();
 				auto end = dict.end();
 
-				gxx::print(o, (*it).first); o.putchar(':'); gxx::print(o, (*it).second);
+				gxx::print_to(o, (*it).first); o.putchar(':'); gxx::print_to(o, (*it).second);
 				it++;
 				while(it != end) {
 					o.putchar(',');
-					gxx::print(o, (*it).first); o.putchar(':'); gxx::print(o, (*it).second);	
+					gxx::print_to(o, (*it).first); o.putchar(':'); gxx::print_to(o, (*it).second);	
 					it++;
 				}
 			} 

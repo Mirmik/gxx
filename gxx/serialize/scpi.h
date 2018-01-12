@@ -6,7 +6,6 @@
 #include <cctype>
 
 #include <gxx/creader.h>
-#include <gxx/io/printable.h>
 #include <gxx/print/stdprint.h>
 
 namespace gxx {
@@ -20,7 +19,7 @@ namespace gxx {
 			header(const std::string& str, int num) : str(str), num(num) {}
 			size_t printTo(gxx::io::ostream& o) const {
 				if (num == -1) return gxx::print(str);
-				else return gxx::fprint(o, "{}{}", str, num);
+				else return gxx::fprint_to(o, "{}{}", str, num);
 			}
 		};
 
@@ -51,7 +50,7 @@ namespace gxx {
 		}
 
 		size_t printTo(gxx::io::ostream& o) const {
-			return gxx::fprint(o, "({}, {})", headers, arguments);
+			return gxx::fprint_to(o, "({}, {})", headers, arguments);
 		}
 	};
 }

@@ -117,20 +117,19 @@ namespace gxx {
 	}
 
 	template<typename ... Args>
-	int fprint(gxx::io::ostream& out, const char* fmt, Args&& ... args) {
+	int fprint_to(gxx::io::ostream& out, const char* fmt, Args&& ... args) {
 		visitable_argument buffer[sizeof ... (Args)];
 		return fprint_impl(out, fmt, gxx::make_visitable_arglist<gxx::fmt::format_visitor>(buffer, std::forward<Args>(args) ...));		
 	}
 		
 	template<typename ... Args>
 	int fprint(const char* fmt, Args&& ... args) {
-		//gxx::debug_ostream out;
-		gxx::fprint(*stdout, fmt,  std::forward<Args>(args) ...);		
+		gxx::fprint_to(*stdout, fmt,  std::forward<Args>(args) ...);		
 	}
 		
 	template<typename ... Args> 
 	int fprintln(Args&& ... args) {
-		fprint(std::forward<Args>(args) ...);
+		fprint_to(*stdout, std::forward<Args>(args) ...);
 		stdout->println();	
 	}
 

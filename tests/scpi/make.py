@@ -13,6 +13,7 @@ application("main",
 	modules = [
 		submodule("gxx"),
 		submodule("gxx.dprint", "stdout"),
+		submodule("gxx.print", "cout"),
 	]
 )
 
