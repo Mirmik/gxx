@@ -2,8 +2,8 @@
 #define GXX_PANIC_H
 
 #include <gxx/util/location.h>
-#include <string.h>
-#include <stdio.h>
+#include <cstring>
+#include <cstdio>
 
 namespace gxx {
 	void panic(const char* str);
