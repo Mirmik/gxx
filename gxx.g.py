@@ -57,3 +57,8 @@ module("gxx.geom",
 module("gxx.cxx_support", 
 	sources = ["compiler/__cxa_pure_virtual.c"],
 )
+
+
+module("gxx.rabbit", 
+	sources = ["gxx/rabbit/crvints.cpp"],
+)

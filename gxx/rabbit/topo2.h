@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <gxx/geom/geom2.h>
+#include <gxx/util/interval.h>
 
 namespace rabbit {
 	using point = gxx::geom2::point;
@@ -16,6 +17,7 @@ namespace rabbit {
 		trim2(gxx::geom2::curve* crv, double s, double f) : crv(crv), tstart(s), tfinish(f) {}
 		point finish() const { return crv->d0(tfinish); }
 		point start() const { return crv->d0(tstart); }
+		gxx::interval<double> interval() const { return gxx::interval<double>(tstart, tfinish); }
 	};
 
 	struct loop2 {

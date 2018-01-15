@@ -2,6 +2,7 @@
 #define GXX_RPC_STATUS_H
 
 #include <gxx/result.h>
+#include <gxx/serialize/serialize.h>
 
 namespace gxx {
 	namespace rpc {

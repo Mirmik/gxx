@@ -15,6 +15,8 @@ application("main",
 		submodule("gxx.print", "cout"),
 		submodule("gxx.dprint", "cout"),
 		#submodule("gxx.geom"),
+
+		submodule("gxx.rabbit"),
 	],
 	ld_flags = "-lX11"
 )

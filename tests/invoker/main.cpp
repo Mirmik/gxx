@@ -7,7 +7,7 @@ template<typename Ret, typename ... Args>
 using bininvoker = gxx::rpc::invoker<gxx::archive::binary_string_reader, gxx::archive::binary_string_writer, gxx::rpc::result<Ret>, Args ...>;
 
 gxx::rpc::result<int> hello(int a, int b) {
-	gxx::vprintln(a, b);
+	gxx::println(a, b);
 	return 3;
 }
 

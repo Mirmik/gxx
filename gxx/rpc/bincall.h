@@ -1,8 +1,9 @@
 #ifndef GXX_RPC_BINCALL_H
 #define GXX_RPC_BINCALL_H
 
+#include <gxx/rpc/status.h>
 #include <gxx/event/delegate.h>
-#include <gxx/serialize/serialize.h>
+//#include <gxx/serialize/serialize.h>
 #include <gxx/result.h>
 #include <gxx/print.h>
 
