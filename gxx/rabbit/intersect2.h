@@ -46,24 +46,26 @@ namespace rabbit {
 					trim_intersection_algorithm trmint(at, bt);
 					trmint.doit();
 
-					//gxx::println("trim intersection");
-					//gxx::println("a:", trmint.apoints);
-					//gxx::println("b:", trmint.bpoints);
-
 					if (!trmint.empty()) {
-						//gxx::println("add");
 						apntsmap[&at].insert(apntsmap[&at].end(), trmint.apoints.begin(), trmint.apoints.end());
 						bpntsmap[&bt].insert(bpntsmap[&bt].end(), trmint.bpoints.begin(), trmint.bpoints.end());
 					}
 				}	
 			}
+		}
 
-			gxx::println(apntsmap);
-			gxx::println(bpntsmap);
-
+		void print_result() {
 			for (auto p : apntsmap) {
+				gxx::println(*p.first->crv);
 				for (auto v : p.second) {
-					gxx::println(p.first->crv->d0(v));
+					gxx::fprintln("\t{} -> {}", v, p.first->crv->d0(v));
+				}
+			}
+
+			for (auto p : bpntsmap) {
+				gxx::println(*p.first->crv);
+				for (auto v : p.second) {
+					gxx::fprintln("\t{} -> {}", v, p.first->crv->d0(v));
 				}
 			}
 		}

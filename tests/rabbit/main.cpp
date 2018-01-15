@@ -34,4 +34,6 @@ int main() {
 
 	rabbit::loop_intersection_algorithm lint(alp, blp);
 	lint.doit();
+
+	lint.print_result();
 }
