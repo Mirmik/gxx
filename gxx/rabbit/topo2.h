@@ -35,8 +35,9 @@ namespace rabbit {
 	};
 
 	struct face2 {
-		std::vector<std::shared_ptr<loop2>> loops;
-		face2(const std::initializer_list<std::shared_ptr<loop2>>& lst) : loops(lst.begin(), lst.end()) {}
+		std::vector<loop2> loops;
+		face2(const std::initializer_list<loop2>& lst) : loops(lst.begin(), lst.end()) {}
+		face2(const loop2& lp) { loops.push_back(lp); }
 	};
 
 	struct line2 : public trim2 {

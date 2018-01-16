@@ -32,8 +32,11 @@ int main() {
 	};
 
 
-	rabbit::loop_intersection_algorithm lint(alp, blp);
-	lint.doit();
+	rabbit::face2 aface(alp);
+	rabbit::face2 bface(blp);
 
-	lint.print_result();
+	rabbit::boolean_algorithm_2d balgo(aface, bface);
+	balgo.evaluate_intersection();
+
+	balgo.print_intersection();
 }
