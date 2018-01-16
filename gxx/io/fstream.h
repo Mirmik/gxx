@@ -1,10 +1,12 @@
 #ifndef GXX_IO_FSTREAM_H
 #define GXX_IO_FSTREAM_H
 
-#include <gxx/io/iostream.h>
+/*#include <gxx/io/iostream.h>
+#include <iostream>
 
 namespace gxx {
 	namespace io {
+<<<<<<< HEAD
 		enum OpenMode {
 			NotOpen = 0x00,
 			ReadOnly = 0x01,
@@ -39,7 +41,12 @@ namespace gxx {
 			bool is_open();
 			CONSTREF_GETTER(fd, m_fd);
 		};
+=======
+		//class fstream : public gxx::io::iostream, public std::fstream {
+		//	fstream
+		//};
+>>>>>>> 6265619429a8bd7a611d6564f38e55c6b1f9db8d
 	}
-}
+}*/
 
 #endif

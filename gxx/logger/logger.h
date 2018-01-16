@@ -13,7 +13,6 @@
 #include <gxx/util/setget.h>
 
 using namespace gxx::argument_literal;
-//using namespace std::string_literal;
 
 namespace gxx {
 	namespace log {
@@ -63,9 +62,10 @@ namespace gxx {
 
 			logger(const std::string& name) : logger_name(name) {}
 
-			void link(target& tgt) {
+			void add_target(target& tgt) {
 				targets.push_back(&tgt);
 			}
+			void link(target& tgt) { add_target(tgt); }
 
 			void clear_targets() {
 				targets.clear();

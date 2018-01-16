@@ -1,6 +1,8 @@
 #ifndef GXX_ARRAY_PRINT_H
 #define GXX_ARRAY_PRINT_H
 
+#include <gxx/print.h>
+
 namespace gxx {
 	template<typename T>
 	class array_printable {

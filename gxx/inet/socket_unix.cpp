@@ -69,6 +69,7 @@ namespace gxx {
    			
    			return 0;
    		}
+   		return -1;
 	}
 	
 	int socket::connect() {

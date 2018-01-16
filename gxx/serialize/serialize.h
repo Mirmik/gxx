@@ -5,6 +5,7 @@
 #include <gxx/result.h>
 #include <gxx/buffer.h>
 #include <tuple>
+#include <vector>
 #include <sstream>
 
 namespace gxx {
@@ -51,13 +52,13 @@ namespace gxx {
 		serialize_helper<M,std::remove_cv_t<T>>::deserialize(keeper, obj);
 	}
 
-	template <typename M, typename T> inline void serialize(M& keeper, T&& obj) {
-		serialize_helper<M,std::remove_cv_t<T>>::serialize(keeper, std::move(obj));
-	}
+	//template <typename M, typename T> inline void serialize(M& keeper, T&& obj) {
+	//	serialize_helper<M,std::remove_cv_t<T>>::serialize(keeper, std::move(obj));
+	//}
 
-	template <typename M, typename T> inline void deserialize(M& keeper, T&& obj) {
-		serialize_helper<M,std::remove_cv_t<T>>::deserialize(keeper, std::move(obj));
-	}
+	//template <typename M, typename T> inline void deserialize(M& keeper, T&& obj) {
+	//	serialize_helper<M,std::remove_cv_t<T>>::deserialize(keeper, std::move(obj));
+	//}
 
 	namespace archive {
 
@@ -126,11 +127,13 @@ namespace gxx {
 
 		class binary_string_writer : public writer_basic {
 		public:
-			std::string str;
+			std::string& sstr;
 
 			void dump_data(const char* dat, uint16_t size) override {
-				str.append(dat, size);
+				sstr.append(dat, size);
 			} 
+
+			binary_string_writer(std::string& str) : sstr(str) {}
 		};
 
 		class reader_basic {

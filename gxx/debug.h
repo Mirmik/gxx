@@ -9,7 +9,7 @@ namespace gxx {
 	void debug(Args ... args) {
 		debug_ostream dout;
 		dout.print("gxx::debug: ");
-		gxx::fprint(dout, std::forward<Args>(args) ...);
+		gxx::fprint_to(dout, std::forward<Args>(args) ...);
 	}
 }
 

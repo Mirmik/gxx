@@ -9,8 +9,9 @@ scriptq.execute("gxx/diag/diag.g.py")
 module("gxx", 
 	srcdir = "gxx",
 	sources = [
-		"io/fstream_posix.cpp",
-		"io/fstream_unix.cpp",
+		"io/file_posix.cpp",
+		"io/file_unix.cpp",
+		"io/std.cpp",
 		"inet/socket_unix.cpp",
 		"inet/socket.cpp",
 		"logger/targets/stdout.cpp", 
@@ -41,8 +42,8 @@ module("gxx.format",
 	sources = ["gxx/fmt/format.cpp"],
 )
 
-module("gxx.print", 
-	sources = ["gxx/print.cpp"],
+module("gxx.print", impl = "cout", 
+	sources = ["gxx/print/print_cout.cpp"],
 )
 
 module("gxx.trent", 
@@ -55,4 +56,9 @@ module("gxx.geom",
 
 module("gxx.cxx_support", 
 	sources = ["compiler/__cxa_pure_virtual.c"],
+)
+
+
+module("gxx.rabbit", 
+	sources = ["gxx/rabbit/crvints.cpp"],
 )

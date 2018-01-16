@@ -8,25 +8,25 @@ void name(decltype(param) value) {			\
 	param = value;							\
 } 							
 
-#define FLOW_SETTER(name,param)				\
-auto & name(decltype(param) value) {		\
-	param = value;							\
-	return *this;							\
+#define FLOW_SETTER(name,param)							\
+auto name(decltype(param) value) -> decltype(*this) & {	\
+	param = value;										\
+	return *this;										\
 } 							
 
 #define VALUE_GETTER(name,param) 			\
-auto name() const {							\
+auto name() const -> decltype(param) {		\
 	return param;							\
 } 
 
 #define REFERENCE_GETTER(name,param)		\
-auto & name() {						\
+auto name() -> decltype(param) & {			\
 	return param;							\
 } 
 
-#define CONSTREF_GETTER(name,param) 		\
-auto const& name() const {					\
-	return param;							\
+#define CONSTREF_GETTER(name,param) 			\
+auto name() const -> decltype(param) const& {	\
+	return param;								\
 } 
 
 #define ACCESSOR(name,param)				\

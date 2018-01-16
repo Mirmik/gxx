@@ -33,6 +33,7 @@ namespace gxx { namespace result_type {
 		error& operator=(error&& other) {
 			info = other.info;
 			other.info = nullptr;
+			return *this; 
 		}
 
 		~error() {

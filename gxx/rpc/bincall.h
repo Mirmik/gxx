@@ -1,20 +1,14 @@
 #ifndef GXX_RPC_BINCALL_H
 #define GXX_RPC_BINCALL_H
 
+#include <gxx/rpc/status.h>
 #include <gxx/event/delegate.h>
-#include <gxx/serialize/serialize.h>
+//#include <gxx/serialize/serialize.h>
 #include <gxx/result.h>
 #include <gxx/print.h>
 
 namespace gxx {
 	namespace rpc {
-		enum class status : uint8_t {
-			OK,
-			WrongArgsFormat,
-			WrongArgsData,
-			InternalError,
-		};
-
 		/*class error : public gxx::result_type::exception {
 		public:
 			gxx::rpc::status status; 
@@ -24,8 +18,6 @@ namespace gxx {
 			}
 		};*/
 
-		template <typename T>
-		using rpcresult = gxx::result_type::result<T, status>;
 
 		template<typename Ret, typename ... Args>
 		struct bincaller_invoke { 

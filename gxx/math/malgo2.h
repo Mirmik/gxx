@@ -112,7 +112,7 @@ namespace malgo2 {
 			return atan2(s,c);
 		} 
 
-		size_t printTo(gxx::io::ostream& o) const {	return gxx::fprint(o, "({},{})", x, y); }
+		size_t printTo(gxx::io::ostream& o) const {	return gxx::fprint_to(o, "({},{})", x, y); }
 
 		template<typename R>
 		void reflect(R& r) {

@@ -12,6 +12,8 @@
 #ifndef GXX_DELEGATE_H
 #define GXX_DELEGATE_H
 	
+#include <gxx/debug/dprint.h>
+
 #include "gxx/util/horrible_cast.h"
 #include "gxx/util/stub.h"
 #include <utility>
@@ -96,11 +98,11 @@ namespace gxx {
 			method.method = horrible_cast<mtd_t, R(T::*)(Args ...)>(mtd);
 		}
 
-		template <typename F>
+		/*template <typename F>
 		delegate(const F& functor) {
 				object = reinterpret_cast <obj_t> ((F*) &functor);
 				method.method = horrible_cast<mtd_t, decltype(&F::operator())>(&F::operator());
-		}
+		}*/
 		
 		delegate& operator=(const delegate& d) {
 			object = d.object;
@@ -115,6 +117,7 @@ namespace gxx {
 		};
 	
 		R operator()(Args ... arg) {
+			//dprln("HERE2");
 			uint8_t type = object ? METHOD : FUNCTION;
 			switch (type)
 			{

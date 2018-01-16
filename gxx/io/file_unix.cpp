@@ -1,18 +1,18 @@
-#include <gxx/io/fstream.h>
+#include <gxx/io/file.h>
 #include <fcntl.h>
 #include <unistd.h>
 
 namespace gxx {
 	namespace io {
 
-		fstream::fstream(){}
-		fstream::fstream(const std::string& path, uint8_t mode) {
+		file::file(){}
+		file::file(const std::string& path, uint8_t mode) {
 			open(path, mode);
 		}
 
-		fstream::fstream(int m_fd) : m_fd(m_fd) {}
+		file::file(int m_fd) : m_fd(m_fd) {}
 		
-		bool fstream::open(const std::string& path, uint8_t mode) {
+		bool file::open(const std::string& path, uint8_t mode) {
 			//uint16_t flags = O_CREAT | O_NOCTTY;
 			uint16_t flags = O_CREAT | O_NOCTTY;
 			if (mode == gxx::io::NotOpen) return false;
@@ -25,44 +25,44 @@ namespace gxx {
     		return true;
 		}
 		
-		void fstream::close() {
+		void file::close() {
 			::close(m_fd);
 		}
 		
-		int32_t fstream::readData(char *data, size_t maxSize) {
+		int32_t file::readData(char *data, size_t maxSize) {
 			//dprln(m_fd);
 			return ::read(m_fd, data, maxSize);
 		}
 		
-		int32_t fstream::writeData(const char *data, size_t maxSize) {
+		int32_t file::writeData(const char *data, size_t maxSize) {
 			return ::write(m_fd, data, maxSize);
 		}
 	
 	
-		/*void fstream::setFileDescriptor(int m_fd) {
+		/*void file::setFileDescriptor(int m_fd) {
 			this->m_fd = m_fd;
 		}
 		
-		void fstream::setPath(const std::string& path) {
+		void file::setPath(const std::string& path) {
 			this->path = path;
 		}*/
 
-		int fstream::nodelay(bool en) {
+		int file::nodelay(bool en) {
 			int flags = fcntl(m_fd, F_GETFL);
 			flags = en ? flags | O_NDELAY : flags & (~O_NDELAY);      /* turn off delay flag */
 			fcntl(m_fd, F_SETFL, flags);
 			//perror("ss");
 			//while(1);
-	
+			return 0;
 		}	
 
-		bool fstream::is_open() {
+		bool file::is_open() {
 			return m_fd >= 0;
 		}
 	}
 
-//	io::fstream cout(0);
-//	io::fstream cin(1);
-//	io::fstream crr(2);
+//	io::file cout(0);
+//	io::file cin(1);
+//	io::file crr(2);
 
 }

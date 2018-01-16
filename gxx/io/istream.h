@@ -16,18 +16,32 @@ namespace gxx {
 				return c;
 			}
 
-                        virtual int read_until(char* str, size_t max, char symb) {
-                            int c;
-                            char* strt = str;
-                            do {
-                                c = getchar();
-        						//dprln((int)c);
-        						if (c == -1) break;
-                                //dprhexln(c);
-                                *str++ = (char)c;
-                            } while(c != symb);
-                            return str - strt;
-                        }
+			virtual int read_until(char* str, size_t max, char symb) {
+				int c;
+				char* strt = str;
+				do {
+					c = getchar();
+					//dprln((int)c);
+					if (c == -1) break;
+					//dprhexln(c);
+					*str++ = (char)c;
+				} while(c != symb);
+				return str - strt;
+			}
+
+
+			std::string readall(int bufsize = 512) {
+				char buf[bufsize];
+				std::string text;
+
+				while(1) {
+					int ret = read(buf, bufsize);
+					if (ret <= 0) break;
+					text.append(buf, ret);
+				}
+				return text;
+			}
+
 
 		protected: 
 			virtual int readData(char* str, size_t sz) = 0;

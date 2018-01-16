@@ -1,62 +1,75 @@
 #ifndef GXX_PRINT_H
 #define GXX_PRINT_H
 
-#include <gxx/util/print.h>
+#include <gxx/print/meta.h>
 #include <gxx/print/format.h>
 #include <gxx/io/ostream.h>
-#include <gxx/debug/debug_ostream.h>
-#include <gxx/arglist.h>
 #include <gxx/io/stdstream.h>
+#include <gxx/arglist.h>
 
 namespace gxx {
+	extern gxx::io::ostream* standart_output;
+
 	template<typename Arg> 
-	int print(gxx::io::ostream& out, const Arg& arg) {
-		gxx::print_functions<Arg>::print(out, arg);
+	int print_to(gxx::io::ostream& out, const Arg& arg) {
+		int res = 0;
+		res += gxx::print_functions<Arg>::print(out, arg);
+		return res;
 	}
 	
-	template<typename Arg> 
-	int print(const Arg& arg) {
-		gxx::debug_ostream out;
-		gxx::print(out, arg);
+	template<typename Head, typename ... Tail> 
+	int print_to(gxx::io::ostream& out, const Head& head, const Tail& ... tail) {
+		int res = 0;
+		res += print_to(out, head);
+		res += out.putchar(' ');
+		res += print_to(out, tail ...);
+		return res;
+	}
+	
+	template<typename ... Args> 
+	int println_to(gxx::io::ostream& out, const Args& ... args) {
+		int res = 0;
+		res += print_to(out, args ...);
+		res += out.println();	
+		return res;
 	}
 
-	template<typename T>
-	int vprint(const T& head) {
-		gxx::debug_ostream out;
-		gxx::print(out, head);
+	template<typename Arg> 
+	int print(const Arg& arg) {
+		return gxx::print_to(*standart_output, arg);
 	}
 
 	template<typename Head, typename ... Tail> 
-	int vprint(const Head& head, const Tail& ... tail) {
-		vprint(head);
-		gxx::debug_ostream().putchar(' ');
-		vprint(tail ...);
+	int print(const Head& head, const Tail& ... tail) {
+		int res = 0;
+		res += print(head);
+		res += standart_output->putchar(' ');
+		res += print(tail ...);
+		return res;
 	}
-
+	
 	template<typename ... Args> 
-	int vprintln(Args&& ... args) {
-		vprint(std::forward<Args>(args) ...);
-		gxx::debug_ostream().println();	
-	}	
-
-	template<typename ... Args> 
-	int println(Args&& ... args) {
-		print(std::forward<Args>(args) ...);
-		gxx::debug_ostream().println();	
+	int println(const Args& ... args) {
+		int res = 0;
+		res += print(args ...);
+		res += standart_output->println();	
+		return res;
 	}
 
 	template<typename C>
 	int print_as_matrix(const C& c, int rlen) {
 		int n = 0;
+		int res = 0;
 		for (const auto& v : c) {
-			gxx::debug_ostream().print(v); 
-			gxx::debug_ostream().putchar(' ');
+			res += standart_output->print(v); 
+			res += standart_output->putchar(' ');
 			++n;
 			if (n == rlen) {
 				n = 0;
-				gxx::debug_ostream().println();
+				res += standart_output->println();
 			}
 		}
+		return res;
 	}
 
 	inline int fprint_format_argument(gxx::io::ostream& out, const char*& fmt, const gxx::visitable_arglist& list, uint8_t argnum) {
@@ -116,28 +129,33 @@ namespace gxx {
 	}
 
 	template<typename ... Args>
-	int fprint(gxx::io::ostream& out, const char* fmt, Args&& ... args) {
+	int fprint_to(gxx::io::ostream& out, const char* fmt, Args&& ... args) {
 		visitable_argument buffer[sizeof ... (Args)];
 		return fprint_impl(out, fmt, gxx::make_visitable_arglist<gxx::fmt::format_visitor>(buffer, std::forward<Args>(args) ...));		
 	}
 		
 	template<typename ... Args>
 	int fprint(const char* fmt, Args&& ... args) {
-		gxx::debug_ostream out;
-		gxx::fprint(out, fmt,  std::forward<Args>(args) ...);		
+		return gxx::fprint_to(*standart_output, fmt,  std::forward<Args>(args) ...);		
 	}
 		
 	template<typename ... Args> 
 	int fprintln(Args&& ... args) {
-		fprint(std::forward<Args>(args) ...);
-		gxx::debug_ostream().println();	
+		fprint_to(*standart_output, std::forward<Args>(args) ...);
+		return standart_output->println();	
+	}
+
+	template<typename ... Args> 
+	int fprintln_to(gxx::io::ostream& out, Args&& ... args) {
+		fprint_to(out, std::forward<Args>(args) ...);
+		return standart_output->println();	
 	}
 
 	template<typename ... Args>
 	std::string format(const char* fmt, Args&& ... args) {
 		std::string str;
 		gxx::io::ostringstream writer(str);
-		gxx::fprint(writer, fmt, std::forward<Args>(args) ...);
+		gxx::fprint_to(writer, fmt, std::forward<Args>(args) ...);
 		return str; 
 	}
 

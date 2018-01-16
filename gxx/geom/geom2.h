@@ -56,7 +56,7 @@ namespace geom2 {
 		virtual double tmin() { return 0; }
 		virtual double tmax() { return 0; }
 		virtual double rotation_angle() const { return 0; }
-		virtual size_t printTo(gxx::io::ostream& o) const { return gxx::print("nilcurve"); }	
+		virtual size_t printTo(gxx::io::ostream& o) const { return gxx::print_to(o, "nilcurve"); }	
 		//virtual curve_enum gettype() const { return curve_enum::none; }	
 		virtual void drawTo(drawer2d& cntxt) const { throw GXX_NOT_IMPLEMENTED; };
 

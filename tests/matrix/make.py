@@ -12,9 +12,8 @@ application("main",
 	include_paths = ["../.."],
 	modules = [
 		submodule("gxx"),
-		submodule("gxx.dprint", "stdout"),
-		#submodule("gxx.panic", "abort"),
-		#submodule("gxx.print"),
+		submodule("gxx.dprint", "cout"),
+		submodule("gxx.print", "cout"),
 	]
 )
 

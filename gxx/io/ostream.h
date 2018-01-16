@@ -137,7 +137,7 @@ namespace gxx {
 }
 
 inline int gxx::io::ostream::print(const gxx::io::printable& obj) {
-	obj.printTo(*this);
+	return obj.printTo(*this);
 }
 
 #endif
