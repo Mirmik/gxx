@@ -84,7 +84,6 @@ namespace gxx {
 
 		void drop_all() {
 			for (auto& c : clients) {
-				gxx::vprintln("drop client");
 				c.close();
 			}
 			clients.clear();

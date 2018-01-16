@@ -9,7 +9,7 @@
 #include <string>
 #include <memory>
 
-#include <gxx/io/stdwraper.h>
+#include <gxx/io/std.h>
 #include <gxx/util/setget.h>
 
 using namespace gxx::argument_literal;
@@ -82,16 +82,13 @@ namespace gxx {
 			inline void log(level lvl, const char* fmt, visitable_arglist&& args) {
 				if (minlevel <= lvl) {
 					std::string msg;
-					gxx::io::std_string_writer msgwriter(msg);
-                                        gxx::fprint_impl(msgwriter,fmt, args);
+					gxx::io::ostringstream msgwriter(msg);
+					gxx::fprint_impl(msgwriter,fmt, args);
 
 					char tstamp[64] = "";
 					if (timestamp != nullptr) timestamp(tstamp, 64);
 
-					std::string logmsg;
-					gxx::io::std_string_writer logwriter(logmsg);
-                                        gxx::fprint(
-                                                logwriter,
+					std::string logmsg = gxx::format(
 						pattern.c_str(), 
 						"msg"_a=msg.c_str(), 
 						"logger"_a=logger_name,

@@ -4,7 +4,7 @@
 //#include <algorithm>
 #include <memory>
 #include <gxx/objbuf.h>
-#include <gxx/print/array.h>
+#include <gxx/print/printable.h>
 
 namespace gxx {
 	template<typename T, typename A = std::allocator<T>>

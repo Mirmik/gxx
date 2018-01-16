@@ -13,13 +13,12 @@
 #include <gxx/string.h>
 #include <gxx/util/ctrdtr.h>
 #include <gxx/buffer.h>
-
-#include <gxx/io/printable.h>
+#include <gxx/print.h>
 
 using namespace gxx::result_type;
 
 namespace gxx {
-	class trent : public gxx::io::printable {
+	class trent {
 	public:
 		enum class type {
 			string,
@@ -205,7 +204,7 @@ namespace gxx {
 
 		bool contains(gxx::buffer buf);
 
-		size_t printTo(gxx::io::ostream& os) const override {
+		size_t printTo(gxx::io::ostream& os) const {
 			bool sep = false;
 			switch(get_type()) {
 		

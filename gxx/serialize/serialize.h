@@ -56,9 +56,9 @@ namespace gxx {
 	//	serialize_helper<M,std::remove_cv_t<T>>::serialize(keeper, std::move(obj));
 	//}
 
-	//template <typename M, typename T> inline void deserialize(M& keeper, T&& obj) {
-	//	serialize_helper<M,std::remove_cv_t<T>>::deserialize(keeper, std::move(obj));
-	//}
+	template <typename M, typename T> inline void deserialize(M& keeper, T&& obj) {
+		serialize_helper<M,std::remove_cv_t<T>>::deserialize(keeper, std::move(obj));
+	}
 
 	namespace archive {
 
