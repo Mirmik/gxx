@@ -16,7 +16,8 @@ namespace gxx {
 		std::list<gxx::socket> clients;
 
 	public:
-                spam_server(int port) : server(gxx::socket::type::tcp, port) {};
+		spam_server(int port) : server(gxx::socket::type::tcp, port) {};
+		spam_server(gxx::socket::type type, int port) : server(type, port) {};
 
 		int start() {
 			if (server::listen() < 0) { 
@@ -74,11 +75,20 @@ namespace gxx {
 		}
 
 		int writeData(const char* str, size_t sz) override {
-			//dprln("writeData: {}", str);
 			return __send(str, sz);
 		}	
 	
-		int readData(char* str, size_t sz) override {}
+		int readData(char* str, size_t sz) override {
+			gxx::panic("readData with spam_server");
+		}
+
+		void drop_all() {
+			for (auto& c : clients) {
+				gxx::vprintln("drop client");
+				c.close();
+			}
+			clients.clear();
+		}
 	};
 }
 
