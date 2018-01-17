@@ -31,7 +31,7 @@ namespace gxx {
 	public:
 		scpi_string_parser(const std::string& str) {
 			gxx::creader reader(str.c_str());
-	
+
 			while(reader.next_is(isalpha)) {
 				std::string tempstr = reader.string_while(isalpha);
 				int tempnum = reader.next_is(isdigit) ? reader.integer() : -1;
@@ -42,7 +42,14 @@ namespace gxx {
 	
 			reader.skip_while(" ,\n");
 			while(!reader.next_is("\0?"_b)) {
-				arguments.emplace_back(reader.string_while(gxx::creader::chars(" ,\0\n?", false)));
+				if (reader.next_is('\"')) {
+					reader.skip();
+					arguments.emplace_back(reader.string_while(gxx::creader::chars("\"\0", false)));
+					if (reader.next_is('\0')) return;
+					else reader.skip();
+				} else {
+					arguments.emplace_back(reader.string_while(gxx::creader::chars(" ,\0\n?", false)));
+				}
 				reader.skip_while(" ,\n");
 			}
 	

@@ -92,7 +92,7 @@ namespace gxx {
 			}
 		};*/
 
-		class writer_basic {
+		class binary_serializer_basic {
 		public:
 			template<typename T>
 			void operator& (const T& obj) {
@@ -125,7 +125,7 @@ namespace gxx {
 			}
 		};
 
-		class binary_string_writer : public writer_basic {
+		class binary_string_writer : public binary_serializer_basic {
 		public:
 			std::string& sstr;
 
@@ -136,7 +136,7 @@ namespace gxx {
 			binary_string_writer(std::string& str) : sstr(str) {}
 		};
 
-		class reader_basic {
+		class binary_deserializer_basic {
 		public:
 			template<typename T>
 			void operator& (T&& obj) {
@@ -171,7 +171,7 @@ namespace gxx {
 			}
 		};
 
-		class binary_string_reader : public reader_basic {
+		class binary_string_reader : public binary_deserializer_basic {
 		public:
 			std::istringstream stream;
 

@@ -8,10 +8,28 @@ namespace gxx {
 	namespace rpc {
 		enum class status : uint8_t {
 			OK,
-			WrongArgsFormat,
+			WrongArgsFormat, //Что это?
 			WrongArgsData,
+			WrongArgsTotal,
+
 			InternalError,
+
+			NotSupported,
+			NotImplemented,
 		};
+
+		inline const char* strerr(status sts) {
+			switch(sts) {
+				case status::OK: return "OK"; 
+				case status::WrongArgsData: return "WrongArgsData";
+				case status::WrongArgsFormat: return "WrongArgsFormat";
+				case status::WrongArgsTotal: return "WrongArgsTotal";
+				case status::InternalError: return "InternalError";
+				case status::NotSupported: return "NotSupported";
+				case status::NotImplemented: return "NotImplemented";
+				default: return "NoStandartError";
+			}
+		}
 
 		template <typename T>
 		using result = gxx::result_type::result<T, status>;

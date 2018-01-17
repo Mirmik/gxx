@@ -168,4 +168,6 @@ namespace gxx {
 	}
 }
 
+#define GXX_PRINT(arg) gxx::println(#arg ":", arg)
+
 #endif

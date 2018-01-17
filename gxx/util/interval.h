@@ -18,8 +18,8 @@ namespace gxx {
 		//	return val > minimum && val < maximum;
 		//}
 
-		bool include(T val, T prec) const {
-			return val - minimum > -prec && maximum - val > -prec ;
+		bool in_not_include(T val, T prec) const {
+			return val - minimum > prec && maximum - val > prec ;
 		}
 
 		size_t printTo(gxx::io::ostream& o) const {

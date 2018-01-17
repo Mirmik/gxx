@@ -33,7 +33,7 @@ namespace rabbit {
 		double t1 = b.d.crossmul(l12) / dd;
 		double t2 = a.d.crossmul(l12) / dd;
 		
-		if (afltr.include(t1, gxx::geom2::precision) && bfltr.include(t2, gxx::geom2::precision)) {
+		if (afltr.in_not_include(t1, gxx::geom2::precision) && bfltr.in_not_include(t2, gxx::geom2::precision)) {
 			apnts.emplace_back(t1);
 			bpnts.emplace_back(t2);
 		}
