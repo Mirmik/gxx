@@ -24,13 +24,11 @@ int main() {
 		rabbit::line2(apnts[2], apnts[0])
 	};
 
-
 	rabbit::loop2 blp {
 		rabbit::line2(bpnts[0], bpnts[1]),
 		rabbit::line2(bpnts[1], bpnts[2]),
 		rabbit::line2(bpnts[2], bpnts[0])
 	};
-
 
 	rabbit::face2 aface(alp);
 	rabbit::face2 bface(blp);
