@@ -13,9 +13,9 @@ int main() {
 	};
 
 	rabbit::point bpnts[3] = {
-		{0, 0+0.5},
-		{0, 1+0.5},
-		{1, 0+0.5}
+		{0+0.2, 0+0.2},
+		{0+0.2, 1+0.2},
+		{1+0.2, 0+0.2}
 	};
 
 	rabbit::loop2 alp {
@@ -35,6 +35,7 @@ int main() {
 
 	rabbit::boolean_algorithm_2d balgo(aface, bface);
 	balgo.evaluate_intersection();
-
 	balgo.print_intersection();
+
+	balgo.generate_local_data();
 }

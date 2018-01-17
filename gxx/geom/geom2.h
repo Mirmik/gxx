@@ -14,7 +14,7 @@ namespace gxx {
 
 namespace geom2 {
 	constexpr static double infinity = std::numeric_limits<double>::infinity();
-	constexpr static double precision = 0.00000001;
+	constexpr static double precision = 0.00001;
 
 	class point : public malgo2::vector2<double> {
 	public: 
