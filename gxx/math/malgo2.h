@@ -106,10 +106,14 @@ namespace malgo2 {
 			return x * b.y - b.x * y; 
 		}
 
-		double evalrot(const vector2& b) {
+		double evalrot(const vector2& b) const {
 			auto c = sclmul(b);
 			auto s = crossmul(b);
 			return atan2(s,c);
+		} 
+
+		double argument() const {
+			return atan2(y,x);
 		} 
 
 		size_t printTo(gxx::io::ostream& o) const {	return gxx::fprint_to(o, "({},{})", x, y); }
