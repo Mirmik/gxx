@@ -60,7 +60,8 @@ namespace gxx {
 				fnc_t attributes;
 			};
 		};
-	
+
+	protected:
 		obj_t object;
 		method_union method;
 	

@@ -7,6 +7,7 @@
 
 namespace gxx {
 	void panic(const char* str);
+	inline void panic() { panic(""); };
 
 	static inline void panic_not_supported(location loc) {
 		char buf [128];
@@ -14,5 +15,9 @@ namespace gxx {
 		panic(buf);
 	}
 }
+
+#define PANIC_TRACED(...)					\
+debug_print_location(current_location());	\
+gxx::panic(__VA_ARGS__)
 
 #endif

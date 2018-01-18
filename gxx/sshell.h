@@ -20,6 +20,7 @@ namespace gxx{
 	};
 
 	class sshell {
+	public:
 		gxx::static_hashtable<10, sshell_record, const char*, &sshell_record::hlnk> table;
 	
 	public:
@@ -31,6 +32,13 @@ namespace gxx{
 		static constexpr uint8_t InternalError = -5;
 	
 		void add(const char* name, delegate<int, int, char**> dlg) {
+			auto node = new sshell_record(name, dlg);
+			table.put(*node);
+		};
+
+		void add(const char* name, delegate<int> vdlg) {
+			delegate<int, int, char**> dlg;
+			memcpy(&dlg, &vdlg, sizeof(vdlg));
 			auto node = new sshell_record(name, dlg);
 			table.put(*node);
 		};
