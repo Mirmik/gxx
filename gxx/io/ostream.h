@@ -5,6 +5,7 @@
 #include <string.h>
 #include <gxx/buffer.h>
 #include <gxx/util/numconvert.h>
+#include <gxx/util/asciiconvert.h>
 
 namespace gxx {
 	namespace io {
@@ -25,6 +26,12 @@ namespace gxx {
 					putchar(c);
 				}
 				return len;
+			}
+
+			int printhex(char c) {
+				putchar(byte2sym(c & 0xF0 >> 4));
+				putchar(byte2sym(c & 0x0F));
+				return 2;
 			}
 
 			int print(bool obj) {

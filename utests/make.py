@@ -9,6 +9,7 @@ include("gxx")
 tests = [
 	"print",
 	"event",
+	"base64",
 ]
 
 application("runtests",

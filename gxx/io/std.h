@@ -28,29 +28,32 @@ namespace gxx {
 			}
 		};
 
-		class std_ostream : public gxx::io::ostream, public std::ostream {
+		class std_ostream : public gxx::io::ostream {
+		private:
+			std::ostream& out;
+
 		public:
-			std_ostream(std::basic_streambuf<char>* sb) : std::ostream(sb) {}
+			std_ostream(std::ostream& out) : out(out) {}
 			int writeData(const char* ptr, size_t sz) override {
-				std::ostream::write(ptr, sz);
+				out.write(ptr, sz);
 				return sz;				
 			}
 		};
 
-		class std_istream : public gxx::io::istream, public std::istream {
+		/*class std_istream : public gxx::io::istream, public std::istream {
 		public:
 			std_istream(std::basic_streambuf<char>* sb) : std::istream(sb) {}
 			int readData(char* ptr, size_t sz) override {
 				std::istream::read(ptr, sz);
 				return sz;
 			}
-		};
+		};*/
 
 
 		//std_ostream cout(std::cout.rdbuf());
 		extern std_ostream cout;
-		extern std_ostream cerr;
-		extern std_istream cin;
+		//extern std_ostream cerr;
+		//extern std_istream cin;
 	}
 }
 

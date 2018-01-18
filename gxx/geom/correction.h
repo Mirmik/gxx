@@ -128,8 +128,8 @@ namespace gxx {
 			template<typename R>
 			void reflect(R& r) {
 				r & base_axis;
-				r & table;
 				r & coords;
+				r & table;
 			}
 		};
 

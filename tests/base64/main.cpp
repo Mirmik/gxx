@@ -9,7 +9,11 @@ int main() {
 
 	auto res = gxx::base64_encode((const uint8_t*)str, strlen(str));
 
+	gxx::println("str:");
 	gxx::println(str);
+	gxx::println("res:");
 	gxx::println(res);
+
+	gxx::println("dec:");
 	gxx::println(gxx::base64_decode(res));
 }
