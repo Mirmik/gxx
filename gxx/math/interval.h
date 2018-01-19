@@ -1,6 +1,8 @@
 #ifndef GXX_MATH_INTERVAL_H
 #define GXX_MATH_INTERVAL_H
 
+//Операции над интервалами.
+
 #include <vector>
 #include <algorithm>
 
@@ -12,54 +14,100 @@ namespace gxx {
 	namespace math {
 		template<typename T> struct interval_union;
 
+		//Интерал реализуется парой чисел, причем одно из них всегда меньше либо равно второму.
+		//Допускается ситуация, когда минимум больше максимумак, но такой интервал не признается валидным.
+		//Невалидные интервалы используются в булевых алгоритмах.
 		template<typename T>
-		struct interval {
+		class interval {
+		public:
 			T minimum;
 			T maximum;
 
+		public:
 			interval(){}
 			interval(T minimum, T maximum) : minimum(minimum), maximum(maximum) {}
 
+			//Интервал содержит точку (невключающая операция).
 			bool in(T pnct) {
 				return minimum < pnct && pnct < maximum;
 			}
 
+			//Проверка интервала на валидность.
 			operator bool() const {
 				return minimum <= maximum;
 			}
 
-			bool is_degenerate() {
+			//Вырождается ли интервал в точку?
+			//Вырожденные интервалы возникают, например, при пересечении смежных интервалов.
+			bool is_degenerate() const {
 				minimum == maximum;
 			}
 
-			bool operator < (const interval& oth) const {
+			//Отношение порядка для выполнения операции сортировки.
+			//Порядок вводится лексикографический.
+			bool operator< (const interval& oth) const {
 				return minimum < oth.minimum || maximum < oth.maximum;
 			}
 
-			void divide(T pnct) {
-				interval_union<T> ret;
-				if (in(pnct)) {
-					ret.vec.push_back(interval(minimum, pnct));
-					ret.vec.push_back(interval(minimum, pnct));
-				} else {
-					ret.vec.push_back(*this);
-				};
-				return ret;
+			//Определяет факт наличия пересечения с другим интервалом.
+			bool is_intersected_with(const interval& oth) const {
+				return maximum >= oth.minimum && minimum <= oth.maximum;
 			}
 
+			//Упрощенная операция пересечения.
+			//В случае отсутствия пересечения возвращает невалидный интервал.
 			interval simple_intersect(interval oth) const {
 				return interval(gxx::math::maximum<T>(minimum, oth.minimum), gxx::math::minimum<T>(maximum, oth.maximum));
 			}
 
-			bool is_intersected_with(const interval& oth) const {
-				if (maximum < oth.minimum || minimum > oth.maximum) return false;
-				return true; 
+			//Упрощенная операция слияния.
+			//В случае отсутствия пересечения возвращает неверный результат (но валидный интервал).
+			//Перед использованием нужно убедиться в наличии пересечения (is_intersected_with). 
+			//Если пересечения нет, результатом должны являться оба интервала.
+			interval simple_combine(interval oth) const {
+				return interval(gxx::math::minimum<T>(minimum, oth.minimum), gxx::math::maximum<T>(maximum, oth.maximum));
 			}
 
+			//Упрощенная операция разности.
+			//Оба результата необходимо проверить на валидность.
+			//Могут быть верны как оба сразу, так и не один.
+			std::pair<interval, interval> simple_difference(interval oth) const {
+				return std::pair<interval,interval> { { minimum, oth.minimum }, { oth.maximum, maximum } };
+			}
+
+			//Упрощенная операция симметрической разности.
+			//В случае отсутствия пересечения возвращает неверный результат.
+			//Результат может быть неупорядоченным.
+			std::pair<interval, interval> simple_symmetric_difference(interval oth) const {
+				return std::pair<interval,interval> { 
+					maximum > oth.maximum ? interval(oth.maximum, maximum) : interval(maximum, oth.maximum),
+					minimum > oth.minimum ? interval(oth.minimum, minimum) : interval(minimum, oth.minimum),
+				};
+			}
+
+			//Упрощенная операция разделения. 
+			//Возвращает невалидный результат при отсутствии пересечения.
+			std::pair<interval, interval> simple_divide(T pnct) const {
+				return std::pair<interval,interval> { 
+					interval(minimum, pnct), interval(pnct, maximum)
+				};
+			}
+
+			//Операция пересечения двух интервалов.
 			interval_union<T> intersect(interval oth) const {
-				return interval_union<T> { simple_intersect(oth) };
+				auto i = simple_intersect(oth);
+				return i ? interval_union<T>{ i } : interval_union<T>();
 			}
 
+			//Объединение двух интервалов.
+			interval_union<T> combine(interval oth) const {
+				interval intersection = simple_intersect(oth);
+				return intersection ? 
+					interval_union<T> { simple_combine(oth) } :	
+					interval_union<T> { *this, oth };
+			}
+
+			//Разность двух интервалов.
 			interval_union<T> difference(interval oth) const {
 				interval_union<T> ret;
 				interval intersection = simple_intersect(oth);
@@ -76,23 +124,15 @@ namespace gxx {
 				return ret;
 			}
 
-			interval simple_combine(interval oth) const {
-				return interval(gxx::math::minimum<T>(minimum, oth.minimum), gxx::math::maximum<T>(maximum, oth.maximum));
+			//Разделение интервала точкой. Если точка не лежит внутри, возвращает неизмененный интервал.
+			interval_union<T> divide(T pnct) {
+				return in(pnct) ? 
+					interval_union<T> { interval(minimum, pnct), interval(pnct, maximum) } :	
+					interval_union<T> { *this };
 			}
 
-			interval_union<T> combine(interval oth) const {
-				interval_union<T> ret;
-				interval intersection = simple_intersect(oth);
-
-				if (intersection) {
-					ret.vec.push_back(simple_combine(oth));	
-				}
-
-				else {
-					ret.vec.push_back(*this);
-					ret.vec.push_back(oth);
-				}
-				return ret;
+			bool operator== (const interval& oth) const {
+				return minimum == oth.minimum && maximum == oth.maximum;
 			}
 
 			size_t printTo(gxx::io::ostream& o) const {
@@ -100,8 +140,14 @@ namespace gxx {
 			}			
 		};
 
+		//Комбинация интервалов. 
+		//Реализует замкнутый набор операций.
 		template<typename T>
-		struct interval_union {
+		class interval_union {
+		private:
+			//Группа пересечения.
+			//Внутренняя структура, используемая в булевых алгоритмах.
+			//Реализует операции над пересекающимися интервалами объединений.
 			struct intersected_group {
 				using begtype = typename std::vector<interval<T>>::const_iterator;
 				using endtype = typename std::vector<interval<T>>::const_iterator;
@@ -117,7 +163,7 @@ namespace gxx {
 					return begin_ait != end_ait && begin_bit != end_bit;
 				} 
 
-				//Для weak intersection
+				//Использовать с find_intersected_group_weak.
 				interval<T> combine() {
 					if (begin_ait == end_ait) return *begin_bit;
 					if (begin_bit == end_bit) return *begin_ait;
@@ -138,7 +184,7 @@ namespace gxx {
 					return interval<T>(minimum, maximum);
 				}
 
-				//Для full intersection
+				//Использовать с find_intersected_group.
 				interval_union intersect() {
 					interval_union ret;
 					if (begin_ait == end_ait) return ret;
@@ -159,18 +205,63 @@ namespace gxx {
 						}
 					}
 				}
+
+				//Использовать с find_intersected_group_weak.
+				interval_union difference() {
+					interval_union ret;
+					if (begin_ait == end_ait) return ret;
+					if (begin_bit == end_bit) { ret.vec.push_back(*begin_ait); return ret; }
+
+					auto ait = begin_ait;
+					auto bit = begin_bit;
+
+					interval<T> accumulator;
+					for(;ait != end_ait && bit != end_bit; ++ait) {
+						accumulator = *ait;
+						while(1) {
+							auto ldiff = accumulator.simple_difference(*bit);
+							
+							if (ldiff.first) ret.vec.push_back(ldiff.first);
+							if (ldiff.second) {	
+								accumulator = ldiff.second;
+								++bit;
+								if (bit == end_bit || !bit->is_intersected_with(*ait)) { 
+									ret.vec.push_back(accumulator);
+									break; 
+								}
+							}
+							else break;
+						}
+					}
+				}
 			};
 
+		private:
 			std::vector<interval<T>> vec;
 
-			interval_union(const std::initializer_list<interval<T>> lst) {
-				for (const auto& i : lst) {
-					if (i) vec.emplace_back(i);
-				} 
-				std::sort(vec.begin(), vec.end());
-			}
-
+		public:
+			interval_union(const std::initializer_list<interval<T>> lst) : vec(lst) {}
 			interval_union() = default;
+
+			//Операция приведения к стандартному виду.
+			//Проводит сортировку, объединяет взамно пересекающиеся интервалы.
+			void normalize() {
+				if (vec.empty()) return;
+				std::vector<interval<T>> nvec;
+				
+				std::sort(vec.begin(), vec.end());
+				auto accumulator = vec[0];
+				for (int i = 1; i < vec.size(); ++i) {
+					if (accumulator.is_intersected_with(vec[i])) accumulator = 
+						accumulator.simple_combine(vec[i]);
+					else {
+						nvec.push_back(accumulator);
+						accumulator = vec[i];
+					}
+				}
+				nvec.push_back(accumulator);
+				std::swap(vec, nvec);
+			}
 
 			static intersected_group __find_intersected_group(auto ait, auto end_ait, auto bit, auto end_bit) {
 				auto a = ait;
@@ -187,6 +278,7 @@ namespace gxx {
 				}
 			}
 
+			//Поиск группы пересечения. Интерпретирует непересекающиеся интервалы как группы.
 			static intersected_group find_intersected_group_weak(auto ait, auto end_ait, auto bit, auto end_bit) {
 				if (ait == end_ait) {
 					auto ebit = bit;
@@ -212,6 +304,7 @@ namespace gxx {
 				return __find_intersected_group(ait, end_ait, bit, end_bit);
 			};
 
+			//Поиск группы пересечения. Непересекающиеся интервалы отбрасываются.
 			static intersected_group find_intersected_group(auto ait, auto eait, auto bit, auto ebit) {
 				while(1) {
 					if (ait == eait || bit == ebit) return intersected_group(eait, eait, ebit, ebit);
@@ -223,6 +316,7 @@ namespace gxx {
 				return __find_intersected_group(ait, eait, bit, ebit);
 			};
 
+			//Булево объединение.
 			interval_union combine(const interval_union& oth) const {
 				interval_union ret;
 
@@ -239,6 +333,7 @@ namespace gxx {
 				return ret;
 			}
 
+			//Булево пересечение.
 			interval_union intersect(const interval_union& oth) const {
 				interval_union ret;
 
@@ -256,10 +351,32 @@ namespace gxx {
 				}					
 				return ret;
 			}
+
+			//Булева разность.
+			interval_union difference(const interval_union& oth) const {
+				interval_union ret;
+
+				auto ait = vec.begin();
+				auto eait = vec.end();
+				auto bit = oth.vec.begin();
+				auto ebit = oth.vec.end();
+				for(; ait != eait || bit != ebit;) {
+					auto group = gxx::math::interval_union<double>::find_intersected_group_weak(ait, eait, bit, ebit);
+					auto r = group.difference();
+					std::copy(r.vec.begin(), r.vec.end(), std::back_inserter(ret.vec));
+					ait = group.end_ait;
+					bit = group.end_bit;
+				}					
+				return ret;
+			}
+
+			bool operator==(const interval_union& oth) const { return vec == oth.vec; }
  
 			size_t printTo(gxx::io::ostream& o) const {
 				return gxx::print_to(o, vec);
 			}
+
+			friend class interval<T>;
 		};
 	}
 }

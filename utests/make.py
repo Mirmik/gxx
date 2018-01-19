@@ -10,6 +10,7 @@ tests = [
 	"print",
 	"event",
 	"base64",
+	"interval",
 ]
 
 application("runtests",
