@@ -6,6 +6,8 @@
 #include <gxx/geom/ngeom.h>
 #include <gxx/exception.h>
 
+#include <gxx/concept.h>
+
 namespace gxx {
 	namespace ngeom {
 		class curve {
@@ -127,31 +129,39 @@ namespace gxx {
 
 		class multiline : public bounded_curve {
 		public:
-			gxx::unbounded_array<double> raw;
-			size_t dm;
-			size_t sz;
+			malgo::matrix<double> mat;
+
+		private:
+			multiline(size_t n, size_t m) : mat(n, m), bounded_curve(0, n) {}
 
 		public:
-			CONSTREF_GETTER(size, sz);
-			CONSTREF_GETTER(dim, dm);
-
-			multiline(size_t n, size_t m) : raw(n*m), dm(m), sz(n), bounded_curve(0,m) {}
+			multiline(const std::initializer_list<point>& pnts) : multiline(pnts.size(), pnts.begin()->size()) { 
+			//template <template<class> class C>
+			//multiline(gxx::concept::sequence_container<C<double>,double> pnts) : multiline(pnts.size(), pnts.begin()->size()) { 
+				int i = 0;
+				for (const auto& p : pnts) {
+					assert(mat.size2() == p.size());
+					mat.row(i++) = p;
+				}
+			}
+			
+			//multiline(size_t n, size_t m) : raw(n*m), dm(m), sz(n), bounded_curve(0,m) {}
 			multiline(const multiline&) = default;
 			multiline(multiline&&) = default;
 			//multiline(multiline&&) = default;
+
+			size_t size() const { return mat.size1(); }
 
 			point d0(double t) const override {
 				throw GXX_NOT_IMPLEMENTED;
 			}
 
 			double* point_data(size_t i) {
-				return raw.data() + dm * i; 
+				return mat.row(i).data(); 
 			}
 
 			size_t printTo(gxx::io::ostream& o) const {
-				for(int i = 0; i < sz; ++i) {
-					gxx::println(gxx::objbuf<double>(raw.data()+i*dm,dm));
-				}
+				return gxx::print_to(o, mat);
 			}
 		};
 	}

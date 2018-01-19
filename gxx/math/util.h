@@ -40,18 +40,21 @@ namespace gxx { namespace math {
 	}
 
 	template <typename T, typename P>
-	inline bool is_same(T a, T b, P prec) {
+	static inline bool is_same(T a, T b, P prec) {
 		return fabs(a-b) < prec;
 	}
 
 	template <typename T, typename P>
-	inline bool early_zero(T a, P prec) {
+	static inline bool early_zero(T a, P prec) {
 		return fabs(a) < prec;
 	}
 
 
-	inline double rad2angle(double r) {
+	static inline double rad2angle(double r) {
 		return r / 2 / M_PI * 360;
 	}
+
+	template<typename T> T maximum(T a, T b) { return a > b ? a : b; }
+	template<typename T> T minimum(T a, T b) { return a < b ? a : b; }
 }}
 #endif
