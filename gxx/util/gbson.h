@@ -1,6 +1,8 @@
 #ifndef GXX_UTIL_GBSON_H
 #define GXX_UTIL_GBSON_H
 
+//Определение номеров типов протокола gbson
+
 namespace gxx {
 	static constexpr unsigned char gbson_integer_type = 0;
 	static constexpr unsigned char gbson_float_type = 1;

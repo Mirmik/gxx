@@ -1,6 +1,8 @@
 #ifndef GXX_UTIL_RANDOM_H
 #define GXX_UTIL_RANDOM_H
 
+//Утилиты для использования рандомайзера.
+
 inline float float_random(float a, float b) {
 	return a + (rand() * (b - a) / RAND_MAX);
 }

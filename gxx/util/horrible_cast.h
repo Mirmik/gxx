@@ -1,6 +1,8 @@
 #ifndef UTILXX_HORIBLE_CAST_H
 #define UTILXX_HORIBLE_CAST_H
-		
+	
+//Черная магия 4-ой ступени. Кастует что угодно во что угодно.
+
 // horrible_cast< >
 // This is truly evil. It completely subverts C++'s type system, allowing you 
 // to cast from any class to any other class. Technically, using a union 

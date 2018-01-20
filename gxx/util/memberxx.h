@@ -1,6 +1,8 @@
 #ifndef GENOS_UTILXX_MEMBER_H
 #define GENOS_UTILXX_MEMBER_H
 
+//Аналоги offsetof и container_of для с++.
+
 #include "inttypes.h"
 
 template<typename Type, typename MemberType>

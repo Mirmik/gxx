@@ -2,10 +2,10 @@
 #define GENOS_HASHTABLE_H
 
 #include <gxx/util/member.h>
+#include <gxx/util/hash.h>
+#include <gxx/util/compare.h>
 #include <gxx/datastruct/hlist_head.h>
 #include <gxx/datastruct/array.h>
-#include <gxx/container/hash.h>
-#include <gxx/container/compare.h>
 
 namespace gxx {
 

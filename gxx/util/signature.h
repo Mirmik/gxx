@@ -1,6 +1,8 @@
 #ifndef GXX_UTIL_SIGNATURE_H
 #define GXX_UTIL_SIGNATURE_H
 
+//Анализ сигнатур функций.
+
 namespace gxx {
 	template<typename Function> struct signature;
 

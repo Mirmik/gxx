@@ -15,22 +15,6 @@ namespace gxx {
 		return ss.str();
 	}
 
-	/*int format_visitor::visit(gxx::argument arg, io::format_writer& w, const char* opts) {
-		//dprln(arg.type_to_string());
-		switch (arg.type) {
-			case gxx::argument::Type::SInt8:  return 	visit_int64 (arg.i8,  w, opts);
-			case gxx::argument::Type::SInt16: return 	visit_int64 (arg.i16, w, opts);
-			case gxx::argument::Type::SInt32: return 	visit_int64 (arg.i32, w, opts);
-			case gxx::argument::Type::SInt64: return 	visit_int64 (arg.i64, w, opts);
-			case gxx::argument::Type::UInt8:  return 	visit_uint64(arg.u8,  w, opts);
-			case gxx::argument::Type::UInt16: return 	visit_uint64(arg.u16, w, opts);
-			case gxx::argument::Type::UInt32: return 	visit_uint64(arg.u32, w, opts);
-			case gxx::argument::Type::UInt64: return 	visit_uint64(arg.u64, w, opts);
-			case gxx::argument::Type::CharPtr: return 	visit_cstring(arg.str, w, opts);
-			case gxx::argument::Type::CustomType: return 	visit_custom(arg.custom, w, opts);
-		}
-	}*/
-
 	int format_arg_int64(const int64_t& num, io::format_writer& w, const char* opts) {
 		io::IntegerSpec spec;
 	
@@ -207,9 +191,9 @@ namespace gxx {
 		return ret;
 	}*/
 	
-	void io::format_gxx_strmout_writer::writeData(const char* data, size_t size) {
+	/*void io::format_gxx_strmout_writer::writeData(const char* data, size_t size) {
 		out.write(data, size);
-	}
+	}*//*
 }
 
 GXX_REGISTER_ARGUMENT_VISIT(format_visitor, char, format_arg_int8);
@@ -229,3 +213,4 @@ GXX_REGISTER_ARGUMENT_VISIT(format_visitor, double, format_arg_double);
 GXX_REGISTER_ARGUMENT_VISIT(format_visitor, const char*, format_arg_cstr);
 GXX_REGISTER_ARGUMENT_VISIT(format_visitor, char*, format_arg_cstr);
 GXX_REGISTER_ARGUMENT_VISIT(format_visitor, std::string, format_arg_str);
+*/

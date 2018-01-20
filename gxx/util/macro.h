@@ -1,9 +1,11 @@
 #ifndef UTIL_MACRO_H
 #define UTIL_MACRO_H
 
+//Макросы препроцессора.
+
 //compat names
-#define STRINGIFY(x) __MACRO_STRING(x)
-#define CAT(x,y) __MACRO_CONCATE(x,y)
+//#define STRINGIFY(x) __MACRO_STRING(x)
+//#define CAT(x,y) __MACRO_CONCATE(x,y)
 
 //Раскрытие
 #define MACRO_EXPAND(m) m

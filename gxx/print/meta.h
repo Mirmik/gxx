@@ -1,6 +1,9 @@
 #ifndef GXX_UTIL_PRINT_H
 #define GXX_UTIL_PRINT_H
 
+//Функции печати задаются с помощью специализации шаблонов структур для того, чтобы их можно было
+//подтягивать по всей программе.  
+
 #include <gxx/util/numconvert.h>
 #include <gxx/io/ostream.h>
 #include <vector>
@@ -20,7 +23,6 @@ namespace gxx {
 	struct is_have_printTo <T, decltype((void) &T::printTo, 0)> : std::true_type { };
 
 	namespace io { class ostream; }
-		//class buffer;
 
 	template<typename T, bool HavePrintTo = true>
 	struct print_functions_basic {

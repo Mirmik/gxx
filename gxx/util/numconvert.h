@@ -1,6 +1,8 @@
 #ifndef UTIL_NUMBER_CONVERT
 #define UTIL_NUMBER_CONVERT
 
+//Набор функций конвертеров в сишним стиле.
+
 #include <sys/cdefs.h>
 #include <inttypes.h>
 

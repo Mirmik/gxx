@@ -3,6 +3,7 @@
 
 #include <gxx/print.h>
 
+//Классы, определяющие печатающие методы для типовых структур данных.
 namespace gxx {
 	template<typename T>
 	class array_printable {

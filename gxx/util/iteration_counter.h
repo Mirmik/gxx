@@ -1,6 +1,7 @@
 #ifndef ITERATION_COUNTER_H
 #define ITERATION_COUNTER_H
-//Макросы счетного исполнения. by Mirmik
+
+//Счетчики итераций. 
 
 //Вспомогательные функции.
 #define _concate(a, b) __concate(a, b)
@@ -30,7 +31,7 @@ if (_concate(__internal_var, __LINE__) < b) if (++_concate(__internal_var, __LIN
 
 
 //Структура счётчик инструкций.
-struct iteration_counter
+/*struct iteration_counter
 {
 	long long iteration;
 	long long helper;
@@ -48,7 +49,7 @@ switch(obj.helper){case 0:
 #define iter_end(obj,a) if (obj.iteration == a) obj.helper = a; break; default: break; }
 
 //Неостанавливающие завершение.
-#define iter_end_unstoped(obj) if (obj.iteration >= obj.helper) obj.iteration = obj.helper; break;}
+#define iter_end_unstoped(obj) if (obj.iteration >= obj.helper) obj.iteration = obj.helper; break;}*/
 
 //Формат использования.
 //iter_start(obj)     do_something0();	//выполнять до второй итерации 

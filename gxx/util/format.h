@@ -1,6 +1,8 @@
 #ifndef GXX_UTIL_FORMAT_H
 #define GXX_UTIL_FORMAT_H
 
+#error "fsdaf"
+
 #include <string>
 #include <gxx/arglist2.h>
 

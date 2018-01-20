@@ -2,12 +2,11 @@
 #define GXX_FMT_FORMAT_H
 
 #include <gxx/arglist.h>
-#include <gxx/print/meta.h>
-#include <gxx/util/numconvert.h>
 
 namespace gxx {
 	namespace io { class ostream; }
 	namespace fmt {
+		//Форматирующий визитёр для arglist.
 		struct format_visitor {
 			using ftype = size_t(*)(void*, gxx::io::ostream&, gxx::buffer opts);												
 		
