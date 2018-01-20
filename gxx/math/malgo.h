@@ -1,5 +1,5 @@
-#ifndef MALGO_H
-#define MALGO_H
+#ifndef GXX_MATH_MALGO_H
+#define GXX_MATH_MALGO_H
 
 #include <gxx/print/printable.h>
 #include <gxx/serialize/serialize.h>
@@ -33,9 +33,7 @@ template<typename T, typename O = gxx::math::row_major> class matrix_accessor;
 
 template<typename V>
 class vector_basic : public gxx::array_printable<V> {
-public:
-	//vector_basic() = default;
-	
+public:	
 	template<typename OV> V& operator+=(const OV& oth) { 
 		V& self = *static_cast<V*>(this);
 		malgo::vector_add(self.begin(), oth.begin(), self.size(), self.begin()); 

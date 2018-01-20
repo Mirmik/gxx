@@ -31,8 +31,6 @@ namespace gxx {
 
 			return vector<Type>(1);
 		}
-
-
 	}
 }
 

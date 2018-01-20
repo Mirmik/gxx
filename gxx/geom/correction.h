@@ -13,8 +13,7 @@ namespace gxx {
 			std::vector<T> coords;
 			malgo::matrix<T> table;
 			uint8_t base_axis;
-			//size_t dim;
-
+		
 		public:
 			single_axis_correction_table(	
 				uint8_t dim,
@@ -28,7 +27,6 @@ namespace gxx {
 					auto ax = numcoords[i];
 					
 					//Копируем столбцы в расширенную таблицу
-					//malgo::vector_copy_it(cormatrix.data() + i, coords.size(),  table.data() + ax, numcoords.size(), dim);
 					table.column(ax) = cormatrix.column(i);
 
 					gxx::println(ax);
@@ -36,7 +34,6 @@ namespace gxx {
 					gxx::println(table);
 				}
 
-				//gxx::print_as_matrix(table, dim);
 			}
 
 			single_axis_correction_table() = default;
@@ -47,9 +44,6 @@ namespace gxx {
 				const malgo::matrix<T>& table
 			) : base_axis(base), coords(coords), table(table) {}
 			
-			//vector evaluate_point(double base) {
-			//	return linear_interpolation_matrix_rows(base, coords, table);
-			//}			
 			point evaluate(double coord) {
 				int dim = table.size2();
 				int anum;
@@ -65,14 +59,6 @@ namespace gxx {
 				point ret(dim);
 				double bkoeff = (coord - coords[anum]) / (coords[bnum] - coords[anum]);
 				double akoeff = 1 - bkoeff;
-
-				/*gxx::vprintln("c", coord);
-				gxx::vprintln("a", coords[anum]);
-				gxx::vprintln("b", coords[bnum]);
-				gxx::vprintln("an", anum);
-				gxx::vprintln("bn", bnum);
-				gxx::vprintln("k", koeff);
-				gxx::println("");*/
 
 				double* A = table.data() + dim * anum;
 				double* B = table.data() + dim * bnum;

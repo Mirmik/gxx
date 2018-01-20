@@ -60,23 +60,4 @@ int main() {
 
 	gxx::println(c.simple_symmetric_difference(d));
 	gxx::println(c.divide(2));
-
-	//GXX_PRINT(ints2.combine(ints1));
-
-	//auto group = gxx::math::interval_union<double>::find_intersected_group(ints1.vec.begin(), ints1.vec.end(), ints2.vec.begin(), ints2.vec.end());
-
-	/*auto ait = ints1.vec.begin();
-	auto eait = ints1.vec.end();
-	auto bit = ints2.vec.begin();
-	auto ebit = ints2.vec.end();
-	for(; ait != eait && bit != ebit;) {
-		auto ret = gxx::math::interval_union<double>::find_intersected_group(ait, eait, bit, ebit);
-		ait = ret.end_ait;
-		bit = ret.end_bit;
-
-		gxx::println("res_a");
-		for (auto it = ret.begin_ait; it != ret.end_ait; ++it) { gxx::println(*it); }
-		gxx::println("res_b");
-		for (auto it = ret.begin_bit; it != ret.end_bit; ++it) { gxx::println(*it); }
-	}*/
 }

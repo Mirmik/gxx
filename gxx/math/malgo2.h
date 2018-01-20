@@ -1,5 +1,5 @@
-#ifndef MALGO2_H
-#define MALGO2_H
+#ifndef GXX_MATH_MALGO2_H
+#define GXX_MATH_MALGO2_H
 
 #include <gxx/math/util.h>
 #include <gxx/print.h>
