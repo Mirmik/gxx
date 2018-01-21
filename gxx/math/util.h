@@ -39,6 +39,11 @@ namespace gxx { namespace math {
 		return y;
 	}
 
+	template <typename T, T prec>
+	static inline bool is_same_template(T a, T b) {
+		return fabs(a-b) < prec;
+	}
+
 	template <typename T, typename P>
 	static inline bool is_same(T a, T b, P prec) {
 		return fabs(a-b) < prec;

@@ -23,12 +23,15 @@ namespace malgo2 {
 		vector2(T x, T y) : x(x), y(y) {}
 		vector2(const vector2& oth) : x(oth.x), y(oth.y) {}
 
+		bool early_zero(double prec = malgo2::standart_precision) const {
+			return gxx::math::early_zero(x, prec) && gxx::math::early_zero(y, prec);
+		}
 
-		bool is_same(const vector2& oth, double prec = malgo2::standart_precision) {
+		bool is_same(const vector2& oth, double prec = malgo2::standart_precision) const {
 			return sub(oth).abs0() < prec;
 		}
 
-		bool is_not_same(const vector2& oth, double prec = malgo2::standart_precision) {
+		bool is_not_same(const vector2& oth, double prec = malgo2::standart_precision) const {
 			return !is_same(oth,prec);
 		}
 

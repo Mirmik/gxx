@@ -14,7 +14,7 @@ namespace gxx {
 
 namespace geom2 {
 	constexpr static double infinity = std::numeric_limits<double>::infinity();
-	constexpr static double precision = 0.00001;
+	//constexpr static double precision = 0.00001;
 
 	class point : public malgo2::vector2<double> {
 	public: 
@@ -59,6 +59,8 @@ namespace geom2 {
 		virtual size_t printTo(gxx::io::ostream& o) const { return gxx::print_to(o, "nilcurve"); }	
 		//virtual curve_enum gettype() const { return curve_enum::none; }	
 		virtual void drawTo(drawer2d& cntxt) const { throw GXX_NOT_IMPLEMENTED; };
+
+		virtual bool is_analityc() { return false; }
 
 		//point start() const { return d0(bmin); }
 		//point finish() const { return d0(bmax); }
@@ -105,6 +107,8 @@ namespace geom2 {
 		direction normal() const { 
 			return direction(-sin(angle), cos(angle)); 
 		}
+
+		bool is_analityc() override { return true; }
 	};
 
 	class circle : public curve {
@@ -123,6 +127,8 @@ namespace geom2 {
 		size_t printTo(gxx::io::ostream& o) const override { return gxx::fprint("circle(r:{},c:{},v:{})",r,l,dirx); } 
 		double sparam() { return atan2(dirx.x, dirx.y); }
 		void drawTo(drawer2d& cntxt) const override;
+		
+		bool is_analityc() override { return true; }
 	};
 /*
 	struct intersection_point2d {

@@ -3,21 +3,29 @@
 
 #include <memory>
 #include <gxx/geom/geom2.h>
-#include <gxx/util/interval.h>
+#include <gxx/math/interval.h>
 
 namespace rabbit {
+	using interval = gxx::math::interval<double>;
+	using directed_interval = gxx::math::directed_interval<double>;
+	using curve2 = gxx::geom2::curve;
 	using point = gxx::geom2::point;
+	using point2 = gxx::geom2::point;
 
 	//Трим - это часть кривой, имеющая направление и ограничения
 	struct trim2 {
-		double tstart;
-		double tfinish;
-		std::shared_ptr<gxx::geom2::curve> crv;
+		std::shared_ptr<curve2> crv;
+		directed_interval tparam;
 
-		trim2(gxx::geom2::curve* crv, double s, double f) : crv(crv), tstart(s), tfinish(f) {}
-		point finish() const { return crv->d0(tfinish); }
-		point start() const { return crv->d0(tstart); }
-		gxx::interval<double> interval() const { return gxx::interval<double>(tstart, tfinish); }
+		trim2() = default;
+		trim2(gxx::geom2::curve* crv, double s, double f) : crv(crv), tparam(s, f) {}
+		trim2(std::shared_ptr<curve2> crv, double s, double f) : crv(crv), tparam(s, f) {}
+		point finish() const { return crv->d0(tparam.finish()); }
+		point start() const { return crv->d0(tparam.start()); }
+
+		size_t printTo(gxx::io::ostream& o) const {
+			return gxx::print_to(o, *crv, tparam);
+		}
 	};
 
 	struct loop2 {
@@ -35,9 +43,9 @@ namespace rabbit {
 	};
 
 	struct face2 {
-		std::vector<loop2> loops;
+		/*std::vector<loop2> loops;
 		face2(const std::initializer_list<loop2>& lst) : loops(lst.begin(), lst.end()) {}
-		face2(const loop2& lp) { loops.push_back(lp); }
+		face2(const loop2& lp) { loops.push_back(lp); }*/
 	};
 
 	struct line2 : public trim2 {

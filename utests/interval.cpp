@@ -43,6 +43,7 @@ TEST(Interval, difference) {
 
 TEST(Interval, intersect) {
 	using iu = gxx::math::interval_union<double>;
+	using i = gxx::math::interval<double>;
 
 	iu u0 = {{1, 3}};
 
@@ -52,6 +53,12 @@ TEST(Interval, intersect) {
 	iu u2 = {{1.5, 2}, {2.5, 2.7}, {2.8, 4}};
 	iu u2res = {{1.5, 2}, {2.5, 2.7}, {2.8, 3}};
 
+	i u3a = {0, 2};
+	i u3b = {2, 4};
+
+	iu iu3a = {{0, 2}};
+	iu iu3b = {{-2, 0}, {2, 4}};
+
 	/*gxx::println(u0.intersect(u1));
 	gxx::println(u1res);
 	gxx::println(u0.intersect(u2));
@@ -59,4 +66,10 @@ TEST(Interval, intersect) {
 
 	EXPECT_EQ(u0.intersect(u1), u1res);
 	EXPECT_EQ(u0.intersect(u2), u2res);
+	EXPECT_EQ(u3a.simple_intersect(u3b).is_degenerate(), true);
+
+	auto res = iu3a.intersect(iu3b);
+	for (auto& ii : res) {
+		EXPECT_EQ(ii.is_degenerate(), true);
+	}
 }

@@ -24,12 +24,22 @@ namespace gxx {
 			T maximum;
 
 		public:
-			interval(){}
+			interval() : minimum(1), maximum(-1) {} //невалидный.
 			interval(T minimum, T maximum) : minimum(minimum), maximum(maximum) {}
 
-			//Интервал содержит точку (невключающая операция).
-			bool in(T pnct) {
+			//Содержит ли точку (невключающая операция).
+			bool in(T pnct) const {
 				return minimum < pnct && pnct < maximum;
+			}
+
+			//Содержит ли точку (невключающая операция).
+			//Данный вариант функции учитывает малый отступ для исключения крайних вариантов.
+			bool in(T pnct, T prec) const {
+				return minimum + prec < pnct && pnct < maximum - prec;
+			}
+
+			bool in_weak(T pnct, T prec) const {
+				return minimum - prec < pnct && pnct < maximum + prec;
 			}
 
 			//Проверка интервала на валидность.
@@ -37,10 +47,18 @@ namespace gxx {
 				return minimum <= maximum;
 			}
 
+			interval offset(T off) const {
+				return interval(minimum + off, maximum + off);
+			}
+
+			interval reverse() const {
+				return interval( - maximum, - minimum );				
+			}
+
 			//Вырождается ли интервал в точку?
 			//Вырожденные интервалы возникают, например, при пересечении смежных интервалов.
 			bool is_degenerate() const {
-				minimum == maximum;
+				return minimum == maximum;
 			}
 
 			//Отношение порядка для выполнения операции сортировки.
@@ -372,11 +390,31 @@ namespace gxx {
 
 			bool operator==(const interval_union& oth) const { return vec == oth.vec; }
  
+			auto begin() { return vec.begin(); }
+			auto end() { return vec.end(); }
+			auto begin() const { return vec.begin(); }
+			auto end() const { return vec.end(); }
+			auto cbegin() const { return vec.cbegin(); }
+			auto cend() const { return vec.cend(); }
+
 			size_t printTo(gxx::io::ostream& o) const {
 				return gxx::print_to(o, vec);
 			}
 
 			friend class interval<T>;
+		};
+
+		template <typename T>
+		struct directed_interval : public interval<T> {
+			bool reverse;
+			directed_interval(T strt, T stop) : interval<T>(strt, stop) {
+				reverse = interval<T>::minimum > interval<T>::maximum;
+				if (reverse) std::swap(interval<T>::minimum, interval<T>::maximum);
+			}
+			directed_interval() = default;
+
+			T start() const { return reverse ? interval<T>::maximum : interval<T>::minimum; }
+			T finish() const { return reverse ? interval<T>::minimum : interval<T>::maximum; }
 		};
 	}
 }

@@ -58,6 +58,10 @@ namespace gxx {
 		return res;
 	}
 
+	inline int println() {
+		return standart_output->println();
+	}
+
 	template<typename C>
 	int print_as_matrix(const C& c, int rlen) {
 		int n = 0;

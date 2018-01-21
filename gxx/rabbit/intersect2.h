@@ -5,10 +5,78 @@
 #include <algorithm>
 
 namespace rabbit {
-	using curve2 = gxx::geom2::curve;
-	using interval = gxx::interval<double>;
+	static constexpr double precision = 0.00000001;
 
-	void curve_curve_intersection(const curve2&, const curve2&, std::vector<double>&, std::vector<double>&, const interval&, const interval&);
+	struct ipoint {
+		double a;
+		double b;
+		point2 r;
+
+		ipoint(double a, double b, point2 r) : a(a), b(b), r(r) {}
+
+		size_t printTo(gxx::io::ostream& o) const {
+			gxx::fprint_to(o, "(a:{}, b:{}, r:{}) ", a, b, r);
+		}
+	};
+
+	struct trim_trim_intersection_result {
+		//Точки пересечения.
+		std::vector<ipoint> ipnts;
+
+		//Интервал пересечения.
+				//TODO
+		rabbit::interval aint;
+		rabbit::interval bint;	
+		rabbit::trim2 trm;
+
+		bool have_points() const {
+			return !ipnts.empty(); 
+		}	
+
+		bool is_interval() const {
+			return ((bool)aint) && ((bool)bint); 
+		}	
+
+		bool have_intervals() const {
+			return ((bool)aint) && ((bool)bint); 
+		}	
+
+		bool empty() const {
+			return ipnts.empty() && is_interval() == false;
+		}		
+
+		size_t printTo(gxx::io::ostream& o) const {
+			if (have_points()) {
+				gxx::fprint_to(o, "pnts:{}", ipnts);
+			}
+			if (have_intervals()) {
+				//TODO
+				gxx::fprint_to(o, "ints:(a:{}, b:{}) ", aint, bint);
+			}
+
+			if (empty()) { gxx::print("have not intersection"); }
+
+			return 1;
+		}
+	};
+
+	struct loop_loop_intersection_result {
+		/*std::vector<double> apnts;
+		std::vector<double> bpnts;
+		std::vector<interval> aints;
+		std::vector<interval> bints;*/
+
+		std::vector<ipoint> ipnts;
+		//intervals
+
+		size_t printTo(gxx::io::ostream& o) const {
+			return gxx::print_to(o, ipnts);
+		}
+	};
+
+	trim_trim_intersection_result trim_trim_intersection(const trim2& a, const trim2& b);
+	loop_loop_intersection_result loop_loop_intersection(const loop2& a, const loop2& b);
+	/*void curve_curve_intersection(const curve2&, const curve2&, std::vector<double>&, std::vector<double>&, const interval&, const interval&);
 
 	class boolean_algorithm_2d {
 		const face2& a;
@@ -206,7 +274,7 @@ namespace rabbit {
 				}
 			}
 		}
-	};
+	};*/
 
 }
 
