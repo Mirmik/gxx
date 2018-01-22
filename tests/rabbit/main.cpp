@@ -1,5 +1,3 @@
-#include <gxx/print.h>
-#include <gxx/io/std.h>
 #include <gxx/rabbit/topo2.h>
 #include <gxx/rabbit/intersect2.h>
 #include <gxx/rabbit/figure.h>
