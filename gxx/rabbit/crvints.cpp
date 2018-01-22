@@ -94,9 +94,11 @@ namespace rabbit {
 			
 			if (crvres.empty()) return res;
 			if (crvres.same) {
+				gxx::panic("TODO same curves");
+
 				//Кривые совпадают.
 				//Ищем интервал B в системе координат A.
-				auto bint_asystem = b.tparam.offset(crvres.offset);
+				/*auto bint_asystem = b.tparam.offset(crvres.offset);
 				if (crvres.revdir) bint_asystem = bint_asystem.reverse();
 				
 				auto intersect = a.tparam.simple_intersect(bint_asystem);
@@ -117,19 +119,36 @@ namespace rabbit {
 						assert(trm2.start().is_same(res.trm.finish()));
 						assert(trm2.finish().is_same(res.trm.start()));						
 					}
-				}
+				}*/
 			} else {
 				//Копируем точки пересечения.
 				size_t sz = crvres.pnts.size();
-				res.ipnts.reserve(sz);
+				res.pnts.reserve(sz);
 
 				for (int i = 0; i < sz; ++i) {
 					if (a.tparam.in_weak(crvres.apnts[i], rabbit::precision) && b.tparam.in_weak(crvres.bpnts[i], rabbit::precision)) {
-						res.ipnts.emplace_back(crvres.apnts[i], crvres.bpnts[i], crvres.pnts[i]);
+						
+						/*gxx::println("HERE!!!");
+						GXX_PRINT(a);
+						GXX_PRINT(b);
+						GXX_PRINT(crvres.apnts[i]);
+						GXX_PRINT(crvres.bpnts[i]);
+						GXX_PRINT(a.tparam.to_proc(crvres.apnts[i]));
+						GXX_PRINT(b.tparam.to_proc(crvres.bpnts[i]));
+						GXX_PRINT(b.tparam.proc(a.tparam.to_proc(crvres.apnts[i])));
+						GXX_PRINT(b.tparam.proc(b.tparam.to_proc(crvres.bpnts[i])));
+						GXX_PRINT(a.crv->d0(crvres.apnts[i]));
+						GXX_PRINT(b.crv->d0(crvres.bpnts[i]));
+						GXX_PRINT(a.d0(a.tparam.to_proc(crvres.apnts[i])));
+						GXX_PRINT(b.d0(b.tparam.to_proc(crvres.bpnts[i])));
+						GXX_PRINT(crvres.pnts[i]);
+						gxx::println();*/
+
+						res.pnts.emplace_back(a.tparam.to_proc(crvres.apnts[i]), b.tparam.to_proc(crvres.bpnts[i]), crvres.pnts[i]);
 					}
 				}
 
-				res.ipnts.shrink_to_fit();
+				res.pnts.shrink_to_fit();
 			}
 
 			return res;
@@ -150,68 +169,73 @@ namespace rabbit {
 	}
 
 	bool is_really_intersected(const trim2& ain, const trim2& bin, const trim2& aout, const trim2& bout) {
-		auto vaout = aout.d1(aout.start());
-		auto vain = ain.d1(ain.finish());
-		auto vbout = bout.d1(bout.start());
-		auto vbin = bin.d1(bin.finish());
+		auto vaout = aout.crv->d1(aout.tparam.start());
+		auto vain = ain.crv->d1(ain.tparam.finish());
+		auto vbout = bout.crv->d1(bout.tparam.start());
+		auto vbin = bin.crv->d1(bin.tparam.finish());
 		return __is_really_intersected(vain, vaout, vbin, vbout);
 	}
 
 	bool is_really_intersected(const trim2& a, double param, const trim2& bin, const trim2& bout) {
-		auto vaio = a.d1(param);
-		auto vbout = bout.d1(bout.start());
-		auto vbin = bin.d1(bin.finish());
+		auto vaio = a.crv->d1(param);
+		auto vbout = bout.crv->d1(bout.tparam.start());
+		auto vbin = bin.crv->d1(bin.tparam.finish());
 		return __is_really_intersected(vaio, vaio, vbin, vbout);
 	}
 
 	loop_loop_intersection_result loop_loop_intersection(const loop2& a, const loop2& b) {
 		loop_loop_intersection_result ret;
 
-		double aparam = 0;
-		double bparam = 0;
+		const trim2* alt = &a.edges[a.edges.size()-1];
+		const trim2* blt = &b.edges[b.edges.size()-1];
 
-		for(int ai = 0; ai < a.edges.size(); ++i) {
-			for(int bi = 0; bi < b.edges.size(); ++i) {
-				const auto& at = a.edges[ai];
+		for(int ai = 0; ai < a.edges.size(); ++ai) {
+			const auto& at = a.edges[ai];
+			
+			for(int bi = 0; bi < b.edges.size(); ++bi) {
 				const auto& bt = b.edges[bi];
 
 				auto ttres = trim_trim_intersection(at, bt);
 				gxx::println(ai, bi, ttres);
 
-				for (int i = 0; i < ttres.ipnts.size(); ++i) {
-					ipoint ip = ttres.ipnts[i];
+				for (int i = 0; i < ttres.pnts.size(); ++i) {
+					tpoint ip = ttres.pnts[i];
 
-					bool afinish = gxx::math::is_same(at.tparam.finish(), ip.a, rabbit::precision);
-					bool bfinish = gxx::math::is_same(at.tparam.finish(), ip.a, rabbit::precision);
+					bool afinish = gxx::math::is_same(1.0, ip.a, rabbit::precision);
+					bool bfinish = gxx::math::is_same(1.0, ip.b, rabbit::precision);
+					bool astart = gxx::math::is_same(0.0, ip.a, rabbit::precision);
+					bool bstart = gxx::math::is_same(0.0, ip.b, rabbit::precision);
 
-					if (afinish || bfinish) {
-						if (afinish && bfinish) {
-							if (is_really_intersected(at, a.edges[ai+1]), bt, b.edges[bi+1]) {
-								ret.ipnts.emplace_back(ttres.ipnts[i].a + aparam, ttres.ipnts[i].b + bparam, ttres.ipnts[i].r);
-							}
-						} else if (afinish) {
-							if (is_really_intersected(bt, ip.b, at, a.edges[ai+1])) {
-								ret.ipnts.emplace_back(ttres.ipnts[i].a + aparam, ttres.ipnts[i].b + bparam, ttres.ipnts[i].r);
-							}
+					if (afinish || bfinish)  {
+						
+					} else if (astart || bstart) {
+						if (astart && bstart) {
+							ret.try_add_bound_point(ai, bi, ttres.pnts[i], at, *alt, bt, *blt);
+							//if (is_really_intersected(at, a.edges[ai+1], bt, b.edges[bi+1])) {
+								//ret.ipnts.emplace_back(ttres.pnts[i].a + aparam, ttres.pnts[i].b + bparam, ttres.pnts[i].r);
+							//}
+						} else if (astart) {
+							ret.try_add_bound_point(ai, bi, ttres.pnts[i], at, *alt, bt, bt);
+							//if (is_really_intersected(bt, ip.b, at, a.edges[ai+1])) {
+								//ret.ipnts.emplace_back(ttres.pnts[i].a + aparam, ttres.pnts[i].b + bparam, ttres.pnts[i].r);
+							//}
 						} else {
-							if (is_really_intersected(at, ip.a, bt, b.edges[bi+1])) {
-								ret.ipnts.emplace_back(ttres.ipnts[i].a + aparam, ttres.ipnts[i].b + bparam, ttres.ipnts[i].r);
-							}
+							ret.try_add_bound_point(ai, bi, ttres.pnts[i], at, at, bt, *blt);
+							//if (is_really_intersected(at, ip.a, bt, b.edges[bi+1])) {
+								//ret.ipnts.emplace_back(ttres.pnts[i].a + aparam, ttres.pnts[i].b + bparam, ttres.pnts[i].r);
+							//}
 						}
-					} else {
-						ret.ipnts.emplace_back(ttres.ipnts[i].a + aparam, ttres.ipnts[i].b + bparam, ttres.ipnts[i].r);
+					} 
+					else {
+						//gxx::println("llint: add_nobound_point");
+						ret.add_point(ai, bi, ttres.pnts[i], at, bt);
 					}
+
 				}				
-				
-				bi++;
-				bparam += bt.tparam.maximum - bt.tparam.minimum;  
+				blt = &bt;
 			};
 			gxx::println();
-
-			bi = 0;
-			bparam = 0;
-			ai++;
-			aparam += at.tparam.maximum - at.tparam.minimum;  
+			alt = &at;  
 		};
 
 		/*std::sort(ret.apnts.begin(), ret.apnts.end());
@@ -228,5 +252,54 @@ namespace rabbit {
 */
 
 		return ret;
+	}
+
+
+	std::pair<loop2, loop2> loop_loop_combine(const loop2& a, const loop2& b) {
+		gxx::println("loop_loop_combine");
+		auto llints = loop_loop_intersection(a,b);
+
+		if (llints.empty()) {
+			PANIC_TRACED();
+			return std::make_pair(a,b);
+		}
+
+		//gxx::dlist<ipoint, &ipoint::alnk> asorted;
+		//gxx::dlist<ipoint, &ipoint::blnk> bsorted;
+		std::vector<ipoint*> asorted;
+		std::vector<ipoint*> bsorted;
+
+		for (auto& i : llints.ipnts) {
+			asorted.push_back(&i);
+			bsorted.push_back(&i);
+		}
+
+		std::sort(asorted.begin(), asorted.end(), [](const ipoint* a, const ipoint* b) { return a->a < b->a; }); 
+		std::sort(bsorted.begin(), bsorted.end(), [](const ipoint* a, const ipoint* b) { return a->b < b->b; });
+
+		for (int i = 0; i < asorted.size() - 1; ++i) {
+			asorted[i]->anext = asorted[i+1];
+		}
+		asorted[asorted.size() - 1]->anext = asorted[0];
+
+		for (int i = 0; i < bsorted.size() - 1; ++i) {
+			bsorted[i]->bnext = bsorted[i+1];
+		}
+		bsorted[bsorted.size() - 1]->bnext = bsorted[0];
+
+		ipoint* start = asorted[0];
+		ipoint* it = start;
+		gxx::fprintln("start by: {}", *it);
+		do {
+			if (it->a_righter_than_b) {
+				it = it->anext;
+				gxx::fprintln("step by A to: {}", *it);
+			} else {
+				it = it->bnext;
+				gxx::fprintln("step by B to: {}", *it);
+			}
+		} while(it != start);		
+
+		return std::pair<loop2,loop2>();
 	}
 }

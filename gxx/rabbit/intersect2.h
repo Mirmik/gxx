@@ -2,17 +2,43 @@
 #define GXX_RABBIT_INTERSET2_H
 
 #include <gxx/rabbit/topo2.h>
+#include <gxx/dlist.h>
+
 #include <algorithm>
+#include <list>
 
 namespace rabbit {
 	static constexpr double precision = 0.00000001;
+
+	struct tpoint {
+		double a;
+		double b;
+		point2 r;
+
+		tpoint(double a, double b, point2 r) : a(a), b(b), r(r) {}
+
+		size_t printTo(gxx::io::ostream& o) const {
+			gxx::fprint_to(o, "(a:{}, b:{}, r:{}) ", a, b, r);
+		}
+	};
 
 	struct ipoint {
 		double a;
 		double b;
 		point2 r;
 
-		ipoint(double a, double b, point2 r) : a(a), b(b), r(r) {}
+		//dlist_head alnk;
+		//dlist_head blnk;
+		ipoint* anext;
+		ipoint* bnext;
+
+		bool a_righter_than_b;
+		bool used;
+
+		trim2* at;
+		trim2* bt;
+
+		ipoint(double a, double b, point2 r, bool righter) : a(a), b(b), r(r), a_righter_than_b(righter), at(at), bt(bt) {}
 
 		size_t printTo(gxx::io::ostream& o) const {
 			gxx::fprint_to(o, "(a:{}, b:{}, r:{}) ", a, b, r);
@@ -21,7 +47,7 @@ namespace rabbit {
 
 	struct trim_trim_intersection_result {
 		//Точки пересечения.
-		std::vector<ipoint> ipnts;
+		std::vector<tpoint> pnts;
 
 		//Интервал пересечения.
 				//TODO
@@ -30,7 +56,7 @@ namespace rabbit {
 		rabbit::trim2 trm;
 
 		bool have_points() const {
-			return !ipnts.empty(); 
+			return !pnts.empty(); 
 		}	
 
 		bool is_interval() const {
@@ -42,12 +68,12 @@ namespace rabbit {
 		}	
 
 		bool empty() const {
-			return ipnts.empty() && is_interval() == false;
+			return pnts.empty() && is_interval() == false;
 		}		
 
 		size_t printTo(gxx::io::ostream& o) const {
 			if (have_points()) {
-				gxx::fprint_to(o, "pnts:{}", ipnts);
+				gxx::fprint_to(o, "pnts:{}", pnts);
 			}
 			if (have_intervals()) {
 				//TODO
@@ -60,22 +86,41 @@ namespace rabbit {
 		}
 	};
 
+	inline bool is_a_righter_than_b(const trim2& a, const trim2& b, const tpoint& p) {
+		auto d1res = a.d1(p.a).evalrot(b.d1(p.b));
+		if (! gxx::math::early_zero(d1res, rabbit::precision)) {
+			return d1res > 0;
+		}
+		else PANIC_TRACED();		
+	}
+
 	struct loop_loop_intersection_result {
-		/*std::vector<double> apnts;
-		std::vector<double> bpnts;
-		std::vector<interval> aints;
-		std::vector<interval> bints;*/
-
-		std::vector<ipoint> ipnts;
-		//intervals
-
+		std::list<ipoint> ipnts;
+		
 		size_t printTo(gxx::io::ostream& o) const {
 			return gxx::print_to(o, ipnts);
+		}
+
+		void try_add_bound_point(double alparam, double blparam, const tpoint& tp, const trim2& at1, const trim2& at2, const trim2& bt1, const trim2& bt2) {
+			gxx::panic("try_add_bound_ipoint");
+		}
+
+		void add_point(int alparam, int blparam, const tpoint& tp, const trim2& at, const trim2& bt) {
+			assert(at.d0(tp.a).is_same(tp.r) && bt.d0(tp.b).is_same(tp.r));
+			bool righter_than = rabbit::is_a_righter_than_b(at, bt, tp);
+			ipnts.emplace_back(alparam + tp.a, blparam + tp.b, tp.r, righter_than);
+		}
+
+		bool empty() {
+			return ipnts.empty();
 		}
 	};
 
 	trim_trim_intersection_result trim_trim_intersection(const trim2& a, const trim2& b);
 	loop_loop_intersection_result loop_loop_intersection(const loop2& a, const loop2& b);
+	
+	std::pair<loop2, loop2> loop_loop_combine(const loop2& a, const loop2& b);
+
 	/*void curve_curve_intersection(const curve2&, const curve2&, std::vector<double>&, std::vector<double>&, const interval&, const interval&);
 
 	class boolean_algorithm_2d {

@@ -11,6 +11,7 @@ namespace rabbit {
 	using curve2 = gxx::geom2::curve;
 	using point = gxx::geom2::point;
 	using point2 = gxx::geom2::point;
+	using vector2 = malgo2::vector2<double>;
 
 	//Трим - это часть кривой, имеющая направление и ограничения
 	struct trim2 {
@@ -23,6 +24,15 @@ namespace rabbit {
 		point finish() const { return crv->d0(tparam.finish()); }
 		point start() const { return crv->d0(tparam.start()); }
 
+		point d0(double prc) const {
+			return crv->d0(tparam.proc(prc));
+		}
+
+		vector2 d1(double prc) const {
+			auto tmp = crv->d1(tparam.proc(prc));
+			return tparam.reverse ? -tmp : tmp;
+		}
+
 		size_t printTo(gxx::io::ostream& o) const {
 			return gxx::print_to(o, *crv, tparam);
 		}
@@ -30,6 +40,7 @@ namespace rabbit {
 
 	struct loop2 {
 		std::vector<trim2> edges;
+		loop2(){}
 		loop2(const std::initializer_list<trim2>& lst) : edges(lst.begin(), lst.end()) {}
 		loop2(std::vector<trim2>&& oth) : edges(std::move(oth)) {}
 		bool check_closed() const {

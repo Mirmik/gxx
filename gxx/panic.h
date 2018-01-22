@@ -17,7 +17,7 @@ namespace gxx {
 }
 
 #define PANIC_TRACED(...)					\
-debug_print_location(current_location());	\
-gxx::panic(__VA_ARGS__)
+{debug_print_location(current_location());	\
+gxx::panic(__VA_ARGS__);}
 
 #endif

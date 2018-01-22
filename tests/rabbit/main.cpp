@@ -37,14 +37,14 @@ int main() {
 
 	rabbit::point apnts[3] = {
 		{0, 0},
-		{0, 1},
-		{1, 0}
+		{1, 0},
+		{0, 1}
 	};
 
 	rabbit::point bpnts[3] = {
 		{0+0.2, 0+0.2},
-		{0+0.2, 1+0.2},
-		{1+0.2, 0+0.2}
+		{1+0.2, 0+0.2},
+		{0+0.2, 1+0.2}
 	};
 
 	/*rabbit::point bpnts[3] = {
@@ -72,7 +72,7 @@ int main() {
 		rabbit::line2(bpnts[2], bpnts[0])
 	};
 
-	gxx::println(loop_loop_intersection(alp, blp));
+	auto ret = loop_loop_combine(alp, blp);
 
 	//rabbit::face2 aface(alp);
 	//rabbit::face2 bface(blp);

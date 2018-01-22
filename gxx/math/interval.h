@@ -42,6 +42,8 @@ namespace gxx {
 				return minimum - prec < pnct && pnct < maximum + prec;
 			}
 
+			T length() const { return maximum - minimum; }
+
 			//Проверка интервала на валидность.
 			operator bool() const {
 				return minimum <= maximum;
@@ -415,6 +417,20 @@ namespace gxx {
 
 			T start() const { return reverse ? interval<T>::maximum : interval<T>::minimum; }
 			T finish() const { return reverse ? interval<T>::minimum : interval<T>::maximum; }
+
+			T proc(double prc) const {
+				assert(prc >= 0 && prc <=1);
+				return reverse ? 
+					(prc * interval<T>::minimum + (1 - prc) * interval<T>::maximum):
+					(prc * interval<T>::maximum + (1 - prc) * interval<T>::minimum);
+			}
+
+			double to_proc(T param) const {
+				assert(param >= interval<T>::minimum && param <= interval<T>::maximum);
+				auto koeff = (param - interval<T>::minimum) / interval<T>::length();
+				return reverse ? 1 - koeff : koeff;
+
+			}
 		};
 	}
 }

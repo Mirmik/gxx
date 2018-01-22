@@ -2,10 +2,13 @@
 #define GXX_STD_PRINT_H
 
 #include <gxx/print.h>
+#include <gxx/dlist.h>
+
 #include <array>
 #include <vector>
 #include <map>
 #include <set>
+#include <list>
 
 namespace gxx {
 	template<typename T, typename A> 
@@ -26,6 +29,32 @@ namespace gxx {
 	template<typename T, typename A> 
 	struct print_functions<std::set<T,A>> {
 		static int print(gxx::io::ostream& o, std::set<T,A> const& vec) {
+			o.putchar('[');
+			int s = vec.size();
+			for (const auto& g : vec) {
+				gxx::print_to(o, g);
+				if (--s) o.putchar(' ');
+			}
+			o.putchar(']');
+		}
+	};
+
+	template<typename T, typename A> 
+	struct print_functions<std::list<T,A>> {
+		static int print(gxx::io::ostream& o, std::list<T,A> const& vec) {
+			o.putchar('[');
+			int s = vec.size();
+			for (const auto& g : vec) {
+				gxx::print_to(o, g);
+				if (--s) o.putchar(' ');
+			}
+			o.putchar(']');
+		}
+	};
+
+	template<typename T, dlist_head T::* L> 
+	struct print_functions<gxx::dlist<T,L>> {
+		static int print(gxx::io::ostream& o, gxx::dlist<T,L> const& vec) {
 			o.putchar('[');
 			int s = vec.size();
 			for (const auto& g : vec) {

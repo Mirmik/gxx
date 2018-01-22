@@ -69,7 +69,7 @@ namespace gxx {
 			move_back(*begin());
 		};
 
-		int size() {
+		int size() const {
 			int i = 0;
 			for(auto& v : *this) {
 				i++;
@@ -176,5 +176,13 @@ namespace gxx {
 	};
 }
 
+/*namespace std {
+	template<typename T, dlist_head T::* L>
+	class iterator_traits<typename gxx::dlist<T,L>::iterator> {
+	public:
+		using iterator_category = std::bidirectional_iterator_tag;
+		using value_type = T;
+	};
+}*/
 
 #endif
