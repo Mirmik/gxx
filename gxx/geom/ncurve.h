@@ -131,7 +131,11 @@ namespace gxx {
 		public:
 			malgo::matrix<double> mat;
 
-		private:
+		public:
+			size_t dim() const {
+				return mat.size2();
+			}
+
 			multiline(size_t n, size_t m) : mat(n, m), bounded_curve(0, n) {}
 
 		public:
