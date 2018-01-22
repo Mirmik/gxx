@@ -202,6 +202,11 @@ namespace gxx {
 		return m_dict[key];
 	}
 
+	const trent& trent::operator[](const std::string& key) const {
+		if (m_type != trent::type::dictionary) gxx::panic("wrong trent type");
+		return m_dict.at(key);
+	}
+
 	trent& trent::operator[](const gxx::buffer& key) {
 		if (m_type != trent::type::dictionary) init(trent::type::dictionary);
 		return m_dict[std::string(key.data(), key.size())];
@@ -230,6 +235,11 @@ namespace gxx {
 	
 	std::map<std::string, trent>& trent::as_dictionary() {
 		if (m_type != trent::type::dictionary) init(trent::type::dictionary);
+		return m_dict;
+	}
+
+	const std::map<std::string, trent>& trent::as_dictionary() const {
+		if (m_type != trent::type::dictionary) gxx::panic("wrong_trent_type");
 		return m_dict;
 	}
 	
@@ -310,6 +320,11 @@ namespace gxx {
 	}
 
 	result<std::map<std::string, trent>&> trent::as_dictionary_critical() {
+		if (!is_dictionary()) return error("is't dictionary");
+		return as_dictionary();
+	}
+
+	result<const std::map<std::string, trent>&> trent::as_dictionary_critical() const {
 		if (!is_dictionary()) return error("is't dictionary");
 		return as_dictionary();
 	}

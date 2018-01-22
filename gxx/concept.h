@@ -8,7 +8,7 @@ namespace gxx {
 		public:
 			const C<T>& container;
 			sequence_container(const C<T>& c) : container(c) {}
-			sequence_container(const std::initializer_list<T>& c) : container(c) {}
+			//sequence_container(const std::initializer_list<T>& c) : container(c) {}
 
 			CONSTREF_GETTER(size, container.size());
 		};

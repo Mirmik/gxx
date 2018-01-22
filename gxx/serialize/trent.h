@@ -105,6 +105,7 @@ namespace gxx {
 		trent& operator[](int i);
 		trent& operator[](const char* key);
 		trent& operator[](const std::string& key);
+		const trent& operator[](const std::string& key) const;
 		trent& operator[](const gxx::buffer& key);
 
 		trent& at(int i);
@@ -118,7 +119,9 @@ namespace gxx {
 		const trent& at(const gxx::buffer& key) const;
 
 		std::map<std::string, trent>& as_dictionary();
+		const std::map<std::string, trent>& as_dictionary() const;
 		result<std::map<std::string, trent>&> as_dictionary_critical();
+		result<const std::map<std::string, trent>&> as_dictionary_critical() const;
 
 		std::vector<trent>& as_array();
 		const std::vector<trent>& as_array() const;

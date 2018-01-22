@@ -29,9 +29,9 @@ namespace gxx {
 					//Копируем столбцы в расширенную таблицу
 					table.column(ax) = cormatrix.column(i);
 
-					gxx::println(ax);
-					gxx::println(cormatrix);
-					gxx::println(table);
+					//gxx::println(ax);
+					//gxx::println(cormatrix);
+					//gxx::println(table);
 				}
 
 			}
