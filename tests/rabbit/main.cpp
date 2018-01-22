@@ -2,6 +2,10 @@
 #include <gxx/io/std.h>
 #include <gxx/rabbit/topo2.h>
 #include <gxx/rabbit/intersect2.h>
+#include <gxx/rabbit/figure.h>
+#include <gxx/rabbit/draw.h>
+
+#include <gxx/x11wrap/shower2d.h>
 
 int main() {
 
@@ -35,16 +39,32 @@ int main() {
 
 	//gxx::println("HelloWorld");
 
-	rabbit::point apnts[3] = {
+	rabbit::point apnts[] = {
 		{0, 0},
-		{1, 0},
-		{0, 1}
+		{2, 0},
+		{2, 2},
+		{0, 2},
 	};
 
-	rabbit::point bpnts[3] = {
-		{0+0.2, 0+0.2},
-		{1+0.2, 0+0.2},
-		{0+0.2, 1+0.2}
+	rabbit::point bpnts[] = {
+		{0+1, 0+1},
+		{2+1, 0+1},
+		{2+1, 2+1},
+		{0+1, 2+1},
+	};
+
+	rabbit::point cpnts[] = {
+		{0+0.5, 0+0.5},
+		{2+0.5, 0+0.5},
+		{2+0.5, 2+0.5},
+		{0+0.5, 2+0.5},
+	};
+
+	rabbit::point dpnts[] = {
+		{-1, 0.8},
+		{4, 0.8},
+		{4, 0.9},
+		{-1, 0.9},
 	};
 
 	/*rabbit::point bpnts[3] = {
@@ -59,20 +79,15 @@ int main() {
 		{1 + 1, 0}
 	};*/
 
+	auto s1 = rabbit::figure::rectangle(20, 30);
+	auto s2 = rabbit::figure::rectangle(30, 40).translate(10,10);
 
-	rabbit::loop2 alp {
-		rabbit::line2(apnts[0], apnts[1]),
-		rabbit::line2(apnts[1], apnts[2]),
-		rabbit::line2(apnts[2], apnts[0])
-	};
+	gxx::shower2d sch;
 
-	rabbit::loop2 blp {
-		rabbit::line2(bpnts[0], bpnts[1]),
-		rabbit::line2(bpnts[1], bpnts[2]),
-		rabbit::line2(bpnts[2], bpnts[0])
-	};
+	rabbit::draw(sch, s2);
+	rabbit::draw(sch, s1);
 
-	auto ret = loop_loop_combine(alp, blp);
+	sch.exec();
 
 	//rabbit::face2 aface(alp);
 	//rabbit::face2 bface(blp);

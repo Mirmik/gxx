@@ -5,7 +5,7 @@
 #include <gxx/print.h>
 #include <cmath>
 
-namespace malgo2 {
+namespace malgo {
 	static constexpr double standart_precision = 0.00000001;
 
 	template <typename T>
@@ -23,15 +23,15 @@ namespace malgo2 {
 		vector2(T x, T y) : x(x), y(y) {}
 		vector2(const vector2& oth) : x(oth.x), y(oth.y) {}
 
-		bool early_zero(double prec = malgo2::standart_precision) const {
+		bool early_zero(double prec = standart_precision) const {
 			return gxx::math::early_zero(x, prec) && gxx::math::early_zero(y, prec);
 		}
 
-		bool is_same(const vector2& oth, double prec = malgo2::standart_precision) const {
+		bool is_same(const vector2& oth, double prec = standart_precision) const {
 			return sub(oth).abs0() < prec;
 		}
 
-		bool is_not_same(const vector2& oth, double prec = malgo2::standart_precision) const {
+		bool is_not_same(const vector2& oth, double prec = standart_precision) const {
 			return !is_same(oth,prec);
 		}
 
@@ -81,6 +81,10 @@ namespace malgo2 {
 			return vector2(x - b.x, y - b.y);
 		}		
 
+		vector2 operator+(const vector2& b) const {
+			return add(b);
+		}
+
 		void self_sub(const vector2& b) {
 			x -= b.x; y -= b.y;
 		}		
@@ -126,6 +130,14 @@ namespace malgo2 {
 			r & x;
 			r & y;
 		}
+	};
+
+	template <typename T>
+	class unit_vector2 : public vector2<T> {
+	public:
+		unit_vector2()=default;
+		unit_vector2(T x, T y, bool need_normalize = true) : vector2<T>(x,y) { if (need_normalize) vector2<T>::self_normalize(); }
+		unit_vector2(const vector2<T>& oth, bool need_normalize = true) : vector2<T>(oth) { if (need_normalize) vector2<T>::self_normalize();}
 	};
 }
 

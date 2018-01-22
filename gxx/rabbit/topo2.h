@@ -11,7 +11,7 @@ namespace rabbit {
 	using curve2 = gxx::geom2::curve;
 	using point = gxx::geom2::point;
 	using point2 = gxx::geom2::point;
-	using vector2 = malgo2::vector2<double>;
+	using vector2 = malgo::vector2<double>;
 
 	//Трим - это часть кривой, имеющая направление и ограничения
 	struct trim2 {
@@ -19,8 +19,12 @@ namespace rabbit {
 		directed_interval tparam;
 
 		trim2() = default;
+		trim2(gxx::geom2::curve* crv, directed_interval t) : crv(crv), tparam(t) {}
+		trim2(std::shared_ptr<curve2> crv, directed_interval t) : crv(crv), tparam(t) {}
 		trim2(gxx::geom2::curve* crv, double s, double f) : crv(crv), tparam(s, f) {}
 		trim2(std::shared_ptr<curve2> crv, double s, double f) : crv(crv), tparam(s, f) {}
+		trim2(const trim2& tr, double s, double f) : crv(tr.crv), tparam(tr.tparam.proc(s), tr.tparam.proc(f)) {}
+
 		point finish() const { return crv->d0(tparam.finish()); }
 		point start() const { return crv->d0(tparam.start()); }
 
@@ -31,6 +35,10 @@ namespace rabbit {
 		vector2 d1(double prc) const {
 			auto tmp = crv->d1(tparam.proc(prc));
 			return tparam.reverse ? -tmp : tmp;
+		}
+
+		trim2 translate(double x, double y) const {
+			return trim2(crv->translate(x,y), tparam);
 		}
 
 		size_t printTo(gxx::io::ostream& o) const {
@@ -50,6 +58,18 @@ namespace rabbit {
 				last = t.finish();
 			}
 			return true;
+		}
+
+		size_t printTo(gxx::io::ostream& o) const {
+			return gxx::println(edges);
+		}
+
+		loop2 translate(double x, double y) const {
+			loop2 ret;
+			for (const trim2& t : edges) {
+				ret.edges.push_back(t.translate(x,y));
+			}
+			return ret;
 		}
 	};
 

@@ -16,7 +16,7 @@ namespace geom2 {
 	constexpr static double infinity = std::numeric_limits<double>::infinity();
 	//constexpr static double precision = 0.00001;
 
-	class point : public malgo2::vector2<double> {
+	/*class point : public malgo2::vector2<double> {
 	public: 
 		point()=default;
 		point(double x, double y) : malgo2::vector2<double>(x,y) {}
@@ -39,7 +39,11 @@ namespace geom2 {
 		direction(double x, double y, bool norm = true) : malgo2::vector2<double>(x,y) { if (norm) self_normalize(); }
 		direction(const direction& oth) : malgo2::vector2<double>(oth) {}
 		direction(const malgo2::vector2<double>& oth, bool norm = true) : malgo2::vector2<double>(oth) { if (norm) self_normalize(); }
-	};
+	};*/
+
+	using point = malgo::vector2<double>;
+	using vector = malgo::vector2<double>;
+	using direction = malgo::unit_vector2<double>;
 
 	/*enum class curve_enum : uint8_t {
 		none,
@@ -61,6 +65,7 @@ namespace geom2 {
 		virtual void drawTo(drawer2d& cntxt) const { throw GXX_NOT_IMPLEMENTED; };
 
 		virtual bool is_analityc() { return false; }
+		virtual std::shared_ptr<curve> translate(double x, double y) { throw GXX_NOT_IMPLEMENTED; }
 
 		//point start() const { return d0(bmin); }
 		//point finish() const { return d0(bmax); }
@@ -109,6 +114,10 @@ namespace geom2 {
 		}
 
 		bool is_analityc() override { return true; }
+
+		std::shared_ptr<curve> translate(double x, double y) { 
+			return std::shared_ptr<curve>(new line(l + vector(x,y), d));
+		}
 	};
 
 	class circle : public curve {

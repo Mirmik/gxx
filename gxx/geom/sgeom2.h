@@ -13,7 +13,8 @@ namespace gxx {
 		struct line {
 			T x1, x2, y1, y2;
 			line(T x1, T y1, T x2, T y2) : x1(x1), x2(x2), y1(y1), y2(y2) {}
-			line(point<T> pnt1, point<T> pnt2) : x1(pnt1.x), x2(pnt2.x), y1(pnt1.y), y2(pnt2.y) {}			
+			line(point<T> pnt1, point<T> pnt2) : x1(pnt1.x), x2(pnt2.x), y1(pnt1.y), y2(pnt2.y) {}	
+			line(malgo::vector2<T> pnt1, malgo::vector2<T> pnt2) : x1(pnt1.x), x2(pnt2.x), y1(pnt1.y), y2(pnt2.y) {}			
 		};
 
 		template <typename T>
