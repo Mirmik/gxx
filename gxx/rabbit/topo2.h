@@ -11,19 +11,23 @@ namespace rabbit {
 	using curve2 = gxx::geom2::curve;
 	using point = gxx::geom2::point;
 	using point2 = gxx::geom2::point;
+	using direction2 = gxx::geom2::direction;
 	using vector2 = malgo::vector2<double>;
 
 	//Трим - это часть кривой, имеющая направление и ограничения
 	struct trim2 {
 		std::shared_ptr<curve2> crv;
 		directed_interval tparam;
+		gxx::geom2::boundbox box; 
 
 		trim2() = default;
-		trim2(gxx::geom2::curve* crv, directed_interval t) : crv(crv), tparam(t) {}
-		trim2(std::shared_ptr<curve2> crv, directed_interval t) : crv(crv), tparam(t) {}
-		trim2(gxx::geom2::curve* crv, double s, double f) : crv(crv), tparam(s, f) {}
-		trim2(std::shared_ptr<curve2> crv, double s, double f) : crv(crv), tparam(s, f) {}
-		trim2(const trim2& tr, double s, double f) : crv(tr.crv), tparam(tr.tparam.proc(s), tr.tparam.proc(f)) {}
+		trim2(gxx::geom2::curve* crv, directed_interval t) : crv(crv), tparam(t), box(crv->getbound(t)) {}
+		trim2(std::shared_ptr<curve2> crv, directed_interval t) : crv(crv), tparam(t), box(crv->getbound(t)) {}
+		trim2(gxx::geom2::curve* crv, double s, double f) : crv(crv), tparam(s, f), box(crv->getbound(s, f)) {}
+		trim2(std::shared_ptr<curve2> crv, double s, double f) : crv(crv), tparam(s, f), box(crv->getbound(s, f)) {}
+		
+		//proc params
+		trim2(const trim2& tr, double s, double f) : crv(tr.crv), tparam(tr.tparam.proc(s), tr.tparam.proc(f)), box(crv->getbound(tr.tparam.proc(s), tr.tparam.proc(f))) {}
 
 		point finish() const { return crv->d0(tparam.finish()); }
 		point start() const { return crv->d0(tparam.start()); }
@@ -39,6 +43,10 @@ namespace rabbit {
 
 		trim2 translate(double x, double y) const {
 			return trim2(crv->translate(x,y), tparam);
+		}
+
+		trim2 rotate(double a) const {
+			return trim2(crv->rotate(a), tparam);
 		}
 
 		size_t printTo(gxx::io::ostream& o) const {
@@ -71,6 +79,27 @@ namespace rabbit {
 			}
 			return ret;
 		}
+
+		loop2 rotate(double a) const {
+			loop2 ret;
+			for (const trim2& t : edges) {
+				ret.edges.push_back(t.rotate(a));
+			}
+			return ret;
+		}
+
+		double eval_angle() {
+			double sum = 0;
+			for (int i = 0; i < edges.size() - 1; ++i) {
+				sum += edges[i].d1(1).evalrot(edges[i+1].d1(0)); 
+			}
+			sum += edges[edges.size()-1].d1(1).evalrot(edges[0].d1(0));
+			return sum;
+		}
+
+		operator bool() {
+			return !edges.empty();
+		}
 	};
 
 	struct face2 {
@@ -81,6 +110,10 @@ namespace rabbit {
 
 	struct line2 : public trim2 {
 		line2(point a, point b) : trim2(new gxx::geom2::line(a, b-a), 0, (b-a).abs()) {}
+	};
+
+	struct circle2 : public trim2 {
+		circle2(double rad) : trim2(new gxx::geom2::circle(rad, point2(0,0), direction2(1,0)), 0, 2*M_PI) {}
 	};
 }
 

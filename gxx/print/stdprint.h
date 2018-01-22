@@ -10,6 +10,8 @@
 #include <set>
 #include <list>
 
+#include <typeinfo>
+
 namespace gxx {
 	template<typename T, typename A> 
 	struct print_functions<std::vector<T,A>> {
@@ -105,6 +107,7 @@ namespace gxx {
 				o.print(str.c_str());
 		}
 	};
+
 	template<typename T0, typename T1>  
 	struct print_functions<std::pair<T0,T1>> {
 		static int print(gxx::io::ostream& o, std::pair<T0,T1> const& pr) {
@@ -113,6 +116,13 @@ namespace gxx {
 			o.putchar(',');
 			gxx::print_to(o, pr.second);
 			o.putchar(')');
+		}
+	};
+
+	template<>
+	struct print_functions<std::type_info> {
+		static int print(gxx::io::ostream& o, std::type_info const& info) {
+			gxx::print_to(o, info.name());
 		}
 	};
 }

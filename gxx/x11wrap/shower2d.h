@@ -2,9 +2,6 @@
 #define GXX_X11_2D_SHOWER
 
 #include <X11/Xlib.h>
-#include <gxx/math/malgo2.h>
-#include <gxx/geom/geom2.h>
-#include <gxx/geom/topo2.h>
 #include <gxx/geom/sgeom2.h>
 
 namespace g2 = gxx::geom2;
@@ -32,9 +29,9 @@ namespace gxx {
 			lines.emplace_back(x1, y1, x2, y2);
 		}
 
-		void add_line(malgo::vector2<double> pnt1, malgo::vector2<double> pnt2) {
+		/*void add_line(malgo::vector2<double> pnt1, malgo::vector2<double> pnt2) {
 			lines.emplace_back(pnt1.x, pnt1.y, pnt2.x, pnt2.y);
-		}
+		}*/
 /*
 		void add_line(gxx::sgeom2::line<double> lin) {
 			lines.emplace_back(lin);

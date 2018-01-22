@@ -66,5 +66,9 @@ namespace gxx { namespace math {
 	T limitation(const T& a, const T& min, const T& max) {
 		return min > a ? min : max < a ? max : a;
 	}
+
+	inline double degree(double arg) {
+		return arg * M_PI / 180;
+	}
 }}
 #endif

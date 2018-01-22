@@ -123,6 +123,12 @@ namespace malgo {
 			return atan2(y,x);
 		} 
 
+		vector2 rotate(double a) {
+			double s = sin(a);
+			double c = cos(a);
+			return vector2(x*c - y*s, x*s + y*c);
+		}
+
 		size_t printTo(gxx::io::ostream& o) const {	return gxx::fprint_to(o, "({},{})", x, y); }
 
 		template<typename R>
@@ -138,6 +144,7 @@ namespace malgo {
 		unit_vector2()=default;
 		unit_vector2(T x, T y, bool need_normalize = true) : vector2<T>(x,y) { if (need_normalize) vector2<T>::self_normalize(); }
 		unit_vector2(const vector2<T>& oth, bool need_normalize = true) : vector2<T>(oth) { if (need_normalize) vector2<T>::self_normalize();}
+		unit_vector2(const unit_vector2<T>& oth) : vector2<T>(oth) {}
 	};
 }
 

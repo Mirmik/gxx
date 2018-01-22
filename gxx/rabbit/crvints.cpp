@@ -70,8 +70,70 @@ namespace rabbit {
 		return crvcrv_analytic_intresult({t1}, {t2}, {apnt});
 	}
 
+	crvcrv_analytic_intresult circle_circle_intersection(const curve2& acrv, const curve2& bcrv) {
+		gxx::println("circ circ intersect");
+		const auto& a = static_cast<const gxx::geom2::circle&>(acrv);
+		const auto& b = static_cast<const gxx::geom2::circle&>(bcrv);
+
+		PANIC_TRACED();
+	}
+
+
+	/*crvcrv_analytic_intresult intersect_line2_circle2(const line& a, const circle& b, intresult_common& com, intresult_parts& ares, intresult_parts& bres) {
+		auto linenorm = a.normal();
+		auto distance = linenorm.sclmul(a.l - b.l);
+		auto r = b.radius();
+		
+		if (distance < 0) { linenorm.self_reverse(); distance = -distance; }
+				
+		if (gxx::math::is_same(distance, r, precision)) {
+			auto t1 = a.d.sclmul(b.l-a.l);
+			auto t2 = -b.sp + atan2(linenorm.y, linenorm.x); 
+			
+			if (a.in(t1) && b.in(t2)) {
+				ares.points.emplace_back(t1);
+				bres.points.emplace_back(t2);
+				com.points.emplace_back(a.d0(t1), true);
+			}
+			
+			return;
+		}
+
+		if (distance > r) {
+			return;
+		}
+
+		auto cos_diff_angle = distance / r;
+		auto diff_angle = acos(cos_diff_angle);
+		auto t2 = -b.sp + atan2(linenorm.y, linenorm.x); 
+
+		auto t21 = t2 - diff_angle;
+		auto pnt1 = b.d0(t21);
+		auto t11 = a.rev_d0(pnt1);
+
+		auto t22 = t2 + diff_angle;
+		auto pnt2 = b.d0(t22);
+		auto t12 = a.rev_d0(pnt2);
+
+		if (a.in(t11) && b.in(t21)) {
+			ares.points.emplace_back(t11, a.is_bound(t11));
+			bres.points.emplace_back(t21, b.is_bound(t21));
+			com.points.emplace_back(pnt1);
+		}
+
+		if (a.in(t12) && b.in(t22)) {
+			ares.points.emplace_back(t12, a.is_bound(t12));
+			bres.points.emplace_back(t22, b.is_bound(t22));
+			com.points.emplace_back(pnt2);
+		}
+		return;
+	}*/
+
+
+
 	std::map<std::pair<std::type_index, std::type_index>, analytic_intsignature> intsmap {
 		{std::pair<std::type_index, std::type_index>(typeid(gxx::geom2::line), typeid(gxx::geom2::line)), line_line_intersection}, 
+		{std::pair<std::type_index, std::type_index>(typeid(gxx::geom2::circle), typeid(gxx::geom2::circle)), circle_circle_intersection}, 
 	};
 
 	crvcrv_analytic_intresult analytic_curve_curve_intersection(const curve2& acrv, const curve2& bcrv) {
@@ -83,10 +145,16 @@ namespace rabbit {
 
 		it = intsmap.find(std::pair<std::type_index, std::type_index>(btype, atype));
 		if (it != intsmap.end()) { return it->second(bcrv, acrv).swap_curves(); }
+
+		PANIC_TRACED();
 	}
 
 	trim_trim_intersection_result trim_trim_intersection(const trim2& a, const trim2& b) {
 		trim_trim_intersection_result res;
+		//if (!a.box.can_intersect(b.box)) return res;
+
+		//gxx::println(a);
+		//gxx::println(b);
 
 		if (a.crv->is_analityc() && b.crv->is_analityc()) {
 			//Пересечение кривых аналитического класса.
@@ -127,7 +195,9 @@ namespace rabbit {
 
 				for (int i = 0; i < sz; ++i) {
 					if (a.tparam.in_weak(crvres.apnts[i], rabbit::precision) && b.tparam.in_weak(crvres.bpnts[i], rabbit::precision)) {
+						//gxx::println("H", crvres.apnts[i]);
 						res.pnts.emplace_back(a.tparam.to_proc(crvres.apnts[i]), b.tparam.to_proc(crvres.bpnts[i]), crvres.pnts[i]);
+						//gxx::println("E", crvres.apnts[i]);
 					}
 				}
 
@@ -179,7 +249,7 @@ namespace rabbit {
 				const auto& bt = b.edges[bi];
 
 				auto ttres = trim_trim_intersection(at, bt);
-				gxx::println(ai, bi, ttres);
+				//gxx::println(ai, bi, ttres);
 
 				for (int i = 0; i < ttres.pnts.size(); ++i) {
 					tpoint ip = ttres.pnts[i];
@@ -207,7 +277,7 @@ namespace rabbit {
 				}				
 				blt = &bt;
 			};
-			gxx::println();
+			//gxx::println();
 			alt = &at;  
 		};
 
@@ -225,30 +295,29 @@ namespace rabbit {
 
 		if (strim == ftrim && strim < ftrim) {
 			formed.edges.emplace_back(donor.edges[strim], tstrt, tstop);
-			gxx::println();
+			//gxx::println();
 			return;
 		}
 
 
-		gxx::println("strt", donor.edges.size());
+		//gxx::println("strt", donor.edges.size());
 		formed.edges.emplace_back(donor.edges[num++], tstrt, 1);
 		if (num == donor.edges.size()) num = 0;
 		while(num != ftrim) {
-			gxx::println(num);
-			gxx::println("iter");
+			//gxx::println(num);
+			//gxx::println("iter");
 			formed.edges.emplace_back(donor.edges[num++], 0, 1);
 			if (num == donor.edges.size()) num = 0;
 		}
-		gxx::println("fin");
+		//gxx::println("fin");
 		formed.edges.emplace_back(donor.edges[num], 0, tstop);
 	}
 
 	std::pair<loop2, loop2> loop_loop_combine(const loop2& a, const loop2& b) {
-		gxx::println("loop_loop_combine");
+		//gxx::println("loop_loop_combine");
 		auto llints = loop_loop_intersection(a,b);
 
 		if (llints.empty()) {
-			PANIC_TRACED();
 			return std::make_pair(a,b);
 		}
 
@@ -256,7 +325,7 @@ namespace rabbit {
 		std::vector<ipoint*> bsorted;
 
 		for (auto& i : llints.ipnts) {
-			GXX_PRINT(i);
+			//GXX_PRINT(i);
 			asorted.push_back(&i);
 			bsorted.push_back(&i);
 		}
@@ -276,25 +345,25 @@ namespace rabbit {
 
 		ipoint* start = asorted[0];
 		ipoint* it = start;
-		gxx::fprintln("start by: {}", *it);
+		//gxx::fprintln("start by: {}", *it);
 
 		std::pair<loop2,loop2> ret;
 		do {
 			if (it->a_righter_than_b) {
-				gxx::fprintln("step by A to: {}", *it);
+				//gxx::fprintln("step by A to: {}", *it);
 				add_loop_part(ret.first, a, it->a, it->anext->a);
 				it = it->anext;
 			} else {
-				gxx::fprintln("step by B to: {}", *it);
+				//gxx::fprintln("step by B to: {}", *it);
 				add_loop_part(ret.first, b, it->b, it->bnext->b);
 				it = it->bnext;
 			}
 		} while(it != start);	
 
-		gxx::println(ret);	
-		for (auto& t: ret.first.edges) {
-			gxx::println(t.finish());
-		}
+		//gxx::println(ret);	
+		//for (auto& t: ret.first.edges) {
+		//	gxx::println(t.finish());
+		//}
 
 		if (!ret.first.edges.empty()) ret.first.check_closed();
 		if (!ret.second.edges.empty()) ret.second.check_closed();

@@ -74,6 +74,11 @@ namespace gxx {
 				return maximum >= oth.minimum && minimum <= oth.maximum;
 			}
 
+			//Определяет факт наличия пересечения с другим интервалом.
+			bool is_intersected_with_weak(const interval& oth, T prec) const {
+				return maximum + prec >= oth.minimum && minimum - prec <= oth.maximum;
+			}
+
 			//Упрощенная операция пересечения.
 			//В случае отсутствия пересечения возвращает невалидный интервал.
 			interval simple_intersect(interval oth) const {
@@ -419,14 +424,15 @@ namespace gxx {
 			T finish() const { return reverse ? interval<T>::minimum : interval<T>::maximum; }
 
 			T proc(double prc) const {
-				assert(prc >= 0 && prc <=1);
+				//assert(prc >= 0-0.00001 && prc <=1+0.000001);
 				return reverse ? 
 					(prc * interval<T>::minimum + (1 - prc) * interval<T>::maximum):
 					(prc * interval<T>::maximum + (1 - prc) * interval<T>::minimum);
 			}
 
 			double to_proc(T param) const {
-				assert(param >= interval<T>::minimum && param <= interval<T>::maximum);
+				//gxx::println(interval<T>::minimum, param <= interval<T>::maximum);
+				//assert(param >= interval<T>::minimum && param <= interval<T>::maximum);
 				auto koeff = (param - interval<T>::minimum) / interval<T>::length();
 				return reverse ? 1 - koeff : koeff;
 

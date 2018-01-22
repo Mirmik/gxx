@@ -87,11 +87,45 @@ namespace rabbit {
 	};
 
 	inline bool is_a_righter_than_b(const trim2& a, const trim2& b, const tpoint& p) {
+		//gxx::println("is_a_righter_than_b");
 		auto d1res = a.d1(p.a).evalrot(b.d1(p.b));
 		if (! gxx::math::early_zero(d1res, rabbit::precision)) {
 			return d1res > 0;
 		}
 		else PANIC_TRACED();		
+	}
+
+	inline bool is_a_righter_than_b(const trim2& a1, const trim2& a2, const trim2& b1, const trim2& b2, const tpoint& tp) {
+		//gxx::println("is_a_righter_than_b_2");
+		vector2 dir_a1;
+		vector2 dir_a2;
+		vector2 dir_b1;
+		vector2 dir_b2;
+
+		//GXX_PRINT(&a1 == &a2);
+		//GXX_PRINT(&b1 == &b2);
+
+		if (&a1 == &a2) { dir_a1 = dir_a2 = a1.d1(tp.a); } else { dir_a1 = a1.d1(1); dir_a2 = a2.d1(0); }
+		if (&b1 == &b2) { dir_b1 = dir_b2 = b1.d1(tp.b); } else { dir_b1 = b1.d1(1); dir_b2 = b2.d1(0); }
+
+		//auto d1res_1 = a.d1(p.a).evalrot(b.d1(p.b));
+		//auto d1res_2 = a.d1(p.a).evalrot(b.d1(p.b));
+		
+		//GXX_PRINT(dir_a1);
+		//GXX_PRINT(dir_a2);
+		//GXX_PRINT(dir_b1);
+		//GXX_PRINT(dir_b2);
+
+		//auto arot = dir_a1.evalrot(dir_a2) + M_PI;
+		auto rot1 = dir_a1.evalrot(dir_b1);
+		auto rot2 = dir_a2.evalrot(dir_b2);
+
+		//GXX_PRINT(rot1);
+		//GXX_PRINT(rot2);
+
+		assert((rot1 < 0 && rot2 < 0) || (rot1 > 0 && rot2 > 0));
+
+		return(rot1 > 0);		
 	}
 
 	struct loop_loop_intersection_result {
@@ -102,7 +136,12 @@ namespace rabbit {
 		}
 
 		void try_add_bound_point(double alparam, double blparam, const tpoint& tp, const trim2& at1, const trim2& at2, const trim2& bt1, const trim2& bt2) {
-			gxx::panic("try_add_bound_ipoint");
+			auto aparam = &at1 != &at2 ? alparam : alparam + tp.a; 
+			auto bparam = &bt1 != &bt2 ? blparam : blparam + tp.b; 
+
+			bool righter_than = rabbit::is_a_righter_than_b(at1, at2, bt1, bt2, tp);
+			
+			ipnts.emplace_back(alparam + tp.a, blparam + tp.b, tp.r, righter_than);
 		}
 
 		void add_point(int alparam, int blparam, const tpoint& tp, const trim2& at, const trim2& bt) {

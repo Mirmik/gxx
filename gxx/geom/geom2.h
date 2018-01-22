@@ -3,6 +3,7 @@
 
 #include <gxx/print/stdprint.h>
 #include <gxx/math/malgo2.h>
+#include <gxx/math/interval.h>
 #include <limits>
 #include <memory>
 
@@ -14,7 +15,7 @@ namespace gxx {
 
 namespace geom2 {
 	constexpr static double infinity = std::numeric_limits<double>::infinity();
-	//constexpr static double precision = 0.00001;
+	constexpr static double precision = 0.000001;
 
 	/*class point : public malgo2::vector2<double> {
 	public: 
@@ -51,6 +52,19 @@ namespace geom2 {
 		circle
 	};*/
 
+	struct boundbox {
+		gxx::math::interval<double> x;
+		gxx::math::interval<double> y;
+
+		boundbox() {};
+		boundbox(double x1, double x2, double y1, double y2) : x(x1, x2), y(y1, y2) {};
+
+		bool can_intersect(const boundbox& oth) const {
+			if (x.is_intersected_with_weak(oth.x, precision) && y.is_intersected_with_weak(oth.y, precision)) gxx::println(x, y, oth.x, oth.y);
+			return x.is_intersected_with_weak(oth.x, precision) && y.is_intersected_with_weak(oth.y, precision);
+		}
+	};
+
 	class curve {
 	public:
 		virtual point d0(double t) const = 0;
@@ -64,8 +78,12 @@ namespace geom2 {
 		//virtual curve_enum gettype() const { return curve_enum::none; }	
 		virtual void drawTo(drawer2d& cntxt) const { throw GXX_NOT_IMPLEMENTED; };
 
+		virtual boundbox getbound(double s, double f) const { throw GXX_NOT_IMPLEMENTED; };
+		virtual boundbox getbound(const math::interval<double>& t) const { return getbound(t.minimum, t.maximum); };
+
 		virtual bool is_analityc() { return false; }
 		virtual std::shared_ptr<curve> translate(double x, double y) { throw GXX_NOT_IMPLEMENTED; }
+		virtual std::shared_ptr<curve> rotate(double a) { throw GXX_NOT_IMPLEMENTED; }
 
 		//point start() const { return d0(bmin); }
 		//point finish() const { return d0(bmax); }
@@ -113,10 +131,22 @@ namespace geom2 {
 			return direction(-sin(angle), cos(angle)); 
 		}
 
+		virtual boundbox getbound(double s, double f) const { 
+			auto pnt1 = d0(s);
+			auto pnt2 = d0(f);
+			if (pnt1.x > pnt2.x) std::swap(pnt1.x, pnt2.x);
+			if (pnt1.y > pnt2.y) std::swap(pnt1.y, pnt2.y);
+			return boundbox{pnt1.x, pnt2.x, pnt1.y, pnt2.y};
+		}
+
 		bool is_analityc() override { return true; }
 
 		std::shared_ptr<curve> translate(double x, double y) { 
 			return std::shared_ptr<curve>(new line(l + vector(x,y), d));
+		}
+
+		std::shared_ptr<curve> rotate(double a) { 
+			return std::shared_ptr<curve>(new line(l.rotate(a), d.rotate(a)));
 		}
 	};
 
@@ -135,9 +165,13 @@ namespace geom2 {
 		//curve_enum gettype() const override { return curve_enum::circle; }	
 		size_t printTo(gxx::io::ostream& o) const override { return gxx::fprint("circle(r:{},c:{},v:{})",r,l,dirx); } 
 		double sparam() { return atan2(dirx.x, dirx.y); }
-		void drawTo(drawer2d& cntxt) const override;
+		//void drawTo(drawer2d& cntxt) const override;
 		
 		bool is_analityc() override { return true; }
+
+		std::shared_ptr<curve> translate(double x, double y) { 
+			return std::shared_ptr<curve>(new circle(r, l + vector(x,y), dirx));
+		}
 	};
 /*
 	struct intersection_point2d {
