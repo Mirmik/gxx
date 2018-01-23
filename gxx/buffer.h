@@ -6,7 +6,6 @@
 #include <stdlib.h>
 
 #include <gxx/util/setget.h>
-#include <gxx/debug/dprint.h>
 
 namespace gxx {
 	class buffer {

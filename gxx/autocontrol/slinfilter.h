@@ -2,7 +2,6 @@
 #define GXX_AUTOCONTROL_SLINFILTER_H
 
 #include <math.h>
-#include <gxx/debug/dprint.h>
 
 namespace gxx {
 	namespace autocontrol {

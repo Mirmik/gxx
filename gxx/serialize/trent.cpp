@@ -1,5 +1,4 @@
 #include <gxx/serialize/trent.h>
-#include <gxx/debug/dprint.h>
 #include <gxx/container.h>
 #include <algorithm>
 
@@ -262,6 +261,10 @@ namespace gxx {
 
 	std::string& trent::as_string() {
 		if (m_type != trent::type::string) init(trent::type::string);
+		return m_str;
+	}
+	const std::string& trent::as_string() const {
+		if (m_type != trent::type::string) gxx::panic("wrong_trent_type");
 		return m_str;
 	}
 	

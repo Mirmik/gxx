@@ -4,7 +4,6 @@
 #include <gxx/event/multiple_delegate.h>
 #include <gxx/util/setget.h>
 #include <gxx/buffer.h>
-#include <gxx/debug/dprint.h>
 #include <stdlib.h>
 
 namespace gxx {

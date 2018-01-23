@@ -2,7 +2,6 @@
 #define GENOS_LOCATION_H
 
 //Определение позиции в коде. Для трассировки.
-
 #include <gxx/debug/dprint.h>
 
 struct location {

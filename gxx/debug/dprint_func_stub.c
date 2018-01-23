@@ -1,4 +1,3 @@
-#include <gxx/debug/dprint.h>
 
 void debug_printhex_uint4(uint8_t b){};
 

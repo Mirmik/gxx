@@ -1,7 +1,6 @@
 #ifndef GXX_SERIALIZE_H
 #define GXX_SERIALIZE_H
 
-#include <gxx/debug/dprint.h>
 #include <gxx/buffer.h>
 #include <inttypes.h>
 

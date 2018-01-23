@@ -1,4 +1,3 @@
-#include <gxx/debug/dprint.h>
 #include <gxx/diag/diag.h>
 
 void debug_putchar(char c)  {

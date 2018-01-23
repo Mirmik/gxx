@@ -1,7 +1,6 @@
 #ifndef GXX_TESTCLASS_H
 #define GXX_TESTCLASS_H
 
-#include <gxx/debug/dprint.h>
 
 class TestClass {
 

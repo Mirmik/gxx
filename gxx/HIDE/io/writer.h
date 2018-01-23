@@ -1,7 +1,6 @@
 #ifndef GXX_WRITER_H
 #define GXX_WRITER_H
 
-#include <gxx/debug/dprint.h>
 #include <gxx/util/numconvert.h>
 #include <gxx/io/iostream.h>
 #include <stdint.h>

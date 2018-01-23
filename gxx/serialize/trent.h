@@ -146,6 +146,7 @@ namespace gxx {
 		result<double> as_numer_critical() const;
 
 		std::string& as_string();
+		const std::string& as_string() const;
 		const gxx::buffer as_buffer() const;
 		std::string& as_string_default(std::string& str);
 		result<std::string&> as_string_critical();

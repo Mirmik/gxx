@@ -2,7 +2,6 @@
 #define GXX_LOGGER_MANAGER_H
 
 #include <gxx/dlist.h>
-#include <gxx/debug/dprint.h>
 #include <gxx/logger/logger.h>
 #include <gxx/logger/target.h>
 

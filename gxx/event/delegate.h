@@ -12,7 +12,6 @@
 #ifndef GXX_DELEGATE_H
 #define GXX_DELEGATE_H
 	
-#include <gxx/debug/dprint.h>
 
 #include "gxx/util/horrible_cast.h"
 #include "gxx/util/stub.h"

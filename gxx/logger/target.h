@@ -2,7 +2,6 @@
 #define GXX_LOGGER_TARGET_H
 
 #include <gxx/datastruct/dlist_head.h>
-#include <gxx/debug/dprint.h>
 
 namespace gxx {
 	namespace log {

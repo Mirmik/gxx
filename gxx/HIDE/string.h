@@ -10,7 +10,6 @@
 #include <assert.h>
 #include <inttypes.h>
 
-#include <gxx/debug/dprint.h>
 #include <gxx/allocator.h>
 #include <gxx/algorithm.h>
 #include <gxx/utility.h>

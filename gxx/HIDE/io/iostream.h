@@ -2,7 +2,6 @@
 #define GXX_IOSTREAM_H
 
 #include <stdlib.h>
-#include <gxx/debug/dprint.h>
 #include <string.h>
 
 namespace gxx {

@@ -10,7 +10,6 @@
 #include <string>
 #include <string.h>
 
-#include <gxx/debug/dprint.h>
 #include <gxx/panic.h>
 
 namespace gxx { namespace result_type {

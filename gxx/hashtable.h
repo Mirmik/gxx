@@ -6,6 +6,7 @@
 #include <gxx/util/compare.h>
 #include <gxx/datastruct/hlist_head.h>
 #include <gxx/datastruct/array.h>
+#include <gxx/debug/dprint.h>
 
 namespace gxx {
 

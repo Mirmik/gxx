@@ -2,7 +2,6 @@
 #define GXX_CHECKER_H
 
 #include <stdint.h>
-#include <gxx/debug/dprint.h>
 
 //Данный класс выявляет изменение результата проверки
 //некоего предиката по установленной стратегии.

@@ -1,7 +1,6 @@
 #ifndef GXX_DEBUG_DEBUG_OSTREAM_H
 #define GXX_DEBUG_DEBUG_OSTREAM_H
 
-#include <gxx/debug/dprint.h>
 #include <gxx/io/ostream.h>
 #include <gxx/util/setget.h>
 

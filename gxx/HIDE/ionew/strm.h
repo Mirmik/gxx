@@ -1,7 +1,6 @@
 #ifndef GXX_STRMOUT_H
 #define GXX_STRMOUT_H
 
-#include <gxx/debug/dprint.h>
 
 #include <string.h>
 #include <gxx/string.h>

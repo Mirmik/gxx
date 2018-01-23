@@ -1,7 +1,6 @@
 #ifndef GXX_TERMINAL_H
 #define GXX_TERMINAL_H
 
-#include <gxx/debug/dprint.h>
 #include <gxx/io/iostream.h>
 #include <gxx/panic.h>
 #include <gxx/line.h>
