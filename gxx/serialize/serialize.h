@@ -115,6 +115,7 @@ namespace gxx {
 			void dump(unsigned short i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(unsigned int i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(unsigned long i) { dump_data((char*)&i, sizeof(i)); } 
+                        void dump(unsigned long long i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(float i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(double i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(long double i) { dump_data((char*)&i, sizeof(i)); } 
@@ -161,6 +162,7 @@ namespace gxx {
 			void load(unsigned short& i) { load_data((char*)&i, sizeof(i)); }
 			void load(unsigned int& i) { load_data((char*)&i, sizeof(i)); }
 			void load(unsigned long& i) { load_data((char*)&i, sizeof(i)); } 
+                        void load(unsigned long long& i) { load_data((char*)&i, sizeof(i)); }
 			void load(float& i) { load_data((char*)&i, sizeof(i)); }
 			void load(double& i) { load_data((char*)&i, sizeof(i)); }
 			void load(long double& i) { load_data((char*)&i, sizeof(i)); } 
