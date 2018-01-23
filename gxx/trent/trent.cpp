@@ -1,4 +1,4 @@
-#include <gxx/serialize/trent.h>
+#include <gxx/trent/trent.h>
 #include <gxx/container.h>
 #include <algorithm>
 

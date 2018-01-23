@@ -47,7 +47,8 @@ module("gxx.print", impl = "cout",
 )
 
 module("gxx.trent", 
-	sources = ["gxx/serialize/json.cpp", "gxx/serialize/gbson.cpp", "gxx/serialize/trent.cpp"],
+	srcdir = "gxx/trent",
+	sources = ["json.cpp", "gbson.cpp", "trent.cpp"],
 )
 
 module("gxx.geom", 

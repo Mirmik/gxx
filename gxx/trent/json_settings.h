@@ -5,7 +5,7 @@
 #include <sstream>
 #include <fstream>
 
-#include <gxx/serialize/json.h>
+#include <gxx/trent/json.h>
 
 
 namespace gxx {

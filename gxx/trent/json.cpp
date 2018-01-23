@@ -1,4 +1,4 @@
-#include <gxx/serialize/json.h>
+#include <gxx/trent/json.h>
 
 #include <istream>
 #include <limits.h>

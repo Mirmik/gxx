@@ -2,7 +2,7 @@
 #define JSON_OBJECT_H
 
 #include <ostream>
-#include <gxx/serialize/trent.h>
+#include <gxx/trent/trent.h>
 
 namespace gxx {
 	namespace json {

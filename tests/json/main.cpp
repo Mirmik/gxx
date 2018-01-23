@@ -1,5 +1,5 @@
-#include <gxx/serialize/json.h>
-#include <gxx/serialize/json_settings.h>
+#include <gxx/trent/json.h>
+#include <gxx/trent/json_settings.h>
 
 #include <sstream>
 #include <iostream>
@@ -24,13 +24,13 @@ int main() {
 	gxx::json_settings settings("settings.json");
 	settings.load();
 
-	if (settings.settings().is_nil()) {
-		settings.settings()["summer"] = "winter";
+	if (settings.root().is_nil()) {
+		settings["summer"] = std::string("winter");
 		settings.save();
 	}
 
-	gxx::trent t = settings.settings();
+	gxx::trent t = settings.root();
 
 	gxx::json::pretty_print_to(t, std::cout);
-	gxx::json::pretty_print_to(settings.settings(), std::cout);
+	gxx::json::pretty_print_to(settings.root(), std::cout);
 }

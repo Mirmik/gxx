@@ -1,4 +1,4 @@
-#include <gxx/serialize/gbson.h>
+#include <gxx/trent/gbson.h>
 
 namespace gxx {
     namespace gbson {

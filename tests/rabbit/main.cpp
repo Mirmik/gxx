@@ -61,5 +61,17 @@ int main() {
 	rabbit::draw(sch, make_liter(Ipnts).translate(tr*1 -t/2 + tr/2, -t/2));
 	rabbit::draw(sch, make_liter(Kpnts).translate(tr*2 -t/2 + tr/2, -t/2));
 
+
+	/*auto f1 = rabbit::figure::rectangle(40,20).rotate(gxx::math::degree(30)).translate(10,10);
+	auto f2 = rabbit::figure::triangle({0,0},{50,0},{0,50});
+
+	auto ret = loop_loop_combine(f1,f2);
+
+	gxx::shower2d sch;
+
+	rabbit::draw(sch, f1);
+	rabbit::draw(sch, f2);
+	rabbit::draw(sch, ret.first.translate(0,100));*/
+
 	sch.exec();
 }
