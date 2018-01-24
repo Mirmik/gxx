@@ -9,18 +9,18 @@ namespace gxx {
 			os.write(buf.data(), buf.size());		
 		}
 
-        void print_array(const gxx::trent::array_type& arr, gxx::io::ostream& os) {
+        void print_list(const gxx::trent::list_type& arr, gxx::io::ostream& os) {
             size_t sz = arr.size();
-            os.putchar(gbson_array_type);
+            os.putchar(gbson_list_type);
             os.write((const char*)&sz, 1);
             for (auto& v : arr) {
                 dump(v, os);
             }
         }
 
-        void print_dictionary(const gxx::trent::dictionary_type& dict, gxx::io::ostream& os) {
+        void print_dict(const gxx::trent::dict_type& dict, gxx::io::ostream& os) {
             size_t sz = dict.size();
-            os.putchar(gbson_dictionary_type);
+            os.putchar(gbson_dict_type);
             os.write((const char*)&sz, 1);
             for (auto& d : dict) {
                 print_bytes(gxx::buffer(d.first.data(), d.first.size()), os);
@@ -28,9 +28,10 @@ namespace gxx {
             }
         }
 
-        void print_integer(int64_t i64, gxx::io::ostream& os) {
-            os.putchar(gbson_integer_type);
-            uint8_t sz;
+        void print_numer(gxx::trent::numer_type num, gxx::io::ostream& os) {
+            os.putchar(gbson_numer_type);
+//            static_assert(sizeof(num) == 8);
+            /*uint8_t sz;
             if
                 (i64 & 0xFFFFFFFF00000000ll) sz = 8;
             else if
@@ -39,58 +40,48 @@ namespace gxx {
                 (i64 & 0xFF00) sz = 2;
             else
                 sz = 1;
-            os.putchar(sz);
-            os.write((const char*) &i64, sz);
+            os.putchar(sz);*/
+            os.write((const char*) &num, sizeof(num));
         }
 
         void dump(const trent& tr, gxx::io::ostream& os) {
             switch(tr.get_type()) {
-                case(gxx::trent::type::single_floating) :
-                    os.putchar(gbson_float_type);
-                    os.putchar(sizeof(trent::sfloat_type));
-                    os.write((const char*)&tr.unsafe_sfloat_const(), sizeof(trent::sfloat_type));
+                case(gxx::trent::type::numer) :
+                    os.putchar(gbson_numer_type);
+                    //os.putchar(sizeof(trent::sfloat_type));
+                    os.write((const char*)&tr.unsafe_numer_const(), sizeof(trent::numer_type));
 					break;
 
-
-                case(gxx::trent::type::double_floating) :
-                    os.putchar(gbson_float_type);
-                    os.putchar(sizeof(trent::dfloat_type));
-                    os.write((const char*)&tr.unsafe_dfloat_const(), sizeof(trent::dfloat_type));
-                    break;
-
-                case(gxx::trent::type::integer) :
-                    print_integer(tr.unsafe_integer_const(), os);
-                    break;
 
                 case(gxx::trent::type::string) :
                     print_bytes(tr.as_buffer(), os);
 					break;
 
-                case(gxx::trent::type::array) :
-                    print_array(tr.unsafe_array_const(), os);
+                case(gxx::trent::type::list) :
+                    print_list(tr.unsafe_list_const(), os);
                     break;
 
-                case(gxx::trent::type::dictionary) :
-                    print_dictionary(tr.unsafe_dictionary_const(), os);
+                case(gxx::trent::type::dict) :
+                    print_dict(tr.unsafe_dict_const(), os);
 					break;
 								
 			}
 		}
 
-        result<trent> parse_integer(gxx::io::istream& is) {
+        result<trent> parse_numer(gxx::io::istream& is) {
             dprln("integer_type");
-            uint8_t sz = is.getchar();
+            uint8_t sz = 8;
             int64_t res = 0;
             is.read((char*)&res, sz);
             return res;
         }
 
-        result<trent> parse_array(gxx::io::istream& is) {
-            dprln("array_type");
+        result<trent> parse_list(gxx::io::istream& is) {
+            dprln("list_type");
             uint8_t sz = is.getchar();
-            gxx::trent res(gxx::trent::type::array);
+            gxx::trent res(gxx::trent::type::list);
             for(int i = 0; i < sz; ++i) {
-                res.unsafe_array().emplace_back(parse(is));
+                res.unsafe_list().emplace_back(parse(is));
             }
             return res;
         }
@@ -99,18 +90,14 @@ namespace gxx {
             uint8_t type = is.getchar();
 
             switch (type) {
-                case gbson_integer_type:
-                    return parse_integer(is);
+                case gbson_numer_type:
+                    return parse_numer(is);
 
-                case gbson_float_type:
-                    dprln("float_type");
-                    break;
+                case gbson_list_type:
+                    return parse_list(is);
 
-                case gbson_array_type:
-                    return parse_array(is);
-
-                case gbson_dictionary_type:
-                    dprln("dictionary_type");
+                case gbson_dict_type:
+                    dprln("dict_type");
                     break;
             }
 

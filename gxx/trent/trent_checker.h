@@ -1,6 +1,7 @@
 #ifndef GXX_TRENT_CHECKER_H
 #define GXX_TRENT_CHECKER_H
 
+#include <set>
 #include <gxx/util/string.h>
 #include <gxx/trent/trent.h>
 #include <gxx/result.h>
