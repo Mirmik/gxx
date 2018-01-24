@@ -9,24 +9,27 @@ using namespace gxx::result_type;
 
 namespace gxx { 
 
-	class schema {
-	public:
-		enum checker_type {
+        class schema {
+        public:
+                enum checker_type {
                         dict_checker_type,
                         list_checker_type,
-			string_checker_type,
-			numer_checker_type,
-		};
+                        string_checker_type,
+                        numer_checker_type,
+                    numer_or_string_checker_type,
+                };
 
 
-		class schema_node {
-			checker_type type;
+                class schema_node {
+                        checker_type type;
 
 		public:
-			schema_node(checker_type type) : type(type) {}
+                        schema_node(checker_type type) : type(type) {}
+                        schema_node(const schema_node& oth) : nodes(oth.nodes), check_dict(oth.check_dict), type(oth.type), len(oth.len), _allopts(oth._allopts), _ifexist(oth._ifexist), _inset(oth._inset), _content(oth._content ? new schema_node(*oth._content) : nullptr) {}
+                        schema_node(schema_node&& oth) : nodes(std::move(oth.nodes)), check_dict(oth.check_dict), type(oth.type), len(oth.len), _allopts(oth._allopts), _ifexist(oth._ifexist), _inset(oth._inset), _content(oth._content) { oth._content = nullptr; }
 
 			result<void> check(const trent& tr, gxx::strvec& strvec) const {
-				switch(type) {
+                            switch(type) {
                                         case dict_checker_type:
                                                 if (!tr.is_dict()) return error("should be dictionary");
 						break;
@@ -40,42 +43,126 @@ namespace gxx {
 					case numer_checker_type: 
 						if (!tr.is_numer()) return error("should be numer"); 
 						break;
+
+                                        case numer_or_string_checker_type:
+                                            if (!tr.is_numer() && !tr.is_string()) return error("should be numer or string");
+                                            break;
 					default:
 						PANIC_TRACED();
 				}
 
                                 if (type == dict_checker_type) {
+                                    if (_inset) {
+                                        for(auto& tp : tr.unsafe_dict_const()) {
+                                            bool flag = false;
+                                            for (auto& str : *_inset) {
+                                                if (str == tp.first) { flag = true; break; }
+                                            }
+                                            if (!flag) return error(gxx::format("subopt {} not in validation set", tp.first));
+                                        }
+                                    }
+
+                                    if (_content) {
+                                        for(auto& tp : tr.unsafe_dict_const()) {
+                                            strvec.push_back(tp.first);
+                                            tryS(_content->check(tp.second, strvec));
+                                            strvec.pop_back();
+                                        }
+                                    }
+                                }
+
+                                if (type == dict_checker_type && check_dict) {
+                                    assert(nodes.size() != 0);
+
+
 					for (const auto& n : nodes) {
-						strvec.push_back(n.first);
-						if (!tr.have(n.first)) return error("isn't exist");
-						tryS(n.second.check(tr[n.first], strvec));
+                                                strvec.push_back(n.first);
+                                                if (!tr.have(n.first)) {
+                                                    if (!_ifexist) return error("isn't exist");
+                                                }
+                                                else tryS(n.second.check(tr[n.first], strvec));
 						strvec.pop_back();
 					}
+
+                                        if (_allopts) {
+                                            for(auto& tp : tr.unsafe_dict_const()) {
+                                                if(nodes.count(tp.first) == 0)  return error(gxx::format("unresolved options {}", tp.first));
+                                            }
+                                        }
 				}
+
+                                if (type == string_checker_type && _inset) {
+                                        bool flag = false;
+                                        for (auto& str : *_inset) {
+                                            if (str == tr.unsafe_string_const()) { flag = true; break; }
+                                        }
+                                        if (!flag) return error(gxx::format("{} not in validation set", tr.unsafe_string_const()));
+                                }
+
+                                if (type == list_checker_type && _content) {
+                                    for (int i = 0; i < tr.as_list().size(); ++i) {
+                                        strvec.push_back(std::to_string(i));
+                                        tryS(_content->check(tr.unsafe_list_const()[i], strvec));
+                                        strvec.pop_back();
+                                    }
+                                }
 
 				return result<void>();
 			}
 
-			schema_node& length(int n) {
+                        schema_node& length(int n) {
 				len = n;
 				return *this;
 			}
 
-			std::map<std::string, schema_node> nodes; 
-			int len = -1;
-			schema_node& operator[](std::string str) { return nodes.at(str); }
-		};
+                        schema_node& inset(const std::set<std::string>& s) {
+                                _inset = &s;
+                                return *this;
+                        }
 
-		struct schema_dict_pair {
-			std::string str;
-			schema_node node;			
-		};
+                        schema_node& content(const schema_node& s) {
+                            _content = new schema_node(s);
+                            return *this;
+                        }
+
+                        schema_node& allopts(bool en) {
+                            _allopts = en;
+                            return *this;
+                        }
+
+
+                        schema_node& ifexist(bool en) {
+                            _ifexist = en;
+                            return *this;
+                        }
+
+                        ~schema_node() { if(_content) delete(_content); }
+
+                        std::map<std::string, schema_node> nodes;
+                        int len = -1;
+                        const std::set<std::string>* _inset = nullptr;
+                        const schema_node* _content = nullptr;
+                        bool _allopts = true;
+                        bool check_dict = true;
+                        bool _ifexist = false;
+                        schema_node& operator[](std::string str) { return nodes.at(str); }
+                };
+
+                struct schema_dict_pair {
+                        std::string str;
+                        schema_node node;
+                };
 
                 struct dict : public schema_node {
                     dict(const std::initializer_list<schema_dict_pair>& lst) : schema_node(dict_checker_type) {
-			for (const auto& l : lst) {
-                                nodes.insert(std::make_pair(l.str, l.node));
+                       for (const auto& l : lst) {
+                               nodes.insert(std::make_pair(l.str, l.node));
                         }
+                        check_dict = true;
+                    }
+
+                    dict() : schema_node(dict_checker_type) {
+                        check_dict = false;
                     }
                 };
 
@@ -91,19 +178,23 @@ namespace gxx {
                     numer() : schema_node(numer_checker_type) {}
                 };
 
-		void asserted_check(const trent& tr, std::string rootname) {
-			std::vector<std::string> strvec { rootname };
-			auto ret = root.check(tr, strvec);
-			if (ret.is_error()) {
-				std::string path = gxx::join(strvec, '/');
-				std::string errtxt = gxx::format("SCHEMA: trent {} {}", path, ret.getError().what());
-				gxx::panic(errtxt.c_str());
-			}
-		}
+                struct numer_or_string : public schema_node {
+                    numer_or_string() : schema_node(numer_or_string_checker_type) {}
+                };
 
-		schema_node root;
-		schema(const schema_node& root) : root(root) {}
-	};
+                void asserted_check(const trent& tr, std::string rootname) {
+                        std::vector<std::string> strvec { rootname };
+                        auto ret = root.check(tr, strvec);
+                        if (ret.is_error()) {
+                                std::string path = gxx::join(strvec, '/');
+                                std::string errtxt = gxx::format("SCHEMA: trent {} {}", path, ret.getError().what());
+                                gxx::panic(errtxt.c_str());
+                        }
+                }
+
+                schema_node root;
+                schema(const schema_node& root) : root(root) {}
+        };
 }
 
 #endif

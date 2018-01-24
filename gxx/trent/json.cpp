@@ -51,13 +51,13 @@ namespace detail {
 	}
 
     trent json::parse_numer(std::istream& is) {
-        double num;
+        trent::numer_type num;
         is >> num;
 		return trent(num);
 	}
 
 	result<trent> json::parse_string(std::istream& is) {
-		std::string str;
+        trent::string_type str;
 
 		is.ignore();
 		std::getline(is, str, '"');
