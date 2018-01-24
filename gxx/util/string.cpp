@@ -1,4 +1,4 @@
-#include <gxx/string.h>
+#include <gxx/util/string.h>
 
 namespace gxx {
 	strvec split(const std::string& str, char delim) {

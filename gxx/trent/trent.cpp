@@ -232,6 +232,11 @@ namespace gxx {
 		return m_dict.at(std::string(key.data(), key.size()));
 	}
 	
+	bool trent::have(const std::string& str) const {
+		if (m_type != trent::type::dictionary) gxx::panic("wrong trent type");
+		return m_dict.count(str) != 0; 
+	}
+
 	std::map<std::string, trent>& trent::as_dictionary() {
 		if (m_type != trent::type::dictionary) init(trent::type::dictionary);
 		return m_dict;
@@ -246,6 +251,12 @@ namespace gxx {
 		if (m_type != trent::type::array) init(trent::type::array);
 		return m_arr;
 	}
+
+	const std::vector<trent>& trent::as_array() const {
+		if (m_type != trent::type::array) gxx::panic("wrong_trent_type");
+		return m_arr;
+	}
+
 	std::vector<trent>& trent::as_vector() { return as_array(); }
 
 	result<std::vector<trent>&> trent::as_array_critical() {
@@ -360,7 +371,7 @@ namespace gxx {
 		return m_type;
 	}
 	
-	const char * trent::type_to_str() {
+	const char * trent::type_to_str() const {
 		switch(m_type) {
 			case trent::type::string: 		return "String";
 			case trent::type::array: 		return "Array";
@@ -368,7 +379,7 @@ namespace gxx {
 			case trent::type::single_floating: 	return "Float";
 			case trent::type::double_floating: 	return "Double";
 			case trent::type::integer: 		return "Integer";
-			case trent::type::noinit: 		return "NoInit";
+			case trent::type::noinit: 		return "Nil";
 		}
 	}
 	

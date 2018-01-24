@@ -3,11 +3,14 @@
 int main() {
 	
 	gxx::schema checker = gxx::schema::dict({
-		{ "mirmik", gxx::schema::array() },
+		{ "mirmik", gxx::schema::array().length(2) },
 		{ "mirmik2", gxx::schema::string() },
 	});
 
 	gxx::trent tr;
+	tr["mirmik"][0] = 28;
+	tr["mirmik"][1] = 33;
+	tr["mirmik2"] = std::string("mirmik");
 
-	checker.check(tr);
+	checker.asserted_check(tr, "mirmiktrent");
 }

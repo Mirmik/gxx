@@ -19,28 +19,20 @@ namespace gxx { namespace result_type {
 
 	struct error : public exception {
 		//std::string info;
-		char* info;
+		std::string info;
 		//explicit error() : info() {}
-		explicit error(const char* str) : info(strdup(str)) {}
+		explicit error(const std::string& str) : info(str) {}
 		//explicit error(const std::string& str) : error((const char*) str.c_str()) {}
 		
-		error(error&& e) {
-			info = e.info;
-			e.info = nullptr;
-		}		
+		error(error&& e) : info(std::move(e.info)) {}		
 		
 		error& operator=(error&& other) {
 			info = other.info;
-			other.info = nullptr;
 			return *this; 
 		}
 
-		~error() {
-			free(info);
-		};
-
 		const char* what() {
-			return info;
+			return info.c_str();
 		}
 	};
 	
@@ -109,6 +101,15 @@ namespace gxx { namespace result_type {
 			_iserror = 2;
 		}
 		
+		result(result& res) : _iserror(res._iserror) {
+			if (_iserror) {
+				new (&_error) E(std::move(res._error));
+			} else { 
+				tryhelper<T>::constructor(_data, std::move(res._data));
+			}; 
+			_iserror = 2;
+		}
+
 		~result() {
 			switch (_iserror) {
 				case 1: _error.~E(); break;
@@ -145,7 +146,9 @@ namespace gxx { namespace result_type {
 		}
 
 		operator T() {
-			assert(_iserror == 0);
+			if (is_error()) { 
+				gxx::panic(_error.what());
+			}
 			return _data;
 		}
 
@@ -206,10 +209,6 @@ namespace gxx { namespace result_type {
 			assert(_iserror == 1);
 			_iserror = false;
 			_error.~error();
-		}
-	
-		operator bool() {
-			return _iserror;
 		}
 	};
 }}

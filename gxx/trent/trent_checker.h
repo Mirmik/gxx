@@ -1,6 +1,7 @@
 #ifndef GXX_TRENT_CHECKER_H
 #define GXX_TRENT_CHECKER_H
 
+#include <gxx/util/string.h>
 #include <gxx/trent/trent.h>
 #include <gxx/result.h>
 
@@ -24,16 +25,44 @@ namespace gxx {
 		public:
 			schema_node(checker_type type) : type(type) {}
 
-			result<void> check(const trent& tr) {
+			result<void> check(const trent& tr, gxx::strvec& strvec) const {
 				switch(type) {
-					case dictionary_checker_type: if (!tr.is_dictionary()) return error("{} should be dictionary"); break;
-					case array_checker_type: if (!tr.is_dictionary()) return error("{} should be list"); break;
-					case string_checker_type: if (!tr.is_dictionary()) return error("{} should be string"); break;
-					case numer_checker_type: if (!tr.is_dictionary()) return error("{} should be numer"); break;
+					case dictionary_checker_type: 
+						if (!tr.is_dictionary()) return error("should be dictionary"); 
+						break;
+					case array_checker_type: 
+						if (!tr.is_array()) return error("should be list"); 
+						if (len != -1 && tr.as_array().size() != len) return error(gxx::format("array size should be {}", len));
+						break;
+					case string_checker_type: 
+						if (!tr.is_string()) return error("should be string"); 
+						break;
+					case numer_checker_type: 
+						if (!tr.is_numer()) return error("should be numer"); 
+						break;
+					default:
+						PANIC_TRACED();
 				}
+
+				if (type == dictionary_checker_type) {
+					for (const auto& n : nodes) {
+						strvec.push_back(n.first);
+						if (!tr.have(n.first)) return error("isn't exist");
+						tryS(n.second.check(tr[n.first], strvec));
+						strvec.pop_back();
+					}
+				}
+
+				return result<void>();
+			}
+
+			schema_node& length(int n) {
+				len = n;
+				return *this;
 			}
 
 			std::map<std::string, schema_node> nodes; 
+			int len = -1;
 			schema_node& operator[](std::string str) { return nodes.at(str); }
 		};
 
@@ -51,14 +80,22 @@ namespace gxx {
 		}
 
 		static auto array() {
-			return schema_node(dictionary_checker_type);
+			return schema_node(array_checker_type);
 		}
 
 		static auto string() {
 			return schema_node(string_checker_type);
 		}
 
-		
+		void asserted_check(const trent& tr, std::string rootname) {
+			std::vector<std::string> strvec { rootname };
+			auto ret = root.check(tr, strvec);
+			if (ret.is_error()) {
+				std::string path = gxx::join(strvec, '/');
+				std::string errtxt = gxx::format("SCHEMA: trent {} {}", path, ret.getError().what());
+				gxx::panic(errtxt.c_str());
+			}
+		}
 
 		schema_node root;
 		schema(const schema_node& root) : root(root) {}

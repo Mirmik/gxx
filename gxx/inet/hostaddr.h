@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <string>
 
-#include <gxx/string.h>
+#include <gxx/util/string.h>
 
 namespace gxx {
 	class hostaddr {

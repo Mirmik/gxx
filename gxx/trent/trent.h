@@ -10,7 +10,7 @@
 #include <map>
 
 #include <gxx/result.h>
-#include <gxx/string.h>
+#include <gxx/util/string.h>
 #include <gxx/util/ctrdtr.h>
 #include <gxx/buffer.h>
 #include <gxx/print.h>
@@ -118,6 +118,8 @@ namespace gxx {
 		const trent& at(const std::string& key) const;
 		const trent& at(const gxx::buffer& key) const;
 
+		bool have(const std::string& key) const; 
+
 		std::map<std::string, trent>& as_dictionary();
 		const std::map<std::string, trent>& as_dictionary() const;
 		result<std::map<std::string, trent>&> as_dictionary_critical();
@@ -174,7 +176,7 @@ namespace gxx {
 
 
 		trent::type get_type() const;
-		const char * type_to_str();
+		const char * type_to_str() const;
 
 		bool is_nil() const 		{ return m_type == type::noinit; }
 		bool is_numer() const 		{ return m_type == type::single_floating || m_type == type::double_floating || m_type == type::integer; }

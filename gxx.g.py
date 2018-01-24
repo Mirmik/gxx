@@ -16,7 +16,7 @@ module("gxx",
 		"inet/socket.cpp",
 		"logger/targets/stdout.cpp", 
 		"impl/panic_abort.cpp",
-		"string.cpp",
+		"util/string.cpp",
 		"util/base64.cpp",
 		"util/numconvert.c"
 	],
