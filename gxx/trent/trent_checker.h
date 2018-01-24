@@ -12,8 +12,8 @@ namespace gxx {
 	class schema {
 	public:
 		enum checker_type {
-			dictionary_checker_type,
-			array_checker_type,
+                        dict_checker_type,
+                        list_checker_type,
 			string_checker_type,
 			numer_checker_type,
 		};
@@ -27,12 +27,12 @@ namespace gxx {
 
 			result<void> check(const trent& tr, gxx::strvec& strvec) const {
 				switch(type) {
-					case dictionary_checker_type: 
-						if (!tr.is_dictionary()) return error("should be dictionary"); 
+                                        case dict_checker_type:
+                                                if (!tr.is_dict()) return error("should be dictionary");
 						break;
-					case array_checker_type: 
-						if (!tr.is_array()) return error("should be list"); 
-						if (len != -1 && tr.as_array().size() != len) return error(gxx::format("array size should be {}", len));
+                                        case list_checker_type:
+                                                if (!tr.is_list()) return error("should be list");
+                                                if (len != -1 && tr.as_list().size() != len) return error(gxx::format("array size should be {}", len));
 						break;
 					case string_checker_type: 
 						if (!tr.is_string()) return error("should be string"); 
@@ -44,7 +44,7 @@ namespace gxx {
 						PANIC_TRACED();
 				}
 
-				if (type == dictionary_checker_type) {
+                                if (type == dict_checker_type) {
 					for (const auto& n : nodes) {
 						strvec.push_back(n.first);
 						if (!tr.have(n.first)) return error("isn't exist");
@@ -71,21 +71,25 @@ namespace gxx {
 			schema_node node;			
 		};
 
-		static auto dict(const std::initializer_list<schema_dict_pair>& lst) {
-			auto ret = schema_node(dictionary_checker_type);
+                struct dict : public schema_node {
+                    dict(const std::initializer_list<schema_dict_pair>& lst) : schema_node(dict_checker_type) {
 			for (const auto& l : lst) {
-				ret.nodes.insert(std::make_pair(l.str, l.node));
-			}
-			return ret;
-		}
+                                nodes.insert(std::make_pair(l.str, l.node));
+                        }
+                    }
+                };
 
-		static auto array() {
-			return schema_node(array_checker_type);
-		}
+                struct list : public schema_node {
+                    list() : schema_node(list_checker_type) {}
+                };
 
-		static auto string() {
-			return schema_node(string_checker_type);
-		}
+                struct string : public schema_node {
+                    string() : schema_node(string_checker_type) {}
+                };
+
+                struct numer : public schema_node {
+                    numer() : schema_node(numer_checker_type) {}
+                };
 
 		void asserted_check(const trent& tr, std::string rootname) {
 			std::vector<std::string> strvec { rootname };

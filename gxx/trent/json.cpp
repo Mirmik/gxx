@@ -42,15 +42,15 @@ namespace detail {
 
 		char c = detail::getnext(is);
 		
-		if (isdigit(c) || c == '-') return parse_number(is);
+        if (isdigit(c) || c == '-') return parse_numer(is);
 		if (c == '"') return parse_string(is);
-		if (c == '[') return parse_array(is);
-		if (c == '{') return parse_dictionary(is);
+        if (c == '[') return parse_list(is);
+        if (c == '{') return parse_dict(is);
 
 		return trent();
 	}
 
-	trent json::parse_number(std::istream& is) {
+    trent json::parse_numer(std::istream& is) {
         double num;
         is >> num;
 		return trent(num);
@@ -66,9 +66,9 @@ namespace detail {
 		return ret;
 	}
 	
-	result<trent> json::parse_array(std::istream& is) {
+    result<trent> json::parse_list(std::istream& is) {
 		char c;
-		trent js(trent::type::array);
+        trent js(trent::type::list);
 		
 		int counter = 0;
 		while(true) {
@@ -89,17 +89,17 @@ namespace detail {
 					return js;
 				}
 				
-				js.as_vector().push_back(tryS(parse(is)));
+                js.as_list().push_back(tryS(parse(is)));
 			}
-			else return error("wrong array syntax");;
+            else return error("wrong list syntax");;
 
 			counter++;
 		}
 	}
 
-	result<trent> json::parse_dictionary(std::istream& is) {
+    result<trent> json::parse_dict(std::istream& is) {
 		char c;
-		trent js(trent::type::dictionary);
+        trent js(trent::type::dict);
 		
 		while(true) {
 			c = detail::getnext(is);
@@ -132,7 +132,7 @@ namespace detail {
 
 				c = detail::getnext(is);
 
-				js.as_dictionary().insert(std::make_pair(key, tryS(parse(is))));
+                js.as_dict().insert(std::make_pair(key, tryS(parse(is))));
 			}
 			else return error("trent::internal:dict_parse");
 		}
@@ -142,16 +142,8 @@ namespace detail {
 		bool sep = false;
 		switch(tr.get_type()) {
 
-            case trent::type::integer:
-                os << tr.unsafe_integer_const();
-                break;
-
-            case trent::type::single_floating:
-                os << tr.unsafe_sfloat_const();
-				return;
-
-            case trent::type::double_floating:
-                os << tr.unsafe_dfloat_const();
+            case trent::type::numer:
+                os << tr.unsafe_numer_const();
                 return;
 
 			case trent::type::string: 
@@ -159,18 +151,18 @@ namespace detail {
                 os << tr.unsafe_string_const();
 				os << '"';
 				return;
-			case trent::type::array: 
+            case trent::type::list:
 				os << '[';
-                for(auto& v : tr.unsafe_array_const()) {
+                for(auto& v : tr.unsafe_list_const()) {
 					if (sep) os << ',';
 					json::print_to(v, os);
 					sep = true;
 				}
 				os << ']';
 				return; 
-			case trent::type::dictionary: 
+            case trent::type::dict:
 				os << '{';
-                for(auto& p : tr.unsafe_dictionary_const()) {
+                for(auto& p : tr.unsafe_dict_const()) {
 					if (sep) os << ',';
 					os << '"';
 					os << p.first;
@@ -181,7 +173,7 @@ namespace detail {
 				}
 				os << '}';
 				return; 
-			case trent::type::noinit:
+            case trent::type::nil:
 				os << "nil";
 				return;
 		}
@@ -193,39 +185,31 @@ namespace detail {
 
 		switch(tr.get_type()) {
 
-            case trent::type::integer:
-                os << tr.unsafe_integer_const();
-                break;
-
-            case trent::type::single_floating:
-                os << std::fixed << tr.unsafe_sfloat_const();
-				break;
-
-            case trent::type::double_floating:
-                os << std::fixed << tr.unsafe_dfloat_const();
+            case trent::type::numer:
+                os << std::fixed << tr.unsafe_numer_const();
                 break;
 			
 			case trent::type::string: 
                 os << '"' << tr.unsafe_string_const() << '"';
 				break;
 			
-			case trent::type::array: 
+            case trent::type::list:
 				havedict = false;
-                for (const auto& m : tr.unsafe_array_const()) {
-					if (m.get_type() == trent::trent::type::dictionary) {
+                for (const auto& m : tr.unsafe_list_const()) {
+                    if (m.get_type() == trent::trent::type::dict) {
 						havedict = true; break;
 					}
 				}
 
 				os << '[';
 
-                if (havedict) for(auto& v : tr.unsafe_array_const()) {
+                if (havedict) for(auto& v : tr.unsafe_list_const()) {
 					if (sep) os << ", ";
 					json::pretty_print_to(v, os, tab+1);
 					sep = true;
 				}
 				else { 
-                    for(auto& v : tr.unsafe_array_const()) {
+                    for(auto& v : tr.unsafe_list_const()) {
 						if (sep) os.put(',');
 						os << std::endl;
 						for(int i = 0; i < tab + 1; i++) os.put('\t');
@@ -238,9 +222,9 @@ namespace detail {
 				os.put(']');
 				break;
 
-			case trent::type::dictionary: 
+            case trent::type::dict:
 				os.put('{');
-                for(auto& p : tr.unsafe_dictionary_const()) {
+                for(auto& p : tr.unsafe_dict_const()) {
 					if (sep) os << ',';
 					os.put('\n');
 					for(int i = 0; i < tab + 1; i++) os.put('\t');
@@ -253,7 +237,7 @@ namespace detail {
 				for(int i = 0; i < tab; i++) os.put('\t');
 				os.put('}');
 				break; 
-			case trent::type::noinit:
+            case trent::type::nil:
 				os.write("nil", 3);
 				break;
 		}

@@ -13,11 +13,11 @@
 #include <gxx/panic.h>
 
 namespace gxx { namespace result_type {
-	struct exception {
-		virtual const char* what() = 0;
-	};
+    /*struct exception {
+        virtual const char* what() const = 0;
+    };*/
 
-	struct error : public exception {
+    struct error {
 		//std::string info;
 		std::string info;
 		//explicit error() : info() {}
@@ -31,11 +31,15 @@ namespace gxx { namespace result_type {
 			return *this; 
 		}
 
-		const char* what() {
+        const char* what() const {
 			return info.c_str();
 		}
 	};
-	
+}
+    template<typename E>
+    inline const char* what(const E& e) { return e.what(); }
+
+namespace result_type {
 	template<typename T> 
 	struct tryhelper {
 		using type = T;
@@ -147,7 +151,7 @@ namespace gxx { namespace result_type {
 
 		operator T() {
 			if (is_error()) { 
-				gxx::panic(_error.what());
+                gxx::panic(gxx::what<E>(_error));
 			}
 			return _data;
 		}

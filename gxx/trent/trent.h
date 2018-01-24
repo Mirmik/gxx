@@ -22,12 +22,10 @@ namespace gxx {
 	public:
 		enum class type {
 			string,
-			array,
-			dictionary,
-			integer,
-			single_floating,
-			double_floating,
-			noinit,
+                        list,
+                        dict,
+                        numer,
+                        nil,
 		};
 
 		using check_type = uint8_t;
@@ -36,23 +34,19 @@ namespace gxx {
 		static constexpr check_type check_superset = 1;
 		static constexpr check_type check_equal = 2;
 
-		using sfloat_type = float;
-		using dfloat_type = long double;
-		using numer_type = dfloat_type;
-		using integer_type = int64_t;
-		using array_type = std::vector<trent>;
-		using dictionary_type = std::map<std::string, trent>;
+                using numer_type = long double;
+                using list_type = std::vector<trent>;
+                using dict_type = std::map<std::string, trent>;
+                using string_type = std::string;
 
 	protected:
-		trent::type m_type = trent::type::noinit;
+                trent::type m_type = trent::type::nil;
 
-		union {
-			int64_t m_i64;
-			sfloat_type m_sflt;
-			dfloat_type m_dflt;
-			std::string m_str;
-			std::vector<trent> m_arr;
-			std::map<std::string, trent> m_dict;
+                union {
+                        numer_type m_num;
+                        list_type m_arr;
+                        dict_type m_dict;
+                        string_type m_str;
 		};
 
 	public:
@@ -64,14 +58,14 @@ namespace gxx {
 		trent(const char* str);
 		trent(const std::string& str);
 
-		trent(short i);
+                /*trent(short i);
 		trent(int i);
 		trent(long i);
 		trent(long long i);
 
 		trent(float num);
-		trent(double num);
-		trent(long double num);
+                trent(double num);*/
+                trent(numer_type num);
 
 	private:
 		template <typename T>	
@@ -84,7 +78,7 @@ namespace gxx {
 		void init(const std::string& str);
 		void init(const char* str);
 
-		void init(float i);
+                /*void init(float i);
 		void init(double i);
 		void init(long double i);
 
@@ -95,10 +89,10 @@ namespace gxx {
 
 		void init(unsigned short i);
 		void init(unsigned int i);
-		void init(unsigned long i);
-		void init(unsigned long long i);
+                void init(unsigned long i);*/
+                void init(numer_type i);
 
-		void init_array(size_t reserve);
+                void init_list(size_t reserve);
 		void invalidate();
 
 	public:
@@ -120,39 +114,27 @@ namespace gxx {
 
 		bool have(const std::string& key) const; 
 
-		std::map<std::string, trent>& as_dictionary();
-		const std::map<std::string, trent>& as_dictionary() const;
-		result<std::map<std::string, trent>&> as_dictionary_critical();
-		result<const std::map<std::string, trent>&> as_dictionary_critical() const;
-
-		std::vector<trent>& as_array();
-		const std::vector<trent>& as_array() const;
-
-		result<std::vector<trent>&> as_array_critical();
-		result<const std::vector<trent>&> as_array_critical() const;
+                std::map<std::string, trent>& as_dict();
+                const std::map<std::string, trent>& as_dict() const;
+                result<std::map<std::string, trent>&> as_dict_critical();
+                result<const std::map<std::string, trent>&> as_dict_critical() const;
 		
-		std::vector<trent>& as_vector();
-		const std::vector<trent>& as_vector() const;
+                std::vector<trent>& as_list();
+                const std::vector<trent>& as_list() const;
 
-		result<std::vector<trent>&> as_vector_critical();
-		result<const std::vector<trent>&> as_vector_critical() const;
+                result<std::vector<trent>&> as_list_critical();
+                result<const std::vector<trent>&> as_list_critical() const;
 		
 		numer_type as_numer() const;
+                numer_type as_numer_default(numer_type i) const;
+                result<numer_type> as_numer_critical() const;
 
-		integer_type as_integer() const;
-		result<integer_type> as_integer_critical() const;
-		sfloat_type as_sfloat() const;
-		dfloat_type as_dfloat() const;
-
-		const double as_numer_default(const double i);
-		result<double> as_numer_critical() const;
-
-		std::string& as_string();
-		const std::string& as_string() const;
+                string_type& as_string();
+                const string_type& as_string() const;
 		const gxx::buffer as_buffer() const;
-		std::string& as_string_default(std::string& str);
-		result<std::string&> as_string_critical();
-		result<const std::string&> as_string_critical() const;
+                string_type& as_string_default(string_type& str);
+                result<string_type&> as_string_critical();
+                result<const string_type&> as_string_critical() const;
 		
 		
 		//double get_numer(const char*, double def);
@@ -160,30 +142,24 @@ namespace gxx {
 
 		//result<double> get_numer_critical(const std::string&);
 
-		REFERENCE_GETTER(unsafe_integer, m_i64);
-		REFERENCE_GETTER(unsafe_sfloat, m_sflt);
-		REFERENCE_GETTER(unsafe_dfloat, m_dflt);
+                REFERENCE_GETTER(unsafe_numer, m_num);
 		REFERENCE_GETTER(unsafe_string, m_str);
-		REFERENCE_GETTER(unsafe_array, m_arr);
-		REFERENCE_GETTER(unsafe_dictionary, m_dict);
+                REFERENCE_GETTER(unsafe_list, m_arr);
+                REFERENCE_GETTER(unsafe_dict, m_dict);
 
-		CONSTREF_GETTER(unsafe_integer_const, m_i64);
-		CONSTREF_GETTER(unsafe_sfloat_const, m_sflt);
-		CONSTREF_GETTER(unsafe_dfloat_const, m_dflt);
+                CONSTREF_GETTER(unsafe_numer_const, m_num);
 		CONSTREF_GETTER(unsafe_string_const, m_str);
-		CONSTREF_GETTER(unsafe_array_const, m_arr);
-		CONSTREF_GETTER(unsafe_dictionary_const, m_dict);
+                CONSTREF_GETTER(unsafe_list_const, m_arr);
+                CONSTREF_GETTER(unsafe_dict_const, m_dict);
 
 
 		trent::type get_type() const;
 		const char * type_to_str() const;
 
-		bool is_nil() const 		{ return m_type == type::noinit; }
-		bool is_numer() const 		{ return m_type == type::single_floating || m_type == type::double_floating || m_type == type::integer; }
-		bool is_float() const 		{ return m_type == type::single_floating || m_type == type::double_floating; }
-		bool is_integer() const 	{ return m_type == type::integer; }
-		bool is_array() const		{ return m_type == type::array; }
-		bool is_dictionary() const  { return m_type == type::dictionary; }
+                bool is_nil() const 		{ return m_type == type::nil; }
+                bool is_numer() const 		{ return m_type == type::numer; }
+                bool is_list() const		{ return m_type == type::list; }
+                bool is_dict() const            { return m_type == type::dict; }
 		bool is_string() const 		{ return m_type == type::string; }
 		
 		strlst check_dict(strlst lst, check_type ct);
@@ -213,17 +189,9 @@ namespace gxx {
 		size_t printTo(gxx::io::ostream& os) const {
 			bool sep = false;
 			switch(get_type()) {
-		
-				case trent::type::integer:
-				    os.print(unsafe_integer_const());
-				    break;
-			
-				case trent::type::single_floating:
-				    os.print(unsafe_sfloat_const());
-						    return 0;
-			
-				case trent::type::double_floating:
-				    os.print(unsafe_dfloat_const());
+
+                                case trent::type::numer:
+                                    os.print(unsafe_numer_const());
 				    return 0;
 			
 				case trent::type::string: 
@@ -231,18 +199,18 @@ namespace gxx {
 				    os.print(unsafe_string_const());
 				    os.putchar('"');
 				    return 0;
-				case trent::type::array: 
+                                case trent::type::list:
 				    os.putchar('[');
-				    for(auto& v : unsafe_array_const()) {
+                                    for(auto& v : unsafe_list_const()) {
 					    if (sep) os.putchar(',');
 					    v.printTo(os);
 					    sep = true;
 				    }
 				    os.putchar(']');
 				    return 0; 
-				case trent::type::dictionary: 
+                                case trent::type::dict:
 				    os.putchar('{');
-				    for(auto& p : unsafe_dictionary_const()) {
+                                    for(auto& p : unsafe_dict_const()) {
 					    if (sep) os.putchar(',');
 					    os.putchar('"');
 					    os.print(p.first);
@@ -253,7 +221,7 @@ namespace gxx {
 				    }
 				    os.putchar('}');
 				    return 0; 
-				case trent::type::noinit:
+                                case trent::type::nil:
 				    os.print("nil");
 				    return 0;
 			}

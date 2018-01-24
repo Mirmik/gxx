@@ -18,22 +18,16 @@ namespace gxx {
 			case trent::type::string: 
 				gxx::constructor(&m_str, other.m_str); 
 				return;
-			case trent::type::array: 
+            case trent::type::list:
 				gxx::constructor(&m_arr, other.m_arr);
 				return; 
-			case trent::type::dictionary: 
+            case trent::type::dict:
 				gxx::constructor(&m_dict, other.m_dict);
+                return;
+            case trent::type::numer:
+                m_num = other.m_num;
 				return;
-			case trent::type::single_floating:
-				m_sflt = other.m_sflt;
-				return;   
-			case trent::type::double_floating:
-				m_dflt = other.m_dflt;
-				return;
-			case trent::type::integer:
-				m_i64 = other.m_i64;
-				return;
-			case trent::type::noinit:
+            case trent::type::nil:
 				return; 
 		}	
 	}
@@ -50,31 +44,7 @@ namespace gxx {
 		init(t);
 	}
 
-	trent::trent(float num) {
-		init(num);
-	}
-
-	trent::trent(double num) {
-		init(num);
-	}
-
-	trent::trent(long double num) {
-		init(num);
-	}
-
-	trent::trent(int i) {
-		init(i);
-	}
-
-	trent::trent(long i) {
-		init(i);
-	}
-
-	trent::trent(long long i) {
-		init(i);
-	}
-
-	trent::trent(short i) {
+    trent::trent(numer_type i) {
 		init(i);
 	}
 	
@@ -84,16 +54,14 @@ namespace gxx {
 			case trent::type::string: 
 				gxx::constructor(&m_str); 
 				return;
-			case trent::type::array: 
+            case trent::type::list:
 				gxx::constructor(&m_arr);
 				return; 
-			case trent::type::dictionary: 
+            case trent::type::dict:
 				gxx::constructor(&m_dict);
-				return;
-			case trent::type::single_floating:
-			case trent::type::double_floating:
-			case trent::type::integer:
-			case trent::type::noinit:
+                return;
+            case trent::type::numer:
+            case trent::type::nil:
 				return; 
 		}
 	}
@@ -110,13 +78,13 @@ namespace gxx {
 	
 	}
 	
-	void trent::init(float num) {
-		m_type = trent::type::single_floating;
+/*	void trent::init(float num) {
+        m_type = trent::type::numer;
 		m_sflt = num;
 	}
 
 	void trent::init(double num) {
-		m_type = trent::type::double_floating;
+        m_type = trent::type::numer;
 		m_dflt = num;
 	}
 
@@ -158,11 +126,11 @@ namespace gxx {
 	void trent::init(unsigned long i) {
 		m_type = trent::type::integer;
 		m_i64 = i;
-	}
+    }*/
 
-	void trent::init(unsigned long long i) {
-		m_type = trent::type::integer;
-		m_i64 = i;
+    void trent::init(numer_type n) {
+        m_type = trent::type::numer;
+        m_num = n;
 	}
 	
 	void trent::invalidate() {
@@ -170,105 +138,99 @@ namespace gxx {
 			case trent::type::string: 
 				gxx::destructor(&m_str); 
 				return;
-			case trent::type::array: 
+            case trent::type::list:
 				gxx::destructor(&m_arr);
 				return; 
-			case trent::type::dictionary: 
+            case trent::type::dict:
 				gxx::destructor(&m_dict);
 				return; 
-			case trent::type::noinit:
-			case trent::type::single_floating:
-			case trent::type::double_floating:
-			case trent::type::integer:
+            case trent::type::nil:
+            case trent::type::numer:
 				return;
 		}
-		m_type = trent::type::noinit;
+        m_type = trent::type::nil;
 	}
 	
 	trent& trent::operator[](int i) {
-		if (m_type != trent::type::array) init(trent::type::array); 
+        if (m_type != trent::type::list) init(trent::type::list);
 		if(m_arr.size() <= i) m_arr.resize(i + 1);
 		return m_arr[i];
 	}
 	
 	trent& trent::operator[](const char* key) {
-		if (m_type != trent::type::dictionary) init(trent::type::dictionary);
+        if (m_type != trent::type::dict) init(trent::type::dict);
 		return m_dict[key];
 	}
 
 	trent& trent::operator[](const std::string& key) {
-		if (m_type != trent::type::dictionary) init(trent::type::dictionary);
+        if (m_type != trent::type::dict) init(trent::type::dict);
 		return m_dict[key];
 	}
 
 	const trent& trent::operator[](const std::string& key) const {
-		if (m_type != trent::type::dictionary) gxx::panic("wrong trent type");
+        if (m_type != trent::type::dict) gxx::panic("wrong trent type");
 		return m_dict.at(key);
 	}
 
 	trent& trent::operator[](const gxx::buffer& key) {
-		if (m_type != trent::type::dictionary) init(trent::type::dictionary);
+        if (m_type != trent::type::dict) init(trent::type::dict);
 		return m_dict[std::string(key.data(), key.size())];
 	}
 
 	const trent& trent::at(int i) const {
-		if (m_type != trent::type::array) gxx::panic("wrong trent type");
-		if(m_arr.size() <= i) gxx::panic("wrong trent array size");
+        if (m_type != trent::type::list) gxx::panic("wrong trent type");
+        if(m_arr.size() <= i) gxx::panic("wrong trent list size");
 		return m_arr[i];
 	}
 	
 	const trent& trent::at(const char* key) const {
-		if (m_type != trent::type::dictionary) gxx::panic("wrong trent type");
+        if (m_type != trent::type::dict) gxx::panic("wrong trent type");
 		return m_dict.at(key);
 	}
 
 	const trent& trent::at(const std::string& key) const {
-		if (m_type != trent::type::dictionary) gxx::panic("wrong trent type");
+        if (m_type != trent::type::dict) gxx::panic("wrong trent type");
 		return m_dict.at(key);
 	}
 
 	const trent& trent::at(const gxx::buffer& key) const {
-		if (m_type != trent::type::dictionary) gxx::panic("wrong trent type");
+        if (m_type != trent::type::dict) gxx::panic("wrong trent type");
 		return m_dict.at(std::string(key.data(), key.size()));
 	}
 	
 	bool trent::have(const std::string& str) const {
-		if (m_type != trent::type::dictionary) gxx::panic("wrong trent type");
+        if (m_type != trent::type::dict) gxx::panic("wrong trent type");
 		return m_dict.count(str) != 0; 
 	}
 
-	std::map<std::string, trent>& trent::as_dictionary() {
-		if (m_type != trent::type::dictionary) init(trent::type::dictionary);
+    std::map<std::string, trent>& trent::as_dict() {
+        if (m_type != trent::type::dict) init(trent::type::dict);
 		return m_dict;
 	}
 
-	const std::map<std::string, trent>& trent::as_dictionary() const {
-		if (m_type != trent::type::dictionary) gxx::panic("wrong_trent_type");
+    const std::map<std::string, trent>& trent::as_dict() const {
+        if (m_type != trent::type::dict) gxx::panic("wrong_trent_type");
 		return m_dict;
 	}
 	
-	std::vector<trent>& trent::as_array() {
-		if (m_type != trent::type::array) init(trent::type::array);
+    std::vector<trent>& trent::as_list() {
+        if (m_type != trent::type::list) init(trent::type::list);
 		return m_arr;
 	}
 
-	const std::vector<trent>& trent::as_array() const {
-		if (m_type != trent::type::array) gxx::panic("wrong_trent_type");
+    const std::vector<trent>& trent::as_list() const {
+        if (m_type != trent::type::list) gxx::panic("wrong_trent_type");
 		return m_arr;
 	}
 
-	std::vector<trent>& trent::as_vector() { return as_array(); }
-
-	result<std::vector<trent>&> trent::as_array_critical() {
-		if (!is_array()) return error("is't array");
+    result<std::vector<trent>&> trent::as_list_critical() {
+        if (!is_list()) return error("is't list");
 		return m_arr;
 	}
-	result<const std::vector<trent>&> trent::as_array_critical() const {
-		if (!is_array()) return error("is't array");
+    result<const std::vector<trent>&> trent::as_list_critical() const {
+        if (!is_list()) return error("is't list");
 		return m_arr;
-	}
-	result<std::vector<trent>&> trent::as_vector_critical() { return as_array_critical(); }
-	result<const std::vector<trent>&> trent::as_vector_critical() const { return as_array_critical(); }
+    }
 
 	std::string& trent::as_string() {
 		if (m_type != trent::type::string) init(trent::type::string);
@@ -284,34 +246,10 @@ namespace gxx {
 		return gxx::buffer();
 	}
 
-	trent::dfloat_type trent::as_numer() const {
-		if (m_type == trent::type::single_floating) return m_sflt;
-		if (m_type == trent::type::double_floating) return m_dflt;
-		if (m_type == trent::type::integer) return m_i64;
+    trent::numer_type trent::as_numer() const {
+        if (m_type == trent::type::numer) return m_num;
 		return 0;
 	}
-
-	trent::integer_type trent::as_integer() const {
-		if (m_type == trent::type::single_floating) return m_sflt;
-		if (m_type == trent::type::double_floating) return m_dflt;
-		if (m_type == trent::type::integer) return m_i64;
-		return 0;
-	}
-	
-	/*double trent::get_numer(const char* str, double def) {
-		trent* cur = this;
-		for (auto& s : gxx::split_tokenizer(str, '/')) {
-			dprln(s);
-			if (cur->contains(s)) cur = &cur->m_dict[std::string(s.data(), s.size())];
-			else return def;
-		}       
-		if (cur->get_type() != gxx::trent::type::numer) return def;
-		return cur->as_numer();
-	}
-
-	double trent::get_numer(const std::string& str, double def) {
-		return get_numer(str.c_str(), def);
-	}*/
 
 	result<std::string&> trent::as_string_critical() {
 		if (!is_string()) return error("is't string");
@@ -323,29 +261,24 @@ namespace gxx {
 		return m_str;
 	}
 
-	result<double> trent::as_numer_critical() const {
+    result<trent::numer_type> trent::as_numer_critical() const {
 		if (!is_numer()) return error("is't numer");
 		return as_numer();
 	}
 
-	result<trent::integer_type> trent::as_integer_critical() const {
-		if (!is_numer()) return error("is't numer");
-		return as_integer();
+    result<std::map<std::string, trent>&> trent::as_dict_critical() {
+        if (!is_dict()) return error("is't dict");
+        return as_dict();
 	}
 
-	result<std::map<std::string, trent>&> trent::as_dictionary_critical() {
-		if (!is_dictionary()) return error("is't dictionary");
-		return as_dictionary();
+    result<const std::map<std::string, trent>&> trent::as_dict_critical() const {
+        if (!is_dict()) return error("is't dict");
+        return as_dict();
 	}
 
-	result<const std::map<std::string, trent>&> trent::as_dictionary_critical() const {
-		if (!is_dictionary()) return error("is't dictionary");
-		return as_dictionary();
-	}
-
-	const double trent::as_numer_default(const double def) {
+    trent::numer_type trent::as_numer_default(trent::numer_type def) const {
 		if (!is_numer()) return def;
-		return as_numer();
+        return unsafe_numer_const();
 	}
 
 	std::string& trent::as_string_default(std::string& def) {
@@ -354,7 +287,7 @@ namespace gxx {
 	}
 
 	bool trent::contains(gxx::buffer buf) {
-		if (m_type != type::dictionary) {
+        if (m_type != type::dict) {
 			return false;
 		}
 
@@ -373,13 +306,11 @@ namespace gxx {
 	
 	const char * trent::type_to_str() const {
 		switch(m_type) {
-			case trent::type::string: 		return "String";
-			case trent::type::array: 		return "Array";
-			case trent::type::dictionary: 	return "Dictionary";
-			case trent::type::single_floating: 	return "Float";
-			case trent::type::double_floating: 	return "Double";
-			case trent::type::integer: 		return "Integer";
-			case trent::type::noinit: 		return "Nil";
+            case trent::type::string: 		return "string";
+            case trent::type::list: 		return "list";
+            case trent::type::dict:         return "dict";
+            case trent::type::numer: 		return "numer";
+            case trent::type::nil:          return "nil";
 		}
 	}
 	
@@ -390,22 +321,16 @@ namespace gxx {
 			case trent::type::string: 
 				gxx::constructor(&m_str, other.m_str); 
 				return *this;
-			case trent::type::array: 
+            case trent::type::list:
 				gxx::constructor(&m_arr, other.m_arr);
 				return *this;
-			case trent::type::dictionary: 
+            case trent::type::dict:
 				gxx::constructor(&m_dict, other.m_dict);
+                return *this;
+            case trent::type::numer:
+                m_num = other.m_num;
 				return *this;
-			case trent::type::single_floating:
-				m_sflt = other.m_sflt;
-				return *this;   
-			case trent::type::double_floating:
-				m_dflt = other.m_dflt;
-				return *this;
-			case trent::type::integer:
-				m_i64 = other.m_i64;
-				return *this;
-			case trent::type::noinit:
+            case trent::type::nil:
 				return *this; 
 		}	
 	}
@@ -461,18 +386,16 @@ namespace gxx {
 	}
 
 	int trent::size() {
-		switch(m_type) {
-			case trent::type::integer:
-			case trent::type::single_floating:
-			case trent::type::double_floating:
+        switch(m_type) {
+            case trent::type::numer:
 			case trent::type::string: return -1;
-			case trent::type::array: return m_arr.size();
-			case trent::type::dictionary: return m_dict.size();
+            case trent::type::list: return m_arr.size();
+            case trent::type::dict: return m_dict.size();
 		} 
 	}	
 
 	strlst trent::check_dict(strlst lst, check_type ct) {
-		if (!is_dictionary()) return strlst();
+        if (!is_dict()) return strlst();
 
 
 		strlst retlist;
@@ -521,7 +444,7 @@ namespace gxx {
 
 	std::pair<strlst, strlst> trent::check_dict_symmetric(strlst lst) {
 		std::pair<strlst, strlst> ret;
-		if (!is_dictionary()) return ret;
+        if (!is_dict()) return ret;
 
 		auto _keys = gxx::gen::keys_of_map(m_dict);
 		strlst keys;//(_keys.begin(), _keys.end());

@@ -46,6 +46,10 @@ namespace gxx {
 		}
 	};
 
+        template<>
+        inline const char* what<rpc::status>(const rpc::status& sts) {
+            return rpc::strerr(sts);
+        }
 }
 
 #endif
