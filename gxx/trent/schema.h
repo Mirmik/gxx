@@ -192,6 +192,11 @@ namespace gxx {
                         }
                 }
 
+                result<void> check(const trent& tr, std::string rootname) {
+                        std::vector<std::string> strvec { rootname };
+                        return root.check(tr, strvec);
+                }
+
                 schema_node root;
                 schema(const schema_node& root) : root(root) {}
         };

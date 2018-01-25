@@ -44,6 +44,7 @@ namespace detail {
 		
         if (isdigit(c) || c == '-') return parse_numer(is);
 		if (c == '"') return parse_string(is);
+        if (c == '\'') return parse_string(is);
         if (c == '[') return parse_list(is);
         if (c == '{') return parse_dict(is);
 
@@ -59,9 +60,12 @@ namespace detail {
 	result<trent> json::parse_string(std::istream& is) {
         trent::string_type str;
 
-		is.ignore();
-		std::getline(is, str, '"');
-		trent ret(str);
+        char c = detail::getnext(is);
+        is.ignore();
+        if (c == '"') std::getline(is, str, '"');
+        if (c == '\'') std::getline(is, str, '\'');
+
+        trent ret(str);
 		
 		return ret;
 	}
@@ -119,11 +123,12 @@ namespace detail {
 					return js;
 				}				
 
-				if ( c != '"' ) return error("wrong dicionary syntax: not find \"");
+                if ( c != '"' && c != '\'' ) return error("wrong dicionary syntax: not find \"");
 				is.ignore();
 				
 				std::string key;
-				std::getline(is, key, '"');
+                if (c == '"') std::getline(is, key, '"');
+                if (c == '\'') std::getline(is, key, '\'');
 
 				c = detail::getnext(is);
 
