@@ -3,7 +3,7 @@
 int main() {
 	
 	gxx::schema checker = gxx::schema::dict({
-		{ "mirmik", gxx::schema::array().length(2) },
+		{ "mirmik", gxx::schema::list().length(2) },
 		{ "mirmik2", gxx::schema::string() },
 	});
 
