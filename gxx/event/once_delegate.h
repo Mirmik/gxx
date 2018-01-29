@@ -9,8 +9,13 @@ namespace gxx {
 		using Parent = delegate<Ret, Args ...>;
 
 	public:
+		//template<typename ... TArgs>
+		//once_delegate(TArgs&& ... args) : Parent(std::forward<TArgs>(args) ... ) {}
+
+		once_delegate(const gxx::delegate<Ret, Args ...>& dlg) : Parent(dlg) {}
+
 		template<typename ... TArgs>
-		once_delegate(TArgs&& ... args) : Parent(std::forward<TArgs>(args) ... ) {}
+		once_delegate(TArgs&& ... args) : Parent(std::forward<TArgs>(args) ...) {}
 
 		template<typename ... TArgs>
 		void operator=(TArgs&& ... args) { 

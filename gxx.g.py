@@ -59,7 +59,15 @@ module("gxx.cxx_support",
 	sources = ["compiler/__cxa_pure_virtual.c"],
 )
 
-
 module("gxx.rabbit", 
 	sources = ["gxx/rabbit/crvints.cpp"],
+)
+
+module("gxx.util", 
+	srcdir = "gxx",
+	sources = [
+		#"util/string.cpp",
+		#"util/base64.cpp",
+		"util/numconvert.c"
+	],
 )
