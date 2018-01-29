@@ -5,14 +5,14 @@
 
 namespace gxx {
 	namespace event {
-		class flag {
+		/*class flag {
 		public:
 			virtual void set() = 0;
 			virtual void clr() = 0;
 			virtual bool setted() = 0;
-		};
+		};*/
 
-		class action_flag : public flag {
+		class action_flag {
 			bool f_en = false;
 			bool d_en;
 			gxx::action act;
@@ -25,16 +25,16 @@ namespace gxx {
 			}
 
 		public:	
-			void set() override {
+			void set() {
 				f_en = true;
 				check();
 			}
 
-			void clr() override {
+			void clr() {
 				f_en = false;
 			}
 
-			bool setted() override {
+			bool setted() {
 				return f_en;
 			}
 
@@ -43,7 +43,7 @@ namespace gxx {
 				check();
 			}
 
-			void set_handler(gxx::action act, bool en = true) {
+			void set_action(gxx::action act, bool en = true) {
 				d_en = false;
 				this->act = act;
 				if (en) wait();
