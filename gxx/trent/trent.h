@@ -25,6 +25,7 @@ namespace gxx {
                         list,
                         dict,
                         numer,
+                        integer,
                         nil,
 		};
 
@@ -35,6 +36,7 @@ namespace gxx {
 		static constexpr check_type check_equal = 2;
 
                 using numer_type = long double;
+                using integer_type = int64_t;
                 using list_type = std::vector<trent>;
                 using dict_type = std::map<std::string, trent>;
                 using string_type = std::string;
@@ -44,6 +46,7 @@ namespace gxx {
 
                 union {
                         numer_type m_num;
+                        integer_type m_int;
                         list_type m_arr;
                         dict_type m_dict;
                         string_type m_str;
@@ -66,31 +69,32 @@ namespace gxx {
 		trent(float num);
                 trent(double num);*/
                 trent(numer_type num);
+                trent(integer_type i64);
 
 	private:
+                void init(trent::type t);
+                void init(const std::string& str);
+                void init(const char* str);
+                void init(const float& i);
+                void init(const double& i);
+                void init(const long double& i);
+                void init(const signed char& i);
+                void init(const signed short& i);
+                void init(const signed int& i);
+                void init(const signed long& i);
+                void init(const signed long long& i);
+                void init(const unsigned char& i);
+                void init(const unsigned short& i);
+                void init(const unsigned int& i);
+                void init(const unsigned long& i);
+                void init(const unsigned long long& i);
+
 		template <typename T>	
 		void reset(T obj) {
 			invalidate();
 			init(obj);
 		}
 
-		void init(trent::type t);
-		void init(const std::string& str);
-		void init(const char* str);
-
-                /*void init(float i);
-		void init(double i);
-		void init(long double i);
-
-		void init(short i);
-		void init(int i);
-		void init(long i);
-		void init(long long i);
-
-		void init(unsigned short i);
-		void init(unsigned int i);
-                void init(unsigned long i);*/
-                void init(numer_type i);
 
                 void init_list(size_t reserve);
 		void invalidate();
@@ -129,6 +133,10 @@ namespace gxx {
                 numer_type as_numer_default(numer_type i) const;
                 result<numer_type> as_numer_critical() const;
 
+                integer_type as_integer() const;
+                integer_type as_integer_default(numer_type i) const;
+                result<integer_type> as_integer_critical() const;
+
                 string_type& as_string();
                 const string_type& as_string() const;
 		const gxx::buffer as_buffer() const;
@@ -143,11 +151,13 @@ namespace gxx {
 		//result<double> get_numer_critical(const std::string&);
 
                 REFERENCE_GETTER(unsafe_numer, m_num);
+                REFERENCE_GETTER(unsafe_integer, m_num);
 		REFERENCE_GETTER(unsafe_string, m_str);
                 REFERENCE_GETTER(unsafe_list, m_arr);
                 REFERENCE_GETTER(unsafe_dict, m_dict);
 
                 CONSTREF_GETTER(unsafe_numer_const, m_num);
+                CONSTREF_GETTER(unsafe_integer_const, m_num);
 		CONSTREF_GETTER(unsafe_string_const, m_str);
                 CONSTREF_GETTER(unsafe_list_const, m_arr);
                 CONSTREF_GETTER(unsafe_dict_const, m_dict);
@@ -157,7 +167,8 @@ namespace gxx {
 		const char * type_to_str() const;
 
                 bool is_nil() const 		{ return m_type == type::nil; }
-                bool is_numer() const 		{ return m_type == type::numer; }
+                bool is_numer() const 		{ return m_type == type::numer || m_type == type::integer; }
+                bool is_integer() const         { return m_type == type::integer; }
                 bool is_list() const		{ return m_type == type::list; }
                 bool is_dict() const            { return m_type == type::dict; }
 		bool is_string() const 		{ return m_type == type::string; }

@@ -77,61 +77,21 @@ namespace gxx {
 		gxx::constructor(&m_str, str);
 	
 	}
-	
-/*	void trent::init(float num) {
-        m_type = trent::type::numer;
-		m_sflt = num;
-	}
 
-	void trent::init(double num) {
-        m_type = trent::type::numer;
-		m_dflt = num;
-	}
+	void trent::init(const float& n) { m_type = trent::type::numer; m_num = n; }
+	void trent::init(const double& n) { m_type = trent::type::numer; m_num = n; }
+	void trent::init(const long double& n) { m_type = trent::type::numer; m_num = n; }
 
-	void trent::init(long double num) {
-		m_type = trent::type::double_floating;
-		m_dflt = num;
-	}
-
-	void trent::init(short i) {
-		m_type = trent::type::integer;
-		m_i64 = i;
-	}
-
-	void trent::init(int i) {
-		m_type = trent::type::integer;
-		m_i64 = i;
-	}
-
-	void trent::init(long i) {
-		m_type = trent::type::integer;
-		m_i64 = i;
-	}
-
-	void trent::init(long long i) {
-		m_type = trent::type::integer;
-		m_i64 = i;
-	}
-
-	void trent::init(unsigned short i) {
-		m_type = trent::type::integer;
-		m_i64 = i;
-	}
-
-	void trent::init(unsigned int i) {
-		m_type = trent::type::integer;
-		m_i64 = i;
-	}
-
-	void trent::init(unsigned long i) {
-		m_type = trent::type::integer;
-		m_i64 = i;
-    }*/
-
-    void trent::init(numer_type n) {
-        m_type = trent::type::numer;
-        m_num = n;
-	}
+	void trent::init(const signed char& n) { m_type = trent::type::integer; m_int = n; }
+	void trent::init(const signed short& n) { m_type = trent::type::integer; m_int = n; }
+	void trent::init(const signed int& n) { m_type = trent::type::integer; m_int = n; }
+	void trent::init(const signed long& n) { m_type = trent::type::integer; m_int = n; }
+	void trent::init(const signed long long& n) { m_type = trent::type::integer; m_int = n; }
+	void trent::init(const unsigned char& n) { m_type = trent::type::integer; m_int = n; }
+	void trent::init(const unsigned short& n) { m_type = trent::type::integer; m_int = n; }
+	void trent::init(const unsigned int& n) { m_type = trent::type::integer; m_int = n; }
+	void trent::init(const unsigned long& n) { m_type = trent::type::integer; m_int = n; }
+	void trent::init(const unsigned long long& n) { m_type = trent::type::integer; m_int = n; }
 	
 	void trent::invalidate() {
 		switch(m_type) {
@@ -247,7 +207,8 @@ namespace gxx {
 	}
 
     trent::numer_type trent::as_numer() const {
-        if (m_type == trent::type::numer) return m_num;
+		if (m_type == trent::type::numer) return m_num;
+		if (m_type == trent::type::integer) return m_int;
 		return 0;
 	}
 
@@ -278,7 +239,7 @@ namespace gxx {
 
     trent::numer_type trent::as_numer_default(trent::numer_type def) const {
 		if (!is_numer()) return def;
-        return unsafe_numer_const();
+		return as_numer();
 	}
 
 	std::string& trent::as_string_default(std::string& def) {

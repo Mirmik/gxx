@@ -26,8 +26,8 @@ namespace gxx {
 
 		public:
                         schema_node(checker_type type) : type(type) {}
-                        schema_node(const schema_node& oth) : nodes(oth.nodes), check_dict(oth.check_dict), type(oth.type), len(oth.len), _allopts(oth._allopts), _ifexist(oth._ifexist), _inset(oth._inset), _content(oth._content ? new schema_node(*oth._content) : nullptr) {}
-                        schema_node(schema_node&& oth) : nodes(std::move(oth.nodes)), check_dict(oth.check_dict), type(oth.type), len(oth.len), _allopts(oth._allopts), _ifexist(oth._ifexist), _inset(oth._inset), _content(oth._content) { oth._content = nullptr; }
+                        schema_node(const schema_node& oth) : nodes(oth.nodes), check_dict(oth.check_dict), type(oth.type), len(oth.len), _allopts(oth._allopts), _ifexist(oth._ifexist), _inset(oth._inset), _optional(oth._optional), _content(oth._content ? new schema_node(*oth._content) : nullptr) {}
+                        schema_node(schema_node&& oth) : nodes(std::move(oth.nodes)), check_dict(oth.check_dict), type(oth.type), len(oth.len), _allopts(oth._allopts), _ifexist(oth._ifexist), _inset(oth._inset), _optional(oth._optional),_content(oth._content) { oth._content = nullptr; }
 
 			result<void> check(const trent& tr, gxx::strvec& strvec) const {
                             switch(type) {
@@ -53,6 +53,7 @@ namespace gxx {
 				}
 
                                 if (type == dict_checker_type) {
+                                    //Проверка на принодлежность имён пределённому множеству.
                                     if (_inset) {
                                         for(auto& tp : tr.unsafe_dict_const()) {
                                             bool flag = false;
@@ -63,6 +64,7 @@ namespace gxx {
                                         }
                                     }
 
+                                    //Проверка на соответствие всех нодов шаблону.
                                     if (_content) {
                                         for(auto& tp : tr.unsafe_dict_const()) {
                                             strvec.push_back(tp.first);
@@ -72,6 +74,7 @@ namespace gxx {
                                     }
                                 }
 
+                                //Индивидуальная проверка словаря.
                                 if (type == dict_checker_type && check_dict) {
                                     assert(nodes.size() != 0);
 
@@ -79,9 +82,14 @@ namespace gxx {
 					for (const auto& n : nodes) {
                                                 strvec.push_back(n.first);
                                                 if (!tr.have(n.first)) {
-                                                    if (!_ifexist) return error("isn't exist");
+                                                    gxx::println("check_dict doesn't have", strvec);
+                                                    if (n.second._optional == false) {
+                                                        if (!_ifexist) return error("isn't exist");
+                                                    } else {
+                                                        gxx::fprintln("don't have optional node {}", strvec);
+                                                    }
                                                 }
-                                                else tryS(n.second.check(tr[n.first], strvec));
+                                                else { tryS(n.second.check(tr[n.first], strvec)); }
 						strvec.pop_back();
 					}
 
@@ -146,7 +154,11 @@ namespace gxx {
                         bool _allopts = true;
                         bool check_dict = true;
                         bool _ifexist = false;
+                        bool _optional = false;
                         schema_node& operator[](std::string str) { return nodes.at(str); }
+
+
+                        FLOW_ACCESSOR(optional, _optional);
                 };
 
                 struct schema_dict_pair {
