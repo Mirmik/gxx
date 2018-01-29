@@ -27,26 +27,30 @@ namespace gxx {
             case trent::type::numer:
                 m_num = other.m_num;
 				return;
+            case trent::type::integer:
+                m_int = other.m_int;
+				return;
             case trent::type::nil:
 				return; 
 		}	
 	}
 	
-	trent::trent(const std::string& str) {
-		init(str);
-	}
-	
-	trent::trent(const char* str) {
-		init(str);
-	}
-
-	trent::trent(const trent::type& t) {
-		init(t);
-	}
-
-    trent::trent(numer_type i) {
-		init(i);
-	}
+	//trent::trent(const std::string& str) { init(str); }
+	//trent::trent(const char* str) { init(str); }
+	//trent::trent(const trent::type& t) { init(t); }
+    //trent::trent(const float& i) { init(i); }
+    //trent::trent(const double& i) { init(i); }
+    //trent::trent(const long double& i) { init(i); }
+    //trent::trent(const signed char& i) { init(i); }
+    //trent::trent(const signed short& i) { init(i); }
+    //trent::trent(const signed int& i) { init(i); }
+    //trent::trent(const signed long& i) { init(i); }
+    //trent::trent(const signed long long& i) { init(i); }
+    //trent::trent(const unsigned char& i) { init(i); }
+    //trent::trent(const unsigned short& i) { init(i); }
+    //trent::trent(const unsigned int& i) { init(i); }
+    //trent::trent(const unsigned long& i) { init(i); }
+    //trent::trent(const unsigned long long& i) { init(i); }
 	
 	void trent::init(trent::type t) {
 		m_type = t;
@@ -60,6 +64,7 @@ namespace gxx {
             case trent::type::dict:
 				gxx::constructor(&m_dict);
                 return;
+            case trent::type::integer:
             case trent::type::numer:
             case trent::type::nil:
 				return; 
@@ -212,6 +217,11 @@ namespace gxx {
 		return 0;
 	}
 
+	trent::integer_type trent::as_integer() const {
+		if (m_type == trent::type::integer) return m_int;
+		return 0;
+	}
+
 	result<std::string&> trent::as_string_critical() {
 		if (!is_string()) return error("is't string");
 		return m_str;
@@ -271,6 +281,7 @@ namespace gxx {
             case trent::type::list: 		return "list";
             case trent::type::dict:         return "dict";
             case trent::type::numer: 		return "numer";
+            case trent::type::integer: 		return "integer";
             case trent::type::nil:          return "nil";
 		}
 	}
@@ -301,31 +312,52 @@ namespace gxx {
 		return *this;
 	}
 	
+	trent& trent::operator= (float num) {
+		reset(num);
+		return *this;
+	}	
+
 	trent& trent::operator= (double num) {
 		reset(num);
 		return *this;
 	}	
 
-	trent& trent::operator= (short i){
+	trent& trent::operator= (long double num) {
+		reset(num);
+		return *this;
+	}	
+
+	trent& trent::operator= (signed char i){
 		reset(i);
 		return *this;
 	}
 
-	trent& trent::operator= (int i){
+	trent& trent::operator= (signed short i){
 		reset(i);
 		return *this;
 	}
 
-	trent& trent::operator= (long i){
+	trent& trent::operator= (signed int i){
 		reset(i);
 		return *this;
 	}
 
-	trent& trent::operator= (long long i){
+	trent& trent::operator= (signed long i){
+		reset(i);
+		return *this;
+	}
+
+	trent& trent::operator= (signed long long i){
 		reset(i);
 		return *this;
 	}
 	
+	
+	trent& trent::operator= (unsigned char i){
+		reset(i);
+		return *this;
+	}
+
 	trent& trent::operator= (unsigned short i){
 		reset(i);
 		return *this;
