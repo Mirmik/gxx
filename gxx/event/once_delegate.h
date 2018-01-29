@@ -23,7 +23,7 @@ namespace gxx {
 		}
 
 		Ret operator()(Args ... args) {
-			gxx::delegate<Ret, Args ...> copy = *this;
+			gxx::delegate<Ret, Args ...> copy = (Parent&)*this;
 			Parent::clean();
 			return copy(std::forward<Args>(args) ...);
 		};

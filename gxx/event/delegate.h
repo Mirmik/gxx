@@ -17,6 +17,8 @@
 #include "gxx/util/stub.h"
 #include <utility>
 
+#include <gxx/debug/dprint.h>
+
 #include "inttypes.h"
 	
 namespace gxx {
@@ -98,11 +100,12 @@ namespace gxx {
 			method.method = horrible_cast<mtd_t, R(T::*)(Args ...)>(mtd);
 		}
 
-		/*template <typename F>
+		template <typename F>
 		delegate(const F& functor) {
+			dprln(__PRETTY_FUNCTION__);
 			object = reinterpret_cast <obj_t> ((F*) &functor);
 			method.method = horrible_cast<mtd_t, decltype(&F::operator())>(&F::operator());
-		}*/
+		}
 		
 		delegate& operator=(const delegate& d) {
 			object = d.object;
