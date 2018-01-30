@@ -1,19 +1,21 @@
 #ifndef GXX_TRENT_SETTINGS_H
 #define GXX_TRENT_SETTINGS_H
 
+#include <gxx/print/printable.h>
+
 namespace gxx {
 
 	class trent_settings_basic {
 	public:
 		virtual gxx::trent& at(const std::string& str) = 0;
 		virtual gxx::trent& operator[](const std::string& str) = 0;
-		//virtual gxx::trent& create(const std::string& str, const std::string&) = 0;
-		//virtual gxx::trent& create(const std::string& str, int) = 0;
+                virtual const gxx::trent& operator[](const std::string& str) const = 0;
 
 		virtual bool ok() = 0;
 		virtual void save() = 0;
 		virtual void sync() = 0;
 		virtual trent& node() = 0;
+                virtual const trent& node() const = 0;
 	};
 
 	class settings_slice : public trent_settings_basic {
@@ -31,6 +33,10 @@ namespace gxx {
 		gxx::trent& operator[](const std::string& str) override {
 			return node()[str];
 		}
+
+                const gxx::trent& operator[](const std::string& str) const override {
+                        return node()[str];
+                }
 		
 		/*
 		gxx::trent& create(const std::string& str, const std::string&) override {
@@ -53,7 +59,11 @@ namespace gxx {
 			return *rt;
 		}
 
-		void sync() override {
+                const trent& node() const {
+                        return *rt;
+                }
+
+                void sync() override {
 			if (base->ok()) {
 				rt = &(*base)[name];
 				if (!rt->is_dict()) {
@@ -87,6 +97,11 @@ namespace gxx {
 			if (tr->is_nil()) *tr = def; 
 		}
 
+                settings_binder_integer& operator=(int64_t i) {
+                        *tr = i;
+                        return *this;
+                }
+
 		settings_binder_integer& operator++() {
 			*tr = (*tr).as_integer() + 1;
 			return *this;
@@ -100,7 +115,30 @@ namespace gxx {
 		operator trent::integer_type() const { return tr->as_integer(); }
 	};
 
-	class settings_binder_numer : public settings_binder {
+        class settings_binder_intvec : public settings_binder, public gxx::array_printable<settings_binder_intvec> {
+        public:
+                settings_binder_intvec(trent_settings_basic& base, const std::string& name) : settings_binder(base, name) {}
+
+                void sync_default(int size, int64_t def) {
+                    tr = &settings[name];
+                    tr->as_list().resize(size);
+                    for (auto& t: tr->as_list()) {
+                        if(!t.is_integer()) t = def;
+                    }
+                }
+
+                int64_t& operator[](int n) {
+                    return tr->operator[](n).unsafe_integer();
+                }
+
+                const int64_t& operator[](int n) const {
+                    return tr->operator[](n).unsafe_integer();
+                }
+
+                size_t size() const { return tr->as_list().size(); }
+        };
+
+        class settings_binder_numer : public settings_binder {
 	public:
 		settings_binder_numer(trent_settings_basic& base, const std::string& name) : settings_binder(base, name) {}
 

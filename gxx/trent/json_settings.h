@@ -65,6 +65,10 @@ namespace gxx {
 			return m_settings;
 		}
 
+                const trent& node() const {
+                        return m_settings;
+                }
+
 		trent& operator[](const std::string& arg) {
 			return m_settings[arg];
 		}
@@ -79,7 +83,7 @@ namespace gxx {
 			return m_settings[arg];
 		}
 
-		const trent& operator[](const auto& arg) const {
+                const trent& operator[](const std::string& arg) const {
 			return m_settings[arg];
 		}
 
