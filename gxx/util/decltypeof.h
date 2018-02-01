@@ -10,5 +10,5 @@
 #	include <utility>
 #	define decltypeof(a) typename std::remove_reference<decltype(a)>::type
 #else
-#	define decltypeof(a) typeof(a)
+#	define decltypeof(a) __typeof__(a)
 #endif
