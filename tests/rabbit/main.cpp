@@ -18,7 +18,7 @@ rabbit::loop2 make_liter(const std::vector<rabbit::point>& pnts) {
 }
 
 int main() {
-	double t = 100;
+	/*double t = 100;
 	double tr = 140;
 
 	std::vector<rabbit::point> Mpnts = {
@@ -50,16 +50,22 @@ int main() {
 		{t,t},
 		{t/4,t/2},
 		{t,0},
-	};
+	};*/
+
+	auto t1 = rabbit::figure::rectangle(20,30);
+	auto t2 = rabbit::figure::rectangle(20,30).translate(10,10);
+	auto lp = rabbit::loop_loop_combine(t1, t2);
 
 	gxx::shower2d sch;
 	sch.update_window(1000,400);
-	rabbit::draw(sch, make_liter(Mpnts).translate(-tr*3 -t/2 + tr/2, -t/2));
-	rabbit::draw(sch, make_liter(Ipnts).translate(-tr*2 -t/2 + tr/2, -t/2));
-	rabbit::draw(sch, make_liter(Rpnts).translate(-tr*1 -t/2 + tr/2, -t/2));
-	rabbit::draw(sch, make_liter(Mpnts).translate(tr*0 -t/2 + tr/2, -t/2));
-	rabbit::draw(sch, make_liter(Ipnts).translate(tr*1 -t/2 + tr/2, -t/2));
-	rabbit::draw(sch, make_liter(Kpnts).translate(tr*2 -t/2 + tr/2, -t/2));
+
+	rabbit::draw(sch, lp.first);
+//	rabbit::draw(sch, make_liter(Mpnts).translate(-tr*3 -t/2 + tr/2, -t/2));
+//	rabbit::draw(sch, make_liter(Ipnts).translate(-tr*2 -t/2 + tr/2, -t/2));
+//	rabbit::draw(sch, make_liter(Rpnts).translate(-tr*1 -t/2 + tr/2, -t/2));
+//	rabbit::draw(sch, make_liter(Mpnts).translate(tr*0 -t/2 + tr/2, -t/2));
+//	rabbit::draw(sch, make_liter(Ipnts).translate(tr*1 -t/2 + tr/2, -t/2));
+//	rabbit::draw(sch, make_liter(Kpnts).translate(tr*2 -t/2 + tr/2, -t/2));
 
 
 	/*auto f1 = rabbit::figure::rectangle(40,20).rotate(gxx::math::degree(30)).translate(10,10);

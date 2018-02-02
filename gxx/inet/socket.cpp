@@ -16,6 +16,7 @@ namespace gxx {
 	
 	socket::socket(socket::type type, const hostaddr& addr, uint16_t port) {
 		init(type, addr, port);
+		connect();
 	}
 
 

@@ -1,17 +1,16 @@
 #ifndef GENOS_DLIST_HEAD
 #define GENOS_DLIST_HEAD
 
-#include "inttypes.h"
-#include "assert.h"
-#include "gxx/util/decltypeof.h"
-#include "gxx/util/member.h"
+#include <inttypes.h>
 #include <sys/cdefs.h>
+
+#include <gxx/util/member.h>
 
 struct dlist_head {
 	struct dlist_head* next;
 	struct dlist_head* prev;
 
-#ifdef __cplusplus
+/*#ifdef __cplusplus
 	inline dlist_head() : next(this), prev(this) {}
 	inline dlist_head(const dlist_head& oth) : next(oth.next), prev(oth.prev) {
 	//	dprln("dlist_head_copy");
@@ -22,7 +21,7 @@ struct dlist_head {
 	}
 
 
-#endif
+#endif*/
 };
 
 #define DLIST_HEAD_INIT(name) { &(name), &(name) }
