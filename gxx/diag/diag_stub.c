@@ -6,7 +6,6 @@ struct diag_ops diag_stub = {
 	(diag_getc_t)  do_nothing,
 	(diag_write_t) do_nothing,
 	(diag_read_t)  do_nothing,
-//	(diag_init_t)  do_nothing
 };
 
 struct diag_ops* current_diag = &diag_stub;;
@@ -17,8 +16,6 @@ int diag_putc(char c){};
 int diag_getc(){};
 int diag_write(const char* buf, int len){};
 int diag_read(char* buf, int len){};
-
-//int diag_init(){};
 
 int diag_write_stub(const char* buf, int len){};
 int diag_read_stub(char* buf, int len){};
