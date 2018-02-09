@@ -135,6 +135,13 @@ namespace gxx {
 		bool operator==(delegate<R ,Args ... > b) {
 			return method.method==b.method.method && object==b.object;
 		};
+
+		R emit_and_reset(Args ... args) {
+			gxx::delegate<R, Args ...> copy = *this;
+			clean();
+			return copy(std::forward<Args>(args) ...);
+		};
+
 	};
 			
 	template<typename R ,typename ... Args>	
