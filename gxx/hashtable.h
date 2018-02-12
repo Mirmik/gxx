@@ -17,9 +17,9 @@ namespace gxx {
 
 	public:
 		static_hashtable() {
-			array_for_each(it, &table[0], TableSize) {
-				hlist_head_init(it);
-			}
+			//array_for_each(it, &table[0], TableSize) {
+			for (auto& t: table) hlist_head_init(&t);
+			//}
 		}	
 
 		void put(T& item) {
@@ -57,9 +57,10 @@ namespace gxx {
 
 		template <typename Function>
 		void foreach(Function func) {
-			array_for_each(hl, &table[0], TableSize) {
+			//array_for_each(hl, &table[0], TableSize) {
+			for (auto& t: table) {
 				struct hlist_node * pos;
-				hlist_for_each(pos, (hl)) {
+				hlist_for_each(pos, &t) {
 					func(*member_container(pos, lnk));
 				}
 			}
@@ -67,9 +68,9 @@ namespace gxx {
 
 		template <typename Function>
 		T* find(Function func) {
-			array_for_each(hl, &table[0], TableSize) {
+			for (auto& t: table) {
 				struct hlist_node * pos;
-				hlist_for_each(pos, (hl)) {
+				hlist_for_each(pos, &t) {
 					T& el = *member_container(pos, lnk);
 					if (func(el)) return &el;
 				}
