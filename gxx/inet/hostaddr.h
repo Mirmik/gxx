@@ -24,8 +24,18 @@ namespace gxx {
 			}
 		}
 
-                hostaddr(const std::string& str) : hostaddr(str.c_str()) {}
+		hostaddr(const std::string& str) : hostaddr(str.c_str()) {}
 	};
+
+	namespace inet {
+		using hostaddr = gxx::hostaddr;
+
+		struct netaddr {
+			hostaddr addr;
+			int32_t port;
+			netaddr(hostaddr addr, int32_t port) : addr(addr), port(port) {}
+		};
+	}
 }
 
 #endif
