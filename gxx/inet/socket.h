@@ -13,7 +13,7 @@ using namespace gxx::result_type;
 
 namespace gxx {
 	enum class SocketError : uint8_t {
-				WrongSocketType,
+		WrongSocketType,
 		ConnectionRefused,
 		UnknownError,
 		AllreadyInUse,
@@ -38,6 +38,7 @@ namespace gxx {
 			Unix,
 			tcp,
 			udp,
+			rdm,
 		};
 
 		static constexpr int32_t AnyAddress = 0; 

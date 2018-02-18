@@ -11,15 +11,15 @@ namespace gxx {
 
 		server() {}
 		
-		server(socket::type type, int port) : socket(type, socket::AnyAddress, port) {
-			//m_type = type;
-			//listen(socket::AnyAddress, port);
+                server(socket::type type, int port) {//: socket(type, socket::AnyAddress, port) {
+                    init(type, socket::AnyAddress, port);
+                    listen();
 		}
 
-		server(socket::type type, hostaddr addr, int port) : socket(type, addr, port) {
-			//m_type = type;
-			//listen(addr, port);
-		}
+                server(socket::type type, hostaddr addr, int port) {//: socket(type, addr, port) {
+                    init(type, addr, port);
+                    listen();
+                }
 
 		ACCESSOR(maxcon, m_maxcon);
 

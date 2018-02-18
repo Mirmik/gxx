@@ -7,6 +7,8 @@
 #include <gxx/util/numconvert.h>
 #include <gxx/util/asciiconvert.h>
 
+#include <gxx/debug/dprint.h>
+
 namespace gxx {
 	namespace io {
 		class printable;
@@ -29,7 +31,7 @@ namespace gxx {
 			}
 
 			int printhex(char c) {
-				putchar(byte2sym(c & 0xF0 >> 4));
+				putchar(byte2sym((c & 0xF0) >> 4));
 				putchar(byte2sym(c & 0x0F));
 				return 2;
 			}
