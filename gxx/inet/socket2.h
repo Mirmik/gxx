@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #ifndef GXX_IO_SOCKET2_H
 #define GXX_IO_SOCKET2_H
 
@@ -18,9 +17,13 @@ namespace gxx {
 
 			socket(int domain, int type, int proto) {
 				sock = ::socket(domain, type, proto);
+				
+				if (sock < 0) {
+					gxx::fprintln("warn: {}", strerror(errno));
+				}
 			}
 
-			int bind(int port, gxx::inet::hostaddr haddr = INADDR_ANY, int family = PF_INET) {
+			int bind(gxx::inet::hostaddr haddr, int port, int family = PF_INET) {
 				struct sockaddr_in addr;
 				memset(&addr, 0, sizeof(addr));
 
@@ -32,17 +35,6 @@ namespace gxx {
 			}
 		};
 	}
-=======
-#ifndef GXX_INET_SOCKET2_H
-#define GXX_INET_SOCKET2_H
-
-namespace gxx {
-	class socket {
-		socket(int domain, int type, int protocol) {
-			sock = ::socket(domain, type, protocol);		
-		}
-	};
->>>>>>> 41c12884fc5c221ffe89f3da512dfdff100f2024
 }
 
 #endif

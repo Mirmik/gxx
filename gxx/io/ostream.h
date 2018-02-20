@@ -36,6 +36,19 @@ namespace gxx {
 				return 2;
 			}
 
+			int print_hexdata(char* data, size_t size) {
+				size_t sz = size;
+				while(sz--) {
+					printhex(*data++);
+				}
+				return size << 1;
+			}
+
+			template<typename T>
+			int printhex(T c) {
+				return print_hexdata((char*)&c, sizeof(c));
+			}
+
 			int print(bool obj) {
 				return print(obj ? "true" : "false");
 			}
