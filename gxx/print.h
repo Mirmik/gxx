@@ -242,6 +242,14 @@ namespace gxx {
 	inline void print_dump(const std::string& str, int columns = 8) {
 		print_dump_to(*standart_output, str.data(), str.size(), columns);
 	}	
+
+	inline void printhex(const void* data, size_t size) {
+		uint8_t* _data = (uint8_t*) data;
+		while(size--) {
+			standart_output->putchar(byte2sym(*_data >> 4));
+			standart_output->putchar(byte2sym(*_data++ & 0x0F));
+		}
+	}
 }
 
 #define GXX_PRINT(arg) gxx::println(#arg ":", arg)

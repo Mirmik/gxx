@@ -14,16 +14,16 @@ namespace gxx {
 				memset(&addr, 0, sizeof(addr));
 
 				addr.sin_family = PF_INET;    
-    			addr.sin_addr.s_addr = haddr.addr;  //INADDR_ANY = 0.0.0.0
+    			addr.sin_addr.s_addr = htonl(haddr.addr);  //INADDR_ANY = 0.0.0.0
     			addr.sin_port = htons(port);
 
-    			return ::sendto(sock, data, size, 0, (sockaddr*) &addr, sizeof(sockaddr_in));
+    			return ::sendto(fd, data, size, 0, (sockaddr*) &addr, sizeof(sockaddr_in));
 			}
 			
 			int recvfrom(char* data, size_t maxsize, gxx::inet::netaddr* inaddr) {
 		 		struct sockaddr_in si_other;
 		 		unsigned int sz = sizeof(sockaddr_in);
-		 		int ret = ::recvfrom(sock, data, maxsize, 0, (sockaddr*) &si_other, &sz);
+		 		int ret = ::recvfrom(fd, data, maxsize, 0, (sockaddr*) &si_other, &sz);
 		 		
 		 		if (ret < 0) {
 		 			gxx::println(strerror(errno));

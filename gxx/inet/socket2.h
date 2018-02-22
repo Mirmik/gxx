@@ -9,16 +9,16 @@
 namespace gxx { 
 	namespace inet {
 		struct socket {
-			int sock;
+			int fd;
 
 			bool good() {
-				return sock >= 0;
+				return fd >= 0;
 			}
 
 			socket(int domain, int type, int proto) {
-				sock = ::socket(domain, type, proto);
+				fd = ::socket(domain, type, proto);
 				
-				if (sock < 0) {
+				if (fd < 0) {
 					gxx::fprintln("warn: {}", strerror(errno));
 				}
 			}
@@ -28,10 +28,10 @@ namespace gxx {
 				memset(&addr, 0, sizeof(addr));
 
 				addr.sin_family = family;    
-    			addr.sin_addr.s_addr = haddr.addr;  //INADDR_ANY = 0.0.0.0
+    			addr.sin_addr.s_addr = htonl(haddr.addr);  //INADDR_ANY = 0.0.0.0
     			addr.sin_port = htons(port);
 
-    			return ::bind(sock, (sockaddr*) &addr, sizeof(struct sockaddr_in)); 
+    			return ::bind(fd, (sockaddr*) &addr, sizeof(struct sockaddr_in)); 
 			}
 		};
 	}

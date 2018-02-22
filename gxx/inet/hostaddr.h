@@ -19,7 +19,7 @@ namespace gxx {
 		hostaddr(uint32_t addr) : addr(addr) {}
 		
 		hostaddr(const char* str) {
-			addr = ::inet_addr(str);
+			addr = htonl(::inet_addr(str));
 		}
 
 		hostaddr(const std::string& str) : hostaddr(str.c_str()) {}
@@ -28,6 +28,9 @@ namespace gxx {
 			return o.printhex(addr);
 		}
 		
+		bool operator == (const hostaddr& oth) {
+			return oth.addr == addr;
+		}
 	};
 
 	namespace inet {
