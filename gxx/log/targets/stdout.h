@@ -1,7 +1,7 @@
 #ifndef GXX_LOGGER_CONSOLE_H
 #define GXX_LOGGER_CONSOLE_H
 
-#include <gxx/logger/target.h>
+#include <gxx/log/target.h>
 #include <iostream>
 
 namespace gxx {

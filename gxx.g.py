@@ -14,7 +14,7 @@ module("gxx",
 		"io/std.cpp",
 		"inet/socket_unix.cpp",
 		"inet/socket.cpp",
-		"logger/targets/stdout.cpp", 
+		#"log/targets/stdout.cpp", 
 		"impl/panic_abort.cpp",
 		"util/string.cpp",
 		"util/base64.cpp",
@@ -44,6 +44,10 @@ module("gxx.format",
 
 module("gxx.print", impl = "cout", 
 	sources = ["gxx/print/print_cout.cpp"],
+)
+
+module("gxx.log", impl = "unix", 
+	sources = ["gxx/log/posix_timestamp.cpp", "gxx/log/targets/stdout.cpp"],
 )
 
 module("gxx.trent", 

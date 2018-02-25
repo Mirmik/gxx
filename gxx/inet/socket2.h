@@ -33,6 +33,16 @@ namespace gxx {
 
     			return ::bind(fd, (sockaddr*) &addr, sizeof(struct sockaddr_in)); 
 			}
+
+			int connect(gxx::inet::hostaddr haddr, int port) {
+				struct sockaddr_in addr;
+				memset(&addr, 0, sizeof(addr));
+		
+				addr.sin_port = htons(port);
+   	 			addr.sin_addr.s_addr = htonl(haddr.addr);
+			
+				return ::connect(fd, (struct sockaddr*) &addr, sizeof(addr));
+			}
 		};
 	}
 }
