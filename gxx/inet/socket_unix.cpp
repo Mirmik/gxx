@@ -5,7 +5,7 @@
 #include <arpa/inet.h>
 #include <errno.h>
 
-#include <gxx/inet/socket.h>
+#include <gxx/inet/tcp_socket.h>
 
 int gxx::inet::socket::blocking(bool en)
 {
@@ -73,6 +73,36 @@ int gxx::inet::socket::close() {
 	}*/
 	
 	return ret;
+}
+
+
+gxx::inet::tcp_socket::tcp_socket(gxx::inet::hostaddr addr, int port) : tcp_socket() {
+	inet::socket::init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	connect(addr, port);
+}
+
+int gxx::inet::tcp_socket::init() {
+	return inet::socket::init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+}
+
+int gxx::inet::tcp_socket::connect(gxx::inet::hostaddr addr, int port) {
+	return socket::connect(addr, port, PF_INET);
+}
+
+int gxx::inet::tcp_socket::writeData(const char* data, size_t size) {
+	return socket::send(data, size, 0);
+}
+
+int gxx::inet::tcp_socket::readData(char* data, size_t size) {
+	return socket::recv(data, size, 0);
+}
+
+int gxx::inet::socket::send(const char* data, size_t size, int flags) {
+	return ::send(fd, data, size, flags);
+}
+
+int gxx::inet::socket::recv(char* data, size_t size, int flags) {
+	return ::recv(fd, data, size, flags);
 }
 
 /*

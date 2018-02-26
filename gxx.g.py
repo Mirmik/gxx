@@ -12,9 +12,6 @@ module("gxx",
 		"io/file_posix.cpp",
 		"io/file_unix.cpp",
 		"io/std.cpp",
-		"inet/socket_unix.cpp",
-		"inet/socket.cpp",
-		#"log/targets/stdout.cpp", 
 		"impl/panic_abort.cpp",
 		"util/string.cpp",
 		"util/base64.cpp",
@@ -74,4 +71,11 @@ module("gxx.util",
 		#"util/base64.cpp",
 		"util/numconvert.c"
 	],
+)
+
+module("gxx.inet", "unix",
+	srcdir = "gxx/inet",
+	sources = [
+		"socket_unix.cpp",
+	],		
 )
