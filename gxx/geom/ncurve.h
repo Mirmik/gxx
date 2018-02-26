@@ -20,6 +20,7 @@ namespace gxx {
 		public:
 			double tmin;
 			double tmax;
+                        bounded_curve(){};
 			bounded_curve(double tmin, double tmax) : tmin(tmin), tmax(tmax) {};
 		};
 
@@ -150,9 +151,12 @@ namespace gxx {
 			}
 			
 			//multiline(size_t n, size_t m) : raw(n*m), dm(m), sz(n), bounded_curve(0,m) {}
-			multiline(const multiline&) = default;
+                        multiline() = default;
+                        multiline(const multiline&) = default;
+                        multiline& operator=(const multiline&) = default;
+
 			multiline(multiline&&) = default;
-			//multiline(multiline&&) = default;
+                        multiline& operator=(multiline&&) = default;
 
 			size_t size() const { return mat.size1(); }
 
