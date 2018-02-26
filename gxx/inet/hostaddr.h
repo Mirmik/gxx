@@ -7,9 +7,9 @@
 #include <gxx/util/string.h>
 #include <gxx/print.h>
 
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+//#include <sys/socket.h>
+//#include <netinet/in.h>
+//#include <arpa/inet.h>
 
 namespace gxx {
 	class hostaddr {
@@ -19,7 +19,14 @@ namespace gxx {
 		hostaddr(uint32_t addr) : addr(addr) {}
 		
 		hostaddr(const char* str) {
-			addr = htonl(::inet_addr(str));
+                    if (isdigit(*str)) {
+                        gxx::strvec nums = gxx::split(str, '.');
+                        addr =
+                                atoi(nums[0].c_str()) << 24 |
+                                atoi(nums[1].c_str()) << 16 |
+                                atoi(nums[2].c_str()) << 8 |
+                                atoi(nums[3].c_str());
+                    }
 		}
 
 		hostaddr(const std::string& str) : hostaddr(str.c_str()) {}
@@ -40,8 +47,8 @@ namespace gxx {
 		struct netaddr {
 			hostaddr addr;
 			int32_t port;
-			netaddr(unsigned long addr, unsigned short port) : addr(ntohl(addr)), port(ntohs(port)) {}
-			netaddr(){};
+                        netaddr(unsigned long addr, unsigned short port);
+                        netaddr() = default;
 			size_t printTo(gxx::io::ostream& o) const {
 				return gxx::fprint_to(o, "(h:{},p:{})", addr, port);
 			}

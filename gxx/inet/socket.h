@@ -2,8 +2,8 @@
 #define GXX_IO_SOCKET2_H
 
 #include <gxx/inet/hostaddr.h>
-#include <netinet/in.h>
-#include <sys/socket.h>
+//#include <netinet/in.h>
+//#include <sys/socket.h>
 #include <string.h>
 
 namespace gxx { 
@@ -15,11 +15,21 @@ namespace gxx {
 				return fd >= 0;
 			}
 
-			socket() = default;
+                        socket() = default;
+                        socket(const socket& oth) = default;
+                        socket(socket&& oth) = default;
+                        socket& operator=(const socket& oth) = default;
+                        socket& operator=(socket&& oth) = default;
+
+                        //socket(const socket& oth) : fd(oth.fd) {}
+                       // socket(socket&& oth) : fd(oth.fd) {}
+
+                        int send(const char* data, size_t size, int flags);
+                        int recv(char* data, size_t size, int flags);
 
 			int init(int domain, int type, int proto); //posix ::socket
-			int bind(gxx::inet::hostaddr haddr, int port, int family = PF_INET);
-			int connect(gxx::inet::hostaddr haddr, int port, int family = PF_INET);
+                        int bind(gxx::inet::hostaddr haddr, int port, int family);
+                        int connect(gxx::inet::hostaddr haddr, int port, int family);
 			int listen(int conn);
 
 			int nodelay(bool en);

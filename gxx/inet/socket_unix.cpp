@@ -30,6 +30,7 @@ int gxx::inet::socket::reusing(bool en) {
 
 int gxx::inet::socket::init(int domain, int type, int proto) {
 	fd = ::socket(domain, type, proto);
+	return fd;
 }
 
 int gxx::inet::socket::bind(gxx::inet::hostaddr haddr, int port, int family) {

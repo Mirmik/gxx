@@ -9,24 +9,26 @@
 namespace gxx {
 	namespace inet {
 		struct tcp_socket : public inet::socket, public io::iostream {
-			tcp_socket() = default;
+                        //do nothing
+                        tcp_socket() = default;
 
-			tcp_socket(gxx::inet::hostaddr addr, int port) : tcp_socket() {
-				inet::socket::init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-				connect(addr, port);
-			} 
+                        //
+                        tcp_socket(const tcp_socket& oth) = default;
+                        tcp_socket(tcp_socket&& oth) = default;
+                        tcp_socket& operator=(const tcp_socket& oth) = default;
+                        tcp_socket& operator=(tcp_socket&& oth) = default;
 
-			void init() {
-				inet::socket::init(AF_INET, SOCK_STREAM, IPPROTO_TCP);	
-			}
+                        //create socket
+                        int init();
+
+                        int connect(gxx::inet::hostaddr addr, int port);
+
+                        //create and connect
+                        tcp_socket(gxx::inet::hostaddr addr, int port);
 			
-			int writeData(const char* data, size_t size) override {
-				return ::write(fd, data, size);
-			}
-
-			int readData(char* data, size_t size) override {
-				return ::read(fd, data, size);
-			}
+                        //io api implementation
+                        int writeData(const char* data, size_t size) override;
+                        int readData(char* data, size_t size) override;
 		};
 	}
 }

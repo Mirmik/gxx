@@ -1,15 +1,141 @@
-#include <unistd.h>
-#include <fcntl.h>
 //#include <netinet/in.h>
 //#include <netinet/tcp.h>
 //#include <arpa/inet.h>
 #include <errno.h>
 #include <winsock2.h>
+#include <ws2tcpip.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 #include <gxx/inet/socket.h>
+#include <gxx/inet/tcp_socket.h>
+#include <gxx/inet/tcp_server.h>
 #include <gxx/debug.h>
 
-typedef int socklen_t;
+int gxx::inet::socket::blocking(bool en)
+{
+	unsigned long mode = en ? 0 : 1;
+	return (ioctlsocket(fd, FIONBIO, &mode) == 0) ? true : false;
+}
+
+int gxx::inet::socket::nodelay(bool en) {
+	int on = en;
+	int rc = setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, (char *) &on, sizeof(on));
+	return rc;
+}
+
+int gxx::inet::socket::reusing(bool en) {
+	int on = en;
+	int rc = setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (char *) &on, sizeof (on));
+	return rc;
+}
+
+int gxx::inet::socket::init(int domain, int type, int proto) {
+	fd = ::socket(domain, type, proto);
+	return fd;
+}
+
+int gxx::inet::socket::bind(gxx::inet::hostaddr haddr, int port, int family) {
+	struct sockaddr_in addr;
+	memset(&addr, 0, sizeof(addr));
+
+	addr.sin_family = family;
+	addr.sin_addr.s_addr = htonl(haddr.addr);  //INADDR_ANY = 0.0.0.0
+	addr.sin_port = htons(port);
+
+	return ::bind(fd, (sockaddr*) &addr, sizeof(struct sockaddr_in));
+}
+
+int gxx::inet::socket::listen(int conn) {
+	return ::listen(fd, conn);
+}
+
+int gxx::inet::socket::connect(gxx::inet::hostaddr haddr, int port, int family) {
+	struct sockaddr_in addr;
+	memset(&addr, 0, sizeof(addr));
+
+	addr.sin_family = family;
+	addr.sin_port = htons(port);
+	addr.sin_addr.s_addr = htonl(haddr.addr);
+
+	return ::connect(fd, (struct sockaddr*) &addr, sizeof(addr));
+}
+
+int gxx::inet::socket::send(const char* data, size_t size, int flags) {
+	return ::send(fd, data, size, flags);
+}
+
+int gxx::inet::socket::recv(char* data, size_t size, int flags) {
+	return ::recv(fd, data, size, flags);
+}
+
+int gxx::inet::socket::close() {
+	int ret = ::shutdown(fd, SD_BOTH);
+	/*if (ret < 0) {
+		m_errstr = strerror(errno);
+		return -1;
+	}*/
+
+	ret = ::close(fd);
+	/*if (ret < 0) {
+		m_errstr = strerror(errno);
+		return -1;
+	}*/
+
+	return ret;
+}
+
+gxx::inet::tcp_socket::tcp_socket(gxx::inet::hostaddr addr, int port) : tcp_socket() {
+	inet::socket::init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	connect(addr, port);
+}
+
+int gxx::inet::tcp_socket::init() {
+	return inet::socket::init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+}
+
+int gxx::inet::tcp_socket::connect(gxx::inet::hostaddr addr, int port) {
+	return socket::connect(addr, port, PF_INET);
+}
+
+int gxx::inet::tcp_socket::writeData(const char* data, size_t size) {
+	return socket::send(data, size, 0);
+}
+
+int gxx::inet::tcp_socket::readData(char* data, size_t size) {
+	return socket::recv(data, size, 0);
+}
+
+gxx::inet::tcp_server::tcp_server(int port) : tcp_server() {
+	init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	bind("0.0.0.0", port, PF_INET);
+	inet::socket::listen(10);
+}
+
+gxx::inet::tcp_server::tcp_server(gxx::inet::hostaddr addr, int port) : tcp_server() {
+	init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	bind(addr, port, PF_INET);
+	inet::socket::listen(10);
+}
+
+void gxx::inet::tcp_server::listen(int port, int conn) {
+	init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	bind("0.0.0.0", port, PF_INET);
+	inet::socket::listen(conn);
+}
+
+gxx::inet::tcp_socket gxx::inet::tcp_server::accept() {
+	int c = sizeof(sockaddr_in);
+	sockaddr_in caddr;
+	memset(&caddr, 0, sizeof(caddr));
+	int cfd = ::accept( fd, (sockaddr*)&caddr, (socklen_t*)&c );
+
+	gxx::inet::tcp_socket sock;
+	sock.fd = cfd;
+	return sock;
+}
+
+/*typedef int socklen_t;
 
 namespace gxx {
 	void socket::setError(const char* func, int err) {
