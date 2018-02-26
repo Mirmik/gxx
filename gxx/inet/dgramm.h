@@ -38,7 +38,7 @@ namespace gxx {
 		 			gxx::println(strerror(errno));
 		 		}
 
-		 		if (inaddr) *inaddr = gxx::inet::netaddr(si_other.sin_addr.s_addr, si_other.sin_port);
+		 		if (inaddr) *inaddr = gxx::inet::netaddr(ntohl(si_other.sin_addr.s_addr), ntohs(si_other.sin_port));
 		 		return ret;
 			}
 		};
