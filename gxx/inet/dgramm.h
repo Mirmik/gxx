@@ -1,13 +1,22 @@
 #ifndef GXX_DATAGRAMM_SOCKET_H
 #define GXX_DATAGRAMM_SOCKET_H
 
-#include <gxx/inet/socket2.h>
+#include <gxx/inet/socket.h>
 #include <gxx/print.h>
+
+#include <unistd.h>
+#include <fcntl.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <arpa/inet.h>
+#include <errno.h>
 
 namespace gxx { 
 	namespace inet {
 		struct datagramm_socket : public inet::socket {
-			datagramm_socket(int domain, int type, int proto) : inet::socket(domain, type, proto) {}
+			datagramm_socket(int domain, int type, int proto) {
+				socket::init(domain, type, proto);
+			}
 
 			int sendto(gxx::inet::hostaddr haddr, int port, const char* data, size_t size) {
 		 		struct sockaddr_in addr;
@@ -36,15 +45,20 @@ namespace gxx {
 	
 		struct udp_socket : public datagramm_socket {
 			udp_socket() : datagramm_socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP) {}
+			
 			udp_socket(gxx::inet::hostaddr addr, int port) : udp_socket() {
 				bind(addr, port);
 			}  
+
+			int bind(gxx::inet::hostaddr addr, int port) {
+				socket::bind(addr, port, PF_INET);	
+			}
 		};
 
 		struct rdm_socket : public datagramm_socket {
 			rdm_socket() : datagramm_socket(AF_INET, SOCK_RDM, 0) {}
 			rdm_socket(gxx::inet::hostaddr addr, int port) : rdm_socket() {
-				bind(addr, port);
+				socket::bind(addr, port, PF_INET);
 			}  
 		};
 	
