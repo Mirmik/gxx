@@ -1,6 +1,6 @@
 #include <gxx/inet/socket.h>
 
-namespace gxx {
+/*namespace gxx {
 
 	gxx::socket socket::from_descriptor(int fd) {
 		return std::move(gxx::socket().set_fd(fd));
@@ -20,4 +20,4 @@ namespace gxx {
 	}
 
 
-}
+}*/

@@ -6,8 +6,75 @@
 #include <errno.h>
 
 #include <gxx/inet/socket.h>
-#include <gxx/debug.h>
 
+int gxx::inet::socket::blocking(bool en)
+{
+   if (fd < 0) return -1;
+   int flags = fcntl(fd, F_GETFL, 0);
+   if (flags < 0) return -1;
+   flags = en ? (flags&~O_NONBLOCK) : (flags|O_NONBLOCK);
+   return fcntl(fd, F_SETFL, flags) == 0;
+}
+
+int gxx::inet::socket::nodelay(bool en) {
+	int on = en;
+	int rc = setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, (char *) &on, sizeof(on));
+	return rc;
+}
+
+int gxx::inet::socket::reusing(bool en) {
+	int on = en;
+	int rc = setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (char *) &on, sizeof (on));
+	return rc;
+}
+
+int gxx::inet::socket::init(int domain, int type, int proto) {
+	fd = ::socket(domain, type, proto);
+}
+
+int gxx::inet::socket::bind(gxx::inet::hostaddr haddr, int port, int family) {
+	struct sockaddr_in addr;
+	memset(&addr, 0, sizeof(addr));
+
+	addr.sin_family = family;    
+	addr.sin_addr.s_addr = htonl(haddr.addr);  //INADDR_ANY = 0.0.0.0
+	addr.sin_port = htons(port);
+
+	return ::bind(fd, (sockaddr*) &addr, sizeof(struct sockaddr_in)); 
+}
+
+int gxx::inet::socket::listen(int conn) {
+	return ::listen(fd, conn);
+}
+
+int gxx::inet::socket::connect(gxx::inet::hostaddr haddr, int port, int family) {
+	struct sockaddr_in addr;
+	memset(&addr, 0, sizeof(addr));
+
+	addr.sin_family = family;
+	addr.sin_port = htons(port);
+	addr.sin_addr.s_addr = htonl(haddr.addr);
+
+	return ::connect(fd, (struct sockaddr*) &addr, sizeof(addr));
+}
+
+int gxx::inet::socket::close() {
+	int ret = ::shutdown(fd, SHUT_RDWR);
+	/*if (ret < 0) {
+		m_errstr = strerror(errno);
+		return -1;
+	}*/
+
+	ret = ::close(fd);
+	/*if (ret < 0) {
+		m_errstr = strerror(errno);
+		return -1;
+	}*/
+	
+	return ret;
+}
+
+/*
 namespace gxx {
 	void socket::setError(const char* func, int err) {
 		SocketError serr;
@@ -126,26 +193,6 @@ namespace gxx {
 		return 0;			 
 	}
 
-    int socket::blocking(bool en)
-	{
-	   if (m_fd < 0) return -1;
-	   int flags = fcntl(m_fd, F_GETFL, 0);
-	   if (flags < 0) return -1;
-	   flags = en ? (flags&~O_NONBLOCK) : (flags|O_NONBLOCK);
-	   return fcntl(m_fd, F_SETFL, flags) == 0;
-	}
-
-	int socket::nodelay(bool en) {
-		int on = en;
-		int rc = setsockopt(m_fd, IPPROTO_TCP, TCP_NODELAY, (char *) &on, sizeof(on));
-		return rc;
-	}
-
-	int socket::reusing(bool en) {
-		int on = en;
-		int rc = setsockopt(m_fd, SOL_SOCKET, SO_REUSEADDR, (char *) &on, sizeof (on));
-		return rc;
-	}
 
 	gxx::socket socket::accept() {
 		gxx::socket ret;

@@ -1,5 +1,0 @@
-Implementation("gxx.socket", "unix", {
-	sources = {
-		cxx = "socket_unix.cpp socket.cpp"
-	}
-})

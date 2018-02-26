@@ -1,18 +1,20 @@
 #ifndef GXX_TARGET_LINUX_TCP_SOCKET_H
 #define GXX_TARGET_LINUX_TCP_SOCKET_H
 
-#include <gxx/logger/target.h>
-#include <gxx/inet/spam_server.h>
+#include <gxx/log/target.h>
+#include <gxx/inet/tcpspam_server.h>
 
 namespace gxx { 
 	namespace log {
-		class spam_server_target : public target {
-			spam_server server;
+		class tcpspam_target : public target {
+			gxx::inet::tcpspam_server server;
+			int port;
+
 		public:
-			spam_server_target(int port) : server(port) {}
+			tcpspam_target(int port) : port(port) {}
 	
 			int start() {
-				return server.start();
+				return server.start(port);
 			}
 	
 			void log(const char* str) override {
