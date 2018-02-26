@@ -12,6 +12,25 @@
 namespace gxx {
 	extern gxx::io::ostream* standart_output;
 
+	static inline int write_to(gxx::io::ostream& out, const char* buf, size_t sz) {
+		return standart_output->write(buf, sz);
+	}
+
+	static inline int write(const char* buf, size_t sz) {
+		return gxx::write_to(*standart_output, buf, sz);
+	}
+
+	static inline int writeln_to(gxx::io::ostream& out, const char* buf, size_t sz) {
+		int ret;
+		ret += standart_output->write(buf, sz);
+		ret += standart_output->println();
+		return ret; 
+	}
+
+	static inline int writeln(const char* buf, size_t sz) {
+		return gxx::writeln_to(*standart_output, buf, sz);
+	}
+
 	template<typename Arg> 
 	int print_to(gxx::io::ostream& out, const Arg& arg) {
 		int res = 0;
@@ -223,6 +242,14 @@ namespace gxx {
 	inline void print_dump(const std::string& str, int columns = 8) {
 		print_dump_to(*standart_output, str.data(), str.size(), columns);
 	}	
+
+	inline void printhex(const void* data, size_t size) {
+		uint8_t* _data = (uint8_t*) data;
+		while(size--) {
+			standart_output->putchar(byte2sym(*_data >> 4));
+			standart_output->putchar(byte2sym(*_data++ & 0x0F));
+		}
+	}
 }
 
 #define GXX_PRINT(arg) gxx::println(#arg ":", arg)

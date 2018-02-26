@@ -1,21 +1,23 @@
 #ifndef GXX_LOGGER_H
 #define GXX_LOGGER_H
 
-#include <gxx/datastruct/dlist_head.h>
-#include <gxx/logger/target.h>
+//#include <gxx/datastruct/dlist_head.h>
+#include <gxx/log/target.h>
 #include <gxx/print.h>
 
 #include <vector>
-#include <string>
-#include <memory>
+//#include <string>
+//#include <memory>
 
-#include <gxx/io/std.h>
-#include <gxx/util/setget.h>
+//#include <gxx/io/std.h>
+//#include <gxx/util/setget.h>
 
 using namespace gxx::argument_literal;
 
 namespace gxx {
 	namespace log {
+		void standart_logger_timestamp(char* str, size_t maxlen);
+
 		enum class level {
 			trace,
 			debug,
@@ -55,7 +57,7 @@ namespace gxx {
 		public:
 			dlist_head manage_link;
 			
-			void(*timestamp)(char* time, size_t maxlen) = nullptr;
+			void(*timestamp)(char* time, size_t maxlen) = standart_logger_timestamp;
 			
 			SETTER(set_timestamp_callback, timestamp);
 			CONSTREF_GETTER(timestamp_callback, timestamp);

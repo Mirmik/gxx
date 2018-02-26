@@ -26,7 +26,7 @@ namespace gxx {
 
 			union {
 				bool b;
-				int i32;
+				int32_t i32;
 				std::string str;
 			};
 

@@ -12,9 +12,9 @@ struct hlist_node {
 struct hlist_head {
 	struct hlist_node* first;
 
-#ifdef __cplusplus
+/*#ifdef __cplusplus
 	hlist_head() : first(nullptr) {};
-#endif
+#endif*/
 
 };
 
