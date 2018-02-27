@@ -3,11 +3,7 @@
 
 //Функции печати задаются с помощью специализации шаблонов структур для того, чтобы их можно было
 //подтягивать по всей программе.  
-
-//#include <gxx/util/numconvert.h>
 #include <gxx/io/ostream.h>
-//#include <vector>
-//#include <array>
 
 namespace gxx {
 	template <typename T, typename U = int>

@@ -22,22 +22,40 @@ namespace gxx {
 		bool empty() {
 			return dlist_is_empty(&list);
 		};
-	
+		
+		//Прилинковать первым в списке.
 		void move_front(type& obj) {
 			dlist_move_next(&(obj.*member), &list);
 		};
 		
+		//Прилинковать последним в списке.
 		void move_back(type& obj) {
 			dlist_move_prev(&(obj.*member), &list);
 		};
-		
+
+		//Поставить объект перед объектом.		
 		void move_next(type& obj, type& head) {
 			dlist_move_next(&(obj.*member), &(head.*member));
 		};
-		
+
+		//Поставить объект перед итерируемым объектом.		
+		void move_next(type& obj, iterator head) {
+			dlist_move_next(&(obj.*member), head.current);
+		};
+
+		//Поставить объект после объекта.		
 		void move_prev(type& obj, type& head) {
 			dlist_move_prev(&(obj.*member), &(head.*member));
 		};
+
+		//Поставить объект после итерируемого объектом.
+		void move_prev(type& obj, iterator head) {
+			dlist_move_prev(&(obj.*member), head.current);
+		};
+
+//		iterator insert(iterator it, type & obj) {
+//			dlist_move_prev(&(obj.*member), it.current);			
+//		}
 
 		void pop(type& obj) {
 			//assert(is_linked(obj));
@@ -129,19 +147,6 @@ namespace gxx {
 		reverse_iterator rbegin() {return reverse_iterator(list.prev);}
 		reverse_iterator rend() {return reverse_iterator(&list);}
 	
-
-		iterator insert(iterator it, type & obj) {
-			dlist_move_prev(&(obj.*member), it.current);			
-		}
-		
-		void move_next(type& obj, iterator head) {
-			dlist_move_next(&(obj.*member), head.current);
-		};
-		
-		void move_prev(type& obj, iterator head) {
-			dlist_move_prev(&(obj.*member), head.current);
-		};
-
 		//iterator insert_sorted(type & item) {
 		//    return insert(std::upper_bound(begin(), end(), item ), item);
 		//}
