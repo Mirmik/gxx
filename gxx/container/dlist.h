@@ -9,8 +9,54 @@ namespace gxx {
 	template<typename type, dlist_head type::* member>
 	class dlist {
 	public:
+		//FIELDS:
 		dlist_head list;
+
+		//SUBCLASSES: 
+		class iterator {
+		public:
+			//using iterator_category = std::bidirectional_iterator_tag;
+			using value_type = type;
+			using difference_type = ptrdiff_t;
+			using pointer = type*;
+			using reference = type&;
+
+		public:
+			dlist_head* current;
+		public:
+			iterator() : current(nullptr) {};	
+			iterator(dlist_head* head) : current(head) {};	
+			iterator(const iterator& other) : current(other.current) {};		
+					
+			iterator operator++(int) { iterator i = *this; current=current->next; return i; }
+			iterator operator++() { current=current->next; return *this; }
+			iterator operator--(int) { iterator i = *this; current=current->prev; return i; }
+			iterator operator--() { current=current->prev; return *this; }
+			bool operator!= (const iterator& b) {return current != b.current;}
+			bool operator== (const iterator& b) {return current == b.current;}
+					
+			type& operator*() {return *member_container(current,member);}
+			type* operator->() {return member_container(current,member);}
+		};
 	
+		class reverse_iterator {
+		private:
+			dlist_head* current;
+		public:
+			reverse_iterator(dlist_head* head) : current(head) {}	
+					
+			reverse_iterator operator++(int) { reverse_iterator i = *this; current=current->prev; return i; }
+			reverse_iterator operator++() { current=current->prev; return *this; }
+			reverse_iterator operator--(int) { reverse_iterator i = *this; current=current->next; return i; }
+			reverse_iterator operator--() { current=current->next; return *this; }
+			bool operator!= (const reverse_iterator& b) {return current != b.current;}
+			bool operator== (const reverse_iterator& b) {return current == b.current;}
+					
+			type& operator*() {return *member_container(current,member);}
+			type* operator->() {return member_container(current,member);}
+		};
+	
+		//METHODS:
 		dlist()	{
 			dlist_init_list(&list);
 		}
@@ -95,48 +141,7 @@ namespace gxx {
 			return i;
 		};
 
-		class iterator {
-		public:
-			//using iterator_category = std::bidirectional_iterator_tag;
-			using value_type = type;
-			using difference_type = ptrdiff_t;
-			using pointer = type*;
-			using reference = type&;
-
-		public:
-			dlist_head* current;
-		public:
-			iterator() : current(nullptr) {};	
-			iterator(dlist_head* head) : current(head) {};	
-			iterator(const iterator& other) : current(other.current) {};		
-					
-			iterator operator++(int) { iterator i = *this; current=current->next; return i; }
-			iterator operator++() { current=current->next; return *this; }
-			iterator operator--(int) { iterator i = *this; current=current->prev; return i; }
-			iterator operator--() { current=current->prev; return *this; }
-			bool operator!= (const iterator& b) {return current != b.current;}
-			bool operator== (const iterator& b) {return current == b.current;}
-					
-			type& operator*() {return *member_container(current,member);}
-			type* operator->() {return member_container(current,member);}
-		};
-	
-		class reverse_iterator {
-		private:
-			dlist_head* current;
-		public:
-			reverse_iterator(dlist_head* head) : current(head) {}	
-					
-			reverse_iterator operator++(int) { reverse_iterator i = *this; current=current->prev; return i; }
-			reverse_iterator operator++() { current=current->prev; return *this; }
-			reverse_iterator operator--(int) { reverse_iterator i = *this; current=current->next; return i; }
-			reverse_iterator operator--() { current=current->next; return *this; }
-			bool operator!= (const reverse_iterator& b) {return current != b.current;}
-			bool operator== (const reverse_iterator& b) {return current == b.current;}
-					
-			type& operator*() {return *member_container(current,member);}
-			type* operator->() {return member_container(current,member);}
-		};
+		
 	
 		iterator begin() {return iterator(list.next);}
 		iterator end() {return iterator(&list);}

@@ -30,9 +30,12 @@ namespace gxx {
 			int listen(int conn);
 
 			int nodelay(bool en);
-			int blocking(bool en);
+			int nonblock(bool en);
 			int reusing(bool en);
 
+			[[deprecated]]
+			int blocking(bool en);
+			
 			int close();
 		};
 	}

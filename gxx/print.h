@@ -7,7 +7,6 @@
 #include <gxx/io/stdstream.h>
 #include <gxx/arglist.h>
 
-//#include <gxx/util/init_priority.h>
 
 namespace gxx {
 	extern gxx::io::ostream* standart_output;

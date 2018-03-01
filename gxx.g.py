@@ -6,16 +6,16 @@ scriptq.execute("std/std.g.py")
 scriptq.execute("gxx/debug/debug.g.py")
 scriptq.execute("gxx/diag/diag.g.py")
 
-module("gxx", 
+module("gxx", "posix",
 	srcdir = "gxx",
 	sources = [
-		"io/file_posix.cpp",
 		"io/file_unix.cpp",
 		"io/std.cpp",
 		"impl/panic_abort.cpp",
 		"util/string.cpp",
 		"util/base64.cpp",
-		"util/numconvert.c"
+		"util/numconvert.c",
+		"osutil/src/posix.cpp"
 	],
 
 	include_paths = ["."]
@@ -73,9 +73,12 @@ module("gxx.util",
 	],
 )
 
-module("gxx.inet", "unix",
-	srcdir = "gxx/inet",
-	sources = [
-		"socket_unix.cpp",
-	],		
+module("gxx.inet", "posix",
+	srcdir = "gxx/inet/src",
+	sources = [ "common.cpp", "posix.cpp" ],		
+)
+
+module("gxx.inet", "windows",
+	srcdir = "gxx/inet/src",
+	sources = [ "common.cpp", "windows.cpp" ],		
 )

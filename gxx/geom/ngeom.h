@@ -1,7 +1,7 @@
 #ifndef GXX_NGEOM_H
 #define GXX_NGEOM_H
 
-#include <gxx/array.h>
+//#include <gxx/array.h>
 #include <gxx/objbuf.h>
 #include <gxx/math/malgo.h>
 

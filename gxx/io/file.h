@@ -29,7 +29,7 @@ namespace gxx {
 			void close();	
 
 			int nodelay(bool en);
-                        int nonblock(bool en);
+            int nonblock(bool en);
 
 			int32_t readData(char *data, size_t maxSize);	
 			int32_t writeData(const char *data, size_t maxSize);

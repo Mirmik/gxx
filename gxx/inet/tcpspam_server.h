@@ -21,7 +21,7 @@ namespace gxx {
 	
 			int start(int port) {
 				listen(port);
-				blocking(false);
+				nonblock(true);
 				return 0;
 			}
 	

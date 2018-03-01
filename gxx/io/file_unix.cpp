@@ -2,6 +2,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include <gxx/osutil/fd.h>
+
 namespace gxx {
 	namespace io {
 
@@ -46,6 +48,10 @@ namespace gxx {
 		void file::setPath(const std::string& path) {
 			this->path = path;
 		}*/
+
+		int file::nonblock(bool en) {
+			return gxx::osutil::nonblock(m_fd, en);
+		}	
 
 		int file::nodelay(bool en) {
 			int flags = fcntl(m_fd, F_GETFL);
