@@ -102,7 +102,7 @@ namespace gxx {
 
 		template <typename F>
 		delegate(const F& functor) {
-			dprln(__PRETTY_FUNCTION__);
+			//dprln(__PRETTY_FUNCTION__);
 			object = reinterpret_cast <obj_t> ((F*) &functor);
 			method.method = horrible_cast<mtd_t, decltype(&F::operator())>(&F::operator());
 		}
