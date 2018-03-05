@@ -34,7 +34,7 @@ namespace gxx {
 						if (!tr.is_dict()) return error("should be dictionary");
 						break;
 					case list_checker_type:
-						if (!tr.is_list()) return error("should be list");
+						if (!tr.is_list()) return error(gxx::format("trent {} should be list", strvec[strvec.size()-1]));
 						if (len != -1 && tr.as_list().size() != len) return error(gxx::format("array size should be {}", len));
 						break;
 					case string_checker_type: 
@@ -83,7 +83,7 @@ namespace gxx {
 						if (!tr.have(n.first)) {
 							//gxx::println("check_dict doesn't have", strvec);
 							if (n.second._optional == false) {
-								if (!_ifexist) return error("isn't exist");
+								if (!_ifexist) return error(gxx::format("subopt {} isn't exist", n.first));
 							} else {
 								//gxx::fprintln("don't have optional node {}", strvec);
 							}

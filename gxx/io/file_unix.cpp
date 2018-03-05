@@ -53,14 +53,14 @@ namespace gxx {
 			return gxx::osutil::nonblock(m_fd, en);
 		}	
 
-		int file::nodelay(bool en) {
+		/*int file::nodelay(bool en) {
 			int flags = fcntl(m_fd, F_GETFL);
 			flags = en ? flags | O_NDELAY : flags & (~O_NDELAY);      /* turn off delay flag */
-			fcntl(m_fd, F_SETFL, flags);
+			//fcntl(m_fd, F_SETFL, flags);
 			//perror("ss");
 			//while(1);
-			return 0;
-		}	
+			//return 0;
+		//}	
 
 		bool file::is_open() {
 			return m_fd >= 0;

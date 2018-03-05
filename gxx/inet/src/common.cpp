@@ -125,10 +125,7 @@ int gxx::inet::socket::recv(char* data, size_t size, int flags) {
 	return ::recv(fd, data, size, flags);
 }
 
-
-
-
-gxx::inet::tcp_server::tcp_server(int port) : tcp_server() {
+/*gxx::inet::tcp_server::tcp_server(int port) : tcp_server() {
 	init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	bind("0.0.0.0", port, PF_INET);
 	inet::socket::listen(10);
@@ -144,6 +141,22 @@ void gxx::inet::tcp_server::listen(int port, int conn) {
 	init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	bind("0.0.0.0", port, PF_INET);
 	inet::socket::listen(conn);
+}*/
+
+int gxx::inet::tcp_server::init() {
+	return socket::init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+}
+
+int gxx::inet::tcp_server::bind(int port) {
+	return socket::bind("0.0.0.0", port, PF_INET);
+}
+
+int gxx::inet::tcp_server::listen(int conn) {
+	return inet::socket::listen(conn);
+}
+
+int gxx::inet::tcp_server::listen() {
+	return inet::socket::listen(10);
 }
 
 gxx::inet::tcp_socket gxx::inet::tcp_server::accept() {
