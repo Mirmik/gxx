@@ -28,7 +28,7 @@ namespace gxx {
 			bool open(const std::string& path, uint8_t mode = ReadWrite);
 			void close();	
 
-			int nodelay(bool en);
+			//int nodelay(bool en);
             int nonblock(bool en);
 
 			int32_t readData(char *data, size_t maxSize);	
