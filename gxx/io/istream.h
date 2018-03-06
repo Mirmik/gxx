@@ -1,6 +1,8 @@
 #ifndef GXX_IO_ISTREAM_H
 #define GXX_IO_ISTREAM_H
 
+#include <gxx/panic.h>
+
 namespace gxx {
 	namespace io {
 		class istream {
@@ -20,8 +22,10 @@ namespace gxx {
 				int c;
 				char* strt = str;
 				do {
+                                        if (str - strt >= max) { gxx::panic("read_until::more_than_max"); }
+
 					c = getchar();
-					//dprln((int)c);
+                                        //dprln((int)c);
 					if (c == -1) break;
 					//dprhexln(c);
 					*str++ = (char)c;

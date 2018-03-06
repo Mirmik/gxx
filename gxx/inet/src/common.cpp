@@ -1,8 +1,18 @@
 #include <unistd.h>
 #include <fcntl.h>
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <arpa/inet.h>
+
+#ifdef __linux__
+#	include <netinet/in.h>
+#	include <netinet/tcp.h>
+#	include <arpa/inet.h>
+#elif _WIN32
+#	include <winsock2.h>
+#	include <ws2tcpip.h>
+//typedef __socklen_t socklen_t;
+#else
+#	error("unsuported")
+#endif
+
 #include <errno.h>
 
 #include <gxx/inet/hostaddr.h>
@@ -63,7 +73,14 @@ int gxx::inet::socket::connect(gxx::inet::hostaddr haddr, int port, int family) 
 }
 
 int gxx::inet::socket::close() {
+
+#ifdef __linux__
 	int ret = ::shutdown(fd, SHUT_RDWR);
+#elif _WIN32
+	int ret = ::shutdown(fd, SD_BOTH);
+#else
+#	error("unsuported")
+#endif
 	/*if (ret < 0) {
 		m_errstr = strerror(errno);
 		return -1;

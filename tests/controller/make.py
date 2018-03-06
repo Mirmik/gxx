@@ -11,7 +11,7 @@ application("target",
 	include_paths = ["."],
 
 	include_modules = [
-		submodule("gxx"),
+		submodule("gxx", "posix"),
 		submodule("gxx.print", "cout"),
 		submodule("gxx.dprint", "cout"),
 	]

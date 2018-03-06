@@ -11,7 +11,7 @@ def project(parh):
 		sources = [parh],
 		include_paths = ["../.."],
 		modules = [
-			submodule("gxx"),
+			submodule("gxx", "posix"),
 			submodule("gxx.dprint", "stdout"),
 		]
 	)

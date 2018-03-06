@@ -11,7 +11,7 @@ application("main",
 	sources = ["main.cpp"],
 	include_paths = ["../.."],
 	modules = [
-		submodule("gxx"),
+		submodule("gxx", "posix"),
 		submodule("gxx.dprint", "stdout"),
 		submodule("gxx.geom"),
 		#submodule("gxx.panic", "abort"),

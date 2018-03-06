@@ -45,14 +45,14 @@ namespace gxx {
 			this->path = path;
         }*/
 
-        int file::nodelay(bool en) {
+		/*int file::nodelay(bool en) {
             //int flags = fcntl(m_fd, F_GETFL);
             //flags = en ? flags | O_NDELAY : flags & (~O_NDELAY);      /* turn off delay flag */
             //fcntl(m_fd, F_SETFL, flags);
 			//perror("ss");
 			//while(1);
 	
-		}	
+		//}*/
 
         int file::nonblock(bool en) {
             unsigned long flags = en ? 0 : 1;
