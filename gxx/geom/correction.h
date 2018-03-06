@@ -27,7 +27,7 @@ namespace gxx {
 					auto ax = numcoords[i];
 					
 					//Копируем столбцы в расширенную таблицу
-					table.column(ax) = cormatrix.column(i);
+                                        table.column_view(ax) = cormatrix.column_view(i);
 
 					//gxx::println(ax);
 					//gxx::println(cormatrix);

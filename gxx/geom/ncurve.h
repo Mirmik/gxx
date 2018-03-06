@@ -146,7 +146,7 @@ namespace gxx {
 				int i = 0;
 				for (const auto& p : pnts) {
 					assert(mat.size2() == p.size());
-					mat.row(i++) = p;
+                                        mat.row_view(i++) = p;
 				}
 			}
 			
@@ -165,7 +165,7 @@ namespace gxx {
 			}
 
 			double* point_data(size_t i) {
-				return mat.row(i).data(); 
+                                return mat.row_view(i).data();
 			}
 
 			size_t printTo(gxx::io::ostream& o) const {
