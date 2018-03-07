@@ -1,5 +1,5 @@
 #include <gxx/trent/trent.h>
-#include <gxx/container.h>
+#include <gxx/flow/keys.h>
 #include <algorithm>
 
 using namespace gxx::result_type;
@@ -393,9 +393,12 @@ namespace gxx {
 
 		strlst retlist;
 
-		auto _keys = gxx::gen::keys_of_map(m_dict);
+		//dprln("_keys");
+		auto _keys = gxx::flow::keys(m_dict);
+		//dprln("_keys");
 		strlst keys;//(_keys.begin(), _keys.end());
 		for(auto k : _keys) {
+			dprln(k);
 			keys.push_back(k);
 		}
 		
@@ -439,7 +442,7 @@ namespace gxx {
 		std::pair<strlst, strlst> ret;
         if (!is_dict()) return ret;
 
-		auto _keys = gxx::gen::keys_of_map(m_dict);
+		auto _keys = gxx::flow::keys(m_dict);
 		strlst keys;//(_keys.begin(), _keys.end());
 		for(auto k : _keys) {
 			keys.push_back(k);
