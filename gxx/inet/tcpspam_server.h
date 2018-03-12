@@ -20,12 +20,12 @@ namespace gxx {
 			}
 	
 			int start(int port) {
+				inet::tcp_server::init();
 				inet::tcp_server::bind(port);
 				inet::tcp_server::listen(10);
 				inet::tcp_server::nonblock(true);
 				return 0;
-			}
-	
+			}	
 			int __send(const char* str) {
 				return __send(str, strlen(str));
 			};

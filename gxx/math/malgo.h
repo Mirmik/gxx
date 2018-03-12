@@ -244,11 +244,11 @@ public:
 	T& operator()(size_t pos1, size_t pos2) { return gxx::math::major_accessor<T*,O>::ref(dat, pos1, pos2, sz1, sz2); }
 	const T& operator()(size_t pos1, size_t pos2) const { return gxx::math::major_accessor<const T*,O>::const_ref(dat, pos1, pos2, sz1, sz2); }
 
-	vector_compact_accessor<T> row(size_t i) { return vector_compact_accessor<T>(dat + i * sz2, sz2); }			// TODO COLUMN_ORDER
-	vector_stepped_accessor<T> column(size_t i) { return vector_stepped_accessor<T>(dat + i, sz1, sz2); }		// TODO COLUMN_ORDER
+        vector_compact_accessor<T> row_view(size_t i) { return vector_compact_accessor<T>(dat + i * sz2, sz2); }			// TODO COLUMN_ORDER
+        vector_stepped_accessor<T> column_view(size_t i) { return vector_stepped_accessor<T>(dat + i, sz1, sz2); }		// TODO COLUMN_ORDER
 
-	const vector_compact_accessor<T> row(size_t i) const { return vector_compact_accessor<T>(dat + i * sz2, sz2); }			// TODO COLUMN_ORDER
-	const vector_stepped_accessor<T> column(size_t i) const { return vector_stepped_accessor<T>(dat + i, sz1, sz2); }		// TODO COLUMN_ORDER
+        const vector_compact_accessor<T> row_view(size_t i) const { return vector_compact_accessor<T>(dat + i * sz2, sz2); }			// TODO COLUMN_ORDER
+        const vector_stepped_accessor<T> column_view(size_t i) const { return vector_stepped_accessor<T>(dat + i, sz1, sz2); }		// TODO COLUMN_ORDER
 
 	T* begin() { return dat; }
 	T* const end() { return dat + sz1 * sz2; }

@@ -4,7 +4,10 @@
 //Анализ сигнатур функций.
 
 namespace gxx {
-	template<typename Function> struct signature;
+	template<typename Function> 
+	struct signature;/* {
+		using return_type = typename signature<decltype(&Function::operator())>::return_type;
+	};*/
 
 	template<typename Ret, typename ... Args> 
 	struct signature<Ret(*)(Args ...)> {
@@ -18,7 +21,7 @@ namespace gxx {
 
 	template<typename T, typename Ret, typename ... Args> 
 	struct signature<Ret(T::*)(Args ...)> {
-
+		using return_type = Ret;
 	};
 
 	template<typename Function> 

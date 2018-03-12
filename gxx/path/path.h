@@ -1,12 +1,11 @@
 #ifndef GXX_PATH_PATH_H
 #define GXX_PATH_PATH_H
 
-#include <gxx/string.h>
-#include <gxx/io/printable.h>
+#include <string>
 
 namespace gxx {
 	namespace path {
-		class path : public gxx::io::printable {
+		/*class path : public gxx::io::printable {
 		protected:
 			std::string raw;
 
@@ -19,7 +18,9 @@ namespace gxx {
 				//int ret = o.print(raw);
 				//return ret;
 			}
-		};
+		};*/
+
+                std::string dirname(const std::string& path);
 	}
 }
 

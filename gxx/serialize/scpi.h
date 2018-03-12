@@ -44,11 +44,11 @@ namespace gxx {
 			while(!reader.next_is("\0?"_b)) {
 				if (reader.next_is('\"')) {
                                         reader.skip();
-                                        arguments.emplace_back(reader.string_while(gxx::creader::chars("\"\0", false)));
+                                        arguments.emplace_back(reader.string_while(gxx::chars_set_checker("\"\0", false)));
 					if (reader.next_is('\0')) return;
 					else reader.skip();
 				} else {
-					arguments.emplace_back(reader.string_while(gxx::creader::chars(" ,\0\n?", false)));
+                                        arguments.emplace_back(reader.string_while(gxx::chars_set_checker(" ,\0\n?", false)));
 				}
 				reader.skip_while(" ,\n");
 			}

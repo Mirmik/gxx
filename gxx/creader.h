@@ -5,23 +5,25 @@
 #include <gxx/buffer.h>
 
 namespace gxx {
+	struct chars_set_checker {
+        gxx::buffer pattern;
+        bool tgt;
+
+		chars_set_checker(gxx::buffer pattern, bool tgt = true) : pattern(pattern), tgt(tgt) {}
+
+        bool operator()(char c) {
+            for (char p : pattern) {
+                if (p == c) return tgt;
+            }
+            return !tgt;
+        }
+    };
+
 	class creader {
 		const char* ptr;
 
 	public:
-        struct chars {
-            gxx::buffer pattern;
-            bool tgt;
-
-            chars(gxx::buffer pattern, bool tgt) : pattern(pattern), tgt(tgt) {}
-
-            bool operator()(char c) {
-                for (char p : pattern) {
-                    if (p == c) return tgt;
-                }
-                return !tgt;
-            }
-        };
+        
 
 		creader(const char* ptr) : ptr(ptr) {}
 

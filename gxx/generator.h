@@ -6,16 +6,12 @@
 namespace gxx {
 	template<typename T, typename C>
 	class generator {
-		bool need_continue = true;
-
 	public:
 		using iterator = C&;
 		using const_iterator = C&;
 
-		void nil() { need_continue = false; }
-
 		C& operator++() {
-			need_continue = ((C*)this)->next();
+			((C*)this)->next();			
 			return *(C*)this;
 		}
 
@@ -23,24 +19,19 @@ namespace gxx {
 			return ((C*)this)->value();
 		} 	
 
-		C& begin() const {
-			return *(C*)this; 
-		}
-	
-		C& end() const {
-			return *(C*)this;
-		}
+		C& begin() const { return *(C*)this; }
+		C& end() const { return *(C*)this; }
 
 		bool operator != (generator& et) {
-			return need_continue;
+			return ((C*)this)->have();
 		}
 
 		bool operator == (generator& et) {
-			return !need_continue;
+			return !((C*)this)->have();
 		}
 
-		decltype(auto) vector() {
-			std::vector<typename C::value_type> vec;
+		operator std::vector<T>() {
+			std::vector<T> vec;
 			for (const auto& t: *this) vec.emplace_back(t);
 			return vec;
 		}

@@ -5,7 +5,7 @@
 #include <gxx/print.h>
 #include <cmath>
 
-namespace malgo3 {
+namespace malgo {
 	static constexpr double standart_precision = 0.00000001;
 
 	template <typename T>
@@ -20,7 +20,7 @@ namespace malgo3 {
 			return *this;
 		}
 
-		bool is_same(const vector3& oth, double prec = malgo3::standart_precision) {
+		bool is_same(const vector3& oth, double prec = malgo::standart_precision) {
 			auto diff = sub(oth);
 			return diff.abs0() < prec;
 		}
@@ -149,6 +149,33 @@ namespace malgo3 {
 
 		static matrix3 identity() {
 			return matrix3(1,0,0,0,1,0,0,0,1);
+		}
+
+		static matrix3 x_rotation(double a) {
+			double c = cos(a); double s = sin(a);
+			return matrix3(
+				1,		0,		0,
+				0,		c,	   -s,
+				0,		s,		c
+			);
+		}
+
+		static matrix3 y_rotation(double a) {
+			double c = cos(a); double s = sin(a);
+			return matrix3(
+				c,		0,		s,
+				0,		1,		0,
+			   -s,		0,		c
+			);
+		}
+
+		static matrix3 z_rotation(double a) {
+			double c = cos(a); double s = sin(a);
+			return matrix3(
+				c,		-s,		0,
+				s,		c,		0,
+				0,		0,		1
+			);
 		}
 
 		static matrix3 zx_rotation(double a, double b) {

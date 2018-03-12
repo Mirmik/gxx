@@ -43,7 +43,7 @@ module("gxx.print", impl = "cout",
 	sources = ["gxx/print/print_cout.cpp"],
 )
 
-module("gxx.log", impl = "unix", 
+module("gxx.log", impl = "posix", 
 	sources = ["gxx/log/posix_timestamp.cpp", "gxx/log/targets/stdout.cpp"],
 )
 
