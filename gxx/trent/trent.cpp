@@ -398,7 +398,6 @@ namespace gxx {
 		//dprln("_keys");
 		strlst keys;//(_keys.begin(), _keys.end());
 		for(auto k : _keys) {
-			dprln(k);
 			keys.push_back(k);
 		}
 		

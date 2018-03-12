@@ -15,7 +15,8 @@ module("gxx", "posix",
 		"util/string.cpp",
 		"util/base64.cpp",
 		"util/numconvert.c",
-		"osutil/src/posix.cpp"
+		"osutil/src/posix.cpp",
+		"path/path.cpp",
 	],
 
 	include_paths = ["."]
