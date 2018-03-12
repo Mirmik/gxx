@@ -83,4 +83,26 @@ namespace gxx {
 		return ret;
 	}
 
+	std::string base64url_encode(const std::string& str) {
+		return base64url_encode((const uint8_t*)str.data(), str.size());
+	}
+
+	std::string base64url_encode(const uint8_t *indata, size_t size) {
+    	std::string ret = base64_encode(indata, size);
+    	for (char& c : ret) {
+    		if (c == '+') c = '-';
+    		if (c == '/') c = '_';
+    	}
+    	return ret;
+	}
+
+	std::string base64url_decode(const std::string& s) {
+    	std::string ret = base64_encode(s);
+    	for (char& c : ret) {
+    		if (c == '-') c = '+';
+    		if (c == '_') c = '/';
+    	}
+    	return ret;
+	}
+
 }

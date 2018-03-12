@@ -35,7 +35,7 @@ namespace gxx {
 			int s = vec.size();
 			for (const auto& g : vec) {
 				gxx::print_to(o, g);
-				if (--s) o.putchar(' ');
+				if (--s) o.putchar(',');
 			}
 			o.putchar(']');
 		}
@@ -48,7 +48,7 @@ namespace gxx {
 			int s = vec.size();
 			for (const auto& g : vec) {
 				gxx::print_to(o, g);
-				if (--s) o.putchar(' ');
+				if (--s) o.putchar(',');
 			}
 			o.putchar(']');
 		}
@@ -61,7 +61,7 @@ namespace gxx {
 			int s = vec.size();
 			for (const auto& g : vec) {
 				gxx::print_to(o, g);
-				if (--s) o.putchar(' ');
+				if (--s) o.putchar(',');
 			}
 			o.putchar(']');
 		}
@@ -77,6 +77,25 @@ namespace gxx {
 			}
 			if (N != 0)
 				gxx::print_to(o, vec[N - 1]);
+			o.putchar(']');
+		}		
+	};
+
+	template<typename T> 
+	struct print_functions<std::set<T>> {
+		static int print(gxx::io::ostream& o, std::set<T> const& dict) {
+			o.putchar('[');
+			if (dict.size() != 0) {
+				auto it = dict.begin();
+				auto end = dict.end();
+
+				it++;
+				while(it != end) {
+					o.putchar(',');
+					gxx::print_to(o, *it);	
+					it++;
+				}
+			} 
 			o.putchar(']');
 		}		
 	};
