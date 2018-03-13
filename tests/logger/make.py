@@ -16,7 +16,8 @@ application("main",
 		#submodule("gxx.panic", "abort"),
 		submodule("gxx.print", "cout"),
 		submodule("gxx.log", "posix"),
-	]
+	],
+	cxx_flags = "-pedantic -Wall -Wextra -Wfloat-equal -Wundef -Wcast-align -Wwrite-strings -Wlogical-op -Wmissing-declarations -Wredundant-decls -Wshadow -Woverloaded-virtual",
 )
 
 doit("main")

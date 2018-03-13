@@ -15,7 +15,7 @@ namespace gxx {
 	public:
 		buffer() : buf(nullptr), sz(0) {}
 		//buffer(const char* buf) : buf((char*)buf), sz(strlen(buf)) {}
-		buffer(const void* buf, size_t sz) : buf((char*)buf), sz(sz) {}
+		buffer(const void* _buf, size_t _sz) : buf((char*)_buf), sz(_sz) {}
 		//buffer(const std::string& str) : buf((char*)str.data()), sz(str.size()) {}
 
         template<size_t N> inline buffer(const char (&arr) [N]) : buf((char*)arr), sz(N) {}
@@ -44,8 +44,8 @@ namespace gxx {
 			return buf == nullptr;
 		}
 
-		buffer slice(size_t idx, size_t sz) {
-			return buffer(buf + idx, sz);
+		buffer slice(size_t idx, size_t _sz) {
+			return buffer(buf + idx, _sz);
 		}
 
 		//static gxx::buffer(int)
@@ -75,7 +75,7 @@ namespace gxx {
 	class smart_buffer : public buffer {
 	public:
 		smart_buffer(size_t n) : buffer(allocate_buffer(n)) {}
-		
+
 		smart_buffer(const char* d, size_t n) : buffer(allocate_buffer(n)) {
 			memcpy(buf, d, n);
 		}
@@ -86,4 +86,4 @@ namespace gxx {
 	};
 }
 
-#endif 
+#endif

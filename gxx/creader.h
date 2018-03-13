@@ -9,7 +9,7 @@ namespace gxx {
         gxx::buffer pattern;
         bool tgt;
 
-		chars_set_checker(gxx::buffer pattern, bool tgt = true) : pattern(pattern), tgt(tgt) {}
+		chars_set_checker(gxx::buffer _pattern, bool _tgt = true) : pattern(_pattern), tgt(_tgt) {}
 
         bool operator()(char c) {
             for (char p : pattern) {
@@ -23,18 +23,18 @@ namespace gxx {
 		const char* ptr;
 
 	public:
-        
 
-		creader(const char* ptr) : ptr(ptr) {}
 
-		template<typename Functor> 
+		creader(const char* _ptr) : ptr(_ptr) {}
+
+		template<typename Functor>
 		std::string string_while(Functor&& func) {
 			const char* strt = ptr;
 			while(func(*ptr)) ++ptr;
 			return std::string(strt, ptr - strt);
-		} 
+		}
 
-		template<typename Functor> 
+		template<typename Functor>
 		bool next_is(Functor&& func) {
 			return func(*ptr);
 		}
@@ -57,13 +57,13 @@ namespace gxx {
 			ptr++;
 		}
 
-		template<typename Functor> 
+		template<typename Functor>
 		void skip_while(Functor&& func) {
-			while(func(*ptr)) ++ptr;	
+			while(func(*ptr)) ++ptr;
 		}
 
 		void skip_while(const char* smbs) {
-			while(true) {	
+			while(true) {
 				const char* strt = ptr;
 				const char* smb = smbs;
 				while(*smb != 0) {
@@ -80,7 +80,7 @@ namespace gxx {
 
 		int integer() {
 			int ret = atoi(ptr);
-			while(isdigit(*ptr)) ++ptr;	
+			while(isdigit(*ptr)) ++ptr;
 			return ret;
 		}
 	};

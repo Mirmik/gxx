@@ -15,7 +15,7 @@ application("main",
 		submodule("gxx.dprint", "stdout"),
 		submodule("gxx.print", "cout"),
 	],
-	cxx_flags = "-pedantic",
+	cxx_flags = "-pedantic -Wall -Wextra -Wfloat-equal -Wundef -Wcast-align -Wwrite-strings -Wlogical-op -Wmissing-declarations -Wredundant-decls -Wshadow -Woverloaded-virtual",
 )
 
 doit("main")

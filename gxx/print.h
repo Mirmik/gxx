@@ -12,7 +12,7 @@ namespace gxx {
 	extern gxx::io::ostream* standart_output;
 
 	static inline int write_to(gxx::io::ostream& out, const char* buf, size_t sz) {
-		return standart_output->write(buf, sz);
+		return out.write(buf, sz);
 	}
 
 	static inline int write(const char* buf, size_t sz) {
@@ -21,23 +21,23 @@ namespace gxx {
 
 	static inline int writeln_to(gxx::io::ostream& out, const char* buf, size_t sz) {
 		int ret;
-		ret += standart_output->write(buf, sz);
-		ret += standart_output->println();
-		return ret; 
+		ret += out.write(buf, sz);
+		ret += out.println();
+		return ret;
 	}
 
 	static inline int writeln(const char* buf, size_t sz) {
 		return gxx::writeln_to(*standart_output, buf, sz);
 	}
 
-	template<typename Arg> 
+	template<typename Arg>
 	int print_to(gxx::io::ostream& out, const Arg& arg) {
 		int res = 0;
 		res += gxx::print_functions<Arg>::print(out, arg);
 		return res;
 	}
-	
-	template<typename Head, typename ... Tail> 
+
+	template<typename Head, typename ... Tail>
 	int print_to(gxx::io::ostream& out, const Head& head, const Tail& ... tail) {
 		int res = 0;
 		res += print_to(out, head);
@@ -45,21 +45,21 @@ namespace gxx {
 		res += print_to(out, tail ...);
 		return res;
 	}
-	
-	template<typename ... Args> 
+
+	template<typename ... Args>
 	int println_to(gxx::io::ostream& out, const Args& ... args) {
 		int res = 0;
 		res += print_to(out, args ...);
-		res += out.println();	
+		res += out.println();
 		return res;
 	}
 
-	template<typename Arg> 
+	template<typename Arg>
 	int print(const Arg& arg) {
 		return gxx::print_to(*standart_output, arg);
 	}
 
-	template<typename Head, typename ... Tail> 
+	template<typename Head, typename ... Tail>
 	int print(const Head& head, const Tail& ... tail) {
 		int res = 0;
 		res += print(head);
@@ -67,12 +67,12 @@ namespace gxx {
 		res += print(tail ...);
 		return res;
 	}
-	
-	template<typename ... Args> 
+
+	template<typename ... Args>
 	int println(const Args& ... args) {
 		int res = 0;
 		res += print(args ...);
-		res += standart_output->println();	
+		res += standart_output->println();
 		return res;
 	}
 
@@ -85,7 +85,7 @@ namespace gxx {
 		int n = 0;
 		int res = 0;
 		for (const auto& v : c) {
-			res += standart_output->print(v); 
+			res += standart_output->print(v);
 			res += standart_output->putchar(' ');
 			++n;
 			if (n == rlen) {
@@ -97,12 +97,12 @@ namespace gxx {
 	}
 
 	inline int fprint_format_argument(gxx::io::ostream& out, const char*& fmt, const gxx::visitable_arglist& list, uint8_t argnum) {
-		int ret;		
+		int ret;
 		char* pend;
 		assert(*fmt++ == '{');
-		
+
 		const visitable_argument* varg = nullptr;
-		
+
 		if (isalpha(*fmt)) {
 			const char* count_ptr = fmt;
 			int len = 0;
@@ -113,19 +113,19 @@ namespace gxx {
 		} else {
 			varg = &list[argnum];
 		}
-		
+
 		while(*fmt != '}' && *fmt != ':' && *fmt != 0) fmt++;
 		switch(*fmt) {
-			case '}': 
+			case '}':
 				ret = gxx::fmt::format_visitor::visit(*varg, out, gxx::buffer());
 				break;
-			case ':': 
+			case ':':
 				++fmt;
 				ret = gxx::fmt::format_visitor::visit(*varg, out, gxx::buffer(fmt, strchr(fmt, '}') - fmt));
 				break;
-			case 0	: 
+			case 0	:
 				return -1;
-			default: 
+			default:
 				dprln("format internal error");
 				abort();
 		}
@@ -155,24 +155,24 @@ namespace gxx {
 	template<typename ... Args>
 	int fprint_to(gxx::io::ostream& out, const char* fmt, Args&& ... args) {
 		visitable_argument buffer[sizeof ... (Args)];
-		return fprint_impl(out, fmt, gxx::make_visitable_arglist<gxx::fmt::format_visitor>(buffer, std::forward<Args>(args) ...));		
-	}
-		
-	template<typename ... Args>
-	int fprint(const char* fmt, Args&& ... args) {
-		return gxx::fprint_to(*standart_output, fmt,  std::forward<Args>(args) ...);		
-	}
-		
-	template<typename ... Args> 
-	int fprintln(Args&& ... args) {
-		fprint_to(*standart_output, std::forward<Args>(args) ...);
-		return standart_output->println();	
+		return fprint_impl(out, fmt, gxx::make_visitable_arglist<gxx::fmt::format_visitor>(buffer, std::forward<Args>(args) ...));
 	}
 
-	template<typename ... Args> 
+	template<typename ... Args>
+	int fprint(const char* fmt, Args&& ... args) {
+		return gxx::fprint_to(*standart_output, fmt,  std::forward<Args>(args) ...);
+	}
+
+	template<typename ... Args>
+	int fprintln(Args&& ... args) {
+		fprint_to(*standart_output, std::forward<Args>(args) ...);
+		return standart_output->println();
+	}
+
+	template<typename ... Args>
 	int fprintln_to(gxx::io::ostream& out, Args&& ... args) {
 		fprint_to(out, std::forward<Args>(args) ...);
-		return standart_output->println();	
+		return standart_output->println();
 	}
 
 	template<typename ... Args>
@@ -180,7 +180,7 @@ namespace gxx {
 		std::string str;
 		gxx::io::ostringstream writer(str);
 		gxx::fprint_to(writer, fmt, std::forward<Args>(args) ...);
-		return str; 
+		return str;
 	}
 
 	template<typename Arg>
@@ -188,12 +188,12 @@ namespace gxx {
 		std::string str;
 		gxx::io::ostringstream writer(str);
 		gxx::print(writer, std::forward<Arg>(arg));
-		return str; 
+		return str;
 	}
 
 	inline void print_dump_to(gxx::io::ostream& out, const void *mem, uint16_t len, int columns = 8) {
-		unsigned int i, j;
-		
+		int i, j;
+
 		for(i = 0; i < len + ((len % columns) ? (columns - len % columns) : 0); i++) {
 			// print offset
 			if(i % columns == 0) {
@@ -201,7 +201,7 @@ namespace gxx {
 				out.print((void*)((char*)mem + i));
 				out.putchar(':');
 			}
-	 
+
 			// print hex data
 			if(i < len) {
 				out.printhex(((char*)mem)[i]);
@@ -211,7 +211,7 @@ namespace gxx {
 				// end of block, just aligning for ASCII dump
 				out.write("   ", 3);
 			}
-			
+
 			// print ASCII dump
 			if(i % columns == (columns - 1))
 			{
@@ -222,7 +222,7 @@ namespace gxx {
 					}
 					else if(isprint(((char*)mem)[j])) {
 						// printable char
-						out.putchar(0xFF & ((char*)mem)[j]);        
+						out.putchar(0xFF & ((char*)mem)[j]);
 					}
 					else {
 						// other char
@@ -236,11 +236,11 @@ namespace gxx {
 
 	inline void print_dump(const void *mem, uint16_t len, int columns = 8) {
 		print_dump_to(*standart_output, mem, len, columns);
-	}	
+	}
 
 	inline void print_dump(const std::string& str, int columns = 8) {
 		print_dump_to(*standart_output, str.data(), str.size(), columns);
-	}	
+	}
 
 	inline void printhex(const void* data, size_t size) {
 		uint8_t* _data = (uint8_t*) data;

@@ -1,7 +1,7 @@
 #ifndef GENOS_DEBUG_PRINT
 #define GENOS_DEBUG_PRINT
-	
-#include <inttypes.h> 
+
+#include <inttypes.h>
 #include <sys/cdefs.h>
 //#include <sys/cdefs.h>
 
@@ -9,27 +9,25 @@
 //#include "gxx/buffer.h"
 #endif
 
-/*	
+/*
 	2012-2015 Mirmik
 	Библиотека низкоуровневого отладочного вывода.
-	
+
 	Библиотека предназначена для облегчения низкоуровневой отладки.
-	Функции не имеют внешних зависимостей (кроме определения типов 
-	и аппаратнозависимой инициализации и функции вывода символа), 
+	Функции не имеют внешних зависимостей (кроме определения типов
+	и аппаратнозависимой инициализации и функции вывода символа),
 	линкуются по стандарту "С", что позволяет
-	вызывать их в том числе с использованием ассемблера. 
-	
+	вызывать их в том числе с использованием ассемблера.
+
 	Библиотека призвана помочь в создании плацдарма на неосвоенном железе,
 	а так же при отладке средств ввода-вывода.
-	
+
 	Для подключения библиотеки необходимо реализовать платформозависимую функцию
-	debug_putchar, выводящую один символ char и 
+	debug_putchar, выводящую один символ char и
 	блокирующую процессор на время проведения этой операции.
 */
 
 __BEGIN_DECLS
-//Инициализация вывода
-//void debug_print_init(); - в platform
 
 //Платформозависимый !блокирующий процессор! вывод char
 void debug_putchar(char c);
@@ -47,7 +45,7 @@ void debug_printhex_uint32(uint32_t a);
 
 #define debug_printhex_int4(a) debug_printhex_uint4(a)
 #define debug_printhex_int8(a) debug_printhex_uint8(a)
-#define debug_printhex_int16(a) debug_printhex_uint16(a) 
+#define debug_printhex_int16(a) debug_printhex_uint16(a)
 #define debug_printhex_int32(a) debug_printhex_uint32(a)
 
 void debug_printhex_ptr(void* a);
@@ -69,8 +67,8 @@ void debug_printdec_int16(int16_t a);
 void debug_printdec_float(float a, int prec);
 void debug_printdec_double(double a, int prec);
 
-void debug_printdec_float(float a, int prec);
-void debug_printdec_double(double a, int prec);
+//void debug_printdec_float(float a, int prec);
+//void debug_printdec_double(double a, int prec);
 
 //strlen для внутреннего использования
 int debug_strlen(const char *c);
@@ -82,7 +80,7 @@ void debug_print_line();
 //Вывод дампа памяти. size - размер в байтах.
 void debug_print_dump(const void* address, uint16_t size);
 void debug_print_dump_ascii(const void* address, uint16_t size);
- 
+
 void debug_print_dump_simple(const void* address, uint16_t size);
 void debug_print_binary_dump_simple(const void* address, uint16_t size);
 void debug_print_reverse_dump_simple(const void* address, uint16_t size);
@@ -122,9 +120,9 @@ void dpr(char obj);
 void dpr(char* obj);
 void dpr(const char* obj);
 
-//template<> void dpr(genos::charptr obj) 
-//{ 
-//	debug_write(obj.to_buf(),obj.length()); 
+//template<> void dpr(genos::charptr obj)
+//{
+//	debug_write(obj.to_buf(),obj.length());
 //};
 
 void dpr(uint8_t obj);
@@ -149,8 +147,8 @@ void dpr(const Buffer& obj) {
 
 template <typename T, typename ... Tail>
 inline void dpr(const T& obj, const Tail& ... tail) {
-	dpr(obj); 
-	debug_putchar(' '); 
+	dpr(obj);
+	debug_putchar(' ');
 	dpr(tail ...);
 }
 
@@ -166,7 +164,7 @@ void dprbin(int64_t obj);
 */
 
 
-void dprhex(const char* obj);
+//void dprhex(const char* obj);
 //void dprhex(char obj);
 
 /*void dprhex(uint8_t obj);
@@ -197,19 +195,19 @@ void dprbin(const T& obj) {
 void dpr_dump(const void* obj, uint32_t size);
 void dpr_dump_ascii(void* obj, uint32_t size);
 
-template<typename T> void dprptr(const T* const& obj) 
+template<typename T> void dprptr(const T* const& obj)
 	{ debug_printhex_ptr((void*)obj); }
 
-template<typename ... T> void dprln(const T& ... obj) 
+template<typename ... T> void dprln(const T& ... obj)
 	{ dpr(obj ...); debug_write("\r\n", 2); }
 
-template<typename T> void dprbinln(const T& obj) 
+template<typename T> void dprbinln(const T& obj)
 	{ dprbin(obj); debug_write("\r\n", 2); }
 
-template<typename T> void dprhexln(const T& obj) 
+template<typename T> void dprhexln(const T& obj)
 	{ dprhex(obj); debug_write("\r\n", 2); }
 
-template<typename T> void dprptrln(const T& obj) 
+template<typename T> void dprptrln(const T& obj)
 	{ dprptr(obj); debug_write("\r\n", 2); }
 
 void dprtab();

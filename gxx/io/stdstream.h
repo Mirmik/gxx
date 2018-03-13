@@ -10,8 +10,8 @@ namespace gxx {
 		class ostringstream : public gxx::io::ostream {
 			std::string& str;
 		public:
-			ostringstream(std::string& str) : str(str) {}
-		protected: 
+			ostringstream(std::string& _str) : str(_str) {}
+		protected:
 			virtual int writeData(const char* ptr, size_t sz) {
 				str.append(ptr, sz);
 				return sz;
@@ -22,7 +22,7 @@ namespace gxx {
 			std::ostream& out;
 		public:
 			std_ostream_writer(std::ostream& out) : out(out) {}
-		protected: 
+		protected:
 			virtual int writeData(const char* ptr, size_t sz) {
 				out.write(ptr, sz);
 			}

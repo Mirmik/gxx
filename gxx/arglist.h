@@ -14,17 +14,17 @@
 #include <gxx/panic.h>
 
 namespace gxx {
-	template <typename T> class argpair; 
+	template <typename T> class argpair;
 	struct argname {
 		gxx::buffer name;
-		argname(const gxx::buffer& name) : name(name) {}; 
-		
-		template<typename T> 
-		constexpr argpair<typename std::remove_reference<T>::type> operator= (T&& body) { 
+		argname(const gxx::buffer& _name) : name(_name) {};
+
+		template<typename T>
+		constexpr argpair<typename std::remove_reference<T>::type> operator= (T&& body) {
 			return argpair<typename std::remove_reference<T>::type>(name, (void*)&body);
 		}
 	};
-	
+
 	template<typename T>
 	struct argpair {
 		using type = T;
@@ -32,22 +32,22 @@ namespace gxx {
 		void* body;
 		gxx::buffer name;
 
-		constexpr argpair(const gxx::buffer& name, void* body) : body(body), name(name) {}
+		constexpr argpair(const gxx::buffer& _name, void* _body) : body(_body), name(_name) {}
 	};
-	
+
 	namespace argument_literal {
-		static argname operator"" _a (const char* name, size_t sz) { 
-			return argname(gxx::buffer(name, sz)); 
-		} 
+		static argname operator"" _a (const char* name, size_t sz) {
+			return argname(gxx::buffer(name, sz));
+		}
 	}
 
 	struct visitable_argument {
 		void* 		ptr;
 		void* 		visit;
 		gxx::buffer name;
-		
+
 		visitable_argument(){}
-		visitable_argument(void* ptr, void* visit, const gxx::buffer& buf) : ptr(ptr), visit(visit), name(buf) {}
+		visitable_argument(void* _ptr, void* _visit, const gxx::buffer& buf) : ptr(_ptr), visit(_visit), name(buf) {}
 	};
 
 	template<typename HT, typename ... Tail>
@@ -80,14 +80,14 @@ namespace gxx {
 			return arr + N;
 		}
 
-		const visitable_argument& operator[](int num) const {
+		const visitable_argument& operator[](uint num) const {
 			assert(num < N);
 			return arr[num];
 		}
 
 		const visitable_argument& operator[](gxx::buffer str) const {
 			for(uint8_t i = 0; i < N; ++i) {
-				if (str == arr[i].name) return arr[i]; 
+				if (str == arr[i].name) return arr[i];
 			}
 			gxx::panic("visitable_arglist: name error");
 			return arr[0]; // -Wreturn-type
@@ -98,7 +98,7 @@ namespace gxx {
 	inline visitable_argument make_visitable_argument(Object& obj) {
 		return visitable_argument((void*)&obj, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type>(), gxx::buffer());
 	}
-	
+
 	template <typename Visitor, typename Object, size_t N>
 	inline visitable_argument make_visitable_argument(Object(&obj)[N]) {
 		return visitable_argument((void*)obj, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type*>(), gxx::buffer());
@@ -108,12 +108,12 @@ namespace gxx {
 	inline visitable_argument make_visitable_argument(Object*& obj) {
 		return visitable_argument((void*)obj, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type*>(), gxx::buffer());
 	}
-	
+
 	template <typename Visitor, typename Object>
 	inline visitable_argument make_visitable_argument(argpair<Object>& pair) {
 		return visitable_argument(pair.body, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type>(), pair.name);
 	}
-	
+
 	template <typename Visitor, typename Object, size_t N>
 	inline visitable_argument make_visitable_argument(argpair<Object[N]>& pair) {
 		return visitable_argument(pair.body, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type*>(), pair.name);

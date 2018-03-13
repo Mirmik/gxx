@@ -22,7 +22,7 @@ namespace gxx {
 				int c;
 				char* strt = str;
 				do {
-                                        if (str - strt >= max) { gxx::panic("read_until::more_than_max"); }
+          if ((size_t)(str - strt) >= max) { gxx::panic("read_until::more_than_max"); }
 
 					c = getchar();
                                         //dprln((int)c);
