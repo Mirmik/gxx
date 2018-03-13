@@ -34,12 +34,12 @@ namespace gxx {
 			}
 
 
-			std::string readall(int bufsize = 512) {
-				char buf[bufsize];
+			std::string readall() {
+				char buf[64];
 				std::string text;
 
 				while(1) {
-					int ret = read(buf, bufsize);
+					int ret = read(buf, 64);
 					if (ret <= 0) break;
 					text.append(buf, ret);
 				}
@@ -47,7 +47,7 @@ namespace gxx {
 			}
 
 
-		protected: 
+		protected:
 			virtual int readData(char* str, size_t sz) = 0;
 		};
 	}

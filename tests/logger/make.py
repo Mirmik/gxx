@@ -14,7 +14,8 @@ application("main",
 		submodule("gxx", "posix"),
 		submodule("gxx.dprint", "stdout"),
 		#submodule("gxx.panic", "abort"),
-		#submodule("gxx.print"),
+		submodule("gxx.print", "cout"),
+		submodule("gxx.log", "posix"),
 	]
 )
 

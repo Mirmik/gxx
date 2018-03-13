@@ -14,7 +14,8 @@ application("main",
 		submodule("gxx", "posix"),
 		submodule("gxx.dprint", "stdout"),
 		submodule("gxx.print", "cout"),
-	]
+	],
+	cxx_flags = "-pedantic",
 )
 
 doit("main")

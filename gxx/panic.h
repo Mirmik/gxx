@@ -7,7 +7,7 @@
 
 namespace gxx {
 	void panic(const char* str);
-	inline void panic() { panic(""); };
+	inline void panic() { panic(""); }
 
 	static inline void panic_not_supported(location loc) {
 		char buf [128];
