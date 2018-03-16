@@ -5,7 +5,51 @@
 
 namespace gxx {
 
-	class trent_settings_basic {
+	struct trent_settings_basic {
+		gxx::trent tr;
+		bool synced = false;
+
+		virtual void sync() = 0;
+		virtual void save() = 0;
+	};
+
+	struct trent_settings : public trent_settings_basic {
+		gxx::trent tr;
+		bool synced = false;
+
+		virtual void sync() = 0;
+		virtual void save() = 0;
+	
+		gxx::trent& node() = 0;
+		const gxx::trent& node() const = 0;
+	};
+
+	struct trent_settings_slice : public trent_settings_basic {
+		gxx::trent_settings& settings;
+		gxx::trent_path path;
+		
+		trent_settings_slice(gxx::trent_settings& stgs, gxx::trent& tr) : settings(stgs), tr(tr) {}
+		
+		void sync() {
+			if (!settings.synced) {
+				settings.sync();
+			}
+		}
+
+		void save() {
+
+		}
+
+		gxx::trent& node() {
+			return tr;
+		}
+
+		const gxx::trent& node() const {
+			return tr;
+		}
+	}
+
+	/*class trent_settings_basic {
 	public:
 		virtual gxx::trent& at(const std::string& str) = 0;
 		virtual gxx::trent& operator[](const std::string& str) = 0;
@@ -57,7 +101,7 @@ namespace gxx {
 			PANIC_TRACED();
 		}*/
 
-		void save() override {
+	/*	void save() override {
 			base->save();
 		}
 
@@ -165,5 +209,5 @@ namespace gxx {
 		operator trent::numer_type() const { return tr->as_numer(); }
 	};
 }
-
+*/
 #endif
