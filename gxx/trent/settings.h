@@ -9,7 +9,9 @@ namespace gxx {
 	public:
 		virtual gxx::trent& at(const std::string& str) = 0;
 		virtual gxx::trent& operator[](const std::string& str) = 0;
-                virtual const gxx::trent& operator[](const std::string& str) const = 0;
+        virtual const gxx::trent& operator[](const std::string& str) const = 0;
+		virtual gxx::trent& operator[](int i) = 0;
+        //virtual const gxx::trent& operator[](int i) const = 0;
 
 		virtual bool ok() = 0;
 		virtual void save() = 0;
@@ -34,9 +36,17 @@ namespace gxx {
 			return node()[str];
 		}
 
-                const gxx::trent& operator[](const std::string& str) const override {
-                        return node()[str];
-                }
+        const gxx::trent& operator[](const std::string& str) const override {
+            return node()[str];
+        }
+
+        gxx::trent& operator[](int i) override {
+			return node()[i];
+		}
+
+        //const gxx::trent& operator[](int i) const override {
+        //    return node()[i];
+        //}
 		
 		/*
 		gxx::trent& create(const std::string& str, const std::string&) override {

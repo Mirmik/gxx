@@ -80,7 +80,7 @@ namespace gxx {
 			return arr + N;
 		}
 
-		const visitable_argument& operator[](uint num) const {
+		const visitable_argument& operator[](size_t num) const {
 			assert(num < N);
 			return arr[num];
 		}

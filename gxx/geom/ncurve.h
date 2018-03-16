@@ -140,6 +140,12 @@ namespace gxx {
 			multiline(size_t n, size_t m) : mat(n, m), bounded_curve(0, n) {}
 
 		public:
+
+                        multiline(const point& a, const point& b) : multiline(2, a.dim()) {
+                            mat.row_proxy(0) = a;
+                            mat.row_proxy(1) = b;
+                        }
+
 			multiline(const std::initializer_list<point>& pnts) : multiline(pnts.size(), pnts.begin()->size()) { 
 			//template <template<class> class C>
 			//multiline(gxx::concept::sequence_container<C<double>,double> pnts) : multiline(pnts.size(), pnts.begin()->size()) { 

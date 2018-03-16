@@ -250,6 +250,11 @@ public:
         const vector_compact_accessor<T> row_view(size_t i) const { return vector_compact_accessor<T>(dat + i * sz2, sz2); }			// TODO COLUMN_ORDER
         const vector_stepped_accessor<T> column_view(size_t i) const { return vector_stepped_accessor<T>(dat + i, sz1, sz2); }		// TODO COLUMN_ORDER
 
+        auto column_proxy(size_t i) { return column_view(i); }
+        auto row_proxy(size_t i) { return row_view(i); }
+        const auto column_proxy(size_t i) const { return column_view(i); }
+        const auto row_proxy(size_t i) const { return row_view(i); }
+
 	T* begin() { return dat; }
 	T* const end() { return dat + sz1 * sz2; }
 

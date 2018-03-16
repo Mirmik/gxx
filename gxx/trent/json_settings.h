@@ -90,6 +90,16 @@ namespace gxx {
 		operator trent&() {
 			return m_settings;
 		}
+
+
+                gxx::trent& operator[](int i) override {
+                                return node()[i];
+                        }
+
+                //const gxx::trent& operator[](int i) const override {
+                //    return node()[i];
+                //}
+
 	};
 }
 

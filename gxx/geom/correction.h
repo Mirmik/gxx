@@ -36,7 +36,8 @@ namespace gxx {
 
 			}
 
-			single_axis_correction_table() = default;
+                        single_axis_correction_table(){}
+                        single_axis_correction_table(int base, int dim) : base_axis(dim), coords(0), table(0, dim) {}
 
 			single_axis_correction_table(	
 				uint8_t base, 
@@ -76,6 +77,7 @@ namespace gxx {
 			}
 
 			multiline correction( const line& l ) {
+                                if (coords.size() == 0) return multiline(l.a, l.b);
 				int dim = table.size2();
 
 				const auto& first_point = l.pnt1();
