@@ -1,54 +1,45 @@
 #ifndef GXX_TRENT_SETTINGS_H
 #define GXX_TRENT_SETTINGS_H
 
-#include <gxx/print/printable.h>
+//#include <gxx/print/printable.h>
+#include <gxx/trent/trent.h>
 
 namespace gxx {
-
-	struct trent_settings_basic {
-		gxx::trent tr;
-		bool synced = false;
-
-		virtual void sync() = 0;
-		virtual void save() = 0;
-	};
-
-	struct trent_settings : public trent_settings_basic {
+	struct trent_settings {
 		gxx::trent tr;
 		bool synced = false;
 
 		virtual void sync() = 0;
 		virtual void save() = 0;
 	
-		gxx::trent& node() = 0;
-		const gxx::trent& node() const = 0;
+	
+		gxx::trent& node() { return tr; }
+		const gxx::trent& node() const { return tr; }
 	};
 
-	struct trent_settings_slice : public trent_settings_basic {
+	struct trent_settings_slice : public trent_settings {
 		gxx::trent_settings& settings;
 		gxx::trent_path path;
-		
-		trent_settings_slice(gxx::trent_settings& stgs, gxx::trent& tr) : settings(stgs), tr(tr) {}
+
+		trent_settings_slice(gxx::trent_settings& stgs, const gxx::trent_path& path) 
+			: settings(stgs), path(path) {}
 		
 		void sync() {
 			if (!settings.synced) {
 				settings.sync();
 			}
+			tr = settings.node()[path];
+			//gxx::println(settings.node()[path]);
+			//gxx::println(tr);
 		}
 
 		void save() {
-
+			//bind = tr;
+			settings.save();
 		}
+	};
 
-		gxx::trent& node() {
-			return tr;
-		}
-
-		const gxx::trent& node() const {
-			return tr;
-		}
-	}
-
+}
 	/*class trent_settings_basic {
 	public:
 		virtual gxx::trent& at(const std::string& str) = 0;

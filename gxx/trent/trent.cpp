@@ -121,6 +121,11 @@ namespace gxx {
 		if(m_arr.size() <= i) m_arr.resize(i + 1);
 		return m_arr[i];
 	}
+
+	const trent& trent::operator[](int key) const {
+        if (m_type != trent::type::list) gxx::panic("wrong trent type");
+		return m_arr.at(key);
+	}
 	
 	trent& trent::operator[](const char* key) {
         if (m_type != trent::type::dict) init(trent::type::dict);
@@ -142,13 +147,27 @@ namespace gxx {
 		return m_dict[std::string(key.data(), key.size())];
 	}
 
+	const trent& trent::operator[] (const gxx::trent_path& path) const {
+		const gxx::trent* tr = this;
+		for (const auto& p : path) {
+			if (p.is_string) {
+				tr = &tr->operator[](p.str);
+			}
+			else {
+				tr = &tr->operator[](p.i32);
+			}
+		}
+		return *tr;
+	}
+
 	const trent& trent::at(int i) const {
-        if (m_type != trent::type::list) gxx::panic("wrong trent type");
+		if (m_type != trent::type::list) gxx::panic("wrong trent type");
         if(m_arr.size() <= i) gxx::panic("wrong trent list size");
 		return m_arr[i];
 	}
 	
 	const trent& trent::at(const char* key) const {
+        gxx::println(2);
         if (m_type != trent::type::dict) gxx::panic("wrong trent type");
 		return m_dict.at(key);
 	}
@@ -164,6 +183,7 @@ namespace gxx {
 	}
 	
 	bool trent::have(const std::string& str) const {
+        gxx::println(3);
         if (m_type != trent::type::dict) gxx::panic("wrong trent type");
 		return m_dict.count(str) != 0; 
 	}
@@ -301,6 +321,9 @@ namespace gxx {
                 return *this;
             case trent::type::numer:
                 m_num = other.m_num;
+				return *this;
+            case trent::type::integer:
+                m_int = other.m_int;
 				return *this;
             case trent::type::nil:
 				return *this; 

@@ -14,19 +14,81 @@
 #include <gxx/util/ctrdtr.h>
 #include <gxx/buffer.h>
 #include <gxx/print.h>
+#include <gxx/print/stdprint.h>
+#include <gxx/print/printable.h>
 
 using namespace gxx::result_type;
 
 namespace gxx {
+	struct trent_path_node {
+		bool is_string;
+		union {
+			std::string str;
+			int32_t i32;
+		};
+
+		trent_path_node() = delete;
+
+		trent_path_node(const std::string& str) {
+			if (isdigit(str[0])) {
+				is_string = false;
+				gxx::constructor(&this->i32, std::stoi(str));
+			} else {
+				is_string = true;
+				gxx::constructor(&this->str, str); 
+			}
+		}
+
+		trent_path_node(const trent_path_node& oth) {
+			if (oth.is_string == true) {
+				is_string = true;
+				gxx::constructor(&str, oth.str);
+			} else {
+				is_string = false;
+				gxx::constructor(&i32, oth.i32);				
+			}
+		}
+
+		~trent_path_node() {
+			if (is_string) gxx::destructor(&str);
+		}
+
+		size_t printTo(gxx::io::ostream& o) const {
+			if (is_string) return gxx::print_to(o, str);
+			return gxx::print_to(o, i32);
+		}
+	};
+
+	struct trent_path : public std::vector<trent_path_node>, public gxx::array_printable<trent_path> {
+	//: public gxx::array_printable<trent_path> {
+		//std::vector<trent_path_node> vec;
+		
+		trent_path(const std::string& path) : trent_path(path.c_str()) {}
+		
+		trent_path(const char* path) {
+			gxx::strvec svec = gxx::split(path, '/');
+			for (const auto& s : svec) {
+				emplace_back(s);
+			}
+		}
+
+		/*auto begin() { return vec.begin(); }
+		auto end() { return vec.end(); }
+		auto begin() const { return vec.begin(); }
+		auto end() const { return vec.end(); }
+		size_t size() const { return vec.size(); }
+		trent_path_node& operator[](int i) { return vec[i]; }*/
+	};
+
 	class trent {
 	public:
 		enum class type {
 			string,
-						list,
-						dict,
-						numer,
-						integer,
-						nil,
+			list,
+			dict,
+			numer,
+			integer,
+			nil,
 		};
 
 		using check_type = uint8_t;
@@ -99,16 +161,18 @@ namespace gxx {
 			init(obj);
 		}
 
-
-				void init_list(size_t reserve);
+		void init_list(size_t reserve);
 		void invalidate();
 
 	public:
 		trent& operator[](int i);
+		const trent& operator[](int i) const;
 		trent& operator[](const char* key);
 		trent& operator[](const std::string& key);
 		const trent& operator[](const std::string& key) const;
 		trent& operator[](const gxx::buffer& key);
+		//trent& operator[](const trent_path& path);
+		const trent& operator[](const trent_path& path) const;
 
 		trent& at(int i);
 		trent& at(const char* key);
