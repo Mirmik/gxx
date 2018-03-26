@@ -11,6 +11,14 @@
 namespace gxx {
 	extern gxx::io::ostream* standart_output;
 
+	static inline int putchar(gxx::io::ostream& out, char c) {
+		return out.putchar(c);	
+	}
+
+	static inline int putchar(char c) {
+		return standart_output->putchar(c);	
+	}
+
 	static inline int write_to(gxx::io::ostream& out, const char* buf, size_t sz) {
 		return out.write(buf, sz);
 	}
