@@ -83,18 +83,13 @@ namespace gxx {
 
 	template<typename T> 
 	struct print_functions<std::set<T>> {
-		static int print(gxx::io::ostream& o, std::set<T> const& dict) {
+		static int print(gxx::io::ostream& o, std::set<T> const& vec) {
 			o.putchar('[');
-			if (dict.size() != 0) {
-				auto it = dict.begin();
-				auto end = dict.end();
-
-				while(it != end) {
-					o.putchar(',');
-					gxx::print_to(o, *it);	
-					it++;
-				}
-			} 
+			int s = vec.size();
+			for (const auto& g : vec) {
+				gxx::print_to(o, g);
+				if (--s) o.putchar(',');
+			}
 			o.putchar(']');
 		}		
 	};
