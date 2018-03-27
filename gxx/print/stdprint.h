@@ -59,12 +59,12 @@ namespace gxx {
 		}		
 	};
 
-	template<typename T> 
-	struct print_functions<std::set<T>> {
-		static int print(gxx::io::ostream& o, std::set<T> const& vec) {
-			return print_array_like_to(o, vec);
-		}		
-	};
+	//template<typename T> 
+	//struct print_functions<std::set<T>> {
+	//	static int print(gxx::io::ostream& o, std::set<T> const& vec) {
+	//		return print_array_like_to(o, vec);
+	//	}		
+	//};
 
 	template<typename T, typename K>  
 	struct print_functions<std::map<K,T>> {
