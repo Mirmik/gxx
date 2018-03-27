@@ -89,7 +89,6 @@ namespace gxx {
 				auto it = dict.begin();
 				auto end = dict.end();
 
-				it++;
 				while(it != end) {
 					o.putchar(',');
 					gxx::print_to(o, *it);	
