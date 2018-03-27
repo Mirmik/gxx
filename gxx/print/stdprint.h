@@ -13,84 +13,56 @@
 #include <typeinfo>
 
 namespace gxx {
+	template<typename T>
+	size_t print_array_like_to(gxx::io::ostream& o, const T& arr) {
+		o.putchar('[');
+		int s = arr.size();
+		for (const auto& g : arr) {
+			gxx::print_to(o, g);
+			if (--s) o.putchar(',');
+		}
+		o.putchar(']');
+	}
+
 	template<typename T, typename A> 
 	struct print_functions<std::vector<T,A>> {
 		static int print(gxx::io::ostream& o, std::vector<T,A> const& vec) {
-			o.putchar('[');
-						if (vec.size() != 0) {
-							for (int i = 0; i < vec.size() - 1; ++i) {
-									gxx::print_to(o, vec[i]);
-									o.putchar(',');
-							}
-							gxx::print_to(o, vec[vec.size() - 1]);
-						}
-			o.putchar(']');
+			return print_array_like_to(o, vec);
 		}
 	};
 
 	template<typename T, typename A> 
 	struct print_functions<std::set<T,A>> {
 		static int print(gxx::io::ostream& o, std::set<T,A> const& vec) {
-			o.putchar('[');
-			int s = vec.size();
-			for (const auto& g : vec) {
-				gxx::print_to(o, g);
-				if (--s) o.putchar(',');
-			}
-			o.putchar(']');
+			return print_array_like_to(o, vec);			
 		}
 	};
 
 	template<typename T, typename A> 
 	struct print_functions<std::list<T,A>> {
 		static int print(gxx::io::ostream& o, std::list<T,A> const& vec) {
-			o.putchar('[');
-			int s = vec.size();
-			for (const auto& g : vec) {
-				gxx::print_to(o, g);
-				if (--s) o.putchar(',');
-			}
-			o.putchar(']');
+			return print_array_like_to(o, vec);
 		}
 	};
 
 	template<typename T, dlist_head T::* L> 
 	struct print_functions<gxx::dlist<T,L>> {
 		static int print(gxx::io::ostream& o, gxx::dlist<T,L> const& vec) {
-			o.putchar('[');
-			int s = vec.size();
-			for (const auto& g : vec) {
-				gxx::print_to(o, g);
-				if (--s) o.putchar(',');
-			}
-			o.putchar(']');
+			return print_array_like_to(o, vec);
 		}
 	};
 
 	template<typename T, size_t N> 
 	struct print_functions<std::array<T,N>> {
 		static int print(gxx::io::ostream& o, std::array<T,N> const& vec) {
-			o.putchar('[');
-			for (int i = 0; i < N - 1; ++i) {
-				gxx::print_to(o, vec[i]);
-				o.putchar(',');
-			}
-			if (N != 0)
-				gxx::print_to(o, vec[N - 1]);
-			o.putchar(']');
+			return print_array_like_to(o, vec);
 		}		
 	};
 
 	template<typename T> 
 	struct print_functions<std::set<T>> {
 		static int print(gxx::io::ostream& o, std::set<T> const& vec) {
-			o.putchar('[');
-			int s = vec.size();
-			for (const auto& g : vec) {
-				gxx::print_to(o, g);
-				if (--s) o.putchar(',');
-			}
-			o.putchar(']');
+			return print_array_like_to(o, vec);
 		}		
 	};
 
@@ -117,7 +89,7 @@ namespace gxx {
 	template<> 
 	struct print_functions<std::string> {
 		static int print(gxx::io::ostream& o, const std::string& str) {
-				o.print(str.c_str());
+			o.print(str.c_str());
 		}
 	};
 
