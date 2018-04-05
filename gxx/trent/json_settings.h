@@ -26,6 +26,8 @@ private:
 			file_contents << file.rdbuf();
 			tr = json::parse(file_contents).unwrap();
 			file.close();
+                        gxx::println("sync", tr);
+                        synced = true;
 		}
 		
 public:

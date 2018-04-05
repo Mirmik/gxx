@@ -12,7 +12,6 @@ namespace gxx {
 		virtual void sync() = 0;
 		virtual void save() = 0;
 	
-	
 		gxx::trent& node() { return tr; }
 		const gxx::trent& node() const { return tr; }
 	};
@@ -22,19 +21,24 @@ namespace gxx {
 		gxx::trent_path path;
 
 		trent_settings_slice(gxx::trent_settings& stgs, const gxx::trent_path& path) 
-			: settings(stgs), path(path) {}
+                        : settings(stgs), path(path) {
+
+                    gxx::println("here", stgs.synced);
+                }
 		
 		void sync() {
+                        gxx::println("here", settings.synced);
 			if (!settings.synced) {
+                            gxx::println("here");
 				settings.sync();
 			}
 			tr = settings.node()[path];
-			//gxx::println(settings.node()[path]);
-			//gxx::println(tr);
+                        synced = true;
 		}
 
 		void save() {
 			//bind = tr;
+                        settings.node()[path] = tr;
 			settings.save();
 		}
 	};
