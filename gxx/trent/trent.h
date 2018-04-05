@@ -165,24 +165,29 @@ namespace gxx {
 		void invalidate();
 
 	public:
-		trent& operator[](int i);
 		const trent& operator[](int i) const;
-		trent& operator[](const char* key);
-		trent& operator[](const std::string& key);
+		const trent& operator[](const char* key) const;
 		const trent& operator[](const std::string& key) const;
-		trent& operator[](const gxx::buffer& key);
-		//trent& operator[](const trent_path& path);
+		const trent& operator[](const gxx::buffer& key) const;
 		const trent& operator[](const trent_path& path) const;
 
-		trent& at(int i);
-		trent& at(const char* key);
-		trent& at(const std::string& key);
-		trent& at(const gxx::buffer& key);
+		trent& operator[](int i);
+		trent& operator[](const char* key);
+		trent& operator[](const std::string& key);
+		trent& operator[](const gxx::buffer& key);
+		trent& operator[](const trent_path& path);
 
 		const trent& at(int i) const;
 		const trent& at(const char* key) const;
 		const trent& at(const std::string& key) const;
 		const trent& at(const gxx::buffer& key) const;
+		const trent& at(const trent_path& path) const;
+
+		trent& at(int i);
+		trent& at(const char* key);
+		trent& at(const std::string& key);
+		trent& at(const gxx::buffer& key);
+		trent& at(const trent_path& path);
 
 		bool have(const std::string& key) const; 
 
