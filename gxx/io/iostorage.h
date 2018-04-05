@@ -6,7 +6,7 @@
 
 namespace gxx {
 	namespace io {
-		class ostorage : public gxx::io::ostream {
+		/*class ostorage : public gxx::io::ostream {
 		public:
 			virtual int room() = 0;
 			virtual void set_empty_callback(gxx::delegate<void> dlg) {};
@@ -18,6 +18,7 @@ namespace gxx {
 		};
 
 		class iostorage : public gxx::io::ostorage, public gxx::io::istorage {}; 
+		*/
 	}
 }
 
