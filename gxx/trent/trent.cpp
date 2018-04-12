@@ -202,7 +202,6 @@ namespace gxx {
 	}
 	
 	bool trent::have(const std::string& str) const {
-        gxx::println(3);
         if (m_type != trent::type::dict) gxx::panic("wrong trent type");
 		return m_dict.count(str) != 0; 
 	}
