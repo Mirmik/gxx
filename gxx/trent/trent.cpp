@@ -439,18 +439,13 @@ namespace gxx {
 
 		strlst retlist;
 
-		//dprln("_keys");
-		auto _keys = gxx::flow::keys(m_dict);
-		//dprln("_keys");
-		strlst keys;//(_keys.begin(), _keys.end());
+        auto _keys = gxx::flow::keys(m_dict);
+        strlst keys;//(_keys.begin(), _keys.end());
 		for(auto k : _keys) {
 			keys.push_back(k);
 		}
 		
-		//dprln("HERE");
-		//std::sort(lst.begin(), lst.end());
-		//std::sort(keys.begin(), keys.end());
-		lst.sort();
+        lst.sort();
 		keys.sort();
 
 		switch (ct) {

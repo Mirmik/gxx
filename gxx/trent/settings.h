@@ -23,13 +23,13 @@ namespace gxx {
 		trent_settings_slice(gxx::trent_settings& stgs, const gxx::trent_path& path) 
                         : settings(stgs), path(path) {
 
-                    gxx::println("here", stgs.synced);
+                    //gxx::println("here", stgs.synced);
                 }
 		
 		void sync() {
-                        gxx::println("here", settings.synced);
+                        //gxx::println("here", settings.synced);
 			if (!settings.synced) {
-                            gxx::println("here");
+                            //gxx::println("here");
 				settings.sync();
 			}
 			tr = settings.node()[path];
