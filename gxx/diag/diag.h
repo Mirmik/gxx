@@ -32,8 +32,8 @@ int diag_getc();
 int diag_write(const char* buf, int len);
 int diag_read(char* buf, int len);
 
-int diag_write_stub(void*, const char* buf, int len);
-int diag_read_stub(void*, char* buf, int len);
+int diag_write_stub(void* priv, const char* buf, int len);
+int diag_read_stub(void* priv, char* buf, int len);
 
 __END_DECLS
 

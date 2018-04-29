@@ -1,13 +1,3 @@
-/* This file is derived from Newlib: http://sourceware.org/newlib/  */
-
-/**
- * @file
- * @brief Implementation of #memset() function.
- *
- * @date 23.11.09
- * @author Eldar Abusalimov
- */
-
 #include <string.h>
 #include <stddef.h>
 #include <stdint.h>
