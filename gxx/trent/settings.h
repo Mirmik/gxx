@@ -12,7 +12,6 @@ namespace gxx {
 		virtual void sync() = 0;
 		virtual void save() = 0;
 	
-	
 		gxx::trent& node() { return tr; }
 		const gxx::trent& node() const { return tr; }
 	};
@@ -22,24 +21,29 @@ namespace gxx {
 		gxx::trent_path path;
 
 		trent_settings_slice(gxx::trent_settings& stgs, const gxx::trent_path& path) 
-			: settings(stgs), path(path) {}
+                        : settings(stgs), path(path) {
+
+                    //gxx::println("here", stgs.synced);
+                }
 		
 		void sync() {
+                        //gxx::println("here", settings.synced);
 			if (!settings.synced) {
+                            //gxx::println("here");
 				settings.sync();
 			}
 			tr = settings.node()[path];
-			//gxx::println(settings.node()[path]);
-			//gxx::println(tr);
+                        synced = true;
 		}
 
 		void save() {
 			//bind = tr;
+                        settings.node()[path] = tr;
 			settings.save();
 		}
 	};
 
-}
+
 	/*class trent_settings_basic {
 	public:
 		virtual gxx::trent& at(const std::string& str) = 0;
@@ -121,45 +125,36 @@ namespace gxx {
 			}
 		}
 	};
-
-	class settings_binder {
+*/
+        class settings_binder_integer : public trent_settings_slice {
 	public:
-		trent_settings_basic& settings;
-		std::string name;
-		trent* tr = nullptr;
-
-		settings_binder(trent_settings_basic& base, const std::string& name) : name(name), settings(base) {}
-
-		void save() { settings.save(); }
-	};
-
-	class settings_binder_integer : public settings_binder {
-	public:
-		settings_binder_integer(trent_settings_basic& base, const std::string& name) : settings_binder(base, name) {}
+                settings_binder_integer(trent_settings& base, const trent_path& name) : trent_settings_slice(base, name) {}
 
 		void sync_default(trent::integer_type def) {
-			tr = &settings[name];
-			if (tr->is_nil()) *tr = def; 
+                        sync();
+                    //tr = &node()[name];
+                        if (node().is_nil()) node() = def;
 		}
 
                 settings_binder_integer& operator=(int64_t i) {
-                        *tr = i;
+                        node() = i;
                         return *this;
                 }
 
-		settings_binder_integer& operator++() {
-			*tr = (*tr).as_integer() + 1;
+                /*settings_binder_integer& operator++() {
+                        node() = (*tr).as_integer() + 1;
 			return *this;
 		}
 
 		settings_binder_integer& operator++(int) {
 			*tr = (*tr).as_integer() + 1;
 			return *this;
-		}
+                }*/
 
-		operator trent::integer_type() const { return tr->as_integer(); }
+                operator trent::integer_type() const { return node().as_integer(); }
 	};
-
+       }
+/*
         class settings_binder_intvec : public settings_binder, public gxx::array_printable<settings_binder_intvec> {
         public:
                 settings_binder_intvec(trent_settings_basic& base, const std::string& name) : settings_binder(base, name) {}

@@ -160,17 +160,36 @@ namespace gxx {
 		return *tr;
 	}
 
+        trent& trent::operator[] (const gxx::trent_path& path) {
+                gxx::trent* tr = this;
+                for (auto& p : path) {
+                        if (p.is_string) {
+                                tr = &tr->operator[](p.str);
+                        }
+                        else {
+                                tr = &tr->operator[](p.i32);
+                        }
+                }
+                return *tr;
+        }
+
 	const trent& trent::at(int i) const {
 		if (m_type != trent::type::list) gxx::panic("wrong trent type");
         if(m_arr.size() <= i) gxx::panic("wrong trent list size");
 		return m_arr[i];
 	}
 	
-	const trent& trent::at(const char* key) const {
-        gxx::println(2);
+
+        const trent& trent::operator[](const char* key) const {
         if (m_type != trent::type::dict) gxx::panic("wrong trent type");
-		return m_dict.at(key);
-	}
+                return m_dict.at(key);
+        }
+
+        /*const trent& trent::at(const char* key) const {
+        gxx::println(2);
+        if (m_type != trent::type::dict) init(trent::type::dict);
+                return m_dict[key];
+        }*/
 
 	const trent& trent::at(const std::string& key) const {
         if (m_type != trent::type::dict) gxx::panic("wrong trent type");
@@ -183,7 +202,6 @@ namespace gxx {
 	}
 	
 	bool trent::have(const std::string& str) const {
-        gxx::println(3);
         if (m_type != trent::type::dict) gxx::panic("wrong trent type");
 		return m_dict.count(str) != 0; 
 	}
@@ -241,6 +259,11 @@ namespace gxx {
 		if (m_type == trent::type::integer) return m_int;
 		return 0;
 	}
+
+        result<trent::integer_type>  trent::as_integer_critical() const {
+                if (!is_integer()) return error("is't integer");
+                return m_int;
+        }
 
 	result<std::string&> trent::as_string_critical() {
 		if (!is_string()) return error("is't string");
@@ -416,18 +439,13 @@ namespace gxx {
 
 		strlst retlist;
 
-		//dprln("_keys");
-		auto _keys = gxx::flow::keys(m_dict);
-		//dprln("_keys");
-		strlst keys;//(_keys.begin(), _keys.end());
+        auto _keys = gxx::flow::keys(m_dict);
+        strlst keys;//(_keys.begin(), _keys.end());
 		for(auto k : _keys) {
 			keys.push_back(k);
 		}
 		
-		//dprln("HERE");
-		//std::sort(lst.begin(), lst.end());
-		//std::sort(keys.begin(), keys.end());
-		lst.sort();
+        lst.sort();
 		keys.sort();
 
 		switch (ct) {
