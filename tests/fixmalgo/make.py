@@ -1,0 +1,22 @@
+#!/usr/bin/env	python
+#coding: utf-8
+
+import licant
+from licant.modules import submodule
+from licant.cxx_modules import application
+
+from licant.scripter import scriptq
+scriptq.execute("../../gxx.g.py")
+
+application("target",
+	cxxstd = "c++17",
+	sources = ["main.cpp"],
+	include_paths = ["../.."],
+	modules = [
+		submodule("gxx", "posix"),
+		submodule("gxx.dprint", "cout"),
+		submodule("gxx.print", "cout"),
+	]
+)
+
+licant.ex(default = "target")
