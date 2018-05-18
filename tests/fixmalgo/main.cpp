@@ -1,11 +1,25 @@
-#include <gxx/math/malgo.h>
 #include <gxx/math/linalg.h>
+#include <gxx/print.h>
 
-using vector3 = gxx::linalg::vec<double,3>;
-using matrix2 = gxx::linalg::mat<double,2,2>;
+using namespace gxx::linalg;
+
+int f(int a, int b) { return a+b; }
 
 int main() {
-	constexpr vector3 v1{ 10, 56, 0.33 };
-	constexpr matrix2 m1{{1,1},{1,1}}; 
-	//constexpr vector3 v2;
+	//constexpr mat<double,2,2> m1 = {{
+	//	{1,1}, {1,1}
+	//}};
+
+	constexpr vec<int,2> a {1,2};
+	constexpr vec<int,2> b {2,3};
+
+	auto res = zip(a,b,f);
+
+	gxx::print_dump(&res, sizeof(res));
+
+	//constexpr mat<double,2,2> m {a,b};
+
+
+
+
 }
