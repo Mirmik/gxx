@@ -7,8 +7,8 @@
 namespace gxx {
 
 	template<class T, int M, int N>
-	struct print_functions<gxx::linalg::mat<T,M,N>> {
-		static int print(gxx::io::ostream& o, const gxx::linalg::mat<T,M,N>& m) {
+	struct print_functions<linalg::mat<T,M,N>> {
+		static int print(gxx::io::ostream& o, const linalg::mat<T,M,N>& m) {
 			int ret = 0;
 			for (int i = 0; i < N - 1; ++i) {
 				ret += gxx::println(m.row(i));
@@ -19,8 +19,8 @@ namespace gxx {
 	};
 
 	template<class T, int M>
-	struct print_functions<gxx::linalg::vec<T,M>> {
-		static int print(gxx::io::ostream& o, const gxx::linalg::vec<T,M>& v) {
+	struct print_functions<linalg::vec<T,M>> {
+		static int print(gxx::io::ostream& o, const linalg::vec<T,M>& v) {
 			int ret = 0;
 			for (int i = 0; i < M; ++i) {
 				ret += gxx::print(v[i]);
