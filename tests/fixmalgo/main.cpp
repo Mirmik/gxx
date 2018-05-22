@@ -1,9 +1,10 @@
 #include <gxx/math/linalg.h>
 #include <gxx/print.h>
+#include <gxx/print/linalg.h>
 
 using namespace gxx::linalg;
 
-int f(int a, int b) { return a+b; }
+constexpr int f(int a, int b) { return a+b; }
 
 int main() {
 	//constexpr mat<double,2,2> m1 = {{
@@ -11,11 +12,17 @@ int main() {
 	//}};
 
 	constexpr vec<int,2> a {1,2};
-	constexpr vec<int,2> b {2,3};
+	constexpr vec<int,2> b {4,3};
 
-	auto res = zip(a,b,f);
+	constexpr mat<int,2,2> m{a,b}; 
+	//constexpr vec<int,2> m2 = zip(a, b, f); 
+	//constexpr vec<int,2> m2 = zip(a, b, std::plus<int>());
+	//constexpr vec<int,2> m2 = a + b;
 
-	gxx::print_dump(&res, sizeof(res));
+
+	constexpr auto m2 = (m * m - m) * mat<int,2,2>();
+
+	gxx::println(m2);
 
 	//constexpr mat<double,2,2> m {a,b};
 
