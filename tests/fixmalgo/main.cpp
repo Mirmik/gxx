@@ -2,35 +2,20 @@
 #include <gxx/print.h>
 #include <gxx/print/linalg.h>
 
+#include <gxx/math/geometric.h>
+
 using namespace linalg;
 
 constexpr int f(int a, int b) { return a+b; }
 
 int main() {
-	//constexpr mat<double,2,2> m1 = {{
-	//	{1,1}, {1,1}
-	//}};
 
-	constexpr vec<int,2> a {1,-2};
-	constexpr vec<int,2> b {4,3};
-
-	constexpr vec<int,2> c = linalg::abs(a);
-
-	constexpr mat<int,2,2> m{a,b}; 
-	//constexpr vec<int,2> m2 = zip(a, b, f); 
-	//constexpr vec<int,2> m2 = zip(a, b, std::plus<int>());
-	//constexpr vec<int,2> m2 = a + b;
+	vec<float, 3> a(0,0,0);
+	vec<float, 3> b(1,0,0);
+	vec<float, 3> c(0,1,0);
 
 
-	constexpr mat<int,2,2> m2 = m * m - m;
-
-	constexpr mat<int,2,2> m3 = linalg::abs(m2);	
-
-	gxx::println(linalg::mul(m2,m2));
-
-	//constexpr mat<double,2,2> m {a,b};
-
-
-
-
+	gxx::println(geometric::trinormal(a,b,c));
+	gxx::println(geometric::plane_of(a,b,c));
+	gxx::println(geometric::gradient(a,b,c,0.5,0.5,1));
 }
