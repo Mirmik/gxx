@@ -28,6 +28,12 @@ int gxx::inet::socket::reusing(bool en) {
 	return rc;
 }
 
+int gxx::inet::socket::nosigpipe(bool en) {
+	int on = en;
+	int rc = setsockopt(fd, SOL_SOCKET, SO_NOSIGPIPE, (char *) &on, sizeof (on));
+	return rc;
+}
+
 int gxx::inet::socket::init(int domain, int type, int proto) {
 	fd = ::socket(domain, type, proto);
 	return fd;
