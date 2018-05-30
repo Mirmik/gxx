@@ -32,7 +32,6 @@ namespace gxx {
 			int nodelay(bool en);
 			int nonblock(bool en);
 			int reusing(bool en);
-			int nosigpipe(bool en);
 			
 			[[deprecated]]
 			int blocking(bool en);
