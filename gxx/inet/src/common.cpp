@@ -18,6 +18,7 @@
 #include <gxx/inet/hostaddr.h>
 #include <gxx/inet/tcp_socket.h>
 #include <gxx/inet/tcp_server.h>
+#include <gxx/inet/dgramm.h>
 
 #include <gxx/osutil/fd.h>
 
@@ -81,17 +82,7 @@ int gxx::inet::socket::close() {
 #else
 #	error("unsuported")
 #endif
-	/*if (ret < 0) {
-		m_errstr = strerror(errno);
-		return -1;
-	}*/
-
 	ret = ::close(fd);
-	/*if (ret < 0) {
-		m_errstr = strerror(errno);
-		return -1;
-	}*/
-	
 	return ret;
 }
 
@@ -125,24 +116,6 @@ int gxx::inet::socket::recv(char* data, size_t size, int flags) {
 	return ::recv(fd, data, size, flags);
 }
 
-/*gxx::inet::tcp_server::tcp_server(int port) : tcp_server() {
-	init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	bind("0.0.0.0", port, PF_INET);
-	inet::socket::listen(10);
-}
-
-gxx::inet::tcp_server::tcp_server(gxx::inet::hostaddr addr, int port) : tcp_server() {
-	init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	bind(addr, port, PF_INET);
-	inet::socket::listen(10);
-}
-
-void gxx::inet::tcp_server::listen(int port, int conn) {
-	init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	bind("0.0.0.0", port, PF_INET);
-	inet::socket::listen(conn);
-}*/
-
 int gxx::inet::tcp_server::init() {
 	return socket::init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 }
@@ -170,316 +143,47 @@ gxx::inet::tcp_socket gxx::inet::tcp_server::accept() {
 	return sock;
 }
 
-/*
-namespace gxx {
-	void socket::setError(const char* func, int err) {
-		SocketError serr;
-		switch (err) {
-			case EADDRINUSE: serr = SocketError::AllreadyInUse; break;
-			case ECONNREFUSED: serr = SocketError::ConnectionRefused; break;
-			case EAGAIN: serr = SocketError::Unavailable; break;	
-			case EPIPE: serr = SocketError::BrokenPipe; break;
-			default: serr = SocketError::UnknownError; break;
-		}
-		setError(func, serr);
-	}
 
-	void socket::setError(const char* func, SocketError err) {
-		m_error = err;
-		gxx::debug("socket {0}: {}", func, error());			
-	}
-
-	int socket::open() {
-		switch(m_type) {
-			case socket::type::tcp: 
-				m_fd = ::socket(PF_INET, SOCK_STREAM, 0);
-				break;
-			default:
-				setError("open", SocketError::WrongSocketType);
-				return -1;	
-		}
-		
-		if (m_fd < 0) {
-			setError("open", errno);
-			return -1;
-		}
-	
-		//m_state = SocketState::Opened;
-		return 0;
-	}
-
-	int socket::close() {
-		if (m_fd >= 0) {
-	
-			if (!is_disconnected()) {
-				int ret = ::shutdown(m_fd, SHUT_RDWR);
-				dprln("shutdown", ret);
-
-				if (ret < 0) {
-					setError("shutdown", errno);
-   					m_state = SocketState::Disconnected;	
-					return -1;
-   				}
-   			}	
-
-   			m_state = SocketState::Disconnected;	
-		
-			int ret = ::close(m_fd);
-			if (ret < 0) {
-				setError("close", errno);
-				return -1;
-   			}
-   			
-   			return 0;
-   		}
-   		return -1;
-	}
-	
-	int socket::connect() {
-		if (m_fd < 0) if (open()) return -1;;
-
-		struct sockaddr_in addr;
-		memset(&addr, 0, sizeof(addr));
-
-		switch(m_type) {
-			case 
-				socket::type::tcp: addr.sin_family = AF_INET;
-				break;
-			default: 
-				setError("connect", SocketError::WrongSocketType);
-				return -1;
-		}
-
-		addr.sin_port = htons(m_port);
-   	 	addr.sin_addr.s_addr = htonl(m_addr.addr);
-
-		if (::connect(m_fd, (struct sockaddr*) &addr, sizeof(addr)) < 0) {
-			setError("connect", errno);
-			return -1;				
-		}
-
-		m_state = SocketState::Connected;		
-		return 0;			 
-	}
-
-	int socket::listen(int con) {
-		if (::listen(m_fd, con) < 0) {
-   			setError("listen", errno);
-			return -1;
-		}
-
-		m_state = SocketState::Listening;
-		return 0;		
-    }
-
-	int socket::bind() {
-		struct sockaddr_in addr;
-		memset(&addr, 0, sizeof(addr));
-		
-		addr.sin_port = htons(m_port);
-   	 	addr.sin_addr.s_addr = htonl(m_addr.addr);
-
-		if (::bind(m_fd, (struct sockaddr*) &addr, sizeof(addr)) < 0) {
-   			setError("bind", errno);	
-			m_state = SocketState::Disconnected;
-			return -1;
-		}
-
-		m_state = SocketState::Bound;
-		return 0;			 
-	}
-
-
-	gxx::socket socket::accept() {
-		gxx::socket ret;
-
-		int c = sizeof(sockaddr_in);
-		sockaddr_in caddr;
-		memset(&caddr, 0, sizeof(caddr));
-
-		int cfd = ::accept( m_fd, (sockaddr*)&caddr, (socklen_t*)&c );
-		if (cfd < 0) {
-			setError("accept", errno);
-			return ret;
-		}
-
-		ret.init(m_type, caddr.sin_addr.s_addr, caddr.sin_port);
-		ret.m_fd = cfd;
-		ret.m_state = SocketState::Connected;
-		return std::move(ret);
-	}
-
-
-	int socket::try_accept(gxx::socket& ret) {
-		int c = sizeof(sockaddr_in);
-		sockaddr_in caddr;
-		memset(&caddr, 0, sizeof(caddr));
-
-		int cfd = ::accept( m_fd, (sockaddr*)&caddr, (socklen_t*)&c );
-		if (cfd < 0) {
-			return errno;
-		}
-
-		ret.init(m_type, caddr.sin_addr.s_addr, caddr.sin_port);
-		ret.m_fd = cfd;
-		ret.m_state = SocketState::Connected;
-		return 0;
-	}
-
-	int socket::send(const char* data, size_t size, int flags) {
-    	//__label__ __err__;
-    	int ret = ::send(m_fd, data, size, flags);	
-    	if (ret < 0) {
-    		setError("send", errno);	
-    		m_state = SocketState::Disconnected;
-		}
-		return ret;	
-
-		//__err__:
-		//close();
-		//return -1;
-    }
-
-    int socket::recv(char* data, size_t size, int flags) {
-    	int ret = ::recv(m_fd, data, size, flags);	
-    	
-    	if (ret < 0) {
-    		setError("recv", errno);	
-			m_state = SocketState::Disconnected;
-		}
-		return ret;	
-    }
-
-
-	int socket::writeData(const char* str, size_t sz) {
-		return socket::send(str, sz, MSG_NOSIGNAL);
-	}	
-
-	int socket::readData(char* str, size_t sz) {
-		return socket::recv(str, sz, MSG_NOSIGNAL);		
-	}
-
+gxx::inet::datagramm_socket::datagramm_socket(int domain, int type, int proto) {
+	socket::init(domain, type, proto);
 }
 
-/*
-	socket(int32_t ip, int port, uint8_t family = AF_INET) {
-		init(ip,port,family);
-	}
+int gxx::inet::datagramm_socket::sendto(gxx::inet::hostaddr haddr, int port, const char* data, size_t size) {
+	struct sockaddr_in addr;
+	memset(&addr, 0, sizeof(addr));
 
-	void init(int32_t ip, int port, uint8_t family = AF_INET) {
-		addr.sin_family = family;
-		addr.sin_port = htons(port);
-   	 	addr.sin_addr.s_addr = htonl(ip);	
-	}
+	addr.sin_family = PF_INET;    
+	addr.sin_addr.s_addr = htonl(haddr.addr);  //INADDR_ANY = 0.0.0.0
+	addr.sin_port = htons(port);
 
-	void init(const char* ip, int port, uint8_t family = AF_INET) {
-		addr.sin_family = family;
-		addr.sin_port = htons(port);
-   	 	addr.sin_addr.s_addr = inet_addr(ip);	
-	}
+	return ::sendto(fd, data, size, 0, (sockaddr*) &addr, sizeof(sockaddr_in));
+}
 
-	int connect(int32_t ip, int port, uint8_t family = AF_INET) {
-		init(ip, port, family);
-		if (open()) return -1;
-		return connect();
-	}
-
-	int connect(const char* ip, int port, uint8_t family = AF_INET) {
-		init(ip, port, family);
-		if (open()) return -1;
-		return connect();
-	}
-
+int gxx::inet::datagramm_socket::recvfrom(char* data, size_t maxsize, gxx::inet::netaddr* inaddr) {
+	struct sockaddr_in si_other;
+	unsigned int sz = sizeof(sockaddr_in);
+	int ret = ::recvfrom(fd, data, maxsize, 0, (sockaddr*) &si_other, &sz);
 	
-
-	int disconnect() {
-		int ret = ::shutdown(fd, SHUT_RDWR);
-		if (ret < 0) {
-   			m_errstr = strerror(errno);
-   			return -1;
-   		}
-
-		ret = ::close(fd);
-		if (ret < 0) {
-   			m_errstr = strerror(errno);
-   			return -1;
-   		}
-   		
-   		return 0;
+	if (ret < 0) {
+		gxx::println(strerror(errno));
 	}
 
-	int bind() {
-		if (::bind(fd, (struct sockaddr*) &addr, sizeof(addr)) < 0) {
-   			m_errstr = strerror(errno);
-   			return -1;				
-		}
-		return 0;			 
-	}
+	if (inaddr) *inaddr = gxx::inet::netaddr(ntohl(si_other.sin_addr.s_addr), ntohs(si_other.sin_port));
+	return ret;
+}
 
-	int connect() {
-		if (::connect(fd, (struct sockaddr*) &addr, sizeof(addr)) < 0) {
-   			m_errstr = strerror(errno);
-   			return -1;				
-		}
-		
-		return 0;			 
-	}
+gxx::inet::udp_socket::udp_socket() : datagramm_socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP) {}
 
-    int listen(int con) {
-		if (::listen(fd, con) < 0) {
-   			m_errstr = strerror(errno);
-   			return -1;				
-		}
-		return 0;		
-    }
+gxx::inet::udp_socket::udp_socket(gxx::inet::hostaddr addr, int port) : udp_socket() {
+	bind(addr, port);
+}  
 
-    
+int gxx::inet::udp_socket::bind(gxx::inet::hostaddr addr, int port) {
+	socket::bind(addr, port, PF_INET);	
+}
 
-    int write(const char* data, size_t size) {
-    	return send(data, size, 0);
-    }
+gxx::inet::rdm_socket::rdm_socket() : datagramm_socket(AF_INET, SOCK_RDM, 0) {}
 
-    int read(char* data, size_t size) {
-    	return recv(data, size, 0);
-    }
-
-    bool blocking(bool en)
-	{
-	   if (fd < 0) return false;
-	   int flags = fcntl(fd, F_GETFL, 0);
-	   if (flags < 0) return false;
-	   flags = en ? (flags&~O_NONBLOCK) : (flags|O_NONBLOCK);
-	   return (fcntl(fd, F_SETFL, flags) == 0) ? true : false;
-	}
-
-	int reusing(bool en) {
-		int on = en;
-		int rc = setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (char *) &on, sizeof (on));
-		return rc;
-	}
-
-	int nodelay(bool en) {
-		int on = en;
-		int rc = setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, (char *) &on, sizeof (on));
-		return rc;
-	}
-
-	gxx::io::text_stream_reader as_text_reader() {
-		return gxx::io::text_stream_reader(*this);
-	}
-
-	void setFileDescriptor(int newfd) {
-		fd = newfd;
-	}
-
-	int32_t ip() { return addr.sin_addr.s_addr; }
-	int32_t port() { return addr.sin_port; }
-	int32_t family() { return addr.sin_family; }
-
-	const gxx::string& errorString() { return m_errstr; }
-	
-	void clean_input() {
-		char buf[128];
-		while(int ret = recv(buf, 128, MSG_DONTWAIT) >= 0) {}
-	}
-*/
+gxx::inet::rdm_socket::rdm_socket(gxx::inet::hostaddr addr, int port) : rdm_socket() {
+	socket::bind(addr, port, PF_INET);
+}  
