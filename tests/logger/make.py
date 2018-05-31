@@ -15,7 +15,7 @@ application("target",
 		submodule("gxx", "posix"),
 		submodule("gxx.dprint", "stdout"),
 		submodule("gxx.print", "cout"),
-		submodule("gxx.log", "posix"),
+		submodule("gxx.log2"),
 	],
 )
 

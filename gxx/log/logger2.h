@@ -4,7 +4,7 @@
 #include <gxx/datastruct/dlist_head.h>
 
 #include <gxx/time/datetime.h>
-//#include <gxx/log/manager.h>
+#include <gxx/log/manager.h>
 #include <gxx/log/base.h>
 #include <gxx/print.h>
 #include <vector>
@@ -12,34 +12,15 @@
 
 namespace gxx {
 	namespace log {
-		class target;
-
-		void send_log_message_to_targets(std::shared_ptr<logmessage> msg) {
-
-		}
-
 		class logger {
-			dlist_head manage_link;
-			std::string logger_name;
+		public:
 			std::vector<std::pair<gxx::log::target*, gxx::log::level>> targets;
 			bool syncmode = false;
 		
 		public:
-			logger(const std::string& name) : logger_name(name) {}
-
-			void link(target& tgt, level lvl) { targets.push_back(std::make_pair(&tgt,lvl)); }
-			void clear_targets() { targets.clear(); }
-
-			inline void log(level lvl, std::string&& msg) {
-				auto logmsg = std::allocate_shared<logmessage>(gxx::log::alloc);
-				logmsg->time = gxx::time::now();
-				logmsg->message = std::move(msg);
-				logmsg->level = lvl;
-				logmsg->logger = this;
-
-				if (syncmode) send_log_message_to_targets(logmsg);
-				else gxx::async::plan(send_log_message_to_targets, logmsg);
-			}
+			void link(target& tgt, level lvl);
+			void clear_targets();
+			void log(level lvl, std::string&& msg);
 
 			template <typename ... Args>
 			inline void log(level lvl, const char* fmt, Args&& ... args) {

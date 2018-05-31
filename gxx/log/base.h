@@ -42,7 +42,7 @@ namespace gxx {
 			}
 		}
 
-		struct logmessage : gxx::async::token {
+		struct logmessage {
 			gxx::time::datetime time;
 			std::string message;
 			gxx::log::level level;

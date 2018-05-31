@@ -52,6 +52,10 @@ module("gxx.log", impl = "posix",
 	sources = ["gxx/log/posix_timestamp.cpp", "gxx/log/targets/stdout.cpp"],
 )
 
+module("gxx.log2", 
+	sources = ["gxx/log/src/logger.cpp", "gxx/log/src/synconly.cpp"],
+)
+
 module("gxx.trent", 
 	srcdir = "gxx/trent",
 	sources = ["json.cpp", "gbson.cpp", "trent.cpp"],

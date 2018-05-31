@@ -8,7 +8,7 @@ namespace gxx { namespace time {
 		std::tm	native;	
 	};
 
-	datetime now() {
+	inline datetime now() {
 		datetime ret;
 		std::time_t time = std::time(nullptr);
 		ret.native = *std::localtime(&time);

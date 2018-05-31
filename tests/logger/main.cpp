@@ -1,16 +1,14 @@
 #include <gxx/log/logger2.h>
+#include <gxx/log/target2.h>
 //#include <gxx/log/targets/stdout.h>
 
-//gxx::log::stdout_target console_target;
-gxx::log::logger logger("Console");
+gxx::log::stdout_target console_target;
+gxx::log::logger syslog;
 
 int main() {
-	//logger.set_pattern("Mirmik: {time}[{level}]{logger}| {msg}");
-	//logger.add_target(console_target);
+	syslog.link(console_target, gxx::log::level::debug);
 
-	//console_target.set_level(gxx::log::level::info);
-
-	logger.debug("what {}", 3);
-	logger.debug("that {}", "port");
-	logger.info("I love {}", "you");
+	syslog.debug("what {}", 3);
+	syslog.debug("that {}", "port");
+	syslog.info("I love {}", "you");
 }
