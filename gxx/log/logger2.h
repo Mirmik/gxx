@@ -4,7 +4,7 @@
 #include <gxx/datastruct/dlist_head.h>
 
 #include <gxx/time/datetime.h>
-#include <gxx/log/manager.h>
+//#include <gxx/log/manager.h>
 #include <gxx/log/base.h>
 #include <gxx/print.h>
 #include <vector>
@@ -13,6 +13,10 @@
 namespace gxx {
 	namespace log {
 		class target;
+
+		void send_log_message_to_targets(std::shared_ptr<logmessage> msg) {
+
+		}
 
 		class logger {
 			dlist_head manage_link;
@@ -33,7 +37,8 @@ namespace gxx {
 				logmsg->level = lvl;
 				logmsg->logger = this;
 
-				manager.log(logmsg, syncmode);
+				if (syncmode) send_log_message_to_targets(logmsg);
+				else gxx::async::plan(send_log_message_to_targets, logmsg);
 			}
 
 			template <typename ... Args>

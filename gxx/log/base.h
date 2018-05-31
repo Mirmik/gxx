@@ -9,6 +9,10 @@ namespace gxx {
 	}
 
 	namespace log {
+		class logger;
+		class target;
+		class manager_cls;
+
 		enum class level {
 			trace,
 			debug,
@@ -38,7 +42,7 @@ namespace gxx {
 			}
 		}
 
-		struct logmessage {
+		struct logmessage : gxx::async::token {
 			gxx::time::datetime time;
 			std::string message;
 			gxx::log::level level;
