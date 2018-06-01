@@ -2,6 +2,7 @@
 #define GENOS_UTILXX_BUFFER_H
 
 #include <string>
+#include <array>
 #include <string.h>
 #include <stdlib.h>
 
@@ -62,6 +63,12 @@ namespace gxx {
 			return gxx::buffer((char*)&obj, sizeof(obj));
 		}
 	};
+
+
+	template<typename T, size_t N>
+	gxx::buffer make_buffer(const std::array<T,N>& d) { 
+		return gxx::buffer(d.data(), N * sizeof(T)); 
+	}
 
 	static inline gxx::buffer allocate_buffer(int sz) {
 		void* ptr = malloc(sz);

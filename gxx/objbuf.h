@@ -104,6 +104,11 @@ namespace gxx {
 		return objbuf<T>(data, sz);
 	}
 
+	template<typename A>
+	objbuf<typename A::value_type> make_objbuf(const A& arr) {
+		return objbuf<typename A::value_type>(arr.data(), arr.size());
+	}
+
 /*	template <typename T, typename Allocator = gxx::allocator<T>>
 	class allocated_object_buffer : public object_buffer<T> {
 		using Parent = object_buffer<T>;

@@ -17,6 +17,7 @@ module("gxx", "posix",
 		"util/numconvert.c",
 		"osutil/src/posix.cpp",
 		"path/path.cpp",
+		"src/chain.cpp",
 	],
 
 	include_paths = ["."]
