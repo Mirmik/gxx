@@ -3,7 +3,7 @@
 
 #include <array>
 
-void* print_integer_argument(void* argptr, int8_t* sts) {
+void* print_integer_argument(void* argptr, void* intarg, int8_t* sts) {
 	gxx::println("print_integer_argument", *(int*)argptr);
 	return (char*)argptr + sizeof(int);
 }
@@ -13,5 +13,5 @@ int main() {
 	std::array<int, 2> args {3, 4};
 
 	gxx::chain ch(gxx::make_objbuf(funcs), gxx::make_buffer(args));
-	ch.exec();
+	ch.exec(nullptr);
 }

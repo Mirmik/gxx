@@ -11,14 +11,14 @@ gxx::chain::~chain() {
 	free(data);
 }
 
-int8_t gxx::chain::exec() {
+int8_t gxx::chain::exec(void* extarg) {
 	chainfunc_t* fptr = (chainfunc_t*) data;
 	chainfunc_t* efptr = (chainfunc_t*) ((char*)data + size * sizeof(chainfunc_t));
 	char* dptr = (char*)data + size * sizeof(chainfunc_t);
 	int8_t sts = 0;
 
 	while (fptr != efptr) {
-		dptr = (char*)(*fptr)(dptr, &sts);
+		dptr = (char*)(*fptr)(dptr, extarg, &sts);
 		if (sts) return sts;
 		++fptr;
 	}

@@ -9,14 +9,14 @@
 namespace gxx {
 	struct chain;
 
-	using chainfunc_t = void*(*)(void* ptr, int8_t* sts);
+	using chainfunc_t = void*(*)(void* intarg, void* extarg, int8_t* sts);
 
 	struct chain {
 		void* data;
 		uint16_t size;
 		chain(gxx::object_buffer<chainfunc_t> functape, gxx::buffer argstape);
 		~chain();
-		int8_t exec();
+		int8_t exec(void* arg);
 	};
 }
 

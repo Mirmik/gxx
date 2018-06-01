@@ -42,7 +42,7 @@ module("gxx.format",
 )
 
 module("gxx.print", impl = "cout", 
-	sources = ["gxx/print/print_cout.cpp"],
+	sources = ["gxx/print/src/print_cout.cpp", "gxx/print/src/compile.cpp"],
 )
 
 module("gxx.parser", 
