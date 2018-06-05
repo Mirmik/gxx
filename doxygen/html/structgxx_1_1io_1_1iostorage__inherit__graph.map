@@ -1,0 +1,7 @@
+<map id="gxx::io::iostorage" name="gxx::io::iostorage">
+<area shape="rect" id="node6" href="$classgxx_1_1io_1_1ringbuffer.html" title="gxx::io::ringbuffer" alt="" coords="72,229,195,256"/>
+<area shape="rect" id="node2" href="$structgxx_1_1io_1_1istorage.html" title="gxx::io::istorage" alt="" coords="5,80,120,107"/>
+<area shape="rect" id="node3" href="$structgxx_1_1io_1_1reader.html" title="gxx::io::reader" alt="" coords="10,5,115,32"/>
+<area shape="rect" id="node4" href="$structgxx_1_1io_1_1ostorage.html" title="gxx::io::ostorage" alt="" coords="145,80,263,107"/>
+<area shape="rect" id="node5" href="$structgxx_1_1io_1_1writer.html" title="gxx::io::writer" alt="" coords="153,5,255,32"/>
+</map>

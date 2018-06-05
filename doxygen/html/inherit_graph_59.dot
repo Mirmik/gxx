@@ -1,7 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node1 [label="gxx::change_basic\<\l T, R(B::*)(V...)\>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structgxx_1_1change__basic_3_01T_00_01R_07B_1_1_5_08_07V_8_8_8_08_4.html"];
-}

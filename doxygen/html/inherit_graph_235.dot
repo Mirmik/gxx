@@ -1,7 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node1 [label="gxx::serialize_helper\l\< Archive, rpc::status \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structgxx_1_1serialize__helper_3_01Archive_00_01rpc_1_1status_01_4.html"];
-}

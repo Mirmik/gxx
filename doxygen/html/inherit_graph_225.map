@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classgxx_1_1rpc_1_1bincaller__basic.html" title="gxx::rpc::bincaller\l_basic" alt="" coords="5,133,131,174"/>
+<area shape="rect" id="node2" href="$classgxx_1_1rpc_1_1bincall_3_01gxx_1_1delegate_3_01R_00_01T0_00_01T1_00_01T2_01_4_01_4.html" title="gxx::rpc::bincall\&lt;\l gxx::delegate\&lt; R, T0,\l T1, T2 \&gt; \&gt;" alt="" coords="185,5,339,61"/>
+<area shape="rect" id="node3" href="$classgxx_1_1rpc_1_1bincall_3_01gxx_1_1delegate_3_01rpcresult_3_01R_01_4_01_4_01_4.html" title="gxx::rpc::bincall\&lt;\l gxx::delegate\&lt; rpcresult\l\&lt; R \&gt; \&gt; \&gt;" alt="" coords="179,85,345,141"/>
+<area shape="rect" id="node4" href="$classgxx_1_1rpc_1_1bincall_3_01gxx_1_1delegate_3_01rpcresult_3_01R_01_4_00_01T0_01_4_01_4.html" title="gxx::rpc::bincall\&lt;\l gxx::delegate\&lt; rpcresult\l\&lt; R \&gt;, T0 \&gt; \&gt;" alt="" coords="179,165,345,221"/>
+<area shape="rect" id="node5" href="$classgxx_1_1rpc_1_1bincall_3_01gxx_1_1delegate_3_01rpcresult_3_01R_01_4_00_01T0_00_01T1_01_4_01_4.html" title="gxx::rpc::bincall\&lt;\l gxx::delegate\&lt; rpcresult\l\&lt; R \&gt;, T0, T1 \&gt; \&gt;" alt="" coords="179,245,345,301"/>
+</map>

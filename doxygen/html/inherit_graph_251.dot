@@ -1,7 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node1 [label="gxx::signature0\< Ret\l(*)()\>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structgxx_1_1signature0_3_01Ret_07_5_08_07_08_4.html"];
-}

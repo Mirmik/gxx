@@ -1,0 +1,12 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$structintegral__constant.html" title="integral_constant\&lt;\l bool,(is_integral\&lt;\l T \&gt;::value\|\|is_floating\l_point\&lt; T \&gt;::value\|\|is_enum\l\&lt; T \&gt;::value\|\|is_pointer\&lt; T\l \&gt;::value)\&gt;" alt="" coords="5,70,188,170"/>
+<area shape="rect" id="node2" href="$structis__pod.html" title="is_pod\&lt; T \&gt;" alt="" coords="236,107,328,133"/>
+<area shape="rect" id="node3" href="$structhas__trivial__assign.html" title="has_trivial_assign\&lt; T \&gt;" alt="" coords="389,5,548,32"/>
+<area shape="rect" id="node4" href="$structhas__trivial__constructor.html" title="has_trivial_constructor\&lt; T \&gt;" alt="" coords="376,56,561,83"/>
+<area shape="rect" id="node6" href="$structhas__trivial__copy.html" title="has_trivial_copy\&lt; T \&gt;" alt="" coords="395,107,543,133"/>
+<area shape="rect" id="node8" href="$structhas__trivial__destructor.html" title="has_trivial_destructor\&lt; T \&gt;" alt="" coords="379,157,558,184"/>
+<area shape="rect" id="node10" href="$structis__pod_3_01const_01T_01_4.html" title="is_pod\&lt; const T \&gt;" alt="" coords="405,208,533,235"/>
+<area shape="rect" id="node5" href="$structhas__trivial__constructor_3_01const_01T_01_4.html" title="has_trivial_constructor\l\&lt; const T \&gt;" alt="" coords="625,41,778,82"/>
+<area shape="rect" id="node7" href="$structhas__trivial__copy_3_01const_01T_01_4.html" title="has_trivial_copy\&lt; const T \&gt;" alt="" coords="609,107,793,133"/>
+<area shape="rect" id="node9" href="$structhas__trivial__destructor_3_01const_01T_01_4.html" title="has_trivial_destructor\l\&lt; const T \&gt;" alt="" coords="628,158,775,199"/>
+</map>

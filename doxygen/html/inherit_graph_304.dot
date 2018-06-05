@@ -1,7 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node1 [label="half_float::detail\l::binary_specialized\l\< half, half \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structhalf__float_1_1detail_1_1binary__specialized_3_01half_00_01half_01_4.html"];
-}

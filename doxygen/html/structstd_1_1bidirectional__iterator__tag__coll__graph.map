@@ -1,0 +1,4 @@
+<map id="std::bidirectional_iterator_tag" name="std::bidirectional_iterator_tag">
+<area shape="rect" id="node2" href="$structstd_1_1forward__iterator__tag.html" title="Forward iterators support a superset of input iterator operations. " alt="" coords="5,80,168,107"/>
+<area shape="rect" id="node3" href="$structstd_1_1input__iterator__tag.html" title="Marking input iterators. " alt="" coords="13,5,161,32"/>
+</map>

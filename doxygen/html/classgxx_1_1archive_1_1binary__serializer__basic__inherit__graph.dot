@@ -1,8 +1,0 @@
-digraph "gxx::archive::binary_serializer_basic"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="gxx::archive::binary\l_serializer_basic",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="gxx::archive::binary\l_string_writer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgxx_1_1archive_1_1binary__string__writer.html"];
-}

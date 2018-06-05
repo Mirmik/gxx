@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classgxx_1_1array__printable.html" title="gxx::array_printable\l\&lt; vector_compact_basic\l\&lt; T \&gt; \&gt;" alt="" coords="5,20,171,76"/>
+<area shape="rect" id="node2" href="$classmalgo_1_1vector__basic.html" title="malgo::vector_basic\l\&lt; vector_compact_basic\l\&lt; T \&gt; \&gt;" alt="" coords="219,20,384,76"/>
+<area shape="rect" id="node3" href="$classmalgo_1_1vector__compact__basic.html" title="malgo::vector_compact\l_basic\&lt; T \&gt;" alt="" coords="432,27,591,69"/>
+<area shape="rect" id="node4" href="$classmalgo_1_1vector.html" title="malgo::vector\&lt; T, A \&gt;" alt="" coords="643,5,793,32"/>
+<area shape="rect" id="node5" href="$classmalgo_1_1vector__compact__accessor.html" title="malgo::vector_compact\l_accessor\&lt; T \&gt;" alt="" coords="639,57,797,98"/>
+</map>
