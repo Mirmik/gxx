@@ -1,0 +1,9 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="half_float::detail\l::enable\< expr, T, U \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structhalf__float_1_1detail_1_1enable.html"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="half_float::detail\l::result\< T, U \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structhalf__float_1_1detail_1_1result.html"];
+}

@@ -1,0 +1,86 @@
+\hypertarget{classmalgo_1_1matrix3}{}\section{malgo\+:\+:matrix3$<$ T $>$ Class Template Reference}
+\label{classmalgo_1_1matrix3}\index{malgo\+::matrix3$<$ T $>$@{malgo\+::matrix3$<$ T $>$}}
+
+
+Collaboration diagram for malgo\+:\+:matrix3$<$ T $>$\+:
+% FIG 0
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries matrix3} (T a11, T a12, T a13, T a21, T a22, T a23, T a31, T a32, T a33)\hypertarget{classmalgo_1_1matrix3_a30d781a8144ac65e0c1487be8ecdd95b}{}\label{classmalgo_1_1matrix3_a30d781a8144ac65e0c1487be8ecdd95b}
+
+\item 
+\hyperlink{classmalgo_1_1matrix3}{matrix3} {\bfseries inverse} () const \hypertarget{classmalgo_1_1matrix3_a45463db8d91e446e31b3efbfab757276}{}\label{classmalgo_1_1matrix3_a45463db8d91e446e31b3efbfab757276}
+
+\item 
+auto {\bfseries det} () const \hypertarget{classmalgo_1_1matrix3_a3044304646580ff402a0cd842eb39f67}{}\label{classmalgo_1_1matrix3_a3044304646580ff402a0cd842eb39f67}
+
+\item 
+\hyperlink{structmalgo_1_1vector3}{vector3}$<$ T $>$ {\bfseries dot} (const \hyperlink{structmalgo_1_1vector3}{vector3}$<$ T $>$ \&v) const \hypertarget{classmalgo_1_1matrix3_a697c63e3f1719d6d82ef0815367c81f8}{}\label{classmalgo_1_1matrix3_a697c63e3f1719d6d82ef0815367c81f8}
+
+\item 
+\hyperlink{structmalgo_1_1vector3}{vector3}$<$ T $>$ {\bfseries operator$\ast$} (const \hyperlink{structmalgo_1_1vector3}{vector3}$<$ T $>$ \&v) const \hypertarget{classmalgo_1_1matrix3_a47b90a7ead39bf6fb503fdafed4040da}{}\label{classmalgo_1_1matrix3_a47b90a7ead39bf6fb503fdafed4040da}
+
+\item 
+\hyperlink{classmalgo_1_1matrix3}{matrix3} {\bfseries dot} (const \hyperlink{classmalgo_1_1matrix3}{matrix3} \&m) const \hypertarget{classmalgo_1_1matrix3_ab6594e83d0535367b3290ccb5b587720}{}\label{classmalgo_1_1matrix3_ab6594e83d0535367b3290ccb5b587720}
+
+\item 
+size\+\_\+t {\bfseries print\+To} (\hyperlink{classgxx_1_1io_1_1ostream}{gxx\+::io\+::ostream} \&o) const \hypertarget{classmalgo_1_1matrix3_aa4e670b13f89af456bf076a496ba09b4}{}\label{classmalgo_1_1matrix3_aa4e670b13f89af456bf076a496ba09b4}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classmalgo_1_1matrix3}{matrix3} {\bfseries identity} ()\hypertarget{classmalgo_1_1matrix3_a8482dff77205bcc080f619bd277bd2b1}{}\label{classmalgo_1_1matrix3_a8482dff77205bcc080f619bd277bd2b1}
+
+\item 
+static \hyperlink{classmalgo_1_1matrix3}{matrix3} {\bfseries x\+\_\+rotation} (double a)\hypertarget{classmalgo_1_1matrix3_ac52e6e5150d1e4ca7481c19ca53360e1}{}\label{classmalgo_1_1matrix3_ac52e6e5150d1e4ca7481c19ca53360e1}
+
+\item 
+static \hyperlink{classmalgo_1_1matrix3}{matrix3} {\bfseries y\+\_\+rotation} (double a)\hypertarget{classmalgo_1_1matrix3_a87ec95e23421fa04a3b83e93c416ae6f}{}\label{classmalgo_1_1matrix3_a87ec95e23421fa04a3b83e93c416ae6f}
+
+\item 
+static \hyperlink{classmalgo_1_1matrix3}{matrix3} {\bfseries z\+\_\+rotation} (double a)\hypertarget{classmalgo_1_1matrix3_a65a481fda06f047dfe7c346bd52b0799}{}\label{classmalgo_1_1matrix3_a65a481fda06f047dfe7c346bd52b0799}
+
+\item 
+static \hyperlink{classmalgo_1_1matrix3}{matrix3} {\bfseries zx\+\_\+rotation} (double a, double b)\hypertarget{classmalgo_1_1matrix3_a4e8ab3fdecc826ddd0297158d103dc9d}{}\label{classmalgo_1_1matrix3_a4e8ab3fdecc826ddd0297158d103dc9d}
+
+\item 
+static \hyperlink{classmalgo_1_1matrix3}{matrix3} {\bfseries zxy\+\_\+rotation} (double a, double b, double c)\hypertarget{classmalgo_1_1matrix3_a8e661615035cd7fcdd1286a1b4e8cdb8}{}\label{classmalgo_1_1matrix3_a8e661615035cd7fcdd1286a1b4e8cdb8}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+T {\bfseries a11}\hypertarget{classmalgo_1_1matrix3_a0ab017b257fa0db5752c86087f7deaa8}{}\label{classmalgo_1_1matrix3_a0ab017b257fa0db5752c86087f7deaa8}
+
+\item 
+T {\bfseries a12}\hypertarget{classmalgo_1_1matrix3_acf258d0056f9469ab710502b2b13c085}{}\label{classmalgo_1_1matrix3_acf258d0056f9469ab710502b2b13c085}
+
+\item 
+T {\bfseries a13}\hypertarget{classmalgo_1_1matrix3_aeb4f2c8d7967047d3e3514d9280305a6}{}\label{classmalgo_1_1matrix3_aeb4f2c8d7967047d3e3514d9280305a6}
+
+\item 
+T {\bfseries a21}\hypertarget{classmalgo_1_1matrix3_a11db0c0bfc774bcb36269880d686c3af}{}\label{classmalgo_1_1matrix3_a11db0c0bfc774bcb36269880d686c3af}
+
+\item 
+T {\bfseries a22}\hypertarget{classmalgo_1_1matrix3_a1ddde7da874d85f5dca8be98a1ed9212}{}\label{classmalgo_1_1matrix3_a1ddde7da874d85f5dca8be98a1ed9212}
+
+\item 
+T {\bfseries a23}\hypertarget{classmalgo_1_1matrix3_a53c6fea0b7ff7d87265c78d7016c2aa9}{}\label{classmalgo_1_1matrix3_a53c6fea0b7ff7d87265c78d7016c2aa9}
+
+\item 
+T {\bfseries a31}\hypertarget{classmalgo_1_1matrix3_a91c9cbdd7b97aca8971fb7da70dcbcfa}{}\label{classmalgo_1_1matrix3_a91c9cbdd7b97aca8971fb7da70dcbcfa}
+
+\item 
+T {\bfseries a32}\hypertarget{classmalgo_1_1matrix3_a473e41cb3ca7bd8bd53dc499b12a2d23}{}\label{classmalgo_1_1matrix3_a473e41cb3ca7bd8bd53dc499b12a2d23}
+
+\item 
+T {\bfseries a33}\hypertarget{classmalgo_1_1matrix3_aa0a2cd8a1d3bb348fb7982fe588ae614}{}\label{classmalgo_1_1matrix3_aa0a2cd8a1d3bb348fb7982fe588ae614}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/rfmeas/project/gxx/gxx/math/malgo3.\+h\end{DoxyCompactItemize}

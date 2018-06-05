@@ -1,0 +1,7 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="signature2\< Ret(*)\l(T0, T1)\>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structsignature2_3_01Ret_07_5_08_07T0_00_01T1_08_4.html"];
+}

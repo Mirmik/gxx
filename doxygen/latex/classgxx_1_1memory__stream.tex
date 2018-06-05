@@ -1,0 +1,60 @@
+\hypertarget{classgxx_1_1memory__stream}{}\section{gxx\+:\+:memory\+\_\+stream Class Reference}
+\label{classgxx_1_1memory__stream}\index{gxx\+::memory\+\_\+stream@{gxx\+::memory\+\_\+stream}}
+
+
+Inheritance diagram for gxx\+:\+:memory\+\_\+stream\+:
+% FIG 0
+
+
+Collaboration diagram for gxx\+:\+:memory\+\_\+stream\+:
+% FIG 1
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries memory\+\_\+stream} (char $\ast$data, size\+\_\+t sz)\hypertarget{classgxx_1_1memory__stream_a49a6e0be5744c7373d999beabc69b44b}{}\label{classgxx_1_1memory__stream_a49a6e0be5744c7373d999beabc69b44b}
+
+\item 
+{\bfseries memory\+\_\+stream} (const \hyperlink{classgxx_1_1buffer}{gxx\+::buffer} \&buf)\hypertarget{classgxx_1_1memory__stream_aaee5560d8e0e11ff24a77ba9a217ae1c}{}\label{classgxx_1_1memory__stream_aaee5560d8e0e11ff24a77ba9a217ae1c}
+
+\item 
+int {\bfseries write} (const char $\ast$str, size\+\_\+t sz) override\hypertarget{classgxx_1_1memory__stream_a38b90bbecf965860615f8a6fdc3e6961}{}\label{classgxx_1_1memory__stream_a38b90bbecf965860615f8a6fdc3e6961}
+
+\item 
+int {\bfseries putchar} (const char c) override\hypertarget{classgxx_1_1memory__stream_a55c81dee9f8057cf653bb336edd02969}{}\label{classgxx_1_1memory__stream_a55c81dee9f8057cf653bb336edd02969}
+
+\item 
+int {\bfseries read} (char $\ast$str, size\+\_\+t sz) override\hypertarget{classgxx_1_1memory__stream_aa018be361ae359bf88a706533b81be3d}{}\label{classgxx_1_1memory__stream_aa018be361ae359bf88a706533b81be3d}
+
+\item 
+int {\bfseries read\+\_\+until} (char $\ast$str, size\+\_\+t maxlen, char c) override\hypertarget{classgxx_1_1memory__stream_a0794a4482c1ba6ffdf062828bf391b64}{}\label{classgxx_1_1memory__stream_a0794a4482c1ba6ffdf062828bf391b64}
+
+\item 
+int {\bfseries getchar} () override\hypertarget{classgxx_1_1memory__stream_a77494047dab60c769d2642874759b509}{}\label{classgxx_1_1memory__stream_a77494047dab60c769d2642874759b509}
+
+\item 
+int {\bfseries peek} () override\hypertarget{classgxx_1_1memory__stream_a819b313dc0ed540496d6e87f31f69291}{}\label{classgxx_1_1memory__stream_a819b313dc0ed540496d6e87f31f69291}
+
+\item 
+{\bfseries C\+O\+N\+S\+T\+R\+E\+F\+\_\+\+G\+E\+T\+T\+ER} (data, m\+\_\+data)\hypertarget{classgxx_1_1memory__stream_a3912fe6d973b5e9b50dde14a4283c136}{}\label{classgxx_1_1memory__stream_a3912fe6d973b5e9b50dde14a4283c136}
+
+\item 
+{\bfseries V\+A\+L\+U\+E\+\_\+\+G\+E\+T\+T\+ER} (size,(m\+\_\+cursor-\/m\+\_\+data))\hypertarget{classgxx_1_1memory__stream_ae4da697dfcc2e3bc24f3d12cac912631}{}\label{classgxx_1_1memory__stream_ae4da697dfcc2e3bc24f3d12cac912631}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ {\bfseries m\+\_\+data}\hypertarget{classgxx_1_1memory__stream_a760d7259c60584527a8d041b7139c9eb}{}\label{classgxx_1_1memory__stream_a760d7259c60584527a8d041b7139c9eb}
+
+\item 
+char $\ast$ {\bfseries m\+\_\+data\+\_\+end}\hypertarget{classgxx_1_1memory__stream_a78cb51250f0832ba6ad4b1e074f2b042}{}\label{classgxx_1_1memory__stream_a78cb51250f0832ba6ad4b1e074f2b042}
+
+\item 
+char $\ast$ {\bfseries m\+\_\+cursor}\hypertarget{classgxx_1_1memory__stream_a3ec994db0f89f628a9dc6bbd0addefdf}{}\label{classgxx_1_1memory__stream_a3ec994db0f89f628a9dc6bbd0addefdf}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/rfmeas/project/gxx/gxx/\+H\+I\+D\+E/io/memory\+\_\+stream.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,11 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="integral_constant\<\l bool,(has_trivial_destructor\l\< T \>::value &&has_trivial\l_destructor\< U \>::value)\>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structintegral__constant.html"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="has_trivial_destructor\l\< gxx::pair\< T, U \> \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structhas__trivial__destructor_3_01gxx_1_1pair_3_01T_00_01U_01_4_01_4.html"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="has_trivial_destructor\l\< std::pair\< T, U \> \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structhas__trivial__destructor_3_01std_1_1pair_3_01T_00_01U_01_4_01_4.html"];
+}

@@ -1,0 +1,23 @@
+digraph "half_float::detail::bool_type&lt; bool &gt;"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="half_float::detail\l::bool_type\< bool \>",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="half_float::detail\l::is_float\< false \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structhalf__float_1_1detail_1_1is__float.html",tooltip="Type traits for floating point types. "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="half_float::detail\l::is_float\< double \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structhalf__float_1_1detail_1_1is__float_3_01double_01_4.html"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="half_float::detail\l::is_float\< float \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structhalf__float_1_1detail_1_1is__float_3_01float_01_4.html"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="half_float::detail\l::is_float\< long double \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structhalf__float_1_1detail_1_1is__float_3_01long_01double_01_4.html"];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="is_float\< T \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structhalf__float_1_1detail_1_1is__float.html"];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="half_float::detail\l::is_float\< const T \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structhalf__float_1_1detail_1_1is__float_3_01const_01T_01_4.html"];
+  Node6 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="half_float::detail\l::is_float\< const volatile T \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structhalf__float_1_1detail_1_1is__float_3_01const_01volatile_01T_01_4.html"];
+  Node6 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="half_float::detail\l::is_float\< volatile T \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structhalf__float_1_1detail_1_1is__float_3_01volatile_01T_01_4.html"];
+}

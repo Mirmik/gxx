@@ -1,0 +1,87 @@
+\hypertarget{classgxx_1_1delegate}{}\section{gxx\+:\+:delegate$<$ R, Args $>$ Class Template Reference}
+\label{classgxx_1_1delegate}\index{gxx\+::delegate$<$ R, Args $>$@{gxx\+::delegate$<$ R, Args $>$}}
+
+
+Collaboration diagram for gxx\+:\+:delegate$<$ R, Args $>$\+:
+% FIG 0
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+union \hyperlink{uniongxx_1_1delegate_1_1method__union}{method\+\_\+union}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries clean} ()\hypertarget{classgxx_1_1delegate_a05d3145f26fb4746cf9a6b3a66878e2b}{}\label{classgxx_1_1delegate_a05d3145f26fb4746cf9a6b3a66878e2b}
+
+\item 
+bool {\bfseries armed} ()\hypertarget{classgxx_1_1delegate_aa099acfe63f6020c9b10fd0a4a66dd38}{}\label{classgxx_1_1delegate_aa099acfe63f6020c9b10fd0a4a66dd38}
+
+\item 
+{\bfseries delegate} (const \hyperlink{classgxx_1_1delegate}{delegate} \&d)\hypertarget{classgxx_1_1delegate_aeda82a43206c3c085eb6eeb886520eac}{}\label{classgxx_1_1delegate_aeda82a43206c3c085eb6eeb886520eac}
+
+\item 
+{\bfseries delegate} (\hyperlink{classgxx_1_1delegate}{delegate} \&\&d)\hypertarget{classgxx_1_1delegate_a6620927526106282562e9adabe6ed41e}{}\label{classgxx_1_1delegate_a6620927526106282562e9adabe6ed41e}
+
+\item 
+{\bfseries delegate} (const fnc\+\_\+t func)\hypertarget{classgxx_1_1delegate_a4af7c79563f2d8904aa47cb2356270f5}{}\label{classgxx_1_1delegate_a4af7c79563f2d8904aa47cb2356270f5}
+
+\item 
+{\footnotesize template$<$typename T $>$ }\\{\bfseries delegate} (R(T\+::$\ast$mtd)(Args...), T $\ast$ptr\+\_\+obj)\hypertarget{classgxx_1_1delegate_ada0fc8f4b45e96e1cc7005975f136bc9}{}\label{classgxx_1_1delegate_ada0fc8f4b45e96e1cc7005975f136bc9}
+
+\item 
+{\footnotesize template$<$typename F $>$ }\\{\bfseries delegate} (const F \&functor)\hypertarget{classgxx_1_1delegate_a2cfc41012504d91f7f8e69d297c75f3b}{}\label{classgxx_1_1delegate_a2cfc41012504d91f7f8e69d297c75f3b}
+
+\item 
+\hyperlink{classgxx_1_1delegate}{delegate} \& {\bfseries operator=} (const \hyperlink{classgxx_1_1delegate}{delegate} \&d)\hypertarget{classgxx_1_1delegate_af6cc59c9a81f36da06aceead7dd0b6e5}{}\label{classgxx_1_1delegate_af6cc59c9a81f36da06aceead7dd0b6e5}
+
+\item 
+\hyperlink{classgxx_1_1delegate}{delegate} \& {\bfseries operator=} (\hyperlink{classgxx_1_1delegate}{delegate} \&\&d)\hypertarget{classgxx_1_1delegate_a942965b72aa98b564f3b9fcc5e2769e4}{}\label{classgxx_1_1delegate_a942965b72aa98b564f3b9fcc5e2769e4}
+
+\item 
+R {\bfseries operator()} (Args...\+arg)\hypertarget{classgxx_1_1delegate_a62c64d47078a90986be2920ef6d2aa8f}{}\label{classgxx_1_1delegate_a62c64d47078a90986be2920ef6d2aa8f}
+
+\item 
+bool {\bfseries operator==} (\hyperlink{classgxx_1_1delegate}{delegate}$<$ R, Args... $>$ b)\hypertarget{classgxx_1_1delegate_a9a726537a2dbaa5f922dee3e76b464a0}{}\label{classgxx_1_1delegate_a9a726537a2dbaa5f922dee3e76b464a0}
+
+\item 
+R {\bfseries emit\+\_\+and\+\_\+reset} (Args...\+args)\hypertarget{classgxx_1_1delegate_a309788f98a8dd4554790550b373b3116}{}\label{classgxx_1_1delegate_a309788f98a8dd4554790550b373b3116}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ {\bfseries M\+E\+T\+H\+OD}, 
+{\bfseries F\+U\+N\+C\+T\+I\+ON}
+ \}\hypertarget{classgxx_1_1delegate_a554a52c49e319312eea93ccd8aa118a3}{}\label{classgxx_1_1delegate_a554a52c49e319312eea93ccd8aa118a3}
+
+\item 
+using {\bfseries obj\+\_\+t} = \hyperlink{classgxx_1_1AbstractDelegate}{Abstract\+Delegate} $\ast$\hypertarget{classgxx_1_1delegate_a6b84dc0b374f80cb03c0290403cd7f78}{}\label{classgxx_1_1delegate_a6b84dc0b374f80cb03c0290403cd7f78}
+
+\item 
+using {\bfseries mtd\+\_\+t} = R(Abstract\+Delegate\+::$\ast$)(Args...)\hypertarget{classgxx_1_1delegate_a4995c00b9f75767b129a153b6f982d4b}{}\label{classgxx_1_1delegate_a4995c00b9f75767b129a153b6f982d4b}
+
+\item 
+using {\bfseries fnc\+\_\+t} = R($\ast$)(Args...)\hypertarget{classgxx_1_1delegate_aa15443cd7b3f360edf6672e69d61718b}{}\label{classgxx_1_1delegate_aa15443cd7b3f360edf6672e69d61718b}
+
+\item 
+using {\bfseries extfnc\+\_\+t} = R($\ast$)(void $\ast$,Args...)\hypertarget{classgxx_1_1delegate_ab4ad330d6c5142761478dade9aeeae2b}{}\label{classgxx_1_1delegate_ab4ad330d6c5142761478dade9aeeae2b}
+
+\item 
+using {\bfseries absmemb\+\_\+t} = std\+::pair$<$ mtd\+\_\+t, \hyperlink{classgxx_1_1AbstractDelegate}{obj\+\_\+t} $>$\hypertarget{classgxx_1_1delegate_ab5c94c447daf8c6b1f539fcbdb413a99}{}\label{classgxx_1_1delegate_ab5c94c447daf8c6b1f539fcbdb413a99}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classgxx_1_1AbstractDelegate}{obj\+\_\+t} {\bfseries object}\hypertarget{classgxx_1_1delegate_a4f01586b3720f0cdc4b50e6f8cedb08e}{}\label{classgxx_1_1delegate_a4f01586b3720f0cdc4b50e6f8cedb08e}
+
+\item 
+\hyperlink{uniongxx_1_1delegate_1_1method__union}{method\+\_\+union} {\bfseries method}\hypertarget{classgxx_1_1delegate_aae23f8e6e23ca3a5d8d764932e376ea0}{}\label{classgxx_1_1delegate_aae23f8e6e23ca3a5d8d764932e376ea0}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/rfmeas/project/gxx/gxx/event/delegate.\+h\end{DoxyCompactItemize}

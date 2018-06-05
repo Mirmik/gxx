@@ -1,0 +1,67 @@
+\hypertarget{structgxx_1_1math_1_1interval__union}{}\section{gxx\+:\+:math\+:\+:interval\+\_\+union$<$ T $>$ Class Template Reference}
+\label{structgxx_1_1math_1_1interval__union}\index{gxx\+::math\+::interval\+\_\+union$<$ T $>$@{gxx\+::math\+::interval\+\_\+union$<$ T $>$}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries interval\+\_\+union} (const std\+::initializer\+\_\+list$<$ \hyperlink{classgxx_1_1math_1_1interval}{interval}$<$ T $>$$>$ lst)\hypertarget{structgxx_1_1math_1_1interval__union_a5285ee25996b7c65be74777c18d4fbb8}{}\label{structgxx_1_1math_1_1interval__union_a5285ee25996b7c65be74777c18d4fbb8}
+
+\item 
+void {\bfseries normalize} ()\hypertarget{structgxx_1_1math_1_1interval__union_a2efc57abc91adbb25042645af94a9d44}{}\label{structgxx_1_1math_1_1interval__union_a2efc57abc91adbb25042645af94a9d44}
+
+\item 
+\hyperlink{structgxx_1_1math_1_1interval__union}{interval\+\_\+union} {\bfseries combine} (const \hyperlink{structgxx_1_1math_1_1interval__union}{interval\+\_\+union} \&oth) const \hypertarget{structgxx_1_1math_1_1interval__union_a37e786de658904827f20545cf768e10a}{}\label{structgxx_1_1math_1_1interval__union_a37e786de658904827f20545cf768e10a}
+
+\item 
+\hyperlink{structgxx_1_1math_1_1interval__union}{interval\+\_\+union} {\bfseries intersect} (const \hyperlink{structgxx_1_1math_1_1interval__union}{interval\+\_\+union} \&oth) const \hypertarget{structgxx_1_1math_1_1interval__union_a9becf8c9745085e834adacf3d6d6b4d8}{}\label{structgxx_1_1math_1_1interval__union_a9becf8c9745085e834adacf3d6d6b4d8}
+
+\item 
+\hyperlink{structgxx_1_1math_1_1interval__union}{interval\+\_\+union} {\bfseries difference} (const \hyperlink{structgxx_1_1math_1_1interval__union}{interval\+\_\+union} \&oth) const \hypertarget{structgxx_1_1math_1_1interval__union_a791c91aa14f0fbeae03de065404732d7}{}\label{structgxx_1_1math_1_1interval__union_a791c91aa14f0fbeae03de065404732d7}
+
+\item 
+bool {\bfseries operator==} (const \hyperlink{structgxx_1_1math_1_1interval__union}{interval\+\_\+union} \&oth) const \hypertarget{structgxx_1_1math_1_1interval__union_aeefb94cefa7f50dc2e591b44d6a2d641}{}\label{structgxx_1_1math_1_1interval__union_aeefb94cefa7f50dc2e591b44d6a2d641}
+
+\item 
+auto {\bfseries begin} ()\hypertarget{structgxx_1_1math_1_1interval__union_ad03a6cc8150619ac1230b3311756e477}{}\label{structgxx_1_1math_1_1interval__union_ad03a6cc8150619ac1230b3311756e477}
+
+\item 
+auto {\bfseries end} ()\hypertarget{structgxx_1_1math_1_1interval__union_a8ba9cf5f3db5b2be41be1447156b6c8c}{}\label{structgxx_1_1math_1_1interval__union_a8ba9cf5f3db5b2be41be1447156b6c8c}
+
+\item 
+auto {\bfseries begin} () const \hypertarget{structgxx_1_1math_1_1interval__union_a42e098ef562df5cd98fbfef6620bf51e}{}\label{structgxx_1_1math_1_1interval__union_a42e098ef562df5cd98fbfef6620bf51e}
+
+\item 
+auto {\bfseries end} () const \hypertarget{structgxx_1_1math_1_1interval__union_a35bfb5414c13fa074bd73cc363d1f001}{}\label{structgxx_1_1math_1_1interval__union_a35bfb5414c13fa074bd73cc363d1f001}
+
+\item 
+auto {\bfseries cbegin} () const \hypertarget{structgxx_1_1math_1_1interval__union_a7bbb42c10683eefc1f0e2a38f2ed6d7c}{}\label{structgxx_1_1math_1_1interval__union_a7bbb42c10683eefc1f0e2a38f2ed6d7c}
+
+\item 
+auto {\bfseries cend} () const \hypertarget{structgxx_1_1math_1_1interval__union_a437a2dac26f71f920d7af840911e25cc}{}\label{structgxx_1_1math_1_1interval__union_a437a2dac26f71f920d7af840911e25cc}
+
+\item 
+size\+\_\+t {\bfseries print\+To} (\hyperlink{classgxx_1_1io_1_1ostream}{gxx\+::io\+::ostream} \&o) const \hypertarget{structgxx_1_1math_1_1interval__union_acee6ed162183e4774265bc1df75bda37}{}\label{structgxx_1_1math_1_1interval__union_acee6ed162183e4774265bc1df75bda37}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static intersected\+\_\+group {\bfseries \+\_\+\+\_\+find\+\_\+intersected\+\_\+group} (auto ait, auto end\+\_\+ait, auto bit, auto end\+\_\+bit)\hypertarget{structgxx_1_1math_1_1interval__union_a0416b87a43a5c1bd4beae1ac6e4a2fd0}{}\label{structgxx_1_1math_1_1interval__union_a0416b87a43a5c1bd4beae1ac6e4a2fd0}
+
+\item 
+static intersected\+\_\+group {\bfseries find\+\_\+intersected\+\_\+group\+\_\+weak} (auto ait, auto end\+\_\+ait, auto bit, auto end\+\_\+bit)\hypertarget{structgxx_1_1math_1_1interval__union_a827593e9faf6a377f45e0412f2ea4187}{}\label{structgxx_1_1math_1_1interval__union_a827593e9faf6a377f45e0412f2ea4187}
+
+\item 
+static intersected\+\_\+group {\bfseries find\+\_\+intersected\+\_\+group} (auto ait, auto eait, auto bit, auto ebit)\hypertarget{structgxx_1_1math_1_1interval__union_a900e900a5daa207bf369ee5f39b96e11}{}\label{structgxx_1_1math_1_1interval__union_a900e900a5daa207bf369ee5f39b96e11}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries interval$<$ T $>$}\hypertarget{structgxx_1_1math_1_1interval__union_a61a029866976221a25c7445ef1225929}{}\label{structgxx_1_1math_1_1interval__union_a61a029866976221a25c7445ef1225929}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/rfmeas/project/gxx/gxx/math/interval.\+h\end{DoxyCompactItemize}

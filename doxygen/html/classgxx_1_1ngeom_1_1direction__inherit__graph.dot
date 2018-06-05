@@ -1,0 +1,16 @@
+digraph "gxx::ngeom::direction"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="gxx::ngeom::direction",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="gxx::ngeom::coordinates",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgxx_1_1ngeom_1_1coordinates.html"];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="malgo::vector\< double \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classmalgo_1_1vector.html"];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="malgo::vector_compact\l_basic\< double \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classmalgo_1_1vector__compact__basic.html"];
+  Node5 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="malgo::vector_basic\l\< vector_compact_basic\l\< double \> \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classmalgo_1_1vector__basic.html"];
+  Node6 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="gxx::array_printable\l\< vector_compact_basic\l\< double \> \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgxx_1_1array__printable.html"];
+}

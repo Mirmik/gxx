@@ -1,0 +1,2699 @@
+\hypertarget{half_8h}{}\section{/home/rfmeas/project/gxx/gxx/math/half.h File Reference}
+\label{half_8h}\index{/home/rfmeas/project/gxx/gxx/math/half.\+h@{/home/rfmeas/project/gxx/gxx/math/half.\+h}}
+{\ttfamily \#include $<$utility$>$}\\*
+{\ttfamily \#include $<$algorithm$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$limits$>$}\\*
+{\ttfamily \#include $<$climits$>$}\\*
+{\ttfamily \#include $<$cmath$>$}\\*
+{\ttfamily \#include $<$cstring$>$}\\*
+Include dependency graph for half.\+h\+:
+% FIG 0
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1conditional}{half\+\_\+float\+::detail\+::conditional$<$ bool, T, typename $>$}
+\begin{DoxyCompactList}\small\item\em Conditional type. \end{DoxyCompactList}\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1conditional_3_01false_00_01T_00_01F_01_4}{half\+\_\+float\+::detail\+::conditional$<$ false, T, F $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1bool__type}{half\+\_\+float\+::detail\+::bool\+\_\+type$<$ bool $>$}
+\begin{DoxyCompactList}\small\item\em Helper for tag dispatching. \end{DoxyCompactList}\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1is__float}{half\+\_\+float\+::detail\+::is\+\_\+float$<$ typename $>$}
+\begin{DoxyCompactList}\small\item\em Type traits for floating point types. \end{DoxyCompactList}\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1is__float_3_01const_01T_01_4}{half\+\_\+float\+::detail\+::is\+\_\+float$<$ const T $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1is__float_3_01volatile_01T_01_4}{half\+\_\+float\+::detail\+::is\+\_\+float$<$ volatile T $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1is__float_3_01const_01volatile_01T_01_4}{half\+\_\+float\+::detail\+::is\+\_\+float$<$ const volatile T $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1is__float_3_01float_01_4}{half\+\_\+float\+::detail\+::is\+\_\+float$<$ float $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1is__float_3_01double_01_4}{half\+\_\+float\+::detail\+::is\+\_\+float$<$ double $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1is__float_3_01long_01double_01_4}{half\+\_\+float\+::detail\+::is\+\_\+float$<$ long double $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1bits}{half\+\_\+float\+::detail\+::bits$<$ T $>$}
+\begin{DoxyCompactList}\small\item\em Type traits for floating point bits. \end{DoxyCompactList}\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1bits_3_01const_01T_01_4}{half\+\_\+float\+::detail\+::bits$<$ const T $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1bits_3_01volatile_01T_01_4}{half\+\_\+float\+::detail\+::bits$<$ volatile T $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1bits_3_01const_01volatile_01T_01_4}{half\+\_\+float\+::detail\+::bits$<$ const volatile T $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1bits_3_01float_01_4}{half\+\_\+float\+::detail\+::bits$<$ float $>$}
+\begin{DoxyCompactList}\small\item\em Unsigned integer of (at least) 32 bits width. \end{DoxyCompactList}\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1bits_3_01double_01_4}{half\+\_\+float\+::detail\+::bits$<$ double $>$}
+\begin{DoxyCompactList}\small\item\em Unsigned integer of (at least) 64 bits width. \end{DoxyCompactList}\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1binary__t}{half\+\_\+float\+::detail\+::binary\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Tag type for binary construction. \end{DoxyCompactList}\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1expr}{half\+\_\+float\+::detail\+::expr}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1enable}{half\+\_\+float\+::detail\+::enable$<$ T, typename, typename, typename $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1enable_3_01T_00_01half_00_01void_00_01void_01_4}{half\+\_\+float\+::detail\+::enable$<$ T, half, void, void $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1enable_3_01T_00_01expr_00_01void_00_01void_01_4}{half\+\_\+float\+::detail\+::enable$<$ T, expr, void, void $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1enable_3_01T_00_01half_00_01half_00_01void_01_4}{half\+\_\+float\+::detail\+::enable$<$ T, half, half, void $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1enable_3_01T_00_01half_00_01expr_00_01void_01_4}{half\+\_\+float\+::detail\+::enable$<$ T, half, expr, void $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1enable_3_01T_00_01expr_00_01half_00_01void_01_4}{half\+\_\+float\+::detail\+::enable$<$ T, expr, half, void $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1enable_3_01T_00_01expr_00_01expr_00_01void_01_4}{half\+\_\+float\+::detail\+::enable$<$ T, expr, expr, void $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1enable_3_01T_00_01half_00_01half_00_01half_01_4}{half\+\_\+float\+::detail\+::enable$<$ T, half, half, half $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1enable_3_01T_00_01half_00_01half_00_01expr_01_4}{half\+\_\+float\+::detail\+::enable$<$ T, half, half, expr $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1enable_3_01T_00_01half_00_01expr_00_01half_01_4}{half\+\_\+float\+::detail\+::enable$<$ T, half, expr, half $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1enable_3_01T_00_01half_00_01expr_00_01expr_01_4}{half\+\_\+float\+::detail\+::enable$<$ T, half, expr, expr $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1enable_3_01T_00_01expr_00_01half_00_01half_01_4}{half\+\_\+float\+::detail\+::enable$<$ T, expr, half, half $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1enable_3_01T_00_01expr_00_01half_00_01expr_01_4}{half\+\_\+float\+::detail\+::enable$<$ T, expr, half, expr $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1enable_3_01T_00_01expr_00_01expr_00_01half_01_4}{half\+\_\+float\+::detail\+::enable$<$ T, expr, expr, half $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1enable_3_01T_00_01expr_00_01expr_00_01expr_01_4}{half\+\_\+float\+::detail\+::enable$<$ T, expr, expr, expr $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1result}{half\+\_\+float\+::detail\+::result$<$ T, U $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1result_3_01half_00_01half_01_4}{half\+\_\+float\+::detail\+::result$<$ half, half $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1unary__specialized}{half\+\_\+float\+::detail\+::unary\+\_\+specialized$<$ T $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1binary__specialized}{half\+\_\+float\+::detail\+::binary\+\_\+specialized$<$ T, U $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1half__caster}{half\+\_\+float\+::detail\+::half\+\_\+caster$<$ T, U, R $>$}
+\item 
+class \hyperlink{classhalf__float_1_1half}{half\+\_\+float\+::half}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1functions}{half\+\_\+float\+::detail\+::functions}
+\begin{DoxyCompactList}\small\item\em Wrapper implementing unspecialized half-\/precision functions. \end{DoxyCompactList}\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1unary__specialized}{half\+\_\+float\+::detail\+::unary\+\_\+specialized$<$ T $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1unary__specialized_3_01expr_01_4}{half\+\_\+float\+::detail\+::unary\+\_\+specialized$<$ expr $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1binary__specialized}{half\+\_\+float\+::detail\+::binary\+\_\+specialized$<$ T, U $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1binary__specialized_3_01half_00_01half_01_4}{half\+\_\+float\+::detail\+::binary\+\_\+specialized$<$ half, half $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1half__caster}{half\+\_\+float\+::detail\+::half\+\_\+caster$<$ T, U, R $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1half__caster_3_01half_00_01U_00_01R_01_4}{half\+\_\+float\+::detail\+::half\+\_\+caster$<$ half, U, R $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1half__caster_3_01T_00_01half_00_01R_01_4}{half\+\_\+float\+::detail\+::half\+\_\+caster$<$ T, half, R $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1half__caster_3_01T_00_01expr_00_01R_01_4}{half\+\_\+float\+::detail\+::half\+\_\+caster$<$ T, expr, R $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1half__caster_3_01half_00_01half_00_01R_01_4}{half\+\_\+float\+::detail\+::half\+\_\+caster$<$ half, half, R $>$}
+\item 
+struct \hyperlink{structhalf__float_1_1detail_1_1half__caster_3_01half_00_01expr_00_01R_01_4}{half\+\_\+float\+::detail\+::half\+\_\+caster$<$ half, expr, R $>$}
+\item 
+class \hyperlink{classstd_1_1numeric__limits_3_01half__float_1_1half_01_4}{std\+::numeric\+\_\+limits$<$ half\+\_\+float\+::half $>$}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespacehalf__float}{half\+\_\+float}
+\item 
+ \hyperlink{namespacestd}{std}
+\begin{DoxyCompactList}\small\item\em Extensions to the C++ standard library. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{half_8h_aecb5b6a7616c7c83b2e13d546c99650a}{H\+A\+L\+F\+\_\+\+G\+N\+U\+C\+\_\+\+V\+E\+R\+S\+I\+ON}~(\+\_\+\+\_\+\+G\+N\+U\+C\+\_\+\+\_\+$\ast$100+\+\_\+\+\_\+\+G\+N\+U\+C\+\_\+\+M\+I\+N\+O\+R\+\_\+\+\_\+)\hypertarget{half_8h_aecb5b6a7616c7c83b2e13d546c99650a}{}\label{half_8h_aecb5b6a7616c7c83b2e13d546c99650a}
+
+\begin{DoxyCompactList}\small\item\em Combined gcc version number. \end{DoxyCompactList}\item 
+\#define {\bfseries H\+A\+L\+F\+\_\+\+C\+O\+N\+S\+T\+E\+X\+PR}\hypertarget{half_8h_ace3116a3e2cd66dd15780b92060987c7}{}\label{half_8h_ace3116a3e2cd66dd15780b92060987c7}
+
+\item 
+\#define {\bfseries H\+A\+L\+F\+\_\+\+C\+O\+N\+S\+T\+E\+X\+P\+R\+\_\+\+C\+O\+N\+ST}~const\hypertarget{half_8h_a5df92c245e5d4e45d35fad7b6de73354}{}\label{half_8h_a5df92c245e5d4e45d35fad7b6de73354}
+
+\item 
+\#define {\bfseries H\+A\+L\+F\+\_\+\+N\+O\+E\+X\+C\+E\+PT}\hypertarget{half_8h_a04e7940852b33adbb81a8249fef1c508}{}\label{half_8h_a04e7940852b33adbb81a8249fef1c508}
+
+\item 
+\#define {\bfseries H\+A\+L\+F\+\_\+\+N\+O\+T\+H\+R\+OW}~throw()\hypertarget{half_8h_a76353b496550acb4b523ad263d09908a}{}\label{half_8h_a76353b496550acb4b523ad263d09908a}
+
+\item 
+\#define \hyperlink{half_8h_af470ed60568b3e7f4fde6092d22abbde}{H\+A\+L\+F\+\_\+\+R\+O\+U\+N\+D\+\_\+\+S\+T\+Y\+LE}~-\/1
+\item 
+\#define \hyperlink{half_8h_ab0c3c06432f0247f22594abe3df0ebfe}{H\+A\+L\+F\+\_\+\+R\+O\+U\+N\+D\+\_\+\+T\+I\+E\+S\+\_\+\+T\+O\+\_\+\+E\+V\+EN}~0
+\item 
+\#define \hyperlink{half_8h_abdcd774b81d03564edec8523484d02bf}{H\+U\+G\+E\+\_\+\+V\+A\+LH}~std\+::numeric\+\_\+limits$<$\hyperlink{classhalf__float_1_1half}{half\+\_\+float\+::half}$>$\+::infinity()
+\item 
+\#define \hyperlink{half_8h_a00d5755980889a6bcc0fadf914241b81}{F\+P\+\_\+\+F\+A\+S\+T\+\_\+\+F\+M\+AH}~1
+\item 
+\#define {\bfseries F\+P\+\_\+\+I\+L\+O\+G\+B0}~I\+N\+T\+\_\+\+M\+IN\hypertarget{half_8h_a9ec0e31304d15c42262b2c4a3b58443c}{}\label{half_8h_a9ec0e31304d15c42262b2c4a3b58443c}
+
+\item 
+\#define {\bfseries F\+P\+\_\+\+I\+L\+O\+G\+B\+N\+AN}~I\+N\+T\+\_\+\+M\+AX\hypertarget{half_8h_a01e2e5be97c739a5bdcbc619b44f9742}{}\label{half_8h_a01e2e5be97c739a5bdcbc619b44f9742}
+
+\item 
+\#define {\bfseries F\+P\+\_\+\+S\+U\+B\+N\+O\+R\+M\+AL}~0\hypertarget{half_8h_adbc0a13ec75c05d238ca12ef1f8c6b2b}{}\label{half_8h_adbc0a13ec75c05d238ca12ef1f8c6b2b}
+
+\item 
+\#define {\bfseries F\+P\+\_\+\+Z\+E\+RO}~1\hypertarget{half_8h_a32eba50da417c9f303ba49583d5b9f40}{}\label{half_8h_a32eba50da417c9f303ba49583d5b9f40}
+
+\item 
+\#define {\bfseries F\+P\+\_\+\+N\+AN}~2\hypertarget{half_8h_a1d481cc6e6a8ff729147ed46e61a4c9f}{}\label{half_8h_a1d481cc6e6a8ff729147ed46e61a4c9f}
+
+\item 
+\#define {\bfseries F\+P\+\_\+\+I\+N\+F\+I\+N\+I\+TE}~3\hypertarget{half_8h_a4f64bcc64f8b84dd9daf5a4e56abf0ca}{}\label{half_8h_a4f64bcc64f8b84dd9daf5a4e56abf0ca}
+
+\item 
+\#define {\bfseries F\+P\+\_\+\+N\+O\+R\+M\+AL}~4\hypertarget{half_8h_ab9e29bb9e853934c4ba647c840b7e5de}{}\label{half_8h_ab9e29bb9e853934c4ba647c840b7e5de}
+
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef bool\+\_\+type$<$ true $>$ {\bfseries half\+\_\+float\+::detail\+::true\+\_\+type}\hypertarget{half_8h_a5e245748a3cc20e348dd92383d99d03c}{}\label{half_8h_a5e245748a3cc20e348dd92383d99d03c}
+
+\item 
+typedef bool\+\_\+type$<$ false $>$ {\bfseries half\+\_\+float\+::detail\+::false\+\_\+type}\hypertarget{half_8h_a04d0449ab22bc6d1cfb2f31a8271945c}{}\label{half_8h_a04d0449ab22bc6d1cfb2f31a8271945c}
+
+\item 
+typedef unsigned short \hyperlink{half_8h_a239ec58092b4e4849b444baee1a01088}{half\+\_\+float\+::detail\+::uint16}\hypertarget{half_8h_a239ec58092b4e4849b444baee1a01088}{}\label{half_8h_a239ec58092b4e4849b444baee1a01088}
+
+\begin{DoxyCompactList}\small\item\em Unsigned integer of (at least) 16 bits width. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{Indent}{\bf Classification helpers}\par
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\bool \hyperlink{half_8h_aeb1b5890af847586d019111c931e7f3b}{half\+\_\+float\+::detail\+::builtin\+\_\+isinf} (T arg)
+\item 
+{\footnotesize template$<$typename T $>$ }\\bool \hyperlink{half_8h_a20cedf19efac6e017090e17ea38342cf}{half\+\_\+float\+::detail\+::builtin\+\_\+isnan} (T arg)
+\item 
+{\footnotesize template$<$typename T $>$ }\\bool \hyperlink{half_8h_a0f1b0ddcef962521b4c76f661659e5a7}{half\+\_\+float\+::detail\+::builtin\+\_\+signbit} (T arg)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Conversion}\par
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$std\+::float\+\_\+round\+\_\+style R$>$ }\\uint16 \hyperlink{half_8h_a32be02e128131df654adb21672ad1e8d}{half\+\_\+float\+::detail\+::float2half\+\_\+impl} (float value, \hyperlink{structintegral__constant}{true\+\_\+type})
+\item 
+{\footnotesize template$<$std\+::float\+\_\+round\+\_\+style R$>$ }\\uint16 \hyperlink{half_8h_a36dca5081e9a14c8e523d2415e476ace}{half\+\_\+float\+::detail\+::float2half\+\_\+impl} (double value, \hyperlink{structintegral__constant}{true\+\_\+type})
+\item 
+{\footnotesize template$<$std\+::float\+\_\+round\+\_\+style R, typename T $>$ }\\uint16 \hyperlink{half_8h_a7a40ca55db89afccd351332db5535ed1}{half\+\_\+float\+::detail\+::float2half\+\_\+impl} (T value,...)
+\item 
+{\footnotesize template$<$std\+::float\+\_\+round\+\_\+style R, typename T $>$ }\\uint16 \hyperlink{half_8h_a323f122774a4f85d4ce4c4d91a8d066b}{half\+\_\+float\+::detail\+::float2half} (T value)
+\item 
+{\footnotesize template$<$std\+::float\+\_\+round\+\_\+style R, bool S, typename T $>$ }\\uint16 \hyperlink{half_8h_a80ed90b3d769041decdd5eb79e6f3017}{half\+\_\+float\+::detail\+::int2half\+\_\+impl} (T value)
+\item 
+{\footnotesize template$<$std\+::float\+\_\+round\+\_\+style R, typename T $>$ }\\uint16 \hyperlink{half_8h_a739b4225bfb0a1a45dff1c76432a90c1}{half\+\_\+float\+::detail\+::int2half} (T value)
+\item 
+float \hyperlink{half_8h_a1f78a7e278b390a587dea90e02686e28}{half\+\_\+float\+::detail\+::half2float\+\_\+impl} (uint16 value, float, \hyperlink{structintegral__constant}{true\+\_\+type})
+\item 
+double \hyperlink{half_8h_aaf774221cb784d97cb9fdf0edc1a76f3}{half\+\_\+float\+::detail\+::half2float\+\_\+impl} (uint16 value, double, \hyperlink{structintegral__constant}{true\+\_\+type})
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \hyperlink{half_8h_afe86dfbf3a3bac81cfe88aaec27969c1}{half\+\_\+float\+::detail\+::half2float\+\_\+impl} (uint16 value, T,...)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \hyperlink{half_8h_aacbda37363295f0d13fca10c223e8169}{half\+\_\+float\+::detail\+::half2float} (uint16 value)
+\item 
+{\footnotesize template$<$std\+::float\+\_\+round\+\_\+style R, bool E, typename T $>$ }\\T \hyperlink{half_8h_a93c7f040e64b7cedad971b42bedc85a2}{half\+\_\+float\+::detail\+::half2int\+\_\+impl} (uint16 value)
+\item 
+{\footnotesize template$<$std\+::float\+\_\+round\+\_\+style R, typename T $>$ }\\T \hyperlink{half_8h_a78bf248e5c07c8b73adbb0986b430675}{half\+\_\+float\+::detail\+::half2int} (uint16 value)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \hyperlink{half_8h_a1672f8be699238543caa56fc43ed17ee}{half\+\_\+float\+::detail\+::half2int\+\_\+up} (uint16 value)
+\item 
+{\footnotesize template$<$std\+::float\+\_\+round\+\_\+style R, bool E$>$ }\\uint16 \hyperlink{half_8h_ab4e14ce718b27e88bd319bbac32b6d1c}{half\+\_\+float\+::detail\+::round\+\_\+half\+\_\+impl} (uint16 value)
+\item 
+{\footnotesize template$<$std\+::float\+\_\+round\+\_\+style R$>$ }\\uint16 \hyperlink{half_8h_ad83f9ae057a78ad84ac6a35a3f9b5509}{half\+\_\+float\+::detail\+::round\+\_\+half} (uint16 value)
+\item 
+uint16 \hyperlink{half_8h_ab00a3fec9c3b3d27d5957c85ae5b587b}{half\+\_\+float\+::detail\+::round\+\_\+half\+\_\+up} (uint16 value)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Comparison operators}\par
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\enable$<$ bool, T, U $>$\+::type \hyperlink{half_8h_a6c0b83f30940719c1dd8f5a85323388a}{half\+\_\+float\+::detail\+::operator==} (T x, U y)
+\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\enable$<$ bool, T, U $>$\+::type \hyperlink{half_8h_a387b8a8af08fba40aff80054f52d0ba0}{half\+\_\+float\+::detail\+::operator!=} (T x, U y)
+\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\enable$<$ bool, T, U $>$\+::type \hyperlink{half_8h_afe873e6cae401e97d4d8d88c08eb29e0}{half\+\_\+float\+::detail\+::operator$<$} (T x, U y)
+\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\enable$<$ bool, T, U $>$\+::type \hyperlink{half_8h_ab5bceccadce3723b7c7b25dc63760025}{half\+\_\+float\+::detail\+::operator$>$} (T x, U y)
+\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\enable$<$ bool, T, U $>$\+::type \hyperlink{half_8h_a0588a6476f8569f2b81dd99d4e87d83b}{half\+\_\+float\+::detail\+::operator$<$=} (T x, U y)
+\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\enable$<$ bool, T, U $>$\+::type \hyperlink{half_8h_ad5a5e2d4da6f36b5b6ee2dced3fb3e72}{half\+\_\+float\+::detail\+::operator$>$=} (T x, U y)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Arithmetic operators}\par
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\enable$<$ expr, T, U $>$\+::type \hyperlink{half_8h_ab68ed4e1f0a86aebf4337957f1639070}{half\+\_\+float\+::detail\+::operator+} (T x, U y)
+\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\enable$<$ expr, T, U $>$\+::type \hyperlink{half_8h_aa44e802bd306be8f49dd7d193630253e}{half\+\_\+float\+::detail\+::operator-\/} (T x, U y)
+\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\enable$<$ expr, T, U $>$\+::type \hyperlink{half_8h_a39439907cd8f62aa71ed6e1e50f1c860}{half\+\_\+float\+::detail\+::operator$\ast$} (T x, U y)
+\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\enable$<$ expr, T, U $>$\+::type \hyperlink{half_8h_a6cea2c4b4740528b2f86fb55990107bf}{half\+\_\+float\+::detail\+::operator/} (T x, U y)
+\item 
+{\footnotesize template$<$typename T $>$ }\\H\+A\+L\+F\+\_\+\+C\+O\+N\+S\+T\+E\+X\+PR enable$<$ T, T $>$\+::type \hyperlink{half_8h_a7afa8822c81700c74bf8be208cded547}{half\+\_\+float\+::detail\+::operator+} (T arg)
+\item 
+{\footnotesize template$<$typename T $>$ }\\H\+A\+L\+F\+\_\+\+C\+O\+N\+S\+T\+E\+X\+PR enable$<$ T, T $>$\+::type \hyperlink{half_8h_a8479fc53f679b85f40e6d511706627c4}{half\+\_\+float\+::detail\+::operator-\/} (T arg)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Input and output}\par
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T , typename charT , typename traits $>$ }\\enable$<$ std\+::basic\+\_\+ostream$<$ charT, traits $>$ \&, T $>$\+::type \hyperlink{half_8h_a91f6492ee3c6586e6d9dcdfcb31bccca}{half\+\_\+float\+::detail\+::operator$<$$<$} (std\+::basic\+\_\+ostream$<$ charT, traits $>$ \&out, T arg)
+\item 
+{\footnotesize template$<$typename charT , typename traits $>$ }\\std\+::basic\+\_\+istream$<$ charT, traits $>$ \& \hyperlink{half_8h_a50bcccb2f7042c23766a4f39090ed709}{half\+\_\+float\+::detail\+::operator$>$$>$} (std\+::basic\+\_\+istream$<$ charT, traits $>$ \&in, half \&arg)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Basic mathematical operations}\par
+\begin{DoxyCompactItemize}
+\item 
+half \hyperlink{half_8h_a25d76d0f9f18298a1096716c0da7b6e5}{half\+\_\+float\+::detail\+::abs} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::abs} (expr arg)\hypertarget{half_8h_a7453dfce91b2c6b4ce6688f452ff8d64}{}\label{half_8h_a7453dfce91b2c6b4ce6688f452ff8d64}
+
+\item 
+half \hyperlink{half_8h_a70f276b86204e71756d873694cf1e2ca}{half\+\_\+float\+::detail\+::fabs} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fabs} (expr arg)\hypertarget{half_8h_af04ac1aefbabcf120d3cdf3ec75555ac}{}\label{half_8h_af04ac1aefbabcf120d3cdf3ec75555ac}
+
+\item 
+expr \hyperlink{half_8h_a935147b16040f424271a380e274577ee}{half\+\_\+float\+::detail\+::fmod} (half x, half y)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fmod} (half x, expr y)\hypertarget{half_8h_a2a98a82b2c995cbf00d5a8aeca3e1104}{}\label{half_8h_a2a98a82b2c995cbf00d5a8aeca3e1104}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fmod} (expr x, half y)\hypertarget{half_8h_a7d0143ad75876583a33b9efd238dfbdb}{}\label{half_8h_a7d0143ad75876583a33b9efd238dfbdb}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fmod} (expr x, expr y)\hypertarget{half_8h_a41a633d8b26ee3e7e1775d2109dee3a8}{}\label{half_8h_a41a633d8b26ee3e7e1775d2109dee3a8}
+
+\item 
+expr \hyperlink{half_8h_ab5ec4bbe576c7a623212d2a8e5fe4a30}{half\+\_\+float\+::detail\+::remainder} (half x, half y)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::remainder} (half x, expr y)\hypertarget{half_8h_af34ace7578dcc806426d3399ff1d6e8a}{}\label{half_8h_af34ace7578dcc806426d3399ff1d6e8a}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::remainder} (expr x, half y)\hypertarget{half_8h_a45e1dc6152c5212225561095b0181609}{}\label{half_8h_a45e1dc6152c5212225561095b0181609}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::remainder} (expr x, expr y)\hypertarget{half_8h_a2d0fe7c3ea8f109a32cdec2a27dedf70}{}\label{half_8h_a2d0fe7c3ea8f109a32cdec2a27dedf70}
+
+\item 
+expr \hyperlink{half_8h_aaeeae804024549bd70c30603126dbe3f}{half\+\_\+float\+::detail\+::remquo} (half x, half y, int $\ast$quo)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::remquo} (half x, expr y, int $\ast$quo)\hypertarget{half_8h_aee094ed4d68df7b10e1708e94108db12}{}\label{half_8h_aee094ed4d68df7b10e1708e94108db12}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::remquo} (expr x, half y, int $\ast$quo)\hypertarget{half_8h_a550caa1e77f29aa409a10b3f9c238c0a}{}\label{half_8h_a550caa1e77f29aa409a10b3f9c238c0a}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::remquo} (expr x, expr y, int $\ast$quo)\hypertarget{half_8h_aebf442dc0106b9d1efcd140bdf7c6afe}{}\label{half_8h_aebf442dc0106b9d1efcd140bdf7c6afe}
+
+\item 
+expr \hyperlink{half_8h_a280ee0782f6d036ec43848c549a36e21}{half\+\_\+float\+::detail\+::fma} (half x, half y, half z)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fma} (half x, half y, expr z)\hypertarget{half_8h_aa0cb023ea6c7d8001f5ef3d27d19aa08}{}\label{half_8h_aa0cb023ea6c7d8001f5ef3d27d19aa08}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fma} (half x, expr y, half z)\hypertarget{half_8h_a7c3742da5a38f674945f00920afa5471}{}\label{half_8h_a7c3742da5a38f674945f00920afa5471}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fma} (half x, expr y, expr z)\hypertarget{half_8h_ab6bd73ba9ce8e0d276b5660add1f3ec3}{}\label{half_8h_ab6bd73ba9ce8e0d276b5660add1f3ec3}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fma} (expr x, half y, half z)\hypertarget{half_8h_a44b4dfdc8a51edd86c0f6c6be1e8c362}{}\label{half_8h_a44b4dfdc8a51edd86c0f6c6be1e8c362}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fma} (expr x, half y, expr z)\hypertarget{half_8h_a8ad5fde03f4a89ee0a6febefff2b2951}{}\label{half_8h_a8ad5fde03f4a89ee0a6febefff2b2951}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fma} (expr x, expr y, half z)\hypertarget{half_8h_a4e699585abe71ccdf22a16eaa9fbdf2f}{}\label{half_8h_a4e699585abe71ccdf22a16eaa9fbdf2f}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fma} (expr x, expr y, expr z)\hypertarget{half_8h_a888c0b1d35bed6ccb5484cfe021099ac}{}\label{half_8h_a888c0b1d35bed6ccb5484cfe021099ac}
+
+\item 
+half \hyperlink{half_8h_a465b9d2dc41f1c10dd7ab9ce3dc2866f}{half\+\_\+float\+::detail\+::fmax} (half x, half y)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fmax} (half x, expr y)\hypertarget{half_8h_a684ce72377acab35d3568390a12629a4}{}\label{half_8h_a684ce72377acab35d3568390a12629a4}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fmax} (expr x, half y)\hypertarget{half_8h_a7bf0e2d7ac5511a0b70b9d4bf2ad3830}{}\label{half_8h_a7bf0e2d7ac5511a0b70b9d4bf2ad3830}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fmax} (expr x, expr y)\hypertarget{half_8h_a28654fedb6753018e804eab6f53a5efb}{}\label{half_8h_a28654fedb6753018e804eab6f53a5efb}
+
+\item 
+half \hyperlink{half_8h_a9b147d2e64476167b7e9ee41ce14f36c}{half\+\_\+float\+::detail\+::fmin} (half x, half y)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fmin} (half x, expr y)\hypertarget{half_8h_a9ba6bab3339ee8ba80447452e780e33c}{}\label{half_8h_a9ba6bab3339ee8ba80447452e780e33c}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fmin} (expr x, half y)\hypertarget{half_8h_a55ef2a52b5f71daa27a14aebc27ff772}{}\label{half_8h_a55ef2a52b5f71daa27a14aebc27ff772}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fmin} (expr x, expr y)\hypertarget{half_8h_ada351aa3dc001fcb1c210e790cccdd64}{}\label{half_8h_ada351aa3dc001fcb1c210e790cccdd64}
+
+\item 
+expr \hyperlink{half_8h_a09a51a6e291a38991305ecdc8721ed85}{half\+\_\+float\+::detail\+::fdim} (half x, half y)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fdim} (half x, expr y)\hypertarget{half_8h_abc68948d8a694a01e4f07994dec98a42}{}\label{half_8h_abc68948d8a694a01e4f07994dec98a42}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fdim} (expr x, half y)\hypertarget{half_8h_ae61860ac1f7a992e560e37d7340e662d}{}\label{half_8h_ae61860ac1f7a992e560e37d7340e662d}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::fdim} (expr x, expr y)\hypertarget{half_8h_abcd504ab32799e08fc260c412b136f27}{}\label{half_8h_abcd504ab32799e08fc260c412b136f27}
+
+\item 
+half \hyperlink{half_8h_af73da38f1f425ad36f7c90268d401397}{half\+\_\+float\+::detail\+::nanh} (const char $\ast$)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Exponential functions}\par
+\begin{DoxyCompactItemize}
+\item 
+expr \hyperlink{half_8h_a22c1f76fc6a8dd8e469e54cabc4a7f42}{half\+\_\+float\+::detail\+::exp} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::exp} (expr arg)\hypertarget{half_8h_a09e538127fc0c503d11489a95f3edffd}{}\label{half_8h_a09e538127fc0c503d11489a95f3edffd}
+
+\item 
+expr \hyperlink{half_8h_a7b50ad39eee026747f621d17eb982d47}{half\+\_\+float\+::detail\+::expm1} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::expm1} (expr arg)\hypertarget{half_8h_afdac01457ab03f14285ce6b358221bda}{}\label{half_8h_afdac01457ab03f14285ce6b358221bda}
+
+\item 
+expr \hyperlink{half_8h_a6840d19bb305207e0bb01f47cb4fbe34}{half\+\_\+float\+::detail\+::exp2} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::exp2} (expr arg)\hypertarget{half_8h_aacebd17acf9b67ae3748ea3461d3cfad}{}\label{half_8h_aacebd17acf9b67ae3748ea3461d3cfad}
+
+\item 
+expr \hyperlink{half_8h_aae4eda4733dc4a863b635473008d9bc0}{half\+\_\+float\+::detail\+::log} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::log} (expr arg)\hypertarget{half_8h_a8682019f0663d47925c56bff848c30f2}{}\label{half_8h_a8682019f0663d47925c56bff848c30f2}
+
+\item 
+expr \hyperlink{half_8h_ad8d7b7769a3053dd74344ca0b122bb7b}{half\+\_\+float\+::detail\+::log10} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::log10} (expr arg)\hypertarget{half_8h_a968a57d32cab0e05f9e8bf12ea6f9c5a}{}\label{half_8h_a968a57d32cab0e05f9e8bf12ea6f9c5a}
+
+\item 
+expr \hyperlink{half_8h_aaab6664f3cee88c7c0474396c8ba8219}{half\+\_\+float\+::detail\+::log1p} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::log1p} (expr arg)\hypertarget{half_8h_a427f2f960568816873d1f80f0a464232}{}\label{half_8h_a427f2f960568816873d1f80f0a464232}
+
+\item 
+expr \hyperlink{half_8h_ac864f8697a78ce420e343a9c5d37118f}{half\+\_\+float\+::detail\+::log2} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::log2} (expr arg)\hypertarget{half_8h_a897c86d265108d3326d57436bcd75562}{}\label{half_8h_a897c86d265108d3326d57436bcd75562}
+
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Power functions}\par
+\begin{DoxyCompactItemize}
+\item 
+expr \hyperlink{half_8h_af714c124a18db9b79b703007b8d66162}{half\+\_\+float\+::detail\+::sqrt} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::sqrt} (expr arg)\hypertarget{half_8h_aafd2dced9a16f7e192b0fa7ee1a80b9e}{}\label{half_8h_aafd2dced9a16f7e192b0fa7ee1a80b9e}
+
+\item 
+expr \hyperlink{half_8h_accbe3a1c2cd180f62be82a1b8b784390}{half\+\_\+float\+::detail\+::cbrt} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::cbrt} (expr arg)\hypertarget{half_8h_a0efca8d667af3c6d23589e899ac23d51}{}\label{half_8h_a0efca8d667af3c6d23589e899ac23d51}
+
+\item 
+expr \hyperlink{half_8h_a380a4c5a399e3dc14fdf39c53277edc5}{half\+\_\+float\+::detail\+::hypot} (half x, half y)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::hypot} (half x, expr y)\hypertarget{half_8h_a540836fd441b3d89f321b9db43c6e2ce}{}\label{half_8h_a540836fd441b3d89f321b9db43c6e2ce}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::hypot} (expr x, half y)\hypertarget{half_8h_a10f0a3e50b1bc0a0c6760ce5f0a378bc}{}\label{half_8h_a10f0a3e50b1bc0a0c6760ce5f0a378bc}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::hypot} (expr x, expr y)\hypertarget{half_8h_ad5632f31bdd1c66892231c5c4027ecd8}{}\label{half_8h_ad5632f31bdd1c66892231c5c4027ecd8}
+
+\item 
+expr \hyperlink{half_8h_adf4df435c03de776c4ed53d5cf278e31}{half\+\_\+float\+::detail\+::pow} (half base, half exp)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::pow} (half base, expr exp)\hypertarget{half_8h_a7289d67db5c1b06379f40586325de380}{}\label{half_8h_a7289d67db5c1b06379f40586325de380}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::pow} (expr base, half exp)\hypertarget{half_8h_a05cde994c26a250d02d8fc9607396837}{}\label{half_8h_a05cde994c26a250d02d8fc9607396837}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::pow} (expr base, expr exp)\hypertarget{half_8h_a3904b20401171c0a102e4a8498d6acbc}{}\label{half_8h_a3904b20401171c0a102e4a8498d6acbc}
+
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Trigonometric functions}\par
+\begin{DoxyCompactItemize}
+\item 
+expr \hyperlink{half_8h_a3c1cc34288f381ee6543c05034783c93}{half\+\_\+float\+::detail\+::sin} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::sin} (expr arg)\hypertarget{half_8h_a5ae15ff362de65ac7784397ea32e4d3d}{}\label{half_8h_a5ae15ff362de65ac7784397ea32e4d3d}
+
+\item 
+expr \hyperlink{half_8h_a3932690572419d6a40ce760c897ac2cd}{half\+\_\+float\+::detail\+::cos} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::cos} (expr arg)\hypertarget{half_8h_a79354f6efe07d6587202e75395d31f49}{}\label{half_8h_a79354f6efe07d6587202e75395d31f49}
+
+\item 
+expr \hyperlink{half_8h_a0173ced6e30b993f3c622c765ad53ea8}{half\+\_\+float\+::detail\+::tan} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::tan} (expr arg)\hypertarget{half_8h_a570237a84cf8ce08088e61a60ed58a11}{}\label{half_8h_a570237a84cf8ce08088e61a60ed58a11}
+
+\item 
+expr \hyperlink{half_8h_ad93b1ac42816b8519b0653f58f327ba5}{half\+\_\+float\+::detail\+::asin} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::asin} (expr arg)\hypertarget{half_8h_ae1ccfb00bd0c246fc79582a98b173c5a}{}\label{half_8h_ae1ccfb00bd0c246fc79582a98b173c5a}
+
+\item 
+expr \hyperlink{half_8h_a12f68bb5d9a3e88d46af47071ef4e259}{half\+\_\+float\+::detail\+::acos} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::acos} (expr arg)\hypertarget{half_8h_a3633af9d8cf722fe454f83784cb5cf90}{}\label{half_8h_a3633af9d8cf722fe454f83784cb5cf90}
+
+\item 
+expr \hyperlink{half_8h_a70ee2b0c4152c8633270faa7b5c5158c}{half\+\_\+float\+::detail\+::atan} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::atan} (expr arg)\hypertarget{half_8h_ab90ceee4ff49e1bc2f733112837cd03b}{}\label{half_8h_ab90ceee4ff49e1bc2f733112837cd03b}
+
+\item 
+expr \hyperlink{half_8h_a85003efe03f71ec6c069237612a2f84f}{half\+\_\+float\+::detail\+::atan2} (half x, half y)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::atan2} (half x, expr y)\hypertarget{half_8h_a8e10018401784e57520350cf5ebf0ee2}{}\label{half_8h_a8e10018401784e57520350cf5ebf0ee2}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::atan2} (expr x, half y)\hypertarget{half_8h_a476bd28794fb1aa832984132b6e1d78b}{}\label{half_8h_a476bd28794fb1aa832984132b6e1d78b}
+
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::atan2} (expr x, expr y)\hypertarget{half_8h_a5a00ed39da24ed7caf6b247bf2af7441}{}\label{half_8h_a5a00ed39da24ed7caf6b247bf2af7441}
+
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Hyperbolic functions}\par
+\begin{DoxyCompactItemize}
+\item 
+expr \hyperlink{half_8h_aa56d689bec38bfbf9d86192209e705f7}{half\+\_\+float\+::detail\+::sinh} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::sinh} (expr arg)\hypertarget{half_8h_ab885f21afbf075b3b3bfe3e028360a4f}{}\label{half_8h_ab885f21afbf075b3b3bfe3e028360a4f}
+
+\item 
+expr \hyperlink{half_8h_a4eca9c9999253f864e291defe7acc67b}{half\+\_\+float\+::detail\+::cosh} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::cosh} (expr arg)\hypertarget{half_8h_a70e455e2c9707767d81bee70b7cb2118}{}\label{half_8h_a70e455e2c9707767d81bee70b7cb2118}
+
+\item 
+expr \hyperlink{half_8h_a06795625a388d617e44ea490903c8984}{half\+\_\+float\+::detail\+::tanh} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::tanh} (expr arg)\hypertarget{half_8h_a5c1c93204314b1e36f09f5cd64e53213}{}\label{half_8h_a5c1c93204314b1e36f09f5cd64e53213}
+
+\item 
+expr \hyperlink{half_8h_aa5f5994b0842a116dc20f1603e1f4cbb}{half\+\_\+float\+::detail\+::asinh} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::asinh} (expr arg)\hypertarget{half_8h_a16e8fe208bed6715d96720cd52484519}{}\label{half_8h_a16e8fe208bed6715d96720cd52484519}
+
+\item 
+expr \hyperlink{half_8h_ab449a1df5e728eea9892dec37c3d17b3}{half\+\_\+float\+::detail\+::acosh} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::acosh} (expr arg)\hypertarget{half_8h_a770438bb92d31e565c573ec6c2018809}{}\label{half_8h_a770438bb92d31e565c573ec6c2018809}
+
+\item 
+expr \hyperlink{half_8h_a50f52a411fa0758d9b30d1693a94abd5}{half\+\_\+float\+::detail\+::atanh} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::atanh} (expr arg)\hypertarget{half_8h_ac77afd4c7e55ed6a9b017d6ffa28d6e1}{}\label{half_8h_ac77afd4c7e55ed6a9b017d6ffa28d6e1}
+
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Error and gamma functions}\par
+\begin{DoxyCompactItemize}
+\item 
+expr \hyperlink{half_8h_a91bfb5ecc731b688a5a866d1da4c6699}{half\+\_\+float\+::detail\+::erf} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::erf} (expr arg)\hypertarget{half_8h_ab4dcbfac787425f31d61309cecdded5d}{}\label{half_8h_ab4dcbfac787425f31d61309cecdded5d}
+
+\item 
+expr \hyperlink{half_8h_ae03035153282371dbc8691ebadcc4fb0}{half\+\_\+float\+::detail\+::erfc} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::erfc} (expr arg)\hypertarget{half_8h_a987a584f9cd8b5e84339c8f4cefca641}{}\label{half_8h_a987a584f9cd8b5e84339c8f4cefca641}
+
+\item 
+expr \hyperlink{half_8h_a7cf73acde909ef9f522b49f47e54843f}{half\+\_\+float\+::detail\+::lgamma} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::lgamma} (expr arg)\hypertarget{half_8h_aa53d3da977e832380b5b42d7d9f08743}{}\label{half_8h_aa53d3da977e832380b5b42d7d9f08743}
+
+\item 
+expr \hyperlink{half_8h_a23014ba07b4073225072ecaf1159d106}{half\+\_\+float\+::detail\+::tgamma} (half arg)
+\item 
+expr {\bfseries half\+\_\+float\+::detail\+::tgamma} (expr arg)\hypertarget{half_8h_aa9767c4f2cb1260978d67745b8533882}{}\label{half_8h_aa9767c4f2cb1260978d67745b8533882}
+
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Rounding}\par
+\begin{DoxyCompactItemize}
+\item 
+half \hyperlink{half_8h_a86421b3112018437512cf26b915ef979}{half\+\_\+float\+::detail\+::ceil} (half arg)
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::ceil} (expr arg)\hypertarget{half_8h_a021a3543d2b972d72b770226b7c181df}{}\label{half_8h_a021a3543d2b972d72b770226b7c181df}
+
+\item 
+half \hyperlink{half_8h_ad34d698311b83780c4df38d8a8274756}{half\+\_\+float\+::detail\+::floor} (half arg)
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::floor} (expr arg)\hypertarget{half_8h_a07d6873ffe14938135fa22fb235cc49f}{}\label{half_8h_a07d6873ffe14938135fa22fb235cc49f}
+
+\item 
+half \hyperlink{half_8h_ad2f636a625c44e0e2e939cf4fcdd8980}{half\+\_\+float\+::detail\+::trunc} (half arg)
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::trunc} (expr arg)\hypertarget{half_8h_a200c486961a2c2aea24ed7c323acad97}{}\label{half_8h_a200c486961a2c2aea24ed7c323acad97}
+
+\item 
+half \hyperlink{half_8h_ae60c2e9b87102c08084c81d546113c91}{half\+\_\+float\+::detail\+::round} (half arg)
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::round} (expr arg)\hypertarget{half_8h_ab5b61d50f0c874faf8d0a949386242ff}{}\label{half_8h_ab5b61d50f0c874faf8d0a949386242ff}
+
+\item 
+long \hyperlink{half_8h_abff729297b6ad9e7ad431f73d280b76d}{half\+\_\+float\+::detail\+::lround} (half arg)
+\item 
+long {\bfseries half\+\_\+float\+::detail\+::lround} (expr arg)\hypertarget{half_8h_a6d1973ada01f199686cc173ea627052b}{}\label{half_8h_a6d1973ada01f199686cc173ea627052b}
+
+\item 
+half \hyperlink{half_8h_aa18533c0035bfe9c4f143acfd2b47272}{half\+\_\+float\+::detail\+::nearbyint} (half arg)
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::nearbyint} (expr arg)\hypertarget{half_8h_aebcfe947c8904d558b9a572d13b7a3ae}{}\label{half_8h_aebcfe947c8904d558b9a572d13b7a3ae}
+
+\item 
+half \hyperlink{half_8h_a25d6e6a301530bc1b48159f74cb5a0b4}{half\+\_\+float\+::detail\+::rint} (half arg)
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::rint} (expr arg)\hypertarget{half_8h_aea0610c62a916840b0d0409b239965d4}{}\label{half_8h_aea0610c62a916840b0d0409b239965d4}
+
+\item 
+long \hyperlink{half_8h_aa2ee848c78f938434f485e75904bee45}{half\+\_\+float\+::detail\+::lrint} (half arg)
+\item 
+long {\bfseries half\+\_\+float\+::detail\+::lrint} (expr arg)\hypertarget{half_8h_a25108b6b800a6693f27963e6183f8c19}{}\label{half_8h_a25108b6b800a6693f27963e6183f8c19}
+
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Floating point manipulation}\par
+\begin{DoxyCompactItemize}
+\item 
+half \hyperlink{half_8h_ac50a04fe4afdfae67b7aeb163fa92c72}{half\+\_\+float\+::detail\+::frexp} (half arg, int $\ast$exp)
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::frexp} (expr arg, int $\ast$exp)\hypertarget{half_8h_ab852ae178e7de565f1731acb2b1cb9f1}{}\label{half_8h_ab852ae178e7de565f1731acb2b1cb9f1}
+
+\item 
+half \hyperlink{half_8h_a4540a29921074f33bc8be71904e12aef}{half\+\_\+float\+::detail\+::ldexp} (half arg, int exp)
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::ldexp} (expr arg, int exp)\hypertarget{half_8h_a78e551ce438f7098e0872fceb09c8c75}{}\label{half_8h_a78e551ce438f7098e0872fceb09c8c75}
+
+\item 
+half \hyperlink{half_8h_a5ec08b7eaba0159f189fedeaea43946e}{half\+\_\+float\+::detail\+::modf} (half arg, half $\ast$iptr)
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::modf} (expr arg, half $\ast$iptr)\hypertarget{half_8h_a86229873ef3805ed4ee0d8796a73b421}{}\label{half_8h_a86229873ef3805ed4ee0d8796a73b421}
+
+\item 
+half \hyperlink{half_8h_afa69fde98551e3537a77d267b1fc4187}{half\+\_\+float\+::detail\+::scalbn} (half arg, int exp)
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::scalbn} (expr arg, int exp)\hypertarget{half_8h_ad38a2f6279448caa187ea823b520085c}{}\label{half_8h_ad38a2f6279448caa187ea823b520085c}
+
+\item 
+half \hyperlink{half_8h_a924a0abc9d3ee7742200574a803a9bfb}{half\+\_\+float\+::detail\+::scalbln} (half arg, long exp)
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::scalbln} (expr arg, long exp)\hypertarget{half_8h_a5466f8ca5b1bc5df9326c250b8f1bf2c}{}\label{half_8h_a5466f8ca5b1bc5df9326c250b8f1bf2c}
+
+\item 
+int \hyperlink{half_8h_acd3e6c3b07beae2997cef825944411fe}{half\+\_\+float\+::detail\+::ilogb} (half arg)
+\item 
+int {\bfseries half\+\_\+float\+::detail\+::ilogb} (expr arg)\hypertarget{half_8h_afd96f3123343818501b552174ef98dca}{}\label{half_8h_afd96f3123343818501b552174ef98dca}
+
+\item 
+half \hyperlink{half_8h_a9963a6cdd7b45287f35438e07717eba2}{half\+\_\+float\+::detail\+::logb} (half arg)
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::logb} (expr arg)\hypertarget{half_8h_a37ddd9d452d9bd4c6d31f56adf9f6620}{}\label{half_8h_a37ddd9d452d9bd4c6d31f56adf9f6620}
+
+\item 
+half \hyperlink{half_8h_abaff6defbabab12cdfbb47ebf2d757a8}{half\+\_\+float\+::detail\+::nextafter} (half from, half to)
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::nextafter} (half from, expr to)\hypertarget{half_8h_ab1e7231cc386bb596373cf6618d63541}{}\label{half_8h_ab1e7231cc386bb596373cf6618d63541}
+
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::nextafter} (expr from, half to)\hypertarget{half_8h_ae9f4932000e04299199ad07b764f9757}{}\label{half_8h_ae9f4932000e04299199ad07b764f9757}
+
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::nextafter} (expr from, expr to)\hypertarget{half_8h_abcc7d0402bd1f7a94709bc16012baff2}{}\label{half_8h_abcc7d0402bd1f7a94709bc16012baff2}
+
+\item 
+half \hyperlink{half_8h_aef57aa188ad54b4740b8c3aed38c3c36}{half\+\_\+float\+::detail\+::nexttoward} (half from, long double to)
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::nexttoward} (expr from, long double to)\hypertarget{half_8h_ae9f3e0b8320a8104eecd193179ee58d5}{}\label{half_8h_ae9f3e0b8320a8104eecd193179ee58d5}
+
+\item 
+half \hyperlink{half_8h_aca0e10e9b77c1231f05521e08d016a2d}{half\+\_\+float\+::detail\+::copysign} (half x, half y)
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::copysign} (half x, expr y)\hypertarget{half_8h_a831056e8fa4d5a57221ef93835d7279f}{}\label{half_8h_a831056e8fa4d5a57221ef93835d7279f}
+
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::copysign} (expr x, half y)\hypertarget{half_8h_a2e29b846ced6aa37b7806563e5e12bc1}{}\label{half_8h_a2e29b846ced6aa37b7806563e5e12bc1}
+
+\item 
+half {\bfseries half\+\_\+float\+::detail\+::copysign} (expr x, expr y)\hypertarget{half_8h_a2ab58ff6ab481a5e8bbf6ad1383b7842}{}\label{half_8h_a2ab58ff6ab481a5e8bbf6ad1383b7842}
+
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Floating point classification}\par
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{half_8h_a35cb57616468455d2e4e0b7e28fe97c0}{half\+\_\+float\+::detail\+::fpclassify} (half arg)
+\item 
+int {\bfseries half\+\_\+float\+::detail\+::fpclassify} (expr arg)\hypertarget{half_8h_a1691a54abfd35fa9c1880288aa3f1244}{}\label{half_8h_a1691a54abfd35fa9c1880288aa3f1244}
+
+\item 
+bool \hyperlink{half_8h_a976e0b18b3e84b7173457c28411de94a}{half\+\_\+float\+::detail\+::isfinite} (half arg)
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::isfinite} (expr arg)\hypertarget{half_8h_a7d652c289107cb5f35c591f89bdffe36}{}\label{half_8h_a7d652c289107cb5f35c591f89bdffe36}
+
+\item 
+bool \hyperlink{half_8h_a8963179a7b2e95bb126aea404732e2d3}{half\+\_\+float\+::detail\+::isinf} (half arg)
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::isinf} (expr arg)\hypertarget{half_8h_a072ecb80d48fc55231963d6a36c2abe4}{}\label{half_8h_a072ecb80d48fc55231963d6a36c2abe4}
+
+\item 
+bool \hyperlink{half_8h_ac997496b119af340bfe047bff0583ee4}{half\+\_\+float\+::detail\+::isnan} (half arg)
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::isnan} (expr arg)\hypertarget{half_8h_a8f05e6f9157536d7bc25fe4232491924}{}\label{half_8h_a8f05e6f9157536d7bc25fe4232491924}
+
+\item 
+bool \hyperlink{half_8h_a8cb72b0b732c9ad285220edbf2cdf303}{half\+\_\+float\+::detail\+::isnormal} (half arg)
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::isnormal} (expr arg)\hypertarget{half_8h_aa68c8d309a1adebe2de30c3ea5c9c577}{}\label{half_8h_aa68c8d309a1adebe2de30c3ea5c9c577}
+
+\item 
+bool \hyperlink{half_8h_a889e57734de1100a401c1f148d1e6354}{half\+\_\+float\+::detail\+::signbit} (half arg)
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::signbit} (expr arg)\hypertarget{half_8h_ac957d466a743fdc5910216506256ea3c}{}\label{half_8h_ac957d466a743fdc5910216506256ea3c}
+
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Comparison}\par
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{half_8h_ac6634b70f77be4d111f27b801e5db865}{half\+\_\+float\+::detail\+::isgreater} (half x, half y)
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::isgreater} (half x, expr y)\hypertarget{half_8h_a78e952bbbc53aeb9a9b1e21a8bfa72d7}{}\label{half_8h_a78e952bbbc53aeb9a9b1e21a8bfa72d7}
+
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::isgreater} (expr x, half y)\hypertarget{half_8h_a4fd226fe51f2d00ca53ff54e1db4d93c}{}\label{half_8h_a4fd226fe51f2d00ca53ff54e1db4d93c}
+
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::isgreater} (expr x, expr y)\hypertarget{half_8h_a9ccecf7168d51b6c85c9495f4b9bfda8}{}\label{half_8h_a9ccecf7168d51b6c85c9495f4b9bfda8}
+
+\item 
+bool \hyperlink{half_8h_a93796728de672120ebdab9519c3e33d5}{half\+\_\+float\+::detail\+::isgreaterequal} (half x, half y)
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::isgreaterequal} (half x, expr y)\hypertarget{half_8h_a2b2f028b697b695c82cde2bf921af6d5}{}\label{half_8h_a2b2f028b697b695c82cde2bf921af6d5}
+
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::isgreaterequal} (expr x, half y)\hypertarget{half_8h_a9b3c938dfd20bb945fcf1d4ae16f1989}{}\label{half_8h_a9b3c938dfd20bb945fcf1d4ae16f1989}
+
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::isgreaterequal} (expr x, expr y)\hypertarget{half_8h_a4e163595f6122e6bd7b911e5730f5087}{}\label{half_8h_a4e163595f6122e6bd7b911e5730f5087}
+
+\item 
+bool \hyperlink{half_8h_a38cad803bcd84b49ef25e9181678284e}{half\+\_\+float\+::detail\+::isless} (half x, half y)
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::isless} (half x, expr y)\hypertarget{half_8h_a284488fe5519a429d1834b76bb59d152}{}\label{half_8h_a284488fe5519a429d1834b76bb59d152}
+
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::isless} (expr x, half y)\hypertarget{half_8h_a0bf94752c22c1cdb1273beeb67164e7e}{}\label{half_8h_a0bf94752c22c1cdb1273beeb67164e7e}
+
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::isless} (expr x, expr y)\hypertarget{half_8h_a911db07a9c4a7307537a77d0a1b63020}{}\label{half_8h_a911db07a9c4a7307537a77d0a1b63020}
+
+\item 
+bool \hyperlink{half_8h_ac4890222c4073ad446d877c321b335d6}{half\+\_\+float\+::detail\+::islessequal} (half x, half y)
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::islessequal} (half x, expr y)\hypertarget{half_8h_ab84536d5ba40f3d79a8a90942625279b}{}\label{half_8h_ab84536d5ba40f3d79a8a90942625279b}
+
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::islessequal} (expr x, half y)\hypertarget{half_8h_adfa3321c4be8e22cbd300eaa157d9961}{}\label{half_8h_adfa3321c4be8e22cbd300eaa157d9961}
+
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::islessequal} (expr x, expr y)\hypertarget{half_8h_a403f2453b664076031e8dc915cc897e6}{}\label{half_8h_a403f2453b664076031e8dc915cc897e6}
+
+\item 
+bool \hyperlink{half_8h_a1c8c80126de214bbee6021d1d7ace69f}{half\+\_\+float\+::detail\+::islessgreater} (half x, half y)
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::islessgreater} (half x, expr y)\hypertarget{half_8h_abe2ef7f721b2153143e677f5382fa823}{}\label{half_8h_abe2ef7f721b2153143e677f5382fa823}
+
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::islessgreater} (expr x, half y)\hypertarget{half_8h_ae711abc410125d0b904d2d086d8e831c}{}\label{half_8h_ae711abc410125d0b904d2d086d8e831c}
+
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::islessgreater} (expr x, expr y)\hypertarget{half_8h_a61b362b9545dbc9319ac437b57963538}{}\label{half_8h_a61b362b9545dbc9319ac437b57963538}
+
+\item 
+bool \hyperlink{half_8h_a9d7bd7653ebeced3088e8ab759456728}{half\+\_\+float\+::detail\+::isunordered} (half x, half y)
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::isunordered} (half x, expr y)\hypertarget{half_8h_af94f1ec641bbd4dcf8528eeb01a2ac20}{}\label{half_8h_af94f1ec641bbd4dcf8528eeb01a2ac20}
+
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::isunordered} (expr x, half y)\hypertarget{half_8h_ad479f10441ff35fd89038940623edf32}{}\label{half_8h_ad479f10441ff35fd89038940623edf32}
+
+\item 
+bool {\bfseries half\+\_\+float\+::detail\+::isunordered} (expr x, expr y)\hypertarget{half_8h_a55803fd7a2045e188c2e23f312ef8390}{}\label{half_8h_a55803fd7a2045e188c2e23f312ef8390}
+
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Casting}\par
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\T \hyperlink{half_8h_a2d6a65bc1f34f19797f558a31deefe84}{half\+\_\+float\+::detail\+::half\+\_\+cast} (U arg)
+\item 
+{\footnotesize template$<$typename T , std\+::float\+\_\+round\+\_\+style R, typename U $>$ }\\T \hyperlink{half_8h_aa886fe2fe51f0ead5eca42060889b331}{half\+\_\+float\+::detail\+::half\+\_\+cast} (U arg)
+\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+H\+A\+L\+F\+\_\+\+C\+O\+N\+S\+T\+E\+X\+P\+R\+\_\+\+C\+O\+N\+ST binary\+\_\+t \hyperlink{half_8h_a083e9a0ced4c4a5495ac89dd753dd215}{half\+\_\+float\+::detail\+::binary} = binary\+\_\+t()\hypertarget{half_8h_a083e9a0ced4c4a5495ac89dd753dd215}{}\label{half_8h_a083e9a0ced4c4a5495ac89dd753dd215}
+
+\begin{DoxyCompactList}\small\item\em Tag for binary construction. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Main header file for half precision functionality. 
+
+\subsection{Macro Definition Documentation}
+\index{half.\+h@{half.\+h}!F\+P\+\_\+\+F\+A\+S\+T\+\_\+\+F\+M\+AH@{F\+P\+\_\+\+F\+A\+S\+T\+\_\+\+F\+M\+AH}}
+\index{F\+P\+\_\+\+F\+A\+S\+T\+\_\+\+F\+M\+AH@{F\+P\+\_\+\+F\+A\+S\+T\+\_\+\+F\+M\+AH}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{F\+P\+\_\+\+F\+A\+S\+T\+\_\+\+F\+M\+AH}{FP_FAST_FMAH}}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\+P\+\_\+\+F\+A\+S\+T\+\_\+\+F\+M\+AH~1}\hypertarget{half_8h_a00d5755980889a6bcc0fadf914241b81}{}\label{half_8h_a00d5755980889a6bcc0fadf914241b81}
+Fast half-\/precision fma function. This symbol is only defined if the fma() function generally executes as fast as, or faster than, a separate half-\/precision multiplication followed by an addition. Due to the internal single-\/precision implementation of all arithmetic operations, this is in fact always the case. \index{half.\+h@{half.\+h}!H\+A\+L\+F\+\_\+\+R\+O\+U\+N\+D\+\_\+\+S\+T\+Y\+LE@{H\+A\+L\+F\+\_\+\+R\+O\+U\+N\+D\+\_\+\+S\+T\+Y\+LE}}
+\index{H\+A\+L\+F\+\_\+\+R\+O\+U\+N\+D\+\_\+\+S\+T\+Y\+LE@{H\+A\+L\+F\+\_\+\+R\+O\+U\+N\+D\+\_\+\+S\+T\+Y\+LE}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{H\+A\+L\+F\+\_\+\+R\+O\+U\+N\+D\+\_\+\+S\+T\+Y\+LE}{HALF_ROUND_STYLE}}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+A\+L\+F\+\_\+\+R\+O\+U\+N\+D\+\_\+\+S\+T\+Y\+LE~-\/1}\hypertarget{half_8h_af470ed60568b3e7f4fde6092d22abbde}{}\label{half_8h_af470ed60568b3e7f4fde6092d22abbde}
+Default rounding mode. This specifies the rounding mode used for all conversions between \hyperlink{classhalf__float_1_1half}{half}s and {\ttfamily float}s as well as for the \hyperlink{half_8h_aa886fe2fe51f0ead5eca42060889b331}{half\+\_\+cast()} if not specifying a rounding mode explicitly. It can be redefined (before including half.\+hpp) to one of the standard rounding modes using their respective constants or the equivalent values of {\ttfamily std\+::float\+\_\+round\+\_\+style}\+:
+
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*3{|X[-1]}|}
+\hline
+\rowcolor{\tableheadbgcolor}{\bf {\ttfamily std\+::float\+\_\+round\+\_\+style} }&{\bf value }&{\bf rounding  }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}{\bf {\ttfamily std\+::float\+\_\+round\+\_\+style} }&{\bf value }&{\bf rounding  }\\\cline{1-3}
+\endhead
+{\ttfamily std\+::round\+\_\+indeterminate} &-\/1 &fastest (default) \\\cline{1-3}
+{\ttfamily std\+::round\+\_\+toward\+\_\+zero} &0 &toward zero \\\cline{1-3}
+{\ttfamily std\+::round\+\_\+to\+\_\+nearest} &1 &to nearest \\\cline{1-3}
+{\ttfamily std\+::round\+\_\+toward\+\_\+infinity} &2 &toward positive infinity \\\cline{1-3}
+{\ttfamily std\+::round\+\_\+toward\+\_\+neg\+\_\+infinity} &3 &toward negative infinity \\\cline{1-3}
+\end{longtabu}
+By default this is set to {\ttfamily -\/1} ({\ttfamily std\+::round\+\_\+indeterminate}), which uses truncation (round toward zero, but with overflows set to infinity) and is the fastest rounding mode possible. It can even be set to {\ttfamily std\+::numeric\+\_\+limits$<$float$>$\+::round\+\_\+style} to synchronize the rounding mode with that of the underlying single-\/precision implementation. \index{half.\+h@{half.\+h}!H\+A\+L\+F\+\_\+\+R\+O\+U\+N\+D\+\_\+\+T\+I\+E\+S\+\_\+\+T\+O\+\_\+\+E\+V\+EN@{H\+A\+L\+F\+\_\+\+R\+O\+U\+N\+D\+\_\+\+T\+I\+E\+S\+\_\+\+T\+O\+\_\+\+E\+V\+EN}}
+\index{H\+A\+L\+F\+\_\+\+R\+O\+U\+N\+D\+\_\+\+T\+I\+E\+S\+\_\+\+T\+O\+\_\+\+E\+V\+EN@{H\+A\+L\+F\+\_\+\+R\+O\+U\+N\+D\+\_\+\+T\+I\+E\+S\+\_\+\+T\+O\+\_\+\+E\+V\+EN}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{H\+A\+L\+F\+\_\+\+R\+O\+U\+N\+D\+\_\+\+T\+I\+E\+S\+\_\+\+T\+O\+\_\+\+E\+V\+EN}{HALF_ROUND_TIES_TO_EVEN}}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+A\+L\+F\+\_\+\+R\+O\+U\+N\+D\+\_\+\+T\+I\+E\+S\+\_\+\+T\+O\+\_\+\+E\+V\+EN~0}\hypertarget{half_8h_ab0c3c06432f0247f22594abe3df0ebfe}{}\label{half_8h_ab0c3c06432f0247f22594abe3df0ebfe}
+Tie-\/breaking behaviour for round to nearest. This specifies if ties in round to nearest should be resolved by rounding to the nearest even value. By default this is defined to {\ttfamily 0} resulting in the faster but slightly more biased behaviour of rounding away from zero in half-\/way cases (and thus equal to the round() function), but can be redefined to {\ttfamily 1} (before including half.\+hpp) if more I\+E\+E\+E-\/conformant behaviour is needed. \index{half.\+h@{half.\+h}!H\+U\+G\+E\+\_\+\+V\+A\+LH@{H\+U\+G\+E\+\_\+\+V\+A\+LH}}
+\index{H\+U\+G\+E\+\_\+\+V\+A\+LH@{H\+U\+G\+E\+\_\+\+V\+A\+LH}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{H\+U\+G\+E\+\_\+\+V\+A\+LH}{HUGE_VALH}}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+U\+G\+E\+\_\+\+V\+A\+LH~std\+::numeric\+\_\+limits$<${\bf half\+\_\+float\+::half}$>$\+::infinity()}\hypertarget{half_8h_abdcd774b81d03564edec8523484d02bf}{}\label{half_8h_abdcd774b81d03564edec8523484d02bf}
+Value signaling overflow. In correspondence with {\ttfamily H\+U\+G\+E\+\_\+\+V\+AL\mbox{[}F$\vert$L\mbox{]}} from {\ttfamily $<$cmath$>$} this symbol expands to a positive value signaling the overflow of an operation, in particular it just evaluates to positive infinity. 
+
+\subsection{Function Documentation}
+\index{half.\+h@{half.\+h}!abs@{abs}}
+\index{abs@{abs}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{abs(half arg)}{abs(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::abs (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a25d76d0f9f18298a1096716c0da7b6e5}{}\label{half_8h_file_a25d76d0f9f18298a1096716c0da7b6e5}
+Absolute value. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & operand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+absolute value of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!acos@{acos}}
+\index{acos@{acos}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{acos(half arg)}{acos(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::acos (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a12f68bb5d9a3e88d46af47071ef4e259}{}\label{half_8h_file_a12f68bb5d9a3e88d46af47071ef4e259}
+Arc cosine function. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arc cosine value of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!acosh@{acosh}}
+\index{acosh@{acosh}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{acosh(half arg)}{acosh(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::acosh (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_ab449a1df5e728eea9892dec37c3d17b3}{}\label{half_8h_file_ab449a1df5e728eea9892dec37c3d17b3}
+Hyperbolic area cosine. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+area cosine value of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!asin@{asin}}
+\index{asin@{asin}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{asin(half arg)}{asin(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::asin (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_ad93b1ac42816b8519b0653f58f327ba5}{}\label{half_8h_file_ad93b1ac42816b8519b0653f58f327ba5}
+Arc sine. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arc sine value of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!asinh@{asinh}}
+\index{asinh@{asinh}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{asinh(half arg)}{asinh(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::asinh (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_aa5f5994b0842a116dc20f1603e1f4cbb}{}\label{half_8h_file_aa5f5994b0842a116dc20f1603e1f4cbb}
+Hyperbolic area sine. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+area sine value of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!atan@{atan}}
+\index{atan@{atan}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{atan(half arg)}{atan(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::atan (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a70ee2b0c4152c8633270faa7b5c5158c}{}\label{half_8h_file_a70ee2b0c4152c8633270faa7b5c5158c}
+Arc tangent function. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arc tangent value of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!atan2@{atan2}}
+\index{atan2@{atan2}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{atan2(half x, half y)}{atan2(half x, half y)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::atan2 (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{x, }
+\item[{{\bf half}}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a85003efe03f71ec6c069237612a2f84f}{}\label{half_8h_file_a85003efe03f71ec6c069237612a2f84f}
+Arc tangent function. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first argument \\
+\hline
+{\em y} & second argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arc tangent value 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!atanh@{atanh}}
+\index{atanh@{atanh}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{atanh(half arg)}{atanh(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::atanh (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a50f52a411fa0758d9b30d1693a94abd5}{}\label{half_8h_file_a50f52a411fa0758d9b30d1693a94abd5}
+Hyperbolic area tangent. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+area tangent value of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!builtin\+\_\+isinf@{builtin\+\_\+isinf}}
+\index{builtin\+\_\+isinf@{builtin\+\_\+isinf}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{builtin\+\_\+isinf(\+T arg)}{builtin_isinf(T arg)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ bool half\+\_\+float\+::detail\+::builtin\+\_\+isinf (
+\begin{DoxyParamCaption}
+\item[{T}]{arg}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_aeb1b5890af847586d019111c931e7f3b}{}\label{half_8h_file_aeb1b5890af847586d019111c931e7f3b}
+Check for infinity. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & argument type (builtin floating point type) \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & value to query \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & if infinity \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!builtin\+\_\+isnan@{builtin\+\_\+isnan}}
+\index{builtin\+\_\+isnan@{builtin\+\_\+isnan}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{builtin\+\_\+isnan(\+T arg)}{builtin_isnan(T arg)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ bool half\+\_\+float\+::detail\+::builtin\+\_\+isnan (
+\begin{DoxyParamCaption}
+\item[{T}]{arg}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a20cedf19efac6e017090e17ea38342cf}{}\label{half_8h_file_a20cedf19efac6e017090e17ea38342cf}
+Check for NaN. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & argument type (builtin floating point type) \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & value to query \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & if not a number \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!builtin\+\_\+signbit@{builtin\+\_\+signbit}}
+\index{builtin\+\_\+signbit@{builtin\+\_\+signbit}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{builtin\+\_\+signbit(\+T arg)}{builtin_signbit(T arg)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ bool half\+\_\+float\+::detail\+::builtin\+\_\+signbit (
+\begin{DoxyParamCaption}
+\item[{T}]{arg}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a0f1b0ddcef962521b4c76f661659e5a7}{}\label{half_8h_file_a0f1b0ddcef962521b4c76f661659e5a7}
+Check sign. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & argument type (builtin floating point type) \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & value to query \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & if signbit set \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!cbrt@{cbrt}}
+\index{cbrt@{cbrt}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{cbrt(half arg)}{cbrt(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::cbrt (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_accbe3a1c2cd180f62be82a1b8b784390}{}\label{half_8h_file_accbe3a1c2cd180f62be82a1b8b784390}
+Cubic root. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+cubic root of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!ceil@{ceil}}
+\index{ceil@{ceil}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{ceil(half arg)}{ceil(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::ceil (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a86421b3112018437512cf26b915ef979}{}\label{half_8h_file_a86421b3112018437512cf26b915ef979}
+Nearest integer not less than half value. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & half to round \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+nearest integer not less than {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!copysign@{copysign}}
+\index{copysign@{copysign}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{copysign(half x, half y)}{copysign(half x, half y)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::copysign (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{x, }
+\item[{{\bf half}}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_aca0e10e9b77c1231f05521e08d016a2d}{}\label{half_8h_file_aca0e10e9b77c1231f05521e08d016a2d}
+Take sign. 
+\begin{DoxyParams}{Parameters}
+{\em x} & value to change sign for \\
+\hline
+{\em y} & value to take sign from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value equal to {\itshape x} in magnitude and to {\itshape y} in sign 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!cos@{cos}}
+\index{cos@{cos}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{cos(half arg)}{cos(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::cos (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a3932690572419d6a40ce760c897ac2cd}{}\label{half_8h_file_a3932690572419d6a40ce760c897ac2cd}
+Cosine function. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+cosine value of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!cosh@{cosh}}
+\index{cosh@{cosh}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{cosh(half arg)}{cosh(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::cosh (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a4eca9c9999253f864e291defe7acc67b}{}\label{half_8h_file_a4eca9c9999253f864e291defe7acc67b}
+Hyperbolic cosine. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+hyperbolic cosine value of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!erf@{erf}}
+\index{erf@{erf}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{erf(half arg)}{erf(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::erf (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a91bfb5ecc731b688a5a866d1da4c6699}{}\label{half_8h_file_a91bfb5ecc731b688a5a866d1da4c6699}
+Error function. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+error function value of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!erfc@{erfc}}
+\index{erfc@{erfc}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{erfc(half arg)}{erfc(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::erfc (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_ae03035153282371dbc8691ebadcc4fb0}{}\label{half_8h_file_ae03035153282371dbc8691ebadcc4fb0}
+Complementary error function. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 minus error function value of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!exp@{exp}}
+\index{exp@{exp}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{exp(half arg)}{exp(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::exp (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a22c1f76fc6a8dd8e469e54cabc4a7f42}{}\label{half_8h_file_a22c1f76fc6a8dd8e469e54cabc4a7f42}
+Exponential function. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+e raised to {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!exp2@{exp2}}
+\index{exp2@{exp2}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{exp2(half arg)}{exp2(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::exp2 (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a6840d19bb305207e0bb01f47cb4fbe34}{}\label{half_8h_file_a6840d19bb305207e0bb01f47cb4fbe34}
+Binary exponential. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+2 raised to {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!expm1@{expm1}}
+\index{expm1@{expm1}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{expm1(half arg)}{expm1(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::expm1 (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a7b50ad39eee026747f621d17eb982d47}{}\label{half_8h_file_a7b50ad39eee026747f621d17eb982d47}
+Exponential minus one. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+e raised to {\itshape arg} subtracted by 1 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!fabs@{fabs}}
+\index{fabs@{fabs}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{fabs(half arg)}{fabs(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::fabs (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a70f276b86204e71756d873694cf1e2ca}{}\label{half_8h_file_a70f276b86204e71756d873694cf1e2ca}
+Absolute value. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & operand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+absolute value of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!fdim@{fdim}}
+\index{fdim@{fdim}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{fdim(half x, half y)}{fdim(half x, half y)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::fdim (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{x, }
+\item[{{\bf half}}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a09a51a6e291a38991305ecdc8721ed85}{}\label{half_8h_file_a09a51a6e291a38991305ecdc8721ed85}
+Positive difference. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\itshape x} -\/ {\itshape y} or 0 if difference negative 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!float2half@{float2half}}
+\index{float2half@{float2half}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{float2half(\+T value)}{float2half(T value)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$std\+::float\+\_\+round\+\_\+style R, typename T $>$ uint16 half\+\_\+float\+::detail\+::float2half (
+\begin{DoxyParamCaption}
+\item[{T}]{value}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a323f122774a4f85d4ce4c4d91a8d066b}{}\label{half_8h_file_a323f122774a4f85d4ce4c4d91a8d066b}
+Convert floating point to half-\/precision. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em R} & rounding mode to use, {\ttfamily std\+::round\+\_\+indeterminate} for fastest rounding \\
+\hline
+{\em T} & source type (builtin floating point type) \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em value} & floating point value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binary representation of half-\/precision value 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!float2half\+\_\+impl@{float2half\+\_\+impl}}
+\index{float2half\+\_\+impl@{float2half\+\_\+impl}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{float2half\+\_\+impl(float value, true\+\_\+type)}{float2half_impl(float value, true_type)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$std\+::float\+\_\+round\+\_\+style R$>$ uint16 half\+\_\+float\+::detail\+::float2half\+\_\+impl (
+\begin{DoxyParamCaption}
+\item[{float}]{value, }
+\item[{{\bf true\+\_\+type}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a32be02e128131df654adb21672ad1e8d}{}\label{half_8h_file_a32be02e128131df654adb21672ad1e8d}
+Convert I\+E\+EE single-\/precision to half-\/precision. Credit for this goes to \href{ftp://ftp.fox-toolkit.org/pub/fasthalffloatconversion.pdf}{\tt Jeroen van der Zijp}. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em R} & rounding mode to use, {\ttfamily std\+::round\+\_\+indeterminate} for fastest rounding \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em value} & single-\/precision value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binary representation of half-\/precision value 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!float2half\+\_\+impl@{float2half\+\_\+impl}}
+\index{float2half\+\_\+impl@{float2half\+\_\+impl}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{float2half\+\_\+impl(double value, true\+\_\+type)}{float2half_impl(double value, true_type)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$std\+::float\+\_\+round\+\_\+style R$>$ uint16 half\+\_\+float\+::detail\+::float2half\+\_\+impl (
+\begin{DoxyParamCaption}
+\item[{double}]{value, }
+\item[{{\bf true\+\_\+type}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a36dca5081e9a14c8e523d2415e476ace}{}\label{half_8h_file_a36dca5081e9a14c8e523d2415e476ace}
+Convert I\+E\+EE double-\/precision to half-\/precision. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em R} & rounding mode to use, {\ttfamily std\+::round\+\_\+indeterminate} for fastest rounding \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em value} & double-\/precision value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binary representation of half-\/precision value 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!float2half\+\_\+impl@{float2half\+\_\+impl}}
+\index{float2half\+\_\+impl@{float2half\+\_\+impl}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{float2half\+\_\+impl(\+T value,...)}{float2half_impl(T value,...)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$std\+::float\+\_\+round\+\_\+style R, typename T $>$ uint16 half\+\_\+float\+::detail\+::float2half\+\_\+impl (
+\begin{DoxyParamCaption}
+\item[{T}]{value, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a7a40ca55db89afccd351332db5535ed1}{}\label{half_8h_file_a7a40ca55db89afccd351332db5535ed1}
+Convert non-\/\+I\+E\+EE floating point to half-\/precision. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em R} & rounding mode to use, {\ttfamily std\+::round\+\_\+indeterminate} for fastest rounding \\
+\hline
+{\em T} & source type (builtin floating point type) \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em value} & floating point value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binary representation of half-\/precision value 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!floor@{floor}}
+\index{floor@{floor}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{floor(half arg)}{floor(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::floor (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_ad34d698311b83780c4df38d8a8274756}{}\label{half_8h_file_ad34d698311b83780c4df38d8a8274756}
+Nearest integer not greater than half value. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & half to round \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+nearest integer not greater than {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!fma@{fma}}
+\index{fma@{fma}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{fma(half x, half y, half z)}{fma(half x, half y, half z)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::fma (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{x, }
+\item[{{\bf half}}]{y, }
+\item[{{\bf half}}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a280ee0782f6d036ec43848c549a36e21}{}\label{half_8h_file_a280ee0782f6d036ec43848c549a36e21}
+Fused multiply add. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+{\em z} & third operand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+( {\itshape x} $\ast$ {\itshape y} ) + {\itshape z} rounded as one operation. 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!fmax@{fmax}}
+\index{fmax@{fmax}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{fmax(half x, half y)}{fmax(half x, half y)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::fmax (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{x, }
+\item[{{\bf half}}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a465b9d2dc41f1c10dd7ab9ce3dc2866f}{}\label{half_8h_file_a465b9d2dc41f1c10dd7ab9ce3dc2866f}
+Maximum of half expressions. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+maximum of operands 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!fmin@{fmin}}
+\index{fmin@{fmin}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{fmin(half x, half y)}{fmin(half x, half y)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::fmin (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{x, }
+\item[{{\bf half}}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a9b147d2e64476167b7e9ee41ce14f36c}{}\label{half_8h_file_a9b147d2e64476167b7e9ee41ce14f36c}
+Minimum of half expressions. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+minimum of operands 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!fmod@{fmod}}
+\index{fmod@{fmod}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{fmod(half x, half y)}{fmod(half x, half y)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::fmod (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{x, }
+\item[{{\bf half}}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a935147b16040f424271a380e274577ee}{}\label{half_8h_file_a935147b16040f424271a380e274577ee}
+Remainder of division. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+remainder of floating point division. 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!fpclassify@{fpclassify}}
+\index{fpclassify@{fpclassify}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{fpclassify(half arg)}{fpclassify(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}int half\+\_\+float\+::detail\+::fpclassify (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a35cb57616468455d2e4e0b7e28fe97c0}{}\label{half_8h_file_a35cb57616468455d2e4e0b7e28fe97c0}
+Classify floating point value. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & number to classify \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em F\+P\+\_\+\+Z\+E\+RO} & for positive and negative zero \\
+\hline
+{\em F\+P\+\_\+\+S\+U\+B\+N\+O\+R\+M\+AL} & for subnormal numbers \\
+\hline
+{\em F\+P\+\_\+\+I\+N\+F\+I\+N\+I\+TY} & for positive and negative infinity \\
+\hline
+{\em F\+P\+\_\+\+N\+AN} & for Na\+Ns \\
+\hline
+{\em F\+P\+\_\+\+N\+O\+R\+M\+AL} & for all other (normal) values \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!frexp@{frexp}}
+\index{frexp@{frexp}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{frexp(half arg, int $\ast$exp)}{frexp(half arg, int *exp)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::frexp (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg, }
+\item[{int $\ast$}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_ac50a04fe4afdfae67b7aeb163fa92c72}{}\label{half_8h_file_ac50a04fe4afdfae67b7aeb163fa92c72}
+Decompress floating point number. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & number to decompress \\
+\hline
+{\em exp} & address to store exponent at \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+significant in range \mbox{[}0.\+5, 1) 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!half2float@{half2float}}
+\index{half2float@{half2float}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{half2float(uint16 value)}{half2float(uint16 value)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ T half\+\_\+float\+::detail\+::half2float (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16}}]{value}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_aacbda37363295f0d13fca10c223e8169}{}\label{half_8h_file_aacbda37363295f0d13fca10c223e8169}
+Convert half-\/precision to floating point. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & type to convert to (builtin integer type) \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em value} & binary representation of half-\/precision value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+floating point value 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!half2float\+\_\+impl@{half2float\+\_\+impl}}
+\index{half2float\+\_\+impl@{half2float\+\_\+impl}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{half2float\+\_\+impl(uint16 value, float, true\+\_\+type)}{half2float_impl(uint16 value, float, true_type)}}]{\setlength{\rightskip}{0pt plus 5cm}float half\+\_\+float\+::detail\+::half2float\+\_\+impl (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16}}]{value, }
+\item[{float}]{, }
+\item[{{\bf true\+\_\+type}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a1f78a7e278b390a587dea90e02686e28}{}\label{half_8h_file_a1f78a7e278b390a587dea90e02686e28}
+Convert half-\/precision to I\+E\+EE single-\/precision. Credit for this goes to \href{ftp://ftp.fox-toolkit.org/pub/fasthalffloatconversion.pdf}{\tt Jeroen van der Zijp}. 
+\begin{DoxyParams}{Parameters}
+{\em value} & binary representation of half-\/precision value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+single-\/precision value 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!half2float\+\_\+impl@{half2float\+\_\+impl}}
+\index{half2float\+\_\+impl@{half2float\+\_\+impl}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{half2float\+\_\+impl(uint16 value, double, true\+\_\+type)}{half2float_impl(uint16 value, double, true_type)}}]{\setlength{\rightskip}{0pt plus 5cm}double half\+\_\+float\+::detail\+::half2float\+\_\+impl (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16}}]{value, }
+\item[{double}]{, }
+\item[{{\bf true\+\_\+type}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_aaf774221cb784d97cb9fdf0edc1a76f3}{}\label{half_8h_file_aaf774221cb784d97cb9fdf0edc1a76f3}
+Convert half-\/precision to I\+E\+EE double-\/precision. 
+\begin{DoxyParams}{Parameters}
+{\em value} & binary representation of half-\/precision value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double-\/precision value 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!half2float\+\_\+impl@{half2float\+\_\+impl}}
+\index{half2float\+\_\+impl@{half2float\+\_\+impl}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{half2float\+\_\+impl(uint16 value, T,...)}{half2float_impl(uint16 value, T,...)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ T half\+\_\+float\+::detail\+::half2float\+\_\+impl (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16}}]{value, }
+\item[{T}]{, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_afe86dfbf3a3bac81cfe88aaec27969c1}{}\label{half_8h_file_afe86dfbf3a3bac81cfe88aaec27969c1}
+Convert half-\/precision to non-\/\+I\+E\+EE floating point. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & type to convert to (builtin integer type) \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em value} & binary representation of half-\/precision value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+floating point value 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!half2int@{half2int}}
+\index{half2int@{half2int}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{half2int(uint16 value)}{half2int(uint16 value)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$std\+::float\+\_\+round\+\_\+style R, typename T $>$ T half\+\_\+float\+::detail\+::half2int (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16}}]{value}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a78bf248e5c07c8b73adbb0986b430675}{}\label{half_8h_file_a78bf248e5c07c8b73adbb0986b430675}
+Convert half-\/precision floating point to integer. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em R} & rounding mode to use, {\ttfamily std\+::round\+\_\+indeterminate} for fastest rounding \\
+\hline
+{\em T} & type to convert to (buitlin integer type with at least 16 bits precision, excluding any implicit sign bits) \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em value} & binary representation of half-\/precision value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+integral value 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!half2int\+\_\+impl@{half2int\+\_\+impl}}
+\index{half2int\+\_\+impl@{half2int\+\_\+impl}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{half2int\+\_\+impl(uint16 value)}{half2int_impl(uint16 value)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$std\+::float\+\_\+round\+\_\+style R, bool E, typename T $>$ T half\+\_\+float\+::detail\+::half2int\+\_\+impl (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16}}]{value}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a93c7f040e64b7cedad971b42bedc85a2}{}\label{half_8h_file_a93c7f040e64b7cedad971b42bedc85a2}
+Convert half-\/precision floating point to integer. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em R} & rounding mode to use, {\ttfamily std\+::round\+\_\+indeterminate} for fastest rounding \\
+\hline
+{\em E} & {\ttfamily true} for round to even, {\ttfamily false} for round away from zero \\
+\hline
+{\em T} & type to convert to (buitlin integer type with at least 16 bits precision, excluding any implicit sign bits) \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em value} & binary representation of half-\/precision value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+integral value 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!half2int\+\_\+up@{half2int\+\_\+up}}
+\index{half2int\+\_\+up@{half2int\+\_\+up}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{half2int\+\_\+up(uint16 value)}{half2int_up(uint16 value)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ T half\+\_\+float\+::detail\+::half2int\+\_\+up (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16}}]{value}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a1672f8be699238543caa56fc43ed17ee}{}\label{half_8h_file_a1672f8be699238543caa56fc43ed17ee}
+Convert half-\/precision floating point to integer using round-\/to-\/nearest-\/away-\/from-\/zero. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & type to convert to (buitlin integer type with at least 16 bits precision, excluding any implicit sign bits) \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em value} & binary representation of half-\/precision value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+integral value 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!half\+\_\+cast@{half\+\_\+cast}}
+\index{half\+\_\+cast@{half\+\_\+cast}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{half\+\_\+cast(\+U arg)}{half_cast(U arg)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename U $>$ T half\+\_\+float\+::detail\+::half\+\_\+cast (
+\begin{DoxyParamCaption}
+\item[{U}]{arg}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a2d6a65bc1f34f19797f558a31deefe84}{}\label{half_8h_file_a2d6a65bc1f34f19797f558a31deefe84}
+Cast to or from half-\/precision floating point number. This casts between \hyperlink{classhalf__float_1_1half}{half} and any built-\/in arithmetic type. The values are converted directly using the given rounding mode, without any roundtrip over {\ttfamily float} that a {\ttfamily static\+\_\+cast} would otherwise do. It uses the default rounding mode.
+
+Using this cast with neither of the two types being a \hyperlink{classhalf__float_1_1half}{half} or with any of the two types not being a built-\/in arithmetic type (apart from \hyperlink{classhalf__float_1_1half}{half}, of course) results in a compiler error and casting between \hyperlink{classhalf__float_1_1half}{half}s is just a no-\/op. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & destination type (half or built-\/in arithmetic type) \\
+\hline
+{\em U} & source type (half or built-\/in arithmetic type) \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & value to cast \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\itshape arg} converted to destination type 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!half\+\_\+cast@{half\+\_\+cast}}
+\index{half\+\_\+cast@{half\+\_\+cast}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{half\+\_\+cast(\+U arg)}{half_cast(U arg)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , std\+::float\+\_\+round\+\_\+style R, typename U $>$ T half\+\_\+float\+::detail\+::half\+\_\+cast (
+\begin{DoxyParamCaption}
+\item[{U}]{arg}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_aa886fe2fe51f0ead5eca42060889b331}{}\label{half_8h_file_aa886fe2fe51f0ead5eca42060889b331}
+Cast to or from half-\/precision floating point number. This casts between \hyperlink{classhalf__float_1_1half}{half} and any built-\/in arithmetic type. The values are converted directly using the given rounding mode, without any roundtrip over {\ttfamily float} that a {\ttfamily static\+\_\+cast} would otherwise do.
+
+Using this cast with neither of the two types being a \hyperlink{classhalf__float_1_1half}{half} or with any of the two types not being a built-\/in arithmetic type (apart from \hyperlink{classhalf__float_1_1half}{half}, of course) results in a compiler error and casting between \hyperlink{classhalf__float_1_1half}{half}s is just a no-\/op. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & destination type (half or built-\/in arithmetic type) \\
+\hline
+{\em R} & rounding mode to use. \\
+\hline
+{\em U} & source type (half or built-\/in arithmetic type) \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & value to cast \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\itshape arg} converted to destination type 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!hypot@{hypot}}
+\index{hypot@{hypot}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{hypot(half x, half y)}{hypot(half x, half y)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::hypot (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{x, }
+\item[{{\bf half}}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a380a4c5a399e3dc14fdf39c53277edc5}{}\label{half_8h_file_a380a4c5a399e3dc14fdf39c53277edc5}
+Hypotenuse function. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first argument \\
+\hline
+{\em y} & second argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+square root of sum of squares without internal over-\/ or underflows 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!ilogb@{ilogb}}
+\index{ilogb@{ilogb}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{ilogb(half arg)}{ilogb(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}int half\+\_\+float\+::detail\+::ilogb (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_acd3e6c3b07beae2997cef825944411fe}{}\label{half_8h_file_acd3e6c3b07beae2997cef825944411fe}
+Extract exponent. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & number to query \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+floating point exponent 
+\end{DoxyReturn}
+
+\begin{DoxyRetVals}{Return values}
+{\em F\+P\+\_\+\+I\+L\+O\+G\+B0} & for zero \\
+\hline
+{\em F\+P\+\_\+\+I\+L\+O\+G\+B\+N\+AN} & for NaN \\
+\hline
+{\em M\+A\+X\+\_\+\+I\+NT} & for infinity \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!int2half@{int2half}}
+\index{int2half@{int2half}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{int2half(\+T value)}{int2half(T value)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$std\+::float\+\_\+round\+\_\+style R, typename T $>$ uint16 half\+\_\+float\+::detail\+::int2half (
+\begin{DoxyParamCaption}
+\item[{T}]{value}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a739b4225bfb0a1a45dff1c76432a90c1}{}\label{half_8h_file_a739b4225bfb0a1a45dff1c76432a90c1}
+Convert integer to half-\/precision floating point. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em R} & rounding mode to use, {\ttfamily std\+::round\+\_\+indeterminate} for fastest rounding \\
+\hline
+{\em T} & type to convert (builtin integer type) \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em value} & integral value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binary representation of half-\/precision value 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!int2half\+\_\+impl@{int2half\+\_\+impl}}
+\index{int2half\+\_\+impl@{int2half\+\_\+impl}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{int2half\+\_\+impl(\+T value)}{int2half_impl(T value)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$std\+::float\+\_\+round\+\_\+style R, bool S, typename T $>$ uint16 half\+\_\+float\+::detail\+::int2half\+\_\+impl (
+\begin{DoxyParamCaption}
+\item[{T}]{value}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a80ed90b3d769041decdd5eb79e6f3017}{}\label{half_8h_file_a80ed90b3d769041decdd5eb79e6f3017}
+Convert integer to half-\/precision floating point. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em R} & rounding mode to use, {\ttfamily std\+::round\+\_\+indeterminate} for fastest rounding \\
+\hline
+{\em S} & {\ttfamily true} if value negative, {\ttfamily false} else \\
+\hline
+{\em T} & type to convert (builtin integer type) \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em value} & non-\/negative integral value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+binary representation of half-\/precision value 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!isfinite@{isfinite}}
+\index{isfinite@{isfinite}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{isfinite(half arg)}{isfinite(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}bool half\+\_\+float\+::detail\+::isfinite (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a976e0b18b3e84b7173457c28411de94a}{}\label{half_8h_file_a976e0b18b3e84b7173457c28411de94a}
+Check if finite number. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & number to check \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & if neither infinity nor NaN \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!isgreater@{isgreater}}
+\index{isgreater@{isgreater}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{isgreater(half x, half y)}{isgreater(half x, half y)}}]{\setlength{\rightskip}{0pt plus 5cm}bool half\+\_\+float\+::detail\+::isgreater (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{x, }
+\item[{{\bf half}}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_ac6634b70f77be4d111f27b801e5db865}{}\label{half_8h_file_ac6634b70f77be4d111f27b801e5db865}
+Comparison for greater than. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & if {\itshape x} greater than {\itshape y} \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!isgreaterequal@{isgreaterequal}}
+\index{isgreaterequal@{isgreaterequal}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{isgreaterequal(half x, half y)}{isgreaterequal(half x, half y)}}]{\setlength{\rightskip}{0pt plus 5cm}bool half\+\_\+float\+::detail\+::isgreaterequal (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{x, }
+\item[{{\bf half}}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a93796728de672120ebdab9519c3e33d5}{}\label{half_8h_file_a93796728de672120ebdab9519c3e33d5}
+Comparison for greater equal. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & if {\itshape x} greater equal {\itshape y} \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!isinf@{isinf}}
+\index{isinf@{isinf}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{isinf(half arg)}{isinf(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}bool half\+\_\+float\+::detail\+::isinf (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a8963179a7b2e95bb126aea404732e2d3}{}\label{half_8h_file_a8963179a7b2e95bb126aea404732e2d3}
+Check for infinity. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & number to check \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & for positive or negative infinity \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!isless@{isless}}
+\index{isless@{isless}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{isless(half x, half y)}{isless(half x, half y)}}]{\setlength{\rightskip}{0pt plus 5cm}bool half\+\_\+float\+::detail\+::isless (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{x, }
+\item[{{\bf half}}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a38cad803bcd84b49ef25e9181678284e}{}\label{half_8h_file_a38cad803bcd84b49ef25e9181678284e}
+Comparison for less than. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & if {\itshape x} less than {\itshape y} \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!islessequal@{islessequal}}
+\index{islessequal@{islessequal}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{islessequal(half x, half y)}{islessequal(half x, half y)}}]{\setlength{\rightskip}{0pt plus 5cm}bool half\+\_\+float\+::detail\+::islessequal (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{x, }
+\item[{{\bf half}}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_ac4890222c4073ad446d877c321b335d6}{}\label{half_8h_file_ac4890222c4073ad446d877c321b335d6}
+Comparison for less equal. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & if {\itshape x} less equal {\itshape y} \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!islessgreater@{islessgreater}}
+\index{islessgreater@{islessgreater}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{islessgreater(half x, half y)}{islessgreater(half x, half y)}}]{\setlength{\rightskip}{0pt plus 5cm}bool half\+\_\+float\+::detail\+::islessgreater (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{x, }
+\item[{{\bf half}}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a1c8c80126de214bbee6021d1d7ace69f}{}\label{half_8h_file_a1c8c80126de214bbee6021d1d7ace69f}
+Comarison for less or greater. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & if either less or greater \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!isnan@{isnan}}
+\index{isnan@{isnan}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{isnan(half arg)}{isnan(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}bool half\+\_\+float\+::detail\+::isnan (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_ac997496b119af340bfe047bff0583ee4}{}\label{half_8h_file_ac997496b119af340bfe047bff0583ee4}
+Check for NaN. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & number to check \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & for Na\+Ns \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!isnormal@{isnormal}}
+\index{isnormal@{isnormal}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{isnormal(half arg)}{isnormal(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}bool half\+\_\+float\+::detail\+::isnormal (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a8cb72b0b732c9ad285220edbf2cdf303}{}\label{half_8h_file_a8cb72b0b732c9ad285220edbf2cdf303}
+Check if normal number. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & number to check \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & if normal number \\
+\hline
+{\em false} & if either subnormal, zero, infinity or NaN \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!isunordered@{isunordered}}
+\index{isunordered@{isunordered}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{isunordered(half x, half y)}{isunordered(half x, half y)}}]{\setlength{\rightskip}{0pt plus 5cm}bool half\+\_\+float\+::detail\+::isunordered (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{x, }
+\item[{{\bf half}}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a9d7bd7653ebeced3088e8ab759456728}{}\label{half_8h_file_a9d7bd7653ebeced3088e8ab759456728}
+Check if unordered. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & if unordered (one or two NaN operands) \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!ldexp@{ldexp}}
+\index{ldexp@{ldexp}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{ldexp(half arg, int exp)}{ldexp(half arg, int exp)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::ldexp (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg, }
+\item[{int}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a4540a29921074f33bc8be71904e12aef}{}\label{half_8h_file_a4540a29921074f33bc8be71904e12aef}
+Multiply by power of two. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & number to modify \\
+\hline
+{\em exp} & power of two to multiply with \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\itshape arg} multplied by 2 raised to {\itshape exp} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!lgamma@{lgamma}}
+\index{lgamma@{lgamma}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{lgamma(half arg)}{lgamma(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::lgamma (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a7cf73acde909ef9f522b49f47e54843f}{}\label{half_8h_file_a7cf73acde909ef9f522b49f47e54843f}
+Natural logarithm of gamma function. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+natural logarith of gamma function for {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!log@{log}}
+\index{log@{log}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{log(half arg)}{log(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::log (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_aae4eda4733dc4a863b635473008d9bc0}{}\label{half_8h_file_aae4eda4733dc4a863b635473008d9bc0}
+Natural logorithm. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+logarithm of {\itshape arg} to base e 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!log10@{log10}}
+\index{log10@{log10}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{log10(half arg)}{log10(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::log10 (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_ad8d7b7769a3053dd74344ca0b122bb7b}{}\label{half_8h_file_ad8d7b7769a3053dd74344ca0b122bb7b}
+Common logorithm. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+logarithm of {\itshape arg} to base 10 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!log1p@{log1p}}
+\index{log1p@{log1p}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{log1p(half arg)}{log1p(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::log1p (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_aaab6664f3cee88c7c0474396c8ba8219}{}\label{half_8h_file_aaab6664f3cee88c7c0474396c8ba8219}
+Natural logorithm. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+logarithm of {\itshape arg} plus 1 to base e 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!log2@{log2}}
+\index{log2@{log2}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{log2(half arg)}{log2(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::log2 (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_ac864f8697a78ce420e343a9c5d37118f}{}\label{half_8h_file_ac864f8697a78ce420e343a9c5d37118f}
+Binary logorithm. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+logarithm of {\itshape arg} to base 2 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!logb@{logb}}
+\index{logb@{logb}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{logb(half arg)}{logb(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::logb (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a9963a6cdd7b45287f35438e07717eba2}{}\label{half_8h_file_a9963a6cdd7b45287f35438e07717eba2}
+Extract exponent. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & number to query \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+floating point exponent 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!lrint@{lrint}}
+\index{lrint@{lrint}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{lrint(half arg)}{lrint(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}long half\+\_\+float\+::detail\+::lrint (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_aa2ee848c78f938434f485e75904bee45}{}\label{half_8h_file_aa2ee848c78f938434f485e75904bee45}
+Nearest integer using half\textquotesingle{}s internal rounding mode. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & half expression to round \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+nearest integer using default rounding mode 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!lround@{lround}}
+\index{lround@{lround}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{lround(half arg)}{lround(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}long half\+\_\+float\+::detail\+::lround (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_abff729297b6ad9e7ad431f73d280b76d}{}\label{half_8h_file_abff729297b6ad9e7ad431f73d280b76d}
+Nearest integer. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & half to round \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+nearest integer, rounded away from zero in half-\/way cases 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!modf@{modf}}
+\index{modf@{modf}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{modf(half arg, half $\ast$iptr)}{modf(half arg, half *iptr)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::modf (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg, }
+\item[{{\bf half} $\ast$}]{iptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a5ec08b7eaba0159f189fedeaea43946e}{}\label{half_8h_file_a5ec08b7eaba0159f189fedeaea43946e}
+Extract integer and fractional parts. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & number to decompress \\
+\hline
+{\em iptr} & address to store integer part at \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+fractional part 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!nanh@{nanh}}
+\index{nanh@{nanh}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{nanh(const char $\ast$)}{nanh(const char *)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::nanh (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_af73da38f1f425ad36f7c90268d401397}{}\label{half_8h_file_af73da38f1f425ad36f7c90268d401397}
+Get NaN value. \begin{DoxyReturn}{Returns}
+quiet NaN 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!nearbyint@{nearbyint}}
+\index{nearbyint@{nearbyint}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{nearbyint(half arg)}{nearbyint(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::nearbyint (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_aa18533c0035bfe9c4f143acfd2b47272}{}\label{half_8h_file_aa18533c0035bfe9c4f143acfd2b47272}
+Nearest integer using half\textquotesingle{}s internal rounding mode. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & half expression to round \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+nearest integer using default rounding mode 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!nextafter@{nextafter}}
+\index{nextafter@{nextafter}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{nextafter(half from, half to)}{nextafter(half from, half to)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::nextafter (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{from, }
+\item[{{\bf half}}]{to}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_abaff6defbabab12cdfbb47ebf2d757a8}{}\label{half_8h_file_abaff6defbabab12cdfbb47ebf2d757a8}
+Next representable value. 
+\begin{DoxyParams}{Parameters}
+{\em from} & value to compute next representable value for \\
+\hline
+{\em to} & direction towards which to compute next value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+next representable value after {\itshape from} in direction towards {\itshape to} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!nexttoward@{nexttoward}}
+\index{nexttoward@{nexttoward}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{nexttoward(half from, long double to)}{nexttoward(half from, long double to)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::nexttoward (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{from, }
+\item[{long double}]{to}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_aef57aa188ad54b4740b8c3aed38c3c36}{}\label{half_8h_file_aef57aa188ad54b4740b8c3aed38c3c36}
+Next representable value. 
+\begin{DoxyParams}{Parameters}
+{\em from} & value to compute next representable value for \\
+\hline
+{\em to} & direction towards which to compute next value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+next representable value after {\itshape from} in direction towards {\itshape to} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{operator"!=(\+T x, U y)}{operator!=(T x, U y)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename U $>$ enable$<$bool,T,U$>$\+::type half\+\_\+float\+::detail\+::operator!= (
+\begin{DoxyParamCaption}
+\item[{T}]{x, }
+\item[{U}]{y}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a387b8a8af08fba40aff80054f52d0ba0}{}\label{half_8h_file_a387b8a8af08fba40aff80054f52d0ba0}
+Comparison for inequality. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & if operands not equal \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{operator$\ast$(\+T x, U y)}{operator*(T x, U y)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename U $>$ enable$<$expr,T,U$>$\+::type half\+\_\+float\+::detail\+::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{T}]{x, }
+\item[{U}]{y}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a39439907cd8f62aa71ed6e1e50f1c860}{}\label{half_8h_file_a39439907cd8f62aa71ed6e1e50f1c860}
+Multiply halfs. 
+\begin{DoxyParams}{Parameters}
+{\em x} & left operand \\
+\hline
+{\em y} & right operand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+product of half expressions 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!operator+@{operator+}}
+\index{operator+@{operator+}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{operator+(\+T x, U y)}{operator+(T x, U y)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename U $>$ enable$<$expr,T,U$>$\+::type half\+\_\+float\+::detail\+::operator+ (
+\begin{DoxyParamCaption}
+\item[{T}]{x, }
+\item[{U}]{y}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_ab68ed4e1f0a86aebf4337957f1639070}{}\label{half_8h_file_ab68ed4e1f0a86aebf4337957f1639070}
+Add halfs. 
+\begin{DoxyParams}{Parameters}
+{\em x} & left operand \\
+\hline
+{\em y} & right operand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+sum of half expressions 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!operator+@{operator+}}
+\index{operator+@{operator+}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{operator+(\+T arg)}{operator+(T arg)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ H\+A\+L\+F\+\_\+\+C\+O\+N\+S\+T\+E\+X\+PR enable$<$T,T$>$\+::type half\+\_\+float\+::detail\+::operator+ (
+\begin{DoxyParamCaption}
+\item[{T}]{arg}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a7afa8822c81700c74bf8be208cded547}{}\label{half_8h_file_a7afa8822c81700c74bf8be208cded547}
+Identity. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & operand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+uncahnged operand 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{operator-\/(\+T x, U y)}{operator-(T x, U y)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename U $>$ enable$<$expr,T,U$>$\+::type half\+\_\+float\+::detail\+::operator-\/ (
+\begin{DoxyParamCaption}
+\item[{T}]{x, }
+\item[{U}]{y}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_aa44e802bd306be8f49dd7d193630253e}{}\label{half_8h_file_aa44e802bd306be8f49dd7d193630253e}
+Subtract halfs. 
+\begin{DoxyParams}{Parameters}
+{\em x} & left operand \\
+\hline
+{\em y} & right operand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+difference of half expressions 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{operator-\/(\+T arg)}{operator-(T arg)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ H\+A\+L\+F\+\_\+\+C\+O\+N\+S\+T\+E\+X\+PR enable$<$T,T$>$\+::type half\+\_\+float\+::detail\+::operator-\/ (
+\begin{DoxyParamCaption}
+\item[{T}]{arg}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a8479fc53f679b85f40e6d511706627c4}{}\label{half_8h_file_a8479fc53f679b85f40e6d511706627c4}
+Negation. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & operand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+negated operand 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!operator/@{operator/}}
+\index{operator/@{operator/}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{operator/(\+T x, U y)}{operator/(T x, U y)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename U $>$ enable$<$expr,T,U$>$\+::type half\+\_\+float\+::detail\+::operator/ (
+\begin{DoxyParamCaption}
+\item[{T}]{x, }
+\item[{U}]{y}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a6cea2c4b4740528b2f86fb55990107bf}{}\label{half_8h_file_a6cea2c4b4740528b2f86fb55990107bf}
+Divide halfs. 
+\begin{DoxyParams}{Parameters}
+{\em x} & left operand \\
+\hline
+{\em y} & right operand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+quotient of half expressions 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{operator$<$(\+T x, U y)}{operator<(T x, U y)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename U $>$ enable$<$bool,T,U$>$\+::type half\+\_\+float\+::detail\+::operator$<$ (
+\begin{DoxyParamCaption}
+\item[{T}]{x, }
+\item[{U}]{y}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_afe873e6cae401e97d4d8d88c08eb29e0}{}\label{half_8h_file_afe873e6cae401e97d4d8d88c08eb29e0}
+Comparison for less than. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & if {\itshape x} less than {\itshape y} \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{operator$<$$<$(std\+::basic\+\_\+ostream$<$ char\+T, traits $>$ \&out, T arg)}{operator<<(std::basic_ostream< charT, traits > &out, T arg)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename charT , typename traits $>$ enable$<$std\+::basic\+\_\+ostream$<$charT,traits$>$\&,T$>$\+::type half\+\_\+float\+::detail\+::operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\+::basic\+\_\+ostream$<$ charT, traits $>$ \&}]{out, }
+\item[{T}]{arg}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a91f6492ee3c6586e6d9dcdfcb31bccca}{}\label{half_8h_file_a91f6492ee3c6586e6d9dcdfcb31bccca}
+Output operator. 
+\begin{DoxyParams}{Parameters}
+{\em out} & output stream to write into \\
+\hline
+{\em arg} & half expression to write \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to output stream 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!operator$<$=@{operator$<$=}}
+\index{operator$<$=@{operator$<$=}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{operator$<$=(\+T x, U y)}{operator<=(T x, U y)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename U $>$ enable$<$bool,T,U$>$\+::type half\+\_\+float\+::detail\+::operator$<$= (
+\begin{DoxyParamCaption}
+\item[{T}]{x, }
+\item[{U}]{y}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a0588a6476f8569f2b81dd99d4e87d83b}{}\label{half_8h_file_a0588a6476f8569f2b81dd99d4e87d83b}
+Comparison for less equal. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & if {\itshape x} less equal {\itshape y} \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!operator==@{operator==}}
+\index{operator==@{operator==}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{operator==(\+T x, U y)}{operator==(T x, U y)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename U $>$ enable$<$bool,T,U$>$\+::type half\+\_\+float\+::detail\+::operator== (
+\begin{DoxyParamCaption}
+\item[{T}]{x, }
+\item[{U}]{y}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a6c0b83f30940719c1dd8f5a85323388a}{}\label{half_8h_file_a6c0b83f30940719c1dd8f5a85323388a}
+Comparison for equality. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & if operands equal \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!operator$>$@{operator$>$}}
+\index{operator$>$@{operator$>$}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{operator$>$(\+T x, U y)}{operator>(T x, U y)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename U $>$ enable$<$bool,T,U$>$\+::type half\+\_\+float\+::detail\+::operator$>$ (
+\begin{DoxyParamCaption}
+\item[{T}]{x, }
+\item[{U}]{y}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_ab5bceccadce3723b7c7b25dc63760025}{}\label{half_8h_file_ab5bceccadce3723b7c7b25dc63760025}
+Comparison for greater than. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & if {\itshape x} greater than {\itshape y} \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!operator$>$=@{operator$>$=}}
+\index{operator$>$=@{operator$>$=}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{operator$>$=(\+T x, U y)}{operator>=(T x, U y)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename U $>$ enable$<$bool,T,U$>$\+::type half\+\_\+float\+::detail\+::operator$>$= (
+\begin{DoxyParamCaption}
+\item[{T}]{x, }
+\item[{U}]{y}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_ad5a5e2d4da6f36b5b6ee2dced3fb3e72}{}\label{half_8h_file_ad5a5e2d4da6f36b5b6ee2dced3fb3e72}
+Comparison for greater equal. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & if {\itshape x} greater equal {\itshape y} \\
+\hline
+{\em false} & else \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!operator$>$$>$@{operator$>$$>$}}
+\index{operator$>$$>$@{operator$>$$>$}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{operator$>$$>$(std\+::basic\+\_\+istream$<$ char\+T, traits $>$ \&in, half \&arg)}{operator>>(std::basic_istream< charT, traits > &in, half &arg)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename charT , typename traits $>$ std\+::basic\+\_\+istream$<$charT,traits$>$\& half\+\_\+float\+::detail\+::operator$>$$>$ (
+\begin{DoxyParamCaption}
+\item[{std\+::basic\+\_\+istream$<$ charT, traits $>$ \&}]{in, }
+\item[{{\bf half} \&}]{arg}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_a50bcccb2f7042c23766a4f39090ed709}{}\label{half_8h_file_a50bcccb2f7042c23766a4f39090ed709}
+Input operator. 
+\begin{DoxyParams}{Parameters}
+{\em in} & input stream to read from \\
+\hline
+{\em arg} & half to read into \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to input stream 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!pow@{pow}}
+\index{pow@{pow}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{pow(half base, half exp)}{pow(half base, half exp)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::pow (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{base, }
+\item[{{\bf half}}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_adf4df435c03de776c4ed53d5cf278e31}{}\label{half_8h_file_adf4df435c03de776c4ed53d5cf278e31}
+Power function. 
+\begin{DoxyParams}{Parameters}
+{\em base} & first argument \\
+\hline
+{\em exp} & second argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\itshape base} raised to {\itshape exp} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!remainder@{remainder}}
+\index{remainder@{remainder}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{remainder(half x, half y)}{remainder(half x, half y)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::remainder (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{x, }
+\item[{{\bf half}}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_ab5ec4bbe576c7a623212d2a8e5fe4a30}{}\label{half_8h_file_ab5ec4bbe576c7a623212d2a8e5fe4a30}
+Remainder of division. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+remainder of floating point division. 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!remquo@{remquo}}
+\index{remquo@{remquo}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{remquo(half x, half y, int $\ast$quo)}{remquo(half x, half y, int *quo)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::remquo (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{x, }
+\item[{{\bf half}}]{y, }
+\item[{int $\ast$}]{quo}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_aaeeae804024549bd70c30603126dbe3f}{}\label{half_8h_file_aaeeae804024549bd70c30603126dbe3f}
+Remainder of division. 
+\begin{DoxyParams}{Parameters}
+{\em x} & first operand \\
+\hline
+{\em y} & second operand \\
+\hline
+{\em quo} & address to store some bits of quotient at \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+remainder of floating point division. 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!rint@{rint}}
+\index{rint@{rint}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{rint(half arg)}{rint(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::rint (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a25d6e6a301530bc1b48159f74cb5a0b4}{}\label{half_8h_file_a25d6e6a301530bc1b48159f74cb5a0b4}
+Nearest integer using half\textquotesingle{}s internal rounding mode. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & half expression to round \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+nearest integer using default rounding mode 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!round@{round}}
+\index{round@{round}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{round(half arg)}{round(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::round (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_ae60c2e9b87102c08084c81d546113c91}{}\label{half_8h_file_ae60c2e9b87102c08084c81d546113c91}
+Nearest integer. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & half to round \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+nearest integer, rounded away from zero in half-\/way cases 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!round\+\_\+half@{round\+\_\+half}}
+\index{round\+\_\+half@{round\+\_\+half}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{round\+\_\+half(uint16 value)}{round_half(uint16 value)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$std\+::float\+\_\+round\+\_\+style R$>$ uint16 half\+\_\+float\+::detail\+::round\+\_\+half (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16}}]{value}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_ad83f9ae057a78ad84ac6a35a3f9b5509}{}\label{half_8h_file_ad83f9ae057a78ad84ac6a35a3f9b5509}
+Round half-\/precision number to nearest integer value. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em R} & rounding mode to use, {\ttfamily std\+::round\+\_\+indeterminate} for fastest rounding \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em value} & binary representation of half-\/precision value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+half-\/precision bits for nearest integral value 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!round\+\_\+half\+\_\+impl@{round\+\_\+half\+\_\+impl}}
+\index{round\+\_\+half\+\_\+impl@{round\+\_\+half\+\_\+impl}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{round\+\_\+half\+\_\+impl(uint16 value)}{round_half_impl(uint16 value)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$std\+::float\+\_\+round\+\_\+style R, bool E$>$ uint16 half\+\_\+float\+::detail\+::round\+\_\+half\+\_\+impl (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16}}]{value}
+\end{DoxyParamCaption}
+)}\hypertarget{half_8h_file_ab4e14ce718b27e88bd319bbac32b6d1c}{}\label{half_8h_file_ab4e14ce718b27e88bd319bbac32b6d1c}
+Round half-\/precision number to nearest integer value. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em R} & rounding mode to use, {\ttfamily std\+::round\+\_\+indeterminate} for fastest rounding \\
+\hline
+{\em E} & {\ttfamily true} for round to even, {\ttfamily false} for round away from zero \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em value} & binary representation of half-\/precision value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+half-\/precision bits for nearest integral value 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!round\+\_\+half\+\_\+up@{round\+\_\+half\+\_\+up}}
+\index{round\+\_\+half\+\_\+up@{round\+\_\+half\+\_\+up}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{round\+\_\+half\+\_\+up(uint16 value)}{round_half_up(uint16 value)}}]{\setlength{\rightskip}{0pt plus 5cm}uint16 half\+\_\+float\+::detail\+::round\+\_\+half\+\_\+up (
+\begin{DoxyParamCaption}
+\item[{{\bf uint16}}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_ab00a3fec9c3b3d27d5957c85ae5b587b}{}\label{half_8h_file_ab00a3fec9c3b3d27d5957c85ae5b587b}
+Round half-\/precision number to nearest integer value using round-\/to-\/nearest-\/away-\/from-\/zero. 
+\begin{DoxyParams}{Parameters}
+{\em value} & binary representation of half-\/precision value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+half-\/precision bits for nearest integral value 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!scalbln@{scalbln}}
+\index{scalbln@{scalbln}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{scalbln(half arg, long exp)}{scalbln(half arg, long exp)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::scalbln (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg, }
+\item[{long}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a924a0abc9d3ee7742200574a803a9bfb}{}\label{half_8h_file_a924a0abc9d3ee7742200574a803a9bfb}
+Multiply by power of two. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & number to modify \\
+\hline
+{\em exp} & power of two to multiply with \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\itshape arg} multplied by 2 raised to {\itshape exp} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!scalbn@{scalbn}}
+\index{scalbn@{scalbn}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{scalbn(half arg, int exp)}{scalbn(half arg, int exp)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::scalbn (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg, }
+\item[{int}]{exp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_afa69fde98551e3537a77d267b1fc4187}{}\label{half_8h_file_afa69fde98551e3537a77d267b1fc4187}
+Multiply by power of two. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & number to modify \\
+\hline
+{\em exp} & power of two to multiply with \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\itshape arg} multplied by 2 raised to {\itshape exp} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!signbit@{signbit}}
+\index{signbit@{signbit}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{signbit(half arg)}{signbit(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}bool half\+\_\+float\+::detail\+::signbit (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a889e57734de1100a401c1f148d1e6354}{}\label{half_8h_file_a889e57734de1100a401c1f148d1e6354}
+Check sign. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & number to check \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & for negative number \\
+\hline
+{\em false} & for positive number \\
+\hline
+\end{DoxyRetVals}
+\index{half.\+h@{half.\+h}!sin@{sin}}
+\index{sin@{sin}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{sin(half arg)}{sin(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::sin (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a3c1cc34288f381ee6543c05034783c93}{}\label{half_8h_file_a3c1cc34288f381ee6543c05034783c93}
+Sine function. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+sine value of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!sinh@{sinh}}
+\index{sinh@{sinh}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{sinh(half arg)}{sinh(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::sinh (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_aa56d689bec38bfbf9d86192209e705f7}{}\label{half_8h_file_aa56d689bec38bfbf9d86192209e705f7}
+Hyperbolic sine. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+hyperbolic sine value of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!sqrt@{sqrt}}
+\index{sqrt@{sqrt}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{sqrt(half arg)}{sqrt(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::sqrt (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_af714c124a18db9b79b703007b8d66162}{}\label{half_8h_file_af714c124a18db9b79b703007b8d66162}
+Square root. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+square root of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!tan@{tan}}
+\index{tan@{tan}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{tan(half arg)}{tan(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::tan (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a0173ced6e30b993f3c622c765ad53ea8}{}\label{half_8h_file_a0173ced6e30b993f3c622c765ad53ea8}
+Tangent function. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+tangent value of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!tanh@{tanh}}
+\index{tanh@{tanh}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{tanh(half arg)}{tanh(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::tanh (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a06795625a388d617e44ea490903c8984}{}\label{half_8h_file_a06795625a388d617e44ea490903c8984}
+Hyperbolic tangent. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+hyperbolic tangent value of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!tgamma@{tgamma}}
+\index{tgamma@{tgamma}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{tgamma(half arg)}{tgamma(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}expr half\+\_\+float\+::detail\+::tgamma (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_a23014ba07b4073225072ecaf1159d106}{}\label{half_8h_file_a23014ba07b4073225072ecaf1159d106}
+Gamma function. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & function argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+gamma function value of {\itshape arg} 
+\end{DoxyReturn}
+\index{half.\+h@{half.\+h}!trunc@{trunc}}
+\index{trunc@{trunc}!half.\+h@{half.\+h}}
+\subsubsection[{\texorpdfstring{trunc(half arg)}{trunc(half arg)}}]{\setlength{\rightskip}{0pt plus 5cm}half half\+\_\+float\+::detail\+::trunc (
+\begin{DoxyParamCaption}
+\item[{{\bf half}}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{half_8h_file_ad2f636a625c44e0e2e939cf4fcdd8980}{}\label{half_8h_file_ad2f636a625c44e0e2e939cf4fcdd8980}
+Nearest integer not greater in magnitude than half value. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & half to round \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+nearest integer not greater in magnitude than {\itshape arg} 
+\end{DoxyReturn}

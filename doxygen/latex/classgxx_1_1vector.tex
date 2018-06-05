@@ -1,0 +1,82 @@
+\hypertarget{classgxx_1_1vector}{}\section{gxx\+:\+:vector$<$ T, Allocator $>$ Class Template Reference}
+\label{classgxx_1_1vector}\index{gxx\+::vector$<$ T, Allocator $>$@{gxx\+::vector$<$ T, Allocator $>$}}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using {\bfseries iterator} = T $\ast$\hypertarget{classgxx_1_1vector_a6fc8d0830e77e0354af968f5aa26191f}{}\label{classgxx_1_1vector_a6fc8d0830e77e0354af968f5aa26191f}
+
+\item 
+using {\bfseries const\+\_\+iterator} = const T $\ast$\hypertarget{classgxx_1_1vector_a55d6bd55efc88ae98b7c92cb608607ef}{}\label{classgxx_1_1vector_a55d6bd55efc88ae98b7c92cb608607ef}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries C\+O\+N\+S\+T\+R\+E\+F\+\_\+\+G\+E\+T\+T\+ER} (data, m\+\_\+data)\hypertarget{classgxx_1_1vector_a0ef0b9ec1028caaa68d4afcdaf96b197}{}\label{classgxx_1_1vector_a0ef0b9ec1028caaa68d4afcdaf96b197}
+
+\item 
+{\bfseries C\+O\+N\+S\+T\+R\+E\+F\+\_\+\+G\+E\+T\+T\+ER} (size, m\+\_\+size)\hypertarget{classgxx_1_1vector_a9dc97c77021ce0604e9a279ff5b80cd2}{}\label{classgxx_1_1vector_a9dc97c77021ce0604e9a279ff5b80cd2}
+
+\item 
+{\bfseries C\+O\+N\+S\+T\+R\+E\+F\+\_\+\+G\+E\+T\+T\+ER} (capacity, m\+\_\+capacity)\hypertarget{classgxx_1_1vector_ac107e09d73688eafaabe2fa9ceaf1047}{}\label{classgxx_1_1vector_ac107e09d73688eafaabe2fa9ceaf1047}
+
+\item 
+{\bfseries vector} (const Allocator \&alloc=Allocator())\hypertarget{classgxx_1_1vector_af5702202cdb76cc1c7f409204ebd4408}{}\label{classgxx_1_1vector_af5702202cdb76cc1c7f409204ebd4408}
+
+\item 
+{\bfseries vector} (const \hyperlink{classgxx_1_1vector}{vector} \&other)\hypertarget{classgxx_1_1vector_a980ead0139225a0e43a9858adfaec906}{}\label{classgxx_1_1vector_a980ead0139225a0e43a9858adfaec906}
+
+\item 
+unsigned char {\bfseries reserve} (size\+\_\+t sz)\hypertarget{classgxx_1_1vector_ae9757f2c9e808dd9b0d8695cc94cd849}{}\label{classgxx_1_1vector_ae9757f2c9e808dd9b0d8695cc94cd849}
+
+\item 
+iterator {\bfseries begin} ()\hypertarget{classgxx_1_1vector_a7e4bea1b2d9feaba6e6e16eb8954819c}{}\label{classgxx_1_1vector_a7e4bea1b2d9feaba6e6e16eb8954819c}
+
+\item 
+iterator {\bfseries end} ()\hypertarget{classgxx_1_1vector_ac20359405b0db557d136727ab1658ffc}{}\label{classgxx_1_1vector_ac20359405b0db557d136727ab1658ffc}
+
+\item 
+iterator {\bfseries rbegin} ()\hypertarget{classgxx_1_1vector_a9e7594b828060127ab3dca18692cc9b3}{}\label{classgxx_1_1vector_a9e7594b828060127ab3dca18692cc9b3}
+
+\item 
+iterator {\bfseries rend} ()\hypertarget{classgxx_1_1vector_ab96fe341771f7f91a2b457ef214deea8}{}\label{classgxx_1_1vector_ab96fe341771f7f91a2b457ef214deea8}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries emplace\+\_\+back} (\hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1vector_a92a8ff8f4c4e9384f7c855b517b22b2b}{}\label{classgxx_1_1vector_a92a8ff8f4c4e9384f7c855b517b22b2b}
+
+\item 
+void {\bfseries push\+\_\+back} (const T \&ref)\hypertarget{classgxx_1_1vector_ad2a43751c3e1941eccf7e319b4b6cceb}{}\label{classgxx_1_1vector_ad2a43751c3e1941eccf7e319b4b6cceb}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\iterator {\bfseries emplace} (const\+\_\+iterator pos, \hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1vector_a418d5883df20a9c4745b6004bed69394}{}\label{classgxx_1_1vector_a418d5883df20a9c4745b6004bed69394}
+
+\item 
+iterator {\bfseries insert} (const\+\_\+iterator pos, const T \&value)\hypertarget{classgxx_1_1vector_aaaf183732968e596047480014ee55c74}{}\label{classgxx_1_1vector_aaaf183732968e596047480014ee55c74}
+
+\item 
+iterator {\bfseries insert} (int pos, const T \&value)\hypertarget{classgxx_1_1vector_af5ea497fd43b5f7ccef916ff714fee7c}{}\label{classgxx_1_1vector_af5ea497fd43b5f7ccef916ff714fee7c}
+
+\item 
+iterator {\bfseries insert\+\_\+sorted} (T const \&item)\hypertarget{classgxx_1_1vector_ae3b8fb4d30bfac078881f7298589e792}{}\label{classgxx_1_1vector_ae3b8fb4d30bfac078881f7298589e792}
+
+\item 
+T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t num)\hypertarget{classgxx_1_1vector_aa8b2effd5966b917ce84c3baa5dceef0}{}\label{classgxx_1_1vector_aa8b2effd5966b917ce84c3baa5dceef0}
+
+\item 
+void {\bfseries resize} (size\+\_\+t n)\hypertarget{classgxx_1_1vector_afa7247fbe395c3dc8762016094c35799}{}\label{classgxx_1_1vector_afa7247fbe395c3dc8762016094c35799}
+
+\item 
+void {\bfseries erase} (iterator newend)\hypertarget{classgxx_1_1vector_a5f68ad4efaafe6a1a8e31b4398ddbf2a}{}\label{classgxx_1_1vector_a5f68ad4efaafe6a1a8e31b4398ddbf2a}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+unsigned char {\bfseries change\+Buffer} (size\+\_\+t sz)\hypertarget{classgxx_1_1vector_a096412be01a6cee0880cf725ba191eb4}{}\label{classgxx_1_1vector_a096412be01a6cee0880cf725ba191eb4}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/rfmeas/project/gxx/gxx/\+H\+I\+D\+E/vector.\+h\end{DoxyCompactItemize}

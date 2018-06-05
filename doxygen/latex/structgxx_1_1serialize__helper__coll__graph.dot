@@ -1,0 +1,8 @@
+digraph "gxx::serialize_helper&lt; M, T &gt;"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="gxx::serialize_helper\l\< M, T \>",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="gxx::serialize_helper\l_basic\< M, T, is_have\l_serialize\< M, T \>::value \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structgxx_1_1serialize__helper__basic.html"];
+}

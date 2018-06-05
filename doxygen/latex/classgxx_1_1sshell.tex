@@ -1,0 +1,76 @@
+\hypertarget{classgxx_1_1sshell}{}\section{gxx\+:\+:sshell Class Reference}
+\label{classgxx_1_1sshell}\index{gxx\+::sshell@{gxx\+::sshell}}
+
+
+Collaboration diagram for gxx\+:\+:sshell\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=334pt]{classgxx_1_1sshell__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries add} (const char $\ast$name, \hyperlink{classgxx_1_1delegate}{delegate}$<$ int, int, char $\ast$$\ast$ $>$ dlg)\hypertarget{classgxx_1_1sshell_acabb37afdf04fbc38b8622fd31ac5101}{}\label{classgxx_1_1sshell_acabb37afdf04fbc38b8622fd31ac5101}
+
+\item 
+void {\bfseries add} (const char $\ast$name, \hyperlink{classgxx_1_1delegate}{delegate}$<$ int $>$ vdlg)\hypertarget{classgxx_1_1sshell_a9483eee6f307c384f5575ca0dd582397}{}\label{classgxx_1_1sshell_a9483eee6f307c384f5575ca0dd582397}
+
+\item 
+void {\bfseries add} (const char $\ast$name, int($\ast$func)())\hypertarget{classgxx_1_1sshell_a00a21780fa40100f3fbcc138da647d29}{}\label{classgxx_1_1sshell_a00a21780fa40100f3fbcc138da647d29}
+
+\item 
+void {\bfseries add} (const char $\ast$name, int($\ast$func)(int, char $\ast$$\ast$))\hypertarget{classgxx_1_1sshell_a61178f4d89b788f0bc7a2040d2ff5805}{}\label{classgxx_1_1sshell_a61178f4d89b788f0bc7a2040d2ff5805}
+
+\item 
+int {\bfseries \+\_\+\+\_\+execute\+\_\+nosafe} (char $\ast$str, int $\ast$sts)\hypertarget{classgxx_1_1sshell_a649d392aed59db9155634833d5033d58}{}\label{classgxx_1_1sshell_a649d392aed59db9155634833d5033d58}
+
+\item 
+int {\bfseries execute} (const char $\ast$\+\_\+str, int $\ast$sts)\hypertarget{classgxx_1_1sshell_afffb0d41b4d8c2014afc178106666a51}{}\label{classgxx_1_1sshell_afffb0d41b4d8c2014afc178106666a51}
+
+\item 
+int {\bfseries execute} (const std\+::string \&str, int $\ast$sts)\hypertarget{classgxx_1_1sshell_ab050e41202538e2e309aec8f274eafe3}{}\label{classgxx_1_1sshell_ab050e41202538e2e309aec8f274eafe3}
+
+\item 
+int {\bfseries execute} (const char $\ast$\+\_\+str, int len, int $\ast$sts)\hypertarget{classgxx_1_1sshell_a2bf47886fc751ce858648703af3f08ad}{}\label{classgxx_1_1sshell_a2bf47886fc751ce858648703af3f08ad}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static const char $\ast$ {\bfseries strerr} (int retcode)\hypertarget{classgxx_1_1sshell_a0d0f5afabe5c017c195a7d45e90c362f}{}\label{classgxx_1_1sshell_a0d0f5afabe5c017c195a7d45e90c362f}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classgxx_1_1static__hashtable}{gxx\+::static\+\_\+hashtable}$<$ 10, \hyperlink{classgxx_1_1sshell__record}{sshell\+\_\+record}, const char $\ast$,\&sshell\+\_\+record\+::hlnk $>$ {\bfseries table}\hypertarget{classgxx_1_1sshell_a92ce6a26e9089f4b22381c440473d1f0}{}\label{classgxx_1_1sshell_a92ce6a26e9089f4b22381c440473d1f0}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr uint8\+\_\+t {\bfseries OK} = 0\hypertarget{classgxx_1_1sshell_a7d09f9240f4fff61bc3082ee04a82987}{}\label{classgxx_1_1sshell_a7d09f9240f4fff61bc3082ee04a82987}
+
+\item 
+static constexpr uint8\+\_\+t {\bfseries Function\+Not\+Exist} = -\/1\hypertarget{classgxx_1_1sshell_a7d2628ce2db30dbbf5441bfc10b7c106}{}\label{classgxx_1_1sshell_a7d2628ce2db30dbbf5441bfc10b7c106}
+
+\item 
+static constexpr uint8\+\_\+t {\bfseries Empty\+String} = -\/2\hypertarget{classgxx_1_1sshell_a4350ee05da98d5d5b0728c79f4254c4d}{}\label{classgxx_1_1sshell_a4350ee05da98d5d5b0728c79f4254c4d}
+
+\item 
+static constexpr uint8\+\_\+t {\bfseries Wrong\+Args\+Total} = -\/3\hypertarget{classgxx_1_1sshell_a5bfefbfd61d4c6ff0cffc7a883063f3f}{}\label{classgxx_1_1sshell_a5bfefbfd61d4c6ff0cffc7a883063f3f}
+
+\item 
+static constexpr uint8\+\_\+t {\bfseries Wrong\+Args\+Data} = -\/4\hypertarget{classgxx_1_1sshell_a0ef47169ad804ed466334ed3abe0b37f}{}\label{classgxx_1_1sshell_a0ef47169ad804ed466334ed3abe0b37f}
+
+\item 
+static constexpr uint8\+\_\+t {\bfseries Internal\+Error} = -\/5\hypertarget{classgxx_1_1sshell_a6aa9a41bb0182a3bf619ece70b3fddc5}{}\label{classgxx_1_1sshell_a6aa9a41bb0182a3bf619ece70b3fddc5}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/rfmeas/project/gxx/gxx/sshell.\+h\end{DoxyCompactItemize}

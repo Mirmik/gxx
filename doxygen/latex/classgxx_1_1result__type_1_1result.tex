@@ -1,0 +1,70 @@
+\hypertarget{classgxx_1_1result__type_1_1result}{}\section{gxx\+:\+:result\+\_\+type\+:\+:result$<$ T, E $>$ Class Template Reference}
+\label{classgxx_1_1result__type_1_1result}\index{gxx\+::result\+\_\+type\+::result$<$ T, E $>$@{gxx\+::result\+\_\+type\+::result$<$ T, E $>$}}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using {\bfseries Stored} = typename \hyperlink{structgxx_1_1result__type_1_1tryhelper}{tryhelper}$<$ T $>$\+::storedtype\hypertarget{classgxx_1_1result__type_1_1result_a48e0e6641bf13b7282358d266bba3a31}{}\label{classgxx_1_1result__type_1_1result_a48e0e6641bf13b7282358d266bba3a31}
+
+\item 
+using {\bfseries Result} = typename \hyperlink{structgxx_1_1result__type_1_1tryhelper}{tryhelper}$<$ T $>$\+::type\hypertarget{classgxx_1_1result__type_1_1result_ad5269750c80468a7d2319594093edfae}{}\label{classgxx_1_1result__type_1_1result_ad5269750c80468a7d2319594093edfae}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename U $>$ }\\{\bfseries result} (U \&\&r)\hypertarget{classgxx_1_1result__type_1_1result_af10e161de99bd1cbcd0274b270815cd5}{}\label{classgxx_1_1result__type_1_1result_af10e161de99bd1cbcd0274b270815cd5}
+
+\item 
+{\bfseries result} (E \&\&e)\hypertarget{classgxx_1_1result__type_1_1result_a10ba2d676a289a6e27ae8416f325a8a0}{}\label{classgxx_1_1result__type_1_1result_a10ba2d676a289a6e27ae8416f325a8a0}
+
+\item 
+{\bfseries result} (E \&e)\hypertarget{classgxx_1_1result__type_1_1result_a348b1fc543ceeddc63f1a106147160a2}{}\label{classgxx_1_1result__type_1_1result_a348b1fc543ceeddc63f1a106147160a2}
+
+\item 
+{\bfseries result} (\hyperlink{classgxx_1_1result__type_1_1result}{result} \&\&res)\hypertarget{classgxx_1_1result__type_1_1result_a7f4d1d855d7be48828734e263bccb66b}{}\label{classgxx_1_1result__type_1_1result_a7f4d1d855d7be48828734e263bccb66b}
+
+\item 
+{\bfseries result} (\hyperlink{classgxx_1_1result__type_1_1result}{result} \&res)\hypertarget{classgxx_1_1result__type_1_1result_a57f37b48593f57c7d7ad64d10952599c}{}\label{classgxx_1_1result__type_1_1result_a57f37b48593f57c7d7ad64d10952599c}
+
+\item 
+Result \& {\bfseries unwrap} ()\hypertarget{classgxx_1_1result__type_1_1result_a0071bfc412e0ecc5cc573f28ce54e39a}{}\label{classgxx_1_1result__type_1_1result_a0071bfc412e0ecc5cc573f28ce54e39a}
+
+\item 
+void {\bfseries restore} (T \&\&r)\hypertarget{classgxx_1_1result__type_1_1result_a28ac3af0d621bd5feb8f1dd9f681f18e}{}\label{classgxx_1_1result__type_1_1result_a28ac3af0d621bd5feb8f1dd9f681f18e}
+
+\item 
+Result \& {\bfseries get\+Data} ()\hypertarget{classgxx_1_1result__type_1_1result_a30c0e5b1bc95a0d6cf9b7c4434d2aa6b}{}\label{classgxx_1_1result__type_1_1result_a30c0e5b1bc95a0d6cf9b7c4434d2aa6b}
+
+\item 
+E \& {\bfseries get\+Error} ()\hypertarget{classgxx_1_1result__type_1_1result_a7b81fc152030ee3e33250161910d3fbc}{}\label{classgxx_1_1result__type_1_1result_a7b81fc152030ee3e33250161910d3fbc}
+
+\item 
+bool {\bfseries is\+\_\+error} ()\hypertarget{classgxx_1_1result__type_1_1result_a764652ed643bfa8da699e507c111bbbe}{}\label{classgxx_1_1result__type_1_1result_a764652ed643bfa8da699e507c111bbbe}
+
+\item 
+{\bfseries operator T} ()\hypertarget{classgxx_1_1result__type_1_1result_a6e755f76c0c04513197d0c67a8e9725a}{}\label{classgxx_1_1result__type_1_1result_a6e755f76c0c04513197d0c67a8e9725a}
+
+\item 
+void {\bfseries restore} ()\hypertarget{classgxx_1_1result__type_1_1result_a47a7d938b36106f74e06ad366d48d483}{}\label{classgxx_1_1result__type_1_1result_a47a7d938b36106f74e06ad366d48d483}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t {\bfseries \+\_\+iserror}\hypertarget{classgxx_1_1result__type_1_1result_a356ca461f05c9f57232743a6991605de}{}\label{classgxx_1_1result__type_1_1result_a356ca461f05c9f57232743a6991605de}
+
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>Stored {\bfseries \_data}\\
+\>E {\bfseries \_error}\\
+\}; \hypertarget{classgxx_1_1result__type_1_1result_a34057f31e67379703fd4894f1ed3a88c}{}\label{classgxx_1_1result__type_1_1result_a34057f31e67379703fd4894f1ed3a88c}
+\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/rfmeas/project/gxx/gxx/result.\+h\end{DoxyCompactItemize}

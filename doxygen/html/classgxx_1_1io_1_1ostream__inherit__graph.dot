@@ -1,0 +1,36 @@
+digraph "gxx::io::ostream"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="gxx::io::ostream",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="gxx::debug_ostream",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgxx_1_1debug__ostream.html"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="gxx::inet::tcpspam\l_server",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgxx_1_1inet_1_1tcpspam__server.html"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="gxx::io::bufwriter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgxx_1_1io_1_1bufwriter.html"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="gxx::io::iostream",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgxx_1_1io_1_1iostream.html"];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="gxx::inet::tcp_socket",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structgxx_1_1inet_1_1tcp__socket.html"];
+  Node5 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="gxx::io::file",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgxx_1_1io_1_1file.html"];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="gxx::io::ostream_messenger",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgxx_1_1io_1_1ostream__messenger.html"];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="gxx::gstuff::sender",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgxx_1_1gstuff_1_1sender.html"];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="gxx::io::ostringstream",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgxx_1_1io_1_1ostringstream.html"];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="gxx::io::std_ostream",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgxx_1_1io_1_1std__ostream.html"];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="gxx::io::std_ostream\l_writer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgxx_1_1io_1_1std__ostream__writer.html"];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="gxx::io::std_string\l_writer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgxx_1_1io_1_1std__string__writer.html"];
+  Node1 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="gxx::termdisp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgxx_1_1termdisp.html"];
+  Node14 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="gxx::termdisp_vt100",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgxx_1_1termdisp__vt100.html"];
+  Node14 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

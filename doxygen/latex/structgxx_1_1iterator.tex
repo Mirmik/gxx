@@ -1,0 +1,44 @@
+\hypertarget{structgxx_1_1iterator}{}\section{gxx\+:\+:iterator$<$ Category, Tp, Distance, Pointer, Reference $>$ Struct Template Reference}
+\label{structgxx_1_1iterator}\index{gxx\+::iterator$<$ Category, Tp, Distance, Pointer, Reference $>$@{gxx\+::iterator$<$ Category, Tp, Distance, Pointer, Reference $>$}}
+
+
+Common iterator class.  
+
+
+
+
+{\ttfamily \#include $<$iterator\+\_\+base\+\_\+types.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef Category \hyperlink{structgxx_1_1iterator_a890c3ac5bbb2229fb98bcf54beca3b51}{iterator\+\_\+category}\hypertarget{structgxx_1_1iterator_a890c3ac5bbb2229fb98bcf54beca3b51}{}\label{structgxx_1_1iterator_a890c3ac5bbb2229fb98bcf54beca3b51}
+
+\begin{DoxyCompactList}\small\item\em One of the \hyperlink{}{tag types}. \end{DoxyCompactList}\item 
+typedef Tp \hyperlink{structgxx_1_1iterator_a484ba36182e537f15c2bc3a11263fb8c}{value\+\_\+type}\hypertarget{structgxx_1_1iterator_a484ba36182e537f15c2bc3a11263fb8c}{}\label{structgxx_1_1iterator_a484ba36182e537f15c2bc3a11263fb8c}
+
+\begin{DoxyCompactList}\small\item\em The type \char`\"{}pointed to\char`\"{} by the iterator. \end{DoxyCompactList}\item 
+typedef Distance \hyperlink{structgxx_1_1iterator_a2aa041b8a1a9d1aa5fbef6a403a93bda}{difference\+\_\+type}\hypertarget{structgxx_1_1iterator_a2aa041b8a1a9d1aa5fbef6a403a93bda}{}\label{structgxx_1_1iterator_a2aa041b8a1a9d1aa5fbef6a403a93bda}
+
+\begin{DoxyCompactList}\small\item\em Distance between iterators is represented as this type. \end{DoxyCompactList}\item 
+typedef Pointer \hyperlink{structgxx_1_1iterator_a9b7c5ba1ec60de1a66b63c367bb6ac1d}{pointer}\hypertarget{structgxx_1_1iterator_a9b7c5ba1ec60de1a66b63c367bb6ac1d}{}\label{structgxx_1_1iterator_a9b7c5ba1ec60de1a66b63c367bb6ac1d}
+
+\begin{DoxyCompactList}\small\item\em This type represents a pointer-\/to-\/value\+\_\+type. \end{DoxyCompactList}\item 
+typedef Reference \hyperlink{structgxx_1_1iterator_a6fcadc0838441fafa84c2f1ce5b21944}{reference}\hypertarget{structgxx_1_1iterator_a6fcadc0838441fafa84c2f1ce5b21944}{}\label{structgxx_1_1iterator_a6fcadc0838441fafa84c2f1ce5b21944}
+
+\begin{DoxyCompactList}\small\item\em This type represents a reference-\/to-\/value\+\_\+type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Category, typename Tp, typename Distance = ptrdiff\+\_\+t, typename Pointer = Tp$\ast$, typename Reference = Tp\&$>$\\*
+struct gxx\+::iterator$<$ Category, Tp, Distance, Pointer, Reference $>$}
+
+Common iterator class. 
+
+This class does nothing but define nested typedefs. Iterator classes can inherit from this class to save some work. The typedefs are then used in specializations and overloading.
+
+In particular, there are no default implementations of requirements such as {\ttfamily operator++} and the like. (How could there be?) 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/rfmeas/project/gxx/gxx/\+H\+I\+D\+E/iterator\+\_\+base\+\_\+types.\+h\end{DoxyCompactItemize}

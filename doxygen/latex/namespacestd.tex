@@ -1,0 +1,140 @@
+\hypertarget{namespacestd}{}\section{std Namespace Reference}
+\label{namespacestd}\index{std@{std}}
+
+
+Extensions to the C++ standard library.  
+
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structstd_1_1bidirectional__iterator__tag}{bidirectional\+\_\+iterator\+\_\+tag}
+\item 
+struct \hyperlink{structstd_1_1forward__iterator__tag}{forward\+\_\+iterator\+\_\+tag}
+\begin{DoxyCompactList}\small\item\em Forward iterators support a superset of input iterator operations. \end{DoxyCompactList}\item 
+class \hyperlink{classstd_1_1hash_3_01gxx_1_1inet_1_1hostaddr_01_4}{hash$<$ gxx\+::inet\+::hostaddr $>$}
+\item 
+class \hyperlink{classstd_1_1hash_3_01gxx_1_1inet_1_1netaddr_01_4}{hash$<$ gxx\+::inet\+::netaddr $>$}
+\item 
+struct \hyperlink{structstd_1_1hash_3_01linalg_1_1mat_3_01T_00_01M_00_012_01_4_01_4}{hash$<$ linalg\+::mat$<$ T, M, 2 $>$ $>$}
+\item 
+struct \hyperlink{structstd_1_1hash_3_01linalg_1_1mat_3_01T_00_01M_00_013_01_4_01_4}{hash$<$ linalg\+::mat$<$ T, M, 3 $>$ $>$}
+\item 
+struct \hyperlink{structstd_1_1hash_3_01linalg_1_1mat_3_01T_00_01M_00_014_01_4_01_4}{hash$<$ linalg\+::mat$<$ T, M, 4 $>$ $>$}
+\item 
+struct \hyperlink{structstd_1_1hash_3_01linalg_1_1vec_3_01T_00_012_01_4_01_4}{hash$<$ linalg\+::vec$<$ T, 2 $>$ $>$}
+\item 
+struct \hyperlink{structstd_1_1hash_3_01linalg_1_1vec_3_01T_00_013_01_4_01_4}{hash$<$ linalg\+::vec$<$ T, 3 $>$ $>$}
+\item 
+struct \hyperlink{structstd_1_1hash_3_01linalg_1_1vec_3_01T_00_014_01_4_01_4}{hash$<$ linalg\+::vec$<$ T, 4 $>$ $>$}
+\item 
+struct \hyperlink{structstd_1_1input__iterator__tag}{input\+\_\+iterator\+\_\+tag}
+\begin{DoxyCompactList}\small\item\em Marking input iterators. \end{DoxyCompactList}\item 
+struct \hyperlink{structstd_1_1iterator}{iterator}
+\begin{DoxyCompactList}\small\item\em Common iterator class. \end{DoxyCompactList}\item 
+struct \hyperlink{structstd_1_1iterator__traits}{iterator\+\_\+traits}
+\begin{DoxyCompactList}\small\item\em Traits class for iterators. \end{DoxyCompactList}\item 
+struct \hyperlink{structstd_1_1iterator__traits_3_01const_01Tp_01_5_01_4}{iterator\+\_\+traits$<$ const Tp $\ast$ $>$}
+\begin{DoxyCompactList}\small\item\em Partial specialization for const pointer types. \end{DoxyCompactList}\item 
+class \hyperlink{classstd_1_1iterator__traits_3_01gxx_1_1generator_3_01T_00_01C_01_4_01_4}{iterator\+\_\+traits$<$ gxx\+::generator$<$ T, C $>$ $>$}
+\item 
+struct \hyperlink{structstd_1_1iterator__traits_3_01Tp_01_5_01_4}{iterator\+\_\+traits$<$ Tp $\ast$ $>$}
+\begin{DoxyCompactList}\small\item\em Partial specialization for pointer types. \end{DoxyCompactList}\item 
+class \hyperlink{classstd_1_1numeric__limits_3_01half__float_1_1half_01_4}{numeric\+\_\+limits$<$ half\+\_\+float\+::half $>$}
+\item 
+struct \hyperlink{structstd_1_1output__iterator__tag}{output\+\_\+iterator\+\_\+tag}
+\begin{DoxyCompactList}\small\item\em Marking output iterators. \end{DoxyCompactList}\item 
+struct \hyperlink{structstd_1_1random__access__iterator__tag}{random\+\_\+access\+\_\+iterator\+\_\+tag}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename \+\_\+\+Input\+Iterator $>$ }\\\hyperlink{structstd_1_1iterator__traits}{iterator\+\_\+traits}$<$ \+\_\+\+Input\+Iterator $>$\+::difference\+\_\+type {\bfseries \+\_\+\+\_\+distance} (\+\_\+\+Input\+Iterator \+\_\+\+\_\+first, \+\_\+\+Input\+Iterator \+\_\+\+\_\+last, \hyperlink{structstd_1_1input__iterator__tag}{input\+\_\+iterator\+\_\+tag})\hypertarget{namespacestd_ab81043897ffb393c4994974edc88049c}{}\label{namespacestd_ab81043897ffb393c4994974edc88049c}
+
+\item 
+{\footnotesize template$<$typename \+\_\+\+Random\+Access\+Iterator $>$ }\\\hyperlink{structstd_1_1iterator__traits}{iterator\+\_\+traits}$<$ \+\_\+\+Random\+Access\+Iterator $>$\+::difference\+\_\+type {\bfseries \+\_\+\+\_\+distance} (\+\_\+\+Random\+Access\+Iterator \+\_\+\+\_\+first, \+\_\+\+Random\+Access\+Iterator \+\_\+\+\_\+last, \hyperlink{structstd_1_1random__access__iterator__tag}{random\+\_\+access\+\_\+iterator\+\_\+tag})\hypertarget{namespacestd_ab187208141e420bcf7a10469f375d8a2}{}\label{namespacestd_ab187208141e420bcf7a10469f375d8a2}
+
+\item 
+{\footnotesize template$<$typename \+\_\+\+Input\+Iterator $>$ }\\\hyperlink{structstd_1_1iterator__traits}{iterator\+\_\+traits}$<$ \+\_\+\+Input\+Iterator $>$\+::difference\+\_\+type \hyperlink{namespacestd_a5852ded2c7147a161b33951ef37ecba8}{distance} (\+\_\+\+Input\+Iterator \+\_\+\+\_\+first, \+\_\+\+Input\+Iterator \+\_\+\+\_\+last)
+\begin{DoxyCompactList}\small\item\em A generalization of pointer arithmetic. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename \+\_\+\+Input\+Iterator , typename \+\_\+\+Distance $>$ }\\void {\bfseries \+\_\+\+\_\+advance} (\+\_\+\+Input\+Iterator \&\+\_\+\+\_\+i, \+\_\+\+Distance \+\_\+\+\_\+n, \hyperlink{structstd_1_1input__iterator__tag}{input\+\_\+iterator\+\_\+tag})\hypertarget{namespacestd_a481bd0e70ab965dc3e57a4c5cfc84f2a}{}\label{namespacestd_a481bd0e70ab965dc3e57a4c5cfc84f2a}
+
+\item 
+{\footnotesize template$<$typename \+\_\+\+Bidirectional\+Iterator , typename \+\_\+\+Distance $>$ }\\void {\bfseries \+\_\+\+\_\+advance} (\+\_\+\+Bidirectional\+Iterator \&\+\_\+\+\_\+i, \+\_\+\+Distance \+\_\+\+\_\+n, \hyperlink{structstd_1_1bidirectional__iterator__tag}{bidirectional\+\_\+iterator\+\_\+tag})\hypertarget{namespacestd_aa88626836fb848c16f7c10c664166243}{}\label{namespacestd_aa88626836fb848c16f7c10c664166243}
+
+\item 
+{\footnotesize template$<$typename \+\_\+\+Random\+Access\+Iterator , typename \+\_\+\+Distance $>$ }\\void {\bfseries \+\_\+\+\_\+advance} (\+\_\+\+Random\+Access\+Iterator \&\+\_\+\+\_\+i, \+\_\+\+Distance \+\_\+\+\_\+n, \hyperlink{structstd_1_1random__access__iterator__tag}{random\+\_\+access\+\_\+iterator\+\_\+tag})\hypertarget{namespacestd_afdb6e1a8e68f7a8d8dfae9522b3e71ce}{}\label{namespacestd_afdb6e1a8e68f7a8d8dfae9522b3e71ce}
+
+\item 
+{\footnotesize template$<$typename \+\_\+\+Input\+Iterator , typename \+\_\+\+Distance $>$ }\\void \hyperlink{namespacestd_a2d43d8e656c1d71e14e398cdd726af37}{advance} (\+\_\+\+Input\+Iterator \&\+\_\+\+\_\+i, \+\_\+\+Distance \+\_\+\+\_\+n)
+\begin{DoxyCompactList}\small\item\em A generalization of pointer arithmetic. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename \+\_\+\+Forward\+Iterator $>$ }\\\+\_\+\+Forward\+Iterator {\bfseries next} (\+\_\+\+Forward\+Iterator \+\_\+\+\_\+x, typename \hyperlink{structstd_1_1iterator__traits}{iterator\+\_\+traits}$<$ \+\_\+\+Forward\+Iterator $>$\+::difference\+\_\+type \+\_\+\+\_\+n=1)\hypertarget{namespacestd_ab49259d704618e731dc3c6ddcddf7080}{}\label{namespacestd_ab49259d704618e731dc3c6ddcddf7080}
+
+\item 
+{\footnotesize template$<$typename \+\_\+\+Bidirectional\+Iterator $>$ }\\\+\_\+\+Bidirectional\+Iterator {\bfseries prev} (\+\_\+\+Bidirectional\+Iterator \+\_\+\+\_\+x, typename \hyperlink{structstd_1_1iterator__traits}{iterator\+\_\+traits}$<$ \+\_\+\+Bidirectional\+Iterator $>$\+::difference\+\_\+type \+\_\+\+\_\+n=1)\hypertarget{namespacestd_a33a6bb27ffe6455202910e6c66963434}{}\label{namespacestd_a33a6bb27ffe6455202910e6c66963434}
+
+\item 
+{\footnotesize template$<$typename Iter $>$ }\\\hyperlink{structstd_1_1iterator__traits}{iterator\+\_\+traits}$<$ Iter $>$\+::iterator\+\_\+category \hyperlink{namespacestd_af7742b4d3ca0fbe92c46ba0c1fb3da37}{\+\_\+\+\_\+iterator\+\_\+category} (const Iter \&)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Extensions to the C++ standard library. 
+
+\subsection{Function Documentation}
+\index{std@{std}!\+\_\+\+\_\+iterator\+\_\+category@{\+\_\+\+\_\+iterator\+\_\+category}}
+\index{\+\_\+\+\_\+iterator\+\_\+category@{\+\_\+\+\_\+iterator\+\_\+category}!std@{std}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+iterator\+\_\+category(const Iter \&)}{__iterator_category(const Iter &)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Iter $>$ {\bf iterator\+\_\+traits}$<$Iter$>$\+::iterator\+\_\+category std\+::\+\_\+\+\_\+iterator\+\_\+category (
+\begin{DoxyParamCaption}
+\item[{const Iter \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{namespacestd_af7742b4d3ca0fbe92c46ba0c1fb3da37}{}\label{namespacestd_af7742b4d3ca0fbe92c46ba0c1fb3da37}
+This function is not a part of the C++ standard but is syntactic sugar for internal library use only. \index{std@{std}!advance@{advance}}
+\index{advance@{advance}!std@{std}}
+\subsubsection[{\texorpdfstring{advance(\+\_\+\+Input\+Iterator \&\+\_\+\+\_\+i, \+\_\+\+Distance \+\_\+\+\_\+n)}{advance(_InputIterator &__i, _Distance __n)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Input\+Iterator , typename \+\_\+\+Distance $>$ void std\+::advance (
+\begin{DoxyParamCaption}
+\item[{\+\_\+\+Input\+Iterator \&}]{\+\_\+\+\_\+i, }
+\item[{\+\_\+\+Distance}]{\+\_\+\+\_\+n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{namespacestd_a2d43d8e656c1d71e14e398cdd726af37}{}\label{namespacestd_a2d43d8e656c1d71e14e398cdd726af37}
+
+
+A generalization of pointer arithmetic. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+\+\_\+i} & An input iterator. \\
+\hline
+{\em \+\_\+\+\_\+n} & The {\itshape delta} by which to change {\ttfamily \+\_\+\+\_\+i}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Nothing.
+\end{DoxyReturn}
+This increments {\ttfamily i} by {\ttfamily n}. For bidirectional and random access iterators, {\ttfamily \+\_\+\+\_\+n} may be negative, in which case {\ttfamily \+\_\+\+\_\+i} is decremented.
+
+For random access iterators, this uses their {\ttfamily +} and {\ttfamily -\/} operations and are constant time. For other iterator classes they are linear time. \index{std@{std}!distance@{distance}}
+\index{distance@{distance}!std@{std}}
+\subsubsection[{\texorpdfstring{distance(\+\_\+\+Input\+Iterator \+\_\+\+\_\+first, \+\_\+\+Input\+Iterator \+\_\+\+\_\+last)}{distance(_InputIterator __first, _InputIterator __last)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Input\+Iterator $>$ {\bf iterator\+\_\+traits}$<$\+\_\+\+Input\+Iterator$>$\+::difference\+\_\+type std\+::distance (
+\begin{DoxyParamCaption}
+\item[{\+\_\+\+Input\+Iterator}]{\+\_\+\+\_\+first, }
+\item[{\+\_\+\+Input\+Iterator}]{\+\_\+\+\_\+last}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{namespacestd_a5852ded2c7147a161b33951ef37ecba8}{}\label{namespacestd_a5852ded2c7147a161b33951ef37ecba8}
+
+
+A generalization of pointer arithmetic. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+\+\_\+first} & An input iterator. \\
+\hline
+{\em \+\_\+\+\_\+last} & An input iterator. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The distance between them.
+\end{DoxyReturn}
+Returns {\ttfamily n} such that \+\_\+\+\_\+first + n == \+\_\+\+\_\+last. This requires that {\ttfamily \+\_\+\+\_\+last} must be reachable from {\ttfamily \+\_\+\+\_\+first}. Note that {\ttfamily n} may be negative.
+
+For random access iterators, this uses their {\ttfamily +} and {\ttfamily -\/} operations and are constant time. For other iterator classes they are linear time. 

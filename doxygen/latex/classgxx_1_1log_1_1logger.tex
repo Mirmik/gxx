@@ -1,0 +1,118 @@
+\hypertarget{classgxx_1_1log_1_1logger}{}\section{gxx\+:\+:log\+:\+:logger Class Reference}
+\label{classgxx_1_1log_1_1logger}\index{gxx\+::log\+::logger@{gxx\+::log\+::logger}}
+
+
+Collaboration diagram for gxx\+:\+:log\+:\+:logger\+:
+% FIG 0
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries S\+E\+T\+T\+ER} (set\+\_\+timestamp\+\_\+callback, timestamp)\hypertarget{classgxx_1_1log_1_1logger_a9e8eee6d96d3cf95f644609a7e299467}{}\label{classgxx_1_1log_1_1logger_a9e8eee6d96d3cf95f644609a7e299467}
+
+\item 
+{\bfseries C\+O\+N\+S\+T\+R\+E\+F\+\_\+\+G\+E\+T\+T\+ER} (timestamp\+\_\+callback, timestamp)\hypertarget{classgxx_1_1log_1_1logger_a9519ac057f2caa5518a7bedc034aa276}{}\label{classgxx_1_1log_1_1logger_a9519ac057f2caa5518a7bedc034aa276}
+
+\item 
+{\bfseries logger} (const std\+::string \&name)\hypertarget{classgxx_1_1log_1_1logger_a57a7376523eded2fc208655150a24bff}{}\label{classgxx_1_1log_1_1logger_a57a7376523eded2fc208655150a24bff}
+
+\item 
+void {\bfseries add\+\_\+target} (\hyperlink{classgxx_1_1log_1_1target}{target} \&tgt)\hypertarget{classgxx_1_1log_1_1logger_aa6ed0c4891fc88603dd803bf113efaf0}{}\label{classgxx_1_1log_1_1logger_aa6ed0c4891fc88603dd803bf113efaf0}
+
+\item 
+void {\bfseries link} (\hyperlink{classgxx_1_1log_1_1target}{target} \&tgt)\hypertarget{classgxx_1_1log_1_1logger_ac8968abdae5464d692d37a99676b803c}{}\label{classgxx_1_1log_1_1logger_ac8968abdae5464d692d37a99676b803c}
+
+\item 
+void {\bfseries clear\+\_\+targets} ()\hypertarget{classgxx_1_1log_1_1logger_a148f0cfe3888ef3555124fb1765251bf}{}\label{classgxx_1_1log_1_1logger_a148f0cfe3888ef3555124fb1765251bf}
+
+\item 
+void {\bfseries set\+\_\+pattern} (const char $\ast$str)\hypertarget{classgxx_1_1log_1_1logger_a9527a43dfe0e6d325084767ae01dcc9b}{}\label{classgxx_1_1log_1_1logger_a9527a43dfe0e6d325084767ae01dcc9b}
+
+\item 
+void {\bfseries set\+\_\+level} (level lvl)\hypertarget{classgxx_1_1log_1_1logger_a2fed43a40ddcc2ff88676f7c722fa2fe}{}\label{classgxx_1_1log_1_1logger_a2fed43a40ddcc2ff88676f7c722fa2fe}
+
+\item 
+void {\bfseries log} (level lvl, const char $\ast$fmt, \hyperlink{classgxx_1_1visitable__arglist}{visitable\+\_\+arglist} \&\&args)\hypertarget{classgxx_1_1log_1_1logger_aab161ee185ce599ac1aa4e5c016ce62e}{}\label{classgxx_1_1log_1_1logger_aab161ee185ce599ac1aa4e5c016ce62e}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries log} (level lvl, const char $\ast$fmt, \hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1log_1_1logger_ad2fb8975812306f8645d4695093627e8}{}\label{classgxx_1_1log_1_1logger_ad2fb8975812306f8645d4695093627e8}
+
+\item 
+void {\bfseries log} (level lvl, const char $\ast$fmt)\hypertarget{classgxx_1_1log_1_1logger_afbf52f2aa23291ef47f859fe4234af2d}{}\label{classgxx_1_1log_1_1logger_afbf52f2aa23291ef47f859fe4234af2d}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries log} (level lvl, std\+::string \&fmt, \hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1log_1_1logger_a0271e182b5945500a1dfebca89d00054}{}\label{classgxx_1_1log_1_1logger_a0271e182b5945500a1dfebca89d00054}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries trace} (\hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1log_1_1logger_aeebee9c69f9707c222800aed638d642a}{}\label{classgxx_1_1log_1_1logger_aeebee9c69f9707c222800aed638d642a}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries debug} (\hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1log_1_1logger_a58eac8ab985601769e3be5947860967e}{}\label{classgxx_1_1log_1_1logger_a58eac8ab985601769e3be5947860967e}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries info} (\hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1log_1_1logger_a2f8eb29dcd6db8033d5f92aa47c09ea9}{}\label{classgxx_1_1log_1_1logger_a2f8eb29dcd6db8033d5f92aa47c09ea9}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries warn} (\hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1log_1_1logger_a69482bf2f17e1526f1053c6118073da8}{}\label{classgxx_1_1log_1_1logger_a69482bf2f17e1526f1053c6118073da8}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries error} (\hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1log_1_1logger_a065b161a99b467f665356c6903de346a}{}\label{classgxx_1_1log_1_1logger_a065b161a99b467f665356c6903de346a}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries fault} (\hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1log_1_1logger_afebdf22a5d37d2a55e4a0447cea85166}{}\label{classgxx_1_1log_1_1logger_afebdf22a5d37d2a55e4a0447cea85166}
+
+\item 
+void {\bfseries link} (\hyperlink{classgxx_1_1log_1_1target}{target} \&tgt, level lvl)\hypertarget{classgxx_1_1log_1_1logger_a588a6f05c60df2871d75dbcf58c2fa08}{}\label{classgxx_1_1log_1_1logger_a588a6f05c60df2871d75dbcf58c2fa08}
+
+\item 
+void {\bfseries clear\+\_\+targets} ()\hypertarget{classgxx_1_1log_1_1logger_a148f0cfe3888ef3555124fb1765251bf}{}\label{classgxx_1_1log_1_1logger_a148f0cfe3888ef3555124fb1765251bf}
+
+\item 
+void {\bfseries log} (level lvl, std\+::string \&\&msg)\hypertarget{classgxx_1_1log_1_1logger_afe58a9eaef28534e4af360b1d65c8ba6}{}\label{classgxx_1_1log_1_1logger_afe58a9eaef28534e4af360b1d65c8ba6}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries log} (level lvl, const char $\ast$fmt, \hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1log_1_1logger_ad2fb8975812306f8645d4695093627e8}{}\label{classgxx_1_1log_1_1logger_ad2fb8975812306f8645d4695093627e8}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries log} (level lvl, std\+::string \&fmt, \hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1log_1_1logger_a0271e182b5945500a1dfebca89d00054}{}\label{classgxx_1_1log_1_1logger_a0271e182b5945500a1dfebca89d00054}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries trace} (\hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1log_1_1logger_aeebee9c69f9707c222800aed638d642a}{}\label{classgxx_1_1log_1_1logger_aeebee9c69f9707c222800aed638d642a}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries debug} (\hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1log_1_1logger_a58eac8ab985601769e3be5947860967e}{}\label{classgxx_1_1log_1_1logger_a58eac8ab985601769e3be5947860967e}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries info} (\hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1log_1_1logger_a2f8eb29dcd6db8033d5f92aa47c09ea9}{}\label{classgxx_1_1log_1_1logger_a2f8eb29dcd6db8033d5f92aa47c09ea9}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries warn} (\hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1log_1_1logger_a69482bf2f17e1526f1053c6118073da8}{}\label{classgxx_1_1log_1_1logger_a69482bf2f17e1526f1053c6118073da8}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries error} (\hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1log_1_1logger_a065b161a99b467f665356c6903de346a}{}\label{classgxx_1_1log_1_1logger_a065b161a99b467f665356c6903de346a}
+
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries fault} (\hyperlink{structArgs}{Args} \&\&...args)\hypertarget{classgxx_1_1log_1_1logger_afebdf22a5d37d2a55e4a0447cea85166}{}\label{classgxx_1_1log_1_1logger_afebdf22a5d37d2a55e4a0447cea85166}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structdlist__head}{dlist\+\_\+head} {\bfseries manage\+\_\+link}\hypertarget{classgxx_1_1log_1_1logger_a6baeb71bcf80c10f491d4f15c8afb52a}{}\label{classgxx_1_1log_1_1logger_a6baeb71bcf80c10f491d4f15c8afb52a}
+
+\item 
+void($\ast$ {\bfseries timestamp} )(char $\ast$time, size\+\_\+t maxlen) = standart\+\_\+logger\+\_\+timestamp\hypertarget{classgxx_1_1log_1_1logger_a560395e6de3d87a4efafa5d6bb3ca764}{}\label{classgxx_1_1log_1_1logger_a560395e6de3d87a4efafa5d6bb3ca764}
+
+\item 
+std\+::vector$<$ std\+::pair$<$ \hyperlink{classgxx_1_1log_1_1target}{gxx\+::log\+::target} $\ast$, gxx\+::log\+::level $>$ $>$ {\bfseries targets}\hypertarget{classgxx_1_1log_1_1logger_a131a7a5a8eb76c35e0d0cc7b7e4eecca}{}\label{classgxx_1_1log_1_1logger_a131a7a5a8eb76c35e0d0cc7b7e4eecca}
+
+\item 
+bool {\bfseries syncmode} = false\hypertarget{classgxx_1_1log_1_1logger_a9fcac8641562a71b737161fdcec524ff}{}\label{classgxx_1_1log_1_1logger_a9fcac8641562a71b737161fdcec524ff}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/rfmeas/project/gxx/gxx/log/logger.\+h\item 
+/home/rfmeas/project/gxx/gxx/log/logger2.\+h\item 
+/home/rfmeas/project/gxx/gxx/log/src/logger.\+cpp\end{DoxyCompactItemize}
