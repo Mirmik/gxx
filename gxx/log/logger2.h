@@ -15,9 +15,11 @@ namespace gxx {
 		class logger {
 		public:
 			std::vector<std::pair<gxx::log::target*, gxx::log::level>> targets;
-			bool syncmode = false;
+			const char* name;
+			//bool syncmode = false;
 		
 		public:
+			logger(const char* name) : name(name) {}
 			void link(target& tgt, level lvl);
 			void clear_targets();
 			void log(level lvl, std::string&& msg);

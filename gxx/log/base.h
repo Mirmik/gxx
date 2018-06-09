@@ -2,6 +2,7 @@
 #define GXX_LOG_BASE_H
 
 #include <string>
+#include <gxx/util/text.h>
 
 namespace gxx { 
 	namespace time {
@@ -35,10 +36,21 @@ namespace gxx {
 			switch(lvl) {
 				case level::trace: return "trace";
 				case level::debug: return "debug";
-				case level::info : return "info";
-				case level::warn : return "warn";
+				case level::info : return " info";
+				case level::warn : return " warn";
 				case level::error: return "error";
 				case level::fault: return "fault";
+			}
+		}
+
+		static const char* level_to_collored_string(level lvl) {
+			switch(lvl) {
+				case level::trace: return GXX_TEXT_CYAN		("trace");
+				case level::debug: return GXX_TEXT_BLUE		("debug");
+				case level::info : return GXX_TEXT_WHITE	(" info");
+				case level::warn : return GXX_TEXT_YELLOW	(" warn");
+				case level::error: return GXX_TEXT_RED		("error");
+				case level::fault: return GXX_TEXT_MAGENTA	("fault");
 			}
 		}
 

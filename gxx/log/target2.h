@@ -12,10 +12,24 @@ namespace gxx {
 		};
 
 		struct stdout_target : public target {
-			std::string tmplt = "| {msg} |";
+			std::string tmplt = "{logger} | {level} | {msg} |";
 
 			void log(std::shared_ptr<logmessage> logmsg) override {
-				gxx::fprintln(tmplt.c_str(), "msg"_a=logmsg->message);
+				gxx::fprintln(tmplt.c_str(), 
+					"msg"_a=logmsg->message, 
+					"logger"_a=logmsg->logger->name,
+					"level"_a=level_to_string(logmsg->level));
+			}
+		};
+
+		struct colored_stdout_target : public target {
+			std::string tmplt = "{logger} | {level} | {msg} |";
+
+			void log(std::shared_ptr<logmessage> logmsg) override {
+				gxx::fprintln(tmplt.c_str(), 
+					"msg"_a=logmsg->message, 
+					"logger"_a=logmsg->logger->name,
+					"level"_a=level_to_collored_string(logmsg->level));
 			}
 		};
 	}

@@ -96,4 +96,13 @@ namespace gxx {
 	}
 }
 
+#define GXX_TEXT_BLACK(str) 	"\x1B[30m" str "\x1B[0m"
+#define GXX_TEXT_RED(str) 		"\x1B[31m" str "\x1B[0m"
+#define GXX_TEXT_GREEN(str) 	"\x1B[32m" str "\x1B[0m"
+#define GXX_TEXT_YELLOW(str) 	"\x1B[33m" str "\x1B[0m"
+#define GXX_TEXT_BLUE(str) 		"\x1B[34m" str "\x1B[0m"
+#define GXX_TEXT_MAGENTA(str) 	"\x1B[35m" str "\x1B[0m"
+#define GXX_TEXT_CYAN(str) 		"\x1B[36m" str "\x1B[0m"
+#define GXX_TEXT_WHITE(str) 	"\x1B[37m" str "\x1B[0m"
+
 #endif

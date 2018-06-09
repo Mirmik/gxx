@@ -9,13 +9,12 @@ namespace gxx {
 		char* end = (char*)str.data() + str.size();
 		
 		while(true) {
+			while (*ptr == delim) ptr++;
+			if (ptr == end) break;
+		
 			strt = ptr;
-	
 			while (*ptr != delim && ptr != end) ptr++;
 			outvec.emplace_back(strt, ptr - strt);		
-	
-			if (*ptr == delim) ptr++;
-			else break;
 		}
 	
 		return outvec;
