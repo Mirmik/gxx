@@ -120,16 +120,11 @@ namespace gxx {
 		};
 	
 		R operator()(Args ... arg) {
-			//dprln("HERE2");
 			uint8_t type = object ? METHOD : FUNCTION;
-			switch (type)
-			{
-				case METHOD: 
+			if (type == METHOD) 
 				return (object->*method.method)(arg ...);
-				
-				case FUNCTION:
+			else //FUNCTION
 				return method.function(arg ...);
-			};
 		};
 	
 		bool operator==(delegate<R ,Args ... > b) {
