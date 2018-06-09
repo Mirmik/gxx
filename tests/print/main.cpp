@@ -4,22 +4,31 @@
 #include <gxx/print.h>
 #include <gxx/print/stdprint.h>
 
-class A {
+using namespace gxx::argument_literal;
+
+/*class A {
 public:
 	A() {
 		std::cout << "std::hel2lo" << std::endl;
 		gxx::println("Hello"); // valid if have priority initialization
 	}
-} a;
+} a;*/
 
 int main() {
-		dprptrln(&std::cout);
-		dprptrln(gxx::standart_output);
+	dprptrln(&std::cout);
+	dprptrln(gxx::standart_output);
 
-	std::map<std::string, int> mp;
+	gxx::println(1);
+	gxx::fprintln("{}", 1);
+	gxx::fprintln("{}", "hello");
+	gxx::fprintln("{a}", "a"_a=1);
+	gxx::fprintln("{b}, {c}", "b"_a="hello", "c"_a=std::string("fdsafasd"));
 
-	mp.insert(std::make_pair(std::string("Hello"), 2));
-	mp.insert(std::make_pair(std::string("Hello2"), 3));
 
-	gxx::fprintln("{}", mp);
+//	std::map<std::string, int> mp;
+
+//	mp.insert(std::make_pair(std::string("Hello"), 2));
+//	mp.insert(std::make_pair(std::string("Hello2"), 3));
+
+//	gxx::fprintln("{}", mp);
 }

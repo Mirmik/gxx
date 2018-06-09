@@ -14,10 +14,10 @@ namespace gxx {
 			logmsg->message = std::move(msg);
 			logmsg->level = lvl;
 			logmsg->logger = this;
-
+			
 			//if (syncmode) gxx::log::sync_logging(logmsg);
 			//else gxx::log::async_logging(logmsg);
-			gxx::log::sync_logging(logmsg);
+			gxx::log::sync_logging(logmsg);	
 		}
 
 		void sync_logging(std::shared_ptr<logmessage> logmsg) {

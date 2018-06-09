@@ -89,7 +89,7 @@ namespace gxx {
 	template<> 
 	struct print_functions<std::string> {
 		static int print(gxx::io::ostream& o, const std::string& str) {
-			o.print(str.c_str());
+			return o.print(str.c_str());
 		}
 	};
 
@@ -107,7 +107,7 @@ namespace gxx {
 	template<>
 	struct print_functions<std::type_info> {
 		static int print(gxx::io::ostream& o, std::type_info const& info) {
-			gxx::print_to(o, info.name());
+			return gxx::print_to(o, info.name());
 		}
 	};
 }
