@@ -159,6 +159,17 @@ int gxx::inet::datagramm_socket::sendto(gxx::inet::hostaddr haddr, int port, con
 	return ::sendto(fd, data, size, 0, (sockaddr*) &addr, sizeof(sockaddr_in));
 }
 
+int gxx::inet::datagramm_socket::ne_sendto(uint32_t ipaddr, uint16_t port, const char* data, size_t size) {
+	struct sockaddr_in addr;
+	memset(&addr, 0, sizeof(addr));
+
+	addr.sin_family = PF_INET;    
+	addr.sin_addr.s_addr = ipaddr;  //INADDR_ANY = 0.0.0.0
+	addr.sin_port = port;
+
+	return ::sendto(fd, data, size, 0, (sockaddr*) &addr, sizeof(sockaddr_in));
+}
+
 int gxx::inet::datagramm_socket::recvfrom(char* data, size_t maxsize, gxx::inet::netaddr* inaddr) {
 	struct sockaddr_in si_other;
 	unsigned int sz = sizeof(sockaddr_in);
