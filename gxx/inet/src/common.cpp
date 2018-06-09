@@ -190,7 +190,7 @@ gxx::inet::udp_socket::udp_socket(gxx::inet::hostaddr addr, int port) : udp_sock
 }  
 
 int gxx::inet::udp_socket::bind(gxx::inet::hostaddr addr, int port) {
-	socket::bind(addr, port, PF_INET);	
+	return socket::bind(addr, port, PF_INET);	
 }
 
 gxx::inet::rdm_socket::rdm_socket() : datagramm_socket(AF_INET, SOCK_RDM, 0) {}
