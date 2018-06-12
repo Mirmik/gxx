@@ -28,6 +28,11 @@ module("gxx.include",
 	include_paths = ["."]
 )
 
+module("gxx.atomic_section", impl="mutex",
+	srcdir = "gxx/impl",
+	sources = ["atomic_section_mutex.cpp"]
+)
+
 module("gxx.panic", impl="abort",
 	srcdir = "gxx/impl",
 	sources = ["panic_abort.cpp"]
