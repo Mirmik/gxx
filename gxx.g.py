@@ -33,6 +33,11 @@ module("gxx.atomic_section", impl="mutex",
 	sources = ["atomic_section_mutex.cpp"]
 )
 
+module("gxx.syslock", impl="mutex",
+	srcdir = "gxx/impl",
+	sources = ["syslock_mutex.cpp"]
+)
+
 module("gxx.panic", impl="abort",
 	srcdir = "gxx/impl",
 	sources = ["panic_abort.cpp"]
