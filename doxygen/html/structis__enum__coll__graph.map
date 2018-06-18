@@ -1,7 +1,0 @@
-<map id="is_enum&lt; T &gt;" name="is_enum&lt; T &gt;">
-<area shape="rect" id="node2" href="$structinternal_1_1is__enum__impl.html" title="internal::is_enum_impl\l\&lt; is_same\&lt; T, void \&gt;::\lvalue\|\|is_integral\&lt; T \&gt;\l::value\|\|is_floating_point\l\&lt; T \&gt;::value\|\|is_reference\l\&lt; T \&gt;::value\|\|internal::is\l_class_or_union\&lt; T \&gt;::value, T \&gt;" alt="" coords="608,75,823,189"/>
-<area shape="rect" id="node3" href="$structis__convertible.html" title="is_convertible\&lt; std\l::add_reference\&lt; T \&gt;\l::type, int \&gt;" alt="" coords="415,35,559,91"/>
-<area shape="rect" id="node4" href="$structintegral__constant.html" title="bool_constant\&lt; sizeof\l(internal::ConvertHelper\l\&lt; std::add_reference\&lt; T\l \&gt;::type , int &#160;\&gt;::Test(internal\l::ConvertHelper\&lt; std::add_reference\l\&lt; T \&gt;::type , int &#160;\&gt;::Create()))=\l=sizeof(small_)\&gt;" alt="" coords="129,5,364,120"/>
-<area shape="rect" id="node7" href="$structintegral__constant.html" title="bool_constant\&lt; sizeof\l(internal::ConvertHelper\l\&lt; gxx::add_reference\&lt; T\l \&gt;::type , int &#160;\&gt;::Test(internal\l::ConvertHelper\&lt; gxx::add_reference\l\&lt; T \&gt;::type , int &#160;\&gt;::Create()))=\l=sizeof(small_)\&gt;" alt="" coords="128,144,365,259"/>
-<area shape="rect" id="node6" href="$structis__convertible.html" title="is_convertible\&lt; gxx\l::add_reference\&lt; T \&gt;\l::type, int \&gt;" alt="" coords="415,173,559,229"/>
-</map>

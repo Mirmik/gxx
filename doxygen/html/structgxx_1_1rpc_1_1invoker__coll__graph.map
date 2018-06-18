@@ -1,7 +1,0 @@
-<map id="gxx::rpc::invoker&lt; Input, Output, Ret, Args &gt;" name="gxx::rpc::invoker&lt; Input, Output, Ret, Args &gt;">
-<area shape="rect" id="node2" href="$structgxx_1_1rpc_1_1basic__invoker.html" title="gxx::rpc::basic_invoker\l\&lt; Input, Output \&gt;" alt="" coords="5,304,163,345"/>
-<area shape="rect" id="node3" href="$classgxx_1_1delegate.html" title="gxx::delegate\&lt; Ret,\l Args... \&gt;" alt="" coords="187,304,325,345"/>
-<area shape="rect" id="node4" href="$uniongxx_1_1delegate_1_1method__union.html" title="gxx::delegate\&lt; R, Args\l \&gt;::method_union" alt="" coords="63,200,220,241"/>
-<area shape="rect" id="node5" href="$structArgs.html" title="Args\&lt; T, Args \&gt;" alt="" coords="83,81,199,108"/>
-<area shape="rect" id="node7" href="$classgxx_1_1AbstractDelegate.html" title="gxx::AbstractDelegate" alt="" coords="244,207,396,234"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="has_trivial_destructor&lt; T &gt;" name="has_trivial_destructor&lt; T &gt;">
-<area shape="rect" id="node4" href="$structhas__trivial__destructor_3_01const_01T_01_4.html" title="has_trivial_destructor\l\&lt; const T \&gt;" alt="" coords="603,35,749,76"/>
-<area shape="rect" id="node2" href="$structis__pod.html" title="is_pod\&lt; T \&gt;" alt="" coords="236,42,328,69"/>
-<area shape="rect" id="node3" href="$structintegral__constant.html" title="integral_constant\&lt;\l bool,(is_integral\&lt;\l T \&gt;::value\|\|is_floating\l_point\&lt; T \&gt;::value\|\|is_enum\l\&lt; T \&gt;::value\|\|is_pointer\&lt; T\l \&gt;::value)\&gt;" alt="" coords="5,5,188,105"/>
-</map>

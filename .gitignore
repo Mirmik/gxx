@@ -46,3 +46,7 @@ compile_commands.json
 CTestTestfile.cmake
 
 *jjj
+log
+
+doxygen/html
+doxygen/latex

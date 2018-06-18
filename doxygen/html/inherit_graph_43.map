@@ -1,9 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classgxx_1_1array__printable.html" title="gxx::array_printable\l\&lt; vector_compact_basic\l\&lt; double \&gt; \&gt;" alt="" coords="5,16,171,72"/>
-<area shape="rect" id="node2" href="$classmalgo_1_1vector__basic.html" title="malgo::vector_basic\l\&lt; vector_compact_basic\l\&lt; double \&gt; \&gt;" alt="" coords="219,16,384,72"/>
-<area shape="rect" id="node3" href="$classmalgo_1_1vector__compact__basic.html" title="malgo::vector_compact\l_basic\&lt; double \&gt;" alt="" coords="432,23,591,65"/>
-<area shape="rect" id="node4" href="$classmalgo_1_1vector.html" title="malgo::vector\&lt; double \&gt;" alt="" coords="639,31,801,57"/>
-<area shape="rect" id="node5" href="$classgxx_1_1ngeom_1_1coordinates.html" title="gxx::ngeom::coordinates" alt="" coords="849,31,1015,57"/>
-<area shape="rect" id="node6" href="$classgxx_1_1ngeom_1_1direction.html" title="gxx::ngeom::direction" alt="" coords="1063,5,1209,32"/>
-<area shape="rect" id="node7" href="$classgxx_1_1ngeom_1_1point.html" title="gxx::ngeom::point" alt="" coords="1073,56,1199,83"/>
-</map>

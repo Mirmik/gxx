@@ -1,6 +1,0 @@
-<map id="internal::is_enum_impl&lt; NotUnum, T &gt;" name="internal::is_enum_impl&lt; NotUnum, T &gt;">
-<area shape="rect" id="node2" href="$structis__convertible.html" title="is_convertible\&lt; std\l::add_reference\&lt; T \&gt;\l::type, int \&gt;" alt="" coords="291,35,435,91"/>
-<area shape="rect" id="node3" href="$structintegral__constant.html" title="bool_constant\&lt; sizeof\l(internal::ConvertHelper\l\&lt; std::add_reference\&lt; T\l \&gt;::type , int &#160;\&gt;::Test(internal\l::ConvertHelper\&lt; std::add_reference\l\&lt; T \&gt;::type , int &#160;\&gt;::Create()))=\l=sizeof(small_)\&gt;" alt="" coords="7,5,241,120"/>
-<area shape="rect" id="node4" href="$structis__convertible.html" title="is_convertible\&lt; gxx\l::add_reference\&lt; T \&gt;\l::type, int \&gt;" alt="" coords="291,173,435,229"/>
-<area shape="rect" id="node5" href="$structintegral__constant.html" title="bool_constant\&lt; sizeof\l(internal::ConvertHelper\l\&lt; gxx::add_reference\&lt; T\l \&gt;::type , int &#160;\&gt;::Test(internal\l::ConvertHelper\&lt; gxx::add_reference\l\&lt; T \&gt;::type , int &#160;\&gt;::Create()))=\l=sizeof(small_)\&gt;" alt="" coords="5,144,243,259"/>
-</map>

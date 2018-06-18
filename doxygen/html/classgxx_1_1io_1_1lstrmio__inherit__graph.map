@@ -1,8 +1,0 @@
-<map id="gxx::io::lstrmio" name="gxx::io::lstrmio">
-<area shape="rect" id="node7" href="$classgxx_1_1io_1_1ringstrm.html" title="gxx::io::ringstrm" alt="" coords="140,229,256,256"/>
-<area shape="rect" id="node2" href="$classgxx_1_1io_1_1strmio.html" title="gxx::io::strmio" alt="" coords="145,80,251,107"/>
-<area shape="rect" id="node3" href="$classgxx_1_1io_1_1strmout.html" title="gxx::io::strmout" alt="" coords="73,5,187,32"/>
-<area shape="rect" id="node5" href="$classgxx_1_1io_1_1lstrmout.html" title="gxx::io::lstrmout" alt="" coords="5,80,121,107"/>
-<area shape="rect" id="node4" href="$classgxx_1_1io_1_1strmin.html" title="gxx::io::strmin" alt="" coords="211,5,316,32"/>
-<area shape="rect" id="node6" href="$classgxx_1_1io_1_1lstrmin.html" title="gxx::io::lstrmin" alt="" coords="275,80,383,107"/>
-</map>

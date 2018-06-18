@@ -1,7 +1,0 @@
-<map id="gxx::geom2::curve" name="gxx::geom2::curve">
-<area shape="rect" id="node2" href="$classgxx_1_1curve2_1_1line.html" title="gxx::curve2::line" alt="" coords="212,5,331,32"/>
-<area shape="rect" id="node3" href="$classgxx_1_1curve2_1_1line__segment.html" title="gxx::curve2::line_segment" alt="" coords="184,56,359,83"/>
-<area shape="rect" id="node4" href="$classgxx_1_1geom2_1_1circle.html" title="gxx::geom2::circle" alt="" coords="207,107,336,133"/>
-<area shape="rect" id="node5" href="$classgxx_1_1geom2_1_1line.html" title="gxx::geom2::line" alt="" coords="212,157,331,184"/>
-<area shape="rect" id="node6" href="$classgxx_1_1geom2_1_1nilcurve.html" title="gxx::geom2::nilcurve" alt="" coords="200,208,343,235"/>
-</map>

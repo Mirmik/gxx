@@ -1,8 +1,0 @@
-<map id="gxx::io::strmio" name="gxx::io::strmio">
-<area shape="rect" id="node4" href="$classgxx_1_1io_1_1fdfile.html" title="gxx::io::fdfile" alt="" coords="17,155,115,181"/>
-<area shape="rect" id="node6" href="$classgxx_1_1io_1_1lstrmio.html" title="gxx::io::lstrmio" alt="" coords="139,155,247,181"/>
-<area shape="rect" id="node2" href="$classgxx_1_1io_1_1strmout.html" title="gxx::io::strmout" alt="" coords="5,5,119,32"/>
-<area shape="rect" id="node3" href="$classgxx_1_1io_1_1strmin.html" title="gxx::io::strmin" alt="" coords="143,5,248,32"/>
-<area shape="rect" id="node5" href="$classgxx_1_1io_1_1ufile.html" title="gxx::io::ufile" alt="" coords="18,229,111,256"/>
-<area shape="rect" id="node7" href="$classgxx_1_1io_1_1ringstrm.html" title="gxx::io::ringstrm" alt="" coords="136,229,252,256"/>
-</map>

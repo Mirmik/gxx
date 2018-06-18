@@ -1,6 +1,0 @@
-<map id="rabbit::circle2" name="rabbit::circle2">
-<area shape="rect" id="node2" href="$structrabbit_1_1trim2.html" title="rabbit::trim2" alt="" coords="93,228,184,255"/>
-<area shape="rect" id="node3" href="$structgxx_1_1geom2_1_1boundbox.html" title="gxx::geom2::boundbox" alt="" coords="5,131,160,158"/>
-<area shape="rect" id="node4" href="$classgxx_1_1math_1_1interval.html" title="gxx::math::interval\l\&lt; double \&gt;" alt="" coords="119,5,249,47"/>
-<area shape="rect" id="node5" href="$structgxx_1_1math_1_1directed__interval.html" title="gxx::math::directed\l_interval\&lt; double \&gt;" alt="" coords="185,124,319,165"/>
-</map>
