@@ -6,7 +6,7 @@
 #include <gxx/geom/ngeom.h>
 #include <gxx/exception.h>
 
-#include <gxx/concept.h>
+//#include <gxx/concept.h>
 
 namespace gxx {
 	namespace ngeom {
