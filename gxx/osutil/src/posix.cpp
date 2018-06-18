@@ -1,3 +1,5 @@
+#include <signal.h>
+#include <unistd.h>
 #include <fcntl.h>
 #include <gxx/osutil/fd.h>
 

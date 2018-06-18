@@ -6,9 +6,12 @@
 
 #include <unistd.h>
 #include <fcntl.h>
-//#include <netinet/in.h>
-//#include <netinet/tcp.h>
-//#include <arpa/inet.h>
+
+#ifndef __WIN64__
+#	include <netinet/in.h>
+#	include <netinet/tcp.h>
+#	include <arpa/inet.h>
+#endif
 //#include <errno.h>
 
 namespace gxx { 
