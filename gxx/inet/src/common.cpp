@@ -172,7 +172,7 @@ int gxx::inet::datagramm_socket::ne_sendto(uint32_t ipaddr, uint16_t port, const
 
 int gxx::inet::datagramm_socket::recvfrom(char* data, size_t maxsize, gxx::inet::netaddr* inaddr) {
 	struct sockaddr_in si_other;
-	unsigned int sz = sizeof(sockaddr_in);
+    int sz = sizeof(sockaddr_in);
 	int ret = ::recvfrom(fd, data, maxsize, 0, (sockaddr*) &si_other, &sz);
 	
 	if (ret < 0) {
