@@ -30,7 +30,11 @@ namespace gxx {
 			return strncmp(buf, str, sz) == 0;
 		}
 
-		char operator[](size_t num) {
+		char& operator[](size_t num) {
+			return *(buf + num);
+		}
+
+		char operator[](size_t num) const {
 			return *(buf + num);
 		}
 
