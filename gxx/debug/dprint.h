@@ -1,15 +1,11 @@
-#ifndef GENOS_DEBUG_PRINT
-#define GENOS_DEBUG_PRINT
+#ifndef DEBUG_PRINT_H
+#define DEBUG_PRINT_H
 
 #include <inttypes.h>
 #include <sys/cdefs.h>
-//#include <sys/cdefs.h>
 
-#ifdef __cplusplus
-//#include "gxx/buffer.h"
-#endif
-
-/*
+/**
+	@file
 	2012-2015 Mirmik
 	Библиотека низкоуровневого отладочного вывода.
 
@@ -29,7 +25,7 @@
 
 __BEGIN_DECLS
 
-//Платформозависимый !блокирующий процессор! вывод char
+///Платформозависимый !блокирующий процессор! вывод char
 void debug_putchar(char c);
 void debug_dumpmode_putchar(char c);
 
