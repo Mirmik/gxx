@@ -1,6 +1,10 @@
 #ifndef GXX_LOG_TARGET_H
 #define GXX_LOG_TARGET_H
 
+#include <memory>
+#include <gxx/log/base.h>
+#include <gxx/log/logger2.h>
+
 using namespace gxx::argument_literal;
 
 namespace gxx {

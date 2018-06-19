@@ -4,6 +4,8 @@
 #include <string>
 #include <gxx/util/text.h>
 
+#include <gxx/time/datetime.h>
+
 namespace gxx { 
 	namespace time {
 		class datetime;
