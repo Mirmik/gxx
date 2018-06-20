@@ -36,6 +36,32 @@ namespace gxx {
 	inline size_t hash(uint64_t val, uint32_t seed = GXX_DEFAULT_SEED) { return val ^ seed; }
 
 	inline size_t hash(const char* val, uint32_t seed = GXX_DEFAULT_SEED) { return hash(val,strlen(val),seed); }
+
+	static uint32_t sdbm_hash(const void *data, size_t size) {
+        uint32_t hash = 0;
+        uint8_t* it = (uint8_t*)data;
+        uint8_t* eit = (uint8_t*)data + size;
+
+        for(;it != eit; ++it)
+            hash = *it + (hash << 6) + (hash << 16) - hash;
+
+        return hash;
+    }
+
+    static uint32_t sdbm_hash(const char *str) {
+        uint32_t hash = 0;
+        char c;
+
+        while (c = *str++)
+            hash = c + (hash << 6) + (hash << 16) - hash;
+
+        return hash;
+    }
+
+    static uint32_t sdbm_hash(const std::string& str) {
+    	return sdbm_hash(str.data(), str.size());
+    }
+
 }
 
 #endif
