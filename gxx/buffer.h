@@ -1,7 +1,7 @@
 #ifndef GENOS_UTILXX_BUFFER_H
 #define GENOS_UTILXX_BUFFER_H
 
-#include <string>
+//#include <string>
 #include <string.h>
 #include <stdlib.h>
 
@@ -54,12 +54,12 @@ namespace gxx {
 
 		//static gxx::buffer(int)
 
-		static gxx::buffer from_string(const std::string& str) {
+		/*static gxx::buffer from_string(const std::string& str) {
 			return gxx::buffer(str.data(), str.size());
 		}
 		static gxx::buffer on_string(const std::string& str) {
 			return gxx::buffer(str.data(), str.size());
-		}
+		}*/
 
 		template<typename T>
 		static gxx::buffer on_object(T& obj) {

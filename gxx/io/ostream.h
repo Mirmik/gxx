@@ -105,9 +105,9 @@ namespace gxx {
 				return write(buf.data(), buf.size());
 			}
 
-			int print(const std::string str) {
+			/*int print(const std::string str) {
 				return write(str.data(), str.size());
-			}
+			}*/
 
 			int print(const gxx::io::printable& obj);
 

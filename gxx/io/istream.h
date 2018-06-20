@@ -34,7 +34,7 @@ namespace gxx {
 			}
 
 
-			std::string readall() {
+			/*std::string readall() {
 				char buf[64];
 				std::string text;
 
@@ -44,7 +44,7 @@ namespace gxx {
 					text.append(buf, ret);
 				}
 				return text;
-			}
+			}*/
 
 
 		protected:

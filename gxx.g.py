@@ -38,6 +38,11 @@ module("gxx.syslock", impl="mutex",
 	sources = ["syslock_mutex.cpp"]
 )
 
+module("gxx.syslock", impl="genos.atomic",
+	srcdir = "gxx/impl",
+	sources = ["syslock_genos_atomic.cpp"]
+)
+
 module("gxx.panic", impl="abort",
 	srcdir = "gxx/impl",
 	sources = ["panic_abort.cpp"]
