@@ -11,5 +11,5 @@ void gxx::syslock::lock() {
 
 void gxx::syslock::unlock() {
 	--count;
-	if (count == 0) save = genos::hal::irqs::save();
+	if (count == 0) genos::hal::irqs::restore(save);
 }
