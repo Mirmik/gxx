@@ -2,6 +2,7 @@
 #define GXX_IO_ISTREAM_H
 
 #include <gxx/panic.h>
+#include <gxx/print.h>
 
 namespace gxx {
 	namespace io {
@@ -13,7 +14,9 @@ namespace gxx {
 
 			virtual int getchar() {
 				char c;
+				gxx::println("here5");
 				int ret = read(&c,1);
+				gxx::println("here6");
 				if (ret == -1 || ret == 0) return -1;
 				return c;
 			}
@@ -21,10 +24,13 @@ namespace gxx {
 			virtual int read_until(char* str, size_t max, char symb) {
 				int c;
 				char* strt = str;
+				gxx::println("here1");
 				do {
-          if ((size_t)(str - strt) >= max) { gxx::panic("read_until::more_than_max"); }
-
+					gxx::println("here2");
+          			if ((size_t)(str - strt) >= max) return max;
+					gxx::println("here3");
 					c = getchar();
+					gxx::println("here4");
                                         //dprln((int)c);
 					if (c == -1) break;
 					//dprhexln(c);

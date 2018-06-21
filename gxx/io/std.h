@@ -40,20 +40,27 @@ namespace gxx {
 			}
 		};
 
-		/*class std_istream : public gxx::io::istream, public std::istream {
+		class std_istream : public gxx::io::istream {
+		private:
+			std::istream& in;
+
 		public:
-			std_istream(std::basic_streambuf<char>* sb) : std::istream(sb) {}
+			std_istream(std::istream& i) : in(in) {}
 			int readData(char* ptr, size_t sz) override {
-				std::istream::read(ptr, sz);
-				return sz;
+
+				gxx::println("here7");
+				in.read(ptr, sz);
+
+				gxx::println("here8");
+				return in.gcount();
 			}
-		};*/
+		};
 
 
 		//std_ostream cout(std::cout.rdbuf());
 		extern std_ostream cout;
 		//extern std_ostream cerr;
-		//extern std_istream cin;
+		extern std_istream cin;
 	}
 }
 

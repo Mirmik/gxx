@@ -4,17 +4,17 @@
 #include <vector>
 
 class argvc_t {
-	std::vector<char*> vect;
+	std::vector<const char*> vect;
 
 public:
-	argvc_t(){}	
+	argvc_t(){}
 
 	//void internal_split(argvc_t* args, char* str, char dv = " ");
 	void internal_split(char* str, char dv = ' ') {
 		newarg_search:
 		while(*str == dv) ++str;
 		if (*str == 0) goto end;
-	
+
 		vect.push_back(str);
 		while(*str != dv && *str != 0) ++str;
 		if (*str == dv) { *str++ = 0; goto newarg_search; };
@@ -24,7 +24,7 @@ public:
 	};
 
 	int argc() { return vect.size(); }
-	char** argv() { return &vect[0]; }
+	const char** argv() { return &vect[0]; }
 };
 
 struct str_argvc_t : public argvc_t {

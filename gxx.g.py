@@ -26,7 +26,7 @@ module("gxx", "posix",
 module("gxx", "windows",
 	srcdir = "gxx",
 	sources = [
-		#"io/file_windows.cpp",
+		"io/file_windows.cpp",
 		"io/std.cpp",
 		"impl/panic_abort.cpp",
 		"util/string.cpp",
