@@ -10,7 +10,7 @@ namespace gxx {
 
 		void logger::log(level lvl, std::string&& msg) {
 			auto logmsg = std::allocate_shared<logmessage>(gxx::log::alloc);
-			logmsg->time = gxx::time::now();
+			//logmsg->time = gxx::time::now();
 			logmsg->message = std::move(msg);
 			logmsg->level = lvl;
 			logmsg->logger = this;

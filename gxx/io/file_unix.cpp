@@ -8,13 +8,13 @@ namespace gxx {
 	namespace io {
 
 		file::file(){}
-		file::file(const std::string& path, uint8_t mode) {
+		file::file(const char* path, uint8_t mode) {
 			open(path, mode);
 		}
 
 		file::file(int fd) : m_fd(fd) {}
 
-		bool file::open(const std::string& path, uint8_t mode) {
+		bool file::open(const char* path, uint8_t mode) {
 			//uint16_t flags = O_CREAT | O_NOCTTY;
 			uint16_t flags = O_CREAT | O_NOCTTY;
 			if (mode == gxx::io::NotOpen) return false;
@@ -23,7 +23,7 @@ namespace gxx {
 			if (mode & gxx::io::WriteOnly) flags |= O_WRONLY;
 			if (mode & gxx::io::Append) flags |= O_APPEND;
 			if (mode & gxx::io::Truncate) flags |= O_TRUNC;
-			m_fd = ::open(path.c_str(), flags, 0666);
+			m_fd = ::open(path, flags, 0666);
     		return true;
 		}
 

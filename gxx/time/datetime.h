@@ -1,7 +1,7 @@
 #ifndef GXX_TIME_TIMESTAMP_H
 #define GXX_TIME_TIMESTAMP_H
 
-#include <ctime>
+/*#include <ctime>
 
 namespace gxx { namespace time {
 	struct datetime {
@@ -14,6 +14,6 @@ namespace gxx { namespace time {
 		ret.native = *std::localtime(&time);
 		return ret;
 	}
-}}
+}}*/
 
 #endif

@@ -22,10 +22,10 @@ namespace gxx {
 		public:
 			file();
 			file(int fd);
-			file(const std::string& path, uint8_t mode = ReadWrite);
+			file(const char* path, uint8_t mode = ReadWrite);
 
 			//bool open(uint8_t mode);
-			bool open(const std::string& path, uint8_t mode = ReadWrite);
+			bool open(const char* path, uint8_t mode = ReadWrite);
 			void close();	
 
 			//int nodelay(bool en);

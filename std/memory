@@ -18,7 +18,11 @@ namespace std {
 		}
 
 		T* allocate(size_t n) {
-			return (T*)::operator new(n * sizeof(T));
+			return (T*) ::operator new(n * sizeof(T));
+		}
+
+		void deallocate(T* ptr) {
+			::operator delete(ptr);
 		}
 	};
 

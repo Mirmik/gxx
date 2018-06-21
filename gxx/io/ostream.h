@@ -9,6 +9,8 @@
 
 #include <gxx/debug/dprint.h>
 
+//#include <utility>
+
 namespace gxx {
 	namespace io {
 		class printable;
@@ -130,8 +132,8 @@ namespace gxx {
 			}*/
 
 			template<typename Arg>
-			int println(Arg&& arg) {
-				int ret = print(std::forward<Arg>(arg));
+			int println(const Arg& arg) {
+				int ret = print(arg);
 				return ret + write("\r\n", 2);
 			}
 

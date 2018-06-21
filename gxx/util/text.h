@@ -3,6 +3,7 @@
 
 #include <string>
 #include <gxx/print.h>
+#include <gxx/print/stdprint.h>
 
 /*def textblock(str):
 	return chr(27) + str + chr(27) + "[0m"

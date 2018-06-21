@@ -6,9 +6,9 @@
 #include <gxx/time/datetime.h>
 #include <gxx/log/manager.h>
 #include <gxx/log/base.h>
+
 #include <gxx/print.h>
 #include <vector>
-#include <memory>
 
 namespace gxx {
 	namespace log {

@@ -1,9 +1,7 @@
 #ifndef GXX_LOG_BASE_H
 #define GXX_LOG_BASE_H
 
-#include <string>
 #include <gxx/util/text.h>
-
 #include <gxx/time/datetime.h>
 
 namespace gxx { 
@@ -25,14 +23,14 @@ namespace gxx {
 			fault, 
 		};
 
-		static level level_from_string(std::string str) {
+		/*static level level_from_string(std::string str) {
 			if (str == "fault") return level::fault;
 			if (str == "error") return level::error;
 			if (str == "warn") return level::warn;
 			if (str == "info") return level::info;
 			if (str == "debug") return level::debug;
 			return level::trace;
-		}	
+		}*/	
 
 		static const char* level_to_string(level lvl) {
 			switch(lvl) {
@@ -57,7 +55,7 @@ namespace gxx {
 		}
 
 		struct logmessage {
-			gxx::time::datetime time;
+			//gxx::time::datetime time;
 			std::string message;
 			gxx::log::level level;
 			gxx::log::logger* logger;

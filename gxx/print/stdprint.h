@@ -10,7 +10,7 @@
 #include <set>
 #include <list>
 
-#include <typeinfo>
+//#include <typeinfo>
 
 namespace gxx {
 	template<typename T>
@@ -104,12 +104,12 @@ namespace gxx {
 		}
 	};
 
-	template<>
+	/*template<>
 	struct print_functions<std::type_info> {
 		static int print(gxx::io::ostream& o, std::type_info const& info) {
 			return gxx::print_to(o, info.name());
 		}
-	};
+	};*/
 }
 
 

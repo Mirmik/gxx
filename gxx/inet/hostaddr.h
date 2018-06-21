@@ -2,14 +2,8 @@
 #define GXX_INETADDR_H
 
 #include <ctype.h>
-#include <string>
-
-#include <gxx/util/string.h>
 #include <gxx/print.h>
-
-//#include <sys/socket.h>
-//#include <netinet/in.h>
-//#include <arpa/inet.h>
+#include <gxx/util/string.h>
 
 namespace gxx {
 	class hostaddr {

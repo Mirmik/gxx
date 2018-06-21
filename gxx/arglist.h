@@ -8,6 +8,7 @@
 //Таким образом visitable_arglist - это средство разграничения во времени многоаргументного
 //вызова и его исполнения.
 
+#include <memory>
 #include <utility>
 #include <assert.h>
 #include <gxx/buffer.h>

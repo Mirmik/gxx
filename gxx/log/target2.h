@@ -1,7 +1,6 @@
 #ifndef GXX_LOG_TARGET_H
 #define GXX_LOG_TARGET_H
 
-#include <memory>
 #include <gxx/log/base.h>
 #include <gxx/log/logger2.h>
 
@@ -16,10 +15,10 @@ namespace gxx {
 		};
 
 		struct stdout_target : public target {
-			std::string tmplt = "{logger} | {level} | {msg} |";
+			const char* tmplt = "{logger} | {level} | {msg} |";
 
 			void log(std::shared_ptr<logmessage> logmsg) override {
-				gxx::fprintln(tmplt.c_str(), 
+				gxx::fprintln(tmplt, 
 					"msg"_a=logmsg->message, 
 					"logger"_a=logmsg->logger->name,
 					"level"_a=level_to_string(logmsg->level));
@@ -27,10 +26,10 @@ namespace gxx {
 		};
 
 		struct colored_stdout_target : public target {
-			std::string tmplt = "{logger} | {level} | {msg} |";
+			const char* tmplt = "{logger} | {level} | {msg} |";
 
 			void log(std::shared_ptr<logmessage> logmsg) override {
-				gxx::fprintln(tmplt.c_str(), 
+				gxx::fprintln(tmplt, 
 					"msg"_a=logmsg->message, 
 					"logger"_a=logmsg->logger->name,
 					"level"_a=level_to_collored_string(logmsg->level));

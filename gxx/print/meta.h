@@ -4,19 +4,20 @@
 //Функции печати задаются с помощью специализации шаблонов структур для того, чтобы их можно было
 //подтягивать по всей программе.  
 #include <gxx/io/ostream.h>
+#include <gxx/util/booltype.h>
 
 namespace gxx {
 	template <typename T, typename U = int>
-	struct is_have_fmtPrintTo : std::false_type { };
+	struct is_have_fmtPrintTo : gxx::false_type { };
 
 	template <typename T>
-	struct is_have_fmtPrintTo <T, decltype((void) &T::fmtPrintTo, 0)> : std::true_type { };
+	struct is_have_fmtPrintTo <T, decltype((void) &T::fmtPrintTo, 0)> : gxx::true_type { };
 
 	template <typename T, typename U = int>
-	struct is_have_printTo : std::false_type { };
+	struct is_have_printTo : gxx::false_type { };
 
 	template <typename T>
-	struct is_have_printTo <T, decltype((void) &T::printTo, 0)> : std::true_type { };
+	struct is_have_printTo <T, decltype((void) &T::printTo, 0)> : gxx::true_type { };
 
 	namespace io { class ostream; }
 
