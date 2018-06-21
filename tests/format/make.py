@@ -12,11 +12,13 @@ application("main",
 	sources = ["main.cpp"],
 	include_paths = ["../.."],
 	modules = [
-		submodule("gxx", "posix"),
+		submodule("gxx", "windows"),
 		submodule("gxx.dprint", "stdout"),
 		submodule("gxx.print", "cout"),
 	],
-	cxx_flags = "-pedantic -Wall -Wextra -Wfloat-equal -Wundef -Wcast-align -Wwrite-strings -Wlogical-op -Wmissing-declarations -Wredundant-decls -Wshadow -Woverloaded-virtual",
+#	cxx_flags = "-pedantic -Wall -Wextra -Wfloat-equal -Wundef -Wcast-align 
+#-Wwrite-strings -Wlogical-op -Wmissing-declarations -Wredundant-decls -Wshadow 
+#-Woverloaded-virtual",
 )
 
 licant.ex(default = "main")

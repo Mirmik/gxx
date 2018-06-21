@@ -8,10 +8,10 @@ void debug_printhex_uint4(uint8_t b){
 }
 
 void debug_printhex_uint8 (uint8_t b){
-	debug_printhex_uint4((b & 0xF0)>>4);	
+	debug_printhex_uint4((b & 0xF0)>>4);
 	debug_printhex_uint4(b & 0x0F);
 }
-	
+
 void debug_printbin_uint8 (uint8_t b){
 	debug_putchar((b & 0x80) ? '1': '0');
 	debug_putchar((b & 0x40) ? '1': '0');
@@ -79,12 +79,12 @@ void debug_printdec_float(float a, int prec) {
 	debug_printdec_double((double)a, prec);
 }
 
-void debug_printdec_double(double a, int prec) {	
+void debug_printdec_double(double a, int prec) {
 	int64_t n = (int64_t) a;
 	debug_printdec_int64 ( n );
 	debug_putchar('.');
 	double o = a - n;
-	for(int _iteration = 0; _iteration < prec; ++_iteration ) 
+	for(int _iteration = 0; _iteration < prec; ++_iteration )
 		o *= 10;
 	o += 0.5;
 	debug_printdec_int64 ( o );
@@ -102,7 +102,7 @@ void debug_printdec_double(double a, int prec) {
 #endif
 
 void debug_printhex_ptr(void* v) {
-	#if __WORDSIZE == 8 
+	#if __WORDSIZE == 8
 		debug_printhex_uint8 ((uint8_t )v);
 	#elif __WORDSIZE == 16
 		debug_printhex_uint16((uint16_t)v);
@@ -111,41 +111,41 @@ void debug_printhex_ptr(void* v) {
 	#elif __WORDSIZE == 64
 		debug_printhex_uint64((uint64_t)v);
 	#else
-        //#error "Wrong __WORDSIZE"
-        debug_printhex_uint32((uint32_t)v);
-    #endif
+  //#	error "Wrong __WORDSIZE"
+		debug_printhex_uint32((uint64_t)v);
+  #endif
 }
-	
 
 
-int debug_strlen(const char *c) {	
+
+int debug_strlen(const char *c) {
 	int i;
 	for(i=0;c[i]!=0;i++);
 	return i;
 }
 
-void debug_print(const char *c) {	
-	debug_write((char*)c, debug_strlen(c));	
+void debug_print(const char *c) {
+	debug_write((char*)c, debug_strlen(c));
 }
 
-void debug_print_line() {	
-	debug_putchar('\r');	
+void debug_print_line() {
+	debug_putchar('\r');
 	debug_putchar('\n');
 }
 
 void debug_print_bool(uint8_t b) {
-	debug_print(b ? "true" : "false");	
+	debug_print(b ? "true" : "false");
 }
 
 void debug_print_bool_num(uint8_t b) {
-	debug_putchar(b ? '1' : '0');	
+	debug_putchar(b ? '1' : '0');
 }
 
 void debug_print_test() {
 	debug_putchar('G');
 	debug_printhex_uint32(0xABCDEF00);
 	debug_putchar('\n');debug_putchar('\r');
-	debug_print("DEBUG_print_TEST\n\r");		
+	debug_print("DEBUG_print_TEST\n\r");
 }
 
 /*void debug_print_dump(const void* address, uint16_t size) {
@@ -153,23 +153,23 @@ void debug_print_test() {
 	//debug_printhex_uint16(size);
 	//while(1);
 
-	uint8_t* dump = (uint8_t*) address; 
+	uint8_t* dump = (uint8_t*) address;
 	uintptr_t addr_tmp = (uintptr_t) address;
 	uint32_t i = 0;
 	uint32_t mark = 0;
-	
+
 	for (i = 0; i < size; i++)
 	{
-		
+
 		if (mark == 0)
 		{
 			debug_printhex_uint32(addr_tmp);
 			debug_putchar(':');
 			debug_putchar(' ');
 		}
-		
+
 		debug_printhex_uint8(dump[i]);
-		
+
 		if ( mark == 7 )
 		{
 			debug_putchar('|');
@@ -180,7 +180,7 @@ void debug_print_test() {
 			debug_putchar('\n');
 			debug_putchar('\r');
 			mark = 0;
-			
+
 			addr_tmp += 0x10;
 		}
 		else
@@ -188,7 +188,7 @@ void debug_print_test() {
 			debug_putchar(' ');
 			mark++;
 		}
-	} 
+	}
 	debug_putchar('\n');
 	debug_putchar('\r');
 }*/
@@ -198,7 +198,7 @@ void debug_print_dump(const void *mem, uint16_t len)
 	unsigned int i, j;
 
 	const int HEXDUMP_COLS = 8;
-	
+
 	for(i = 0; i < len + ((len % HEXDUMP_COLS) ? (HEXDUMP_COLS - len % HEXDUMP_COLS) : 0); i++)
 	{
 		/* print offset */
@@ -208,7 +208,7 @@ void debug_print_dump(const void *mem, uint16_t len)
 			debug_printhex_ptr(i + (char*)mem);
 			debug_putchar(':');
 		}
- 
+
 		/* print hex data */
 		if(i < len)
 		{
@@ -219,7 +219,7 @@ void debug_print_dump(const void *mem, uint16_t len)
 		{
 			debug_print("   ");
 		}
-		
+
 		/* print ASCII dump */
 		if(i % HEXDUMP_COLS == (HEXDUMP_COLS - 1))
 		{
@@ -231,7 +231,7 @@ void debug_print_dump(const void *mem, uint16_t len)
 				}
 				else if(isprint(((char*)mem)[j])) /* printable char */
 				{
-					debug_putchar(0xFF & ((char*)mem)[j]);        
+					debug_putchar(0xFF & ((char*)mem)[j]);
 				}
 				else /* other char */
 				{
@@ -244,23 +244,23 @@ void debug_print_dump(const void *mem, uint16_t len)
 }
 
 void debug_print_dump_ascii(const void* address, uint16_t size) {
-	uint8_t* dump = (uint8_t*) address; 
+	uint8_t* dump = (uint8_t*) address;
 	uintptr_t addr_tmp = (uintptr_t) address;
 	uint32_t i = 0;
 	uint32_t mark = 0;
-	
+
 	for (i = 0; i < size; i++)
 	{
-		
+
 		if (mark == 0)
 		{
 			debug_printhex_uint32(addr_tmp);
 			debug_putchar(':');
 			debug_putchar(' ');
 		}
-		
+
 		debug_putchar(dump[i]);
-		
+
 		if ( mark == 7 )
 		{
 			debug_putchar(' ');
@@ -271,7 +271,7 @@ void debug_print_dump_ascii(const void* address, uint16_t size) {
 			debug_putchar('\n');
 			debug_putchar('\r');
 			mark = 0;
-			
+
 			addr_tmp += 0x10;
 		}
 		else
@@ -279,7 +279,7 @@ void debug_print_dump_ascii(const void* address, uint16_t size) {
 			debug_putchar(' ');
 			mark++;
 		}
-	} 
+	}
 	debug_putchar('\n');
 	debug_putchar('\r');
 }
@@ -397,7 +397,7 @@ uint64_t debug_asmlink_test_uint64_ret() {
 	debug_printhex_uint16(b);debug_putchar(':');
 	return 0xACAB;
 	}
-	
+
 	uint16_t debug_simple_test_uint16_1(uint16_t a)
 	{
 	debug_printhex_uint16(a);debug_putchar(':');
