@@ -2,6 +2,8 @@
 #define GENOS_DATASTRUCT_ARGV_H
 
 #include <vector>
+#include <stdlib.h>
+#include <string.h>
 
 class argvc_t {
 	std::vector<const char*> vect;

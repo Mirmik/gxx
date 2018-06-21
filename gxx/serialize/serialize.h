@@ -15,23 +15,23 @@ namespace gxx {
 	template <typename M, typename T>
 	struct is_have_serialize <M, T, decltype((void) &T::template serialize<M>, 0)> : std::true_type { };
 
-	template <typename M, typename T, bool HaveSerialize = true> 
+	template <typename M, typename T, bool HaveSerialize = true>
 	struct serialize_helper_basic {
 		static void serialize(M& keeper, const T& obj) {
 			obj.serialize(keeper);
 		}
-	
+
 		static void deserialize(M& keeper, T& obj) {
 			obj.deserialize(keeper);
 		}
 	};
 
-	template <typename M, typename T> 
+	template <typename M, typename T>
 	struct serialize_helper_basic<M,T,false> {
 		static void serialize(M& keeper, const T& obj) {
 			keeper.dump(obj);
 		}
-	
+
 		static void deserialize(M& keeper, T& obj) {
 			keeper.load(obj);
 		}
@@ -41,7 +41,7 @@ namespace gxx {
 		}
 	};
 
-	template <typename M, typename T> 
+	template <typename M, typename T>
 	struct serialize_helper : public serialize_helper_basic<M,T,is_have_serialize<M,T>::value> {};
 
 	template <typename M, typename T> inline void serialize(M& keeper, const T& obj) {
@@ -75,9 +75,9 @@ namespace gxx {
 		struct allocated_data {
 			T*& ptr;
 			S& sz;
-			A alloc;			
+			A alloc;
 			allocated_data(T*& ptr, S& sz, const A& alloc) : ptr(&ptr), sz(sz), alloc(alloc) {}
-			
+
 			template<typename R>
 			void serialize(R& r) const {
 				r.dump(sz);
@@ -98,27 +98,27 @@ namespace gxx {
 			void operator& (const T& obj) {
 				gxx::serialize(*this, obj);
 			}
-			
+
 			virtual void dump_data(const char* dat, uint16_t sz) = 0;
 			void do_data(const char* dat, uint16_t sz) { dump_data(dat, sz); }
-			
+
 			void dump(const char* dat, uint16_t sz) {
 				dump(sz);
 				dump_data(dat, sz);
 			}
-			
+
 			void dump(char i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(short i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(int i) { dump_data((char*)&i, sizeof(i)); }
-			void dump(long i) { dump_data((char*)&i, sizeof(i)); } 
+			void dump(long i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(unsigned char i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(unsigned short i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(unsigned int i) { dump_data((char*)&i, sizeof(i)); }
-			void dump(unsigned long i) { dump_data((char*)&i, sizeof(i)); } 
+			void dump(unsigned long i) { dump_data((char*)&i, sizeof(i)); }
                         void dump(unsigned long long i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(float i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(double i) { dump_data((char*)&i, sizeof(i)); }
-			void dump(long double i) { dump_data((char*)&i, sizeof(i)); } 
+			void dump(long double i) { dump_data((char*)&i, sizeof(i)); }
 
 			template<typename T>
 			void dump(const T& ref) {
@@ -132,7 +132,7 @@ namespace gxx {
 
 			void dump_data(const char* dat, uint16_t size) override {
 				sstr.append(dat, size);
-			} 
+			}
 
 			binary_string_writer(std::string& str) : sstr(str) {}
 		};
@@ -157,15 +157,15 @@ namespace gxx {
 			void load(char& i) { load_data((char*)&i, sizeof(i)); }
 			void load(short& i) { load_data((char*)&i, sizeof(i)); }
 			void load(int& i) { load_data((char*)&i, sizeof(i)); }
-			void load(long& i) { load_data((char*)&i, sizeof(i)); } 
+			void load(long& i) { load_data((char*)&i, sizeof(i)); }
 			void load(unsigned char& i) { load_data((char*)&i, sizeof(i)); }
 			void load(unsigned short& i) { load_data((char*)&i, sizeof(i)); }
 			void load(unsigned int& i) { load_data((char*)&i, sizeof(i)); }
-			void load(unsigned long& i) { load_data((char*)&i, sizeof(i)); } 
+			void load(unsigned long& i) { load_data((char*)&i, sizeof(i)); }
                         void load(unsigned long long& i) { load_data((char*)&i, sizeof(i)); }
 			void load(float& i) { load_data((char*)&i, sizeof(i)); }
 			void load(double& i) { load_data((char*)&i, sizeof(i)); }
-			void load(long double& i) { load_data((char*)&i, sizeof(i)); } 
+			void load(long double& i) { load_data((char*)&i, sizeof(i)); }
 
 			template<typename T>
 			void load(T&& ref) {
@@ -179,7 +179,7 @@ namespace gxx {
 
 			void load_data(char* dat, uint16_t size) override {
 				stream.read(dat, size);
-			} 
+			}
 
 			binary_string_reader(const std::string& str) : stream(str) {}
 		};
@@ -187,52 +187,52 @@ namespace gxx {
 
 
 
-	
-	template<typename Archive, typename ... Args> 
+
+	template<typename Archive, typename ... Args>
 	struct serialize_helper<Archive, std::tuple<Args...>> {
 		using Tuple = std::tuple<Args...>;
-		
+
 		template<typename std::size_t ... I>
 		static void tuple_serialize_helper(Archive& keeper, const Tuple& tpl, std::index_sequence<I...>) {
 			int ___[] = {
 				(gxx::serialize(keeper, std::get<I>(tpl)), 0) ...
 			};
 		}
-	
+
 		static void serialize(Archive& keeper, const Tuple& tpl) {
 			tuple_serialize_helper(keeper, tpl, std::index_sequence_for<Args...>{});
 		}
-	
+
 		template<typename std::size_t ... I>
 		static void tuple_deserialize_helper(Archive& keeper, Tuple& tpl, std::index_sequence<I...>) {
 			int ___[] = {
 				(gxx::deserialize(keeper, std::get<I>(tpl)), 0) ...
 			};
 		}
-	
+
 		static void deserialize(Archive& keeper, Tuple& tpl) {
 			tuple_deserialize_helper(keeper, tpl, std::index_sequence_for<Args...>{});
 		}
 	};
 
-	template<typename Archive> 
+	template<typename Archive>
 	struct serialize_helper<Archive, std::string> {
 		static void serialize(Archive& keeper, const std::string& str) {
-			gxx::serialize(keeper, gxx::buffer::from_string(str));
+			gxx::serialize(keeper, gxx::buffer(str.data(), str.size()));
 		}
-	
+
 		static void deserialize(Archive& keeper, std::string& str) {
 			gxx::panic("todo");
 		}
 	};
 
-	template<typename Archive, typename T> 
+	template<typename Archive, typename T>
 	struct serialize_helper<Archive, std::vector<T>> {
 		static void serialize(Archive& keeper, const std::vector<T>& vec) {
 			gxx::serialize(keeper, vec.size());
 			gxx::serialize(keeper, gxx::archive::data<T>{vec.data(), vec.size()});
 		}
-	
+
 		static void deserialize(Archive& keeper, std::vector<T>& vec) {
 			size_t sz;
 			gxx::deserialize(keeper, sz);

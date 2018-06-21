@@ -9,18 +9,18 @@ namespace gxx {
 	trent::~trent() {
 		invalidate();
 	}
-	
+
 	trent::trent() {}
-	
+
 	trent::trent(const trent& other) {
 		m_type = other.m_type;
 		switch(m_type) {
-			case trent::type::string: 
-				gxx::constructor(&m_str, other.m_str); 
+			case trent::type::string:
+				gxx::constructor(&m_str, other.m_str);
 				return;
             case trent::type::list:
 				gxx::constructor(&m_arr, other.m_arr);
-				return; 
+				return;
             case trent::type::dict:
 				gxx::constructor(&m_dict, other.m_dict);
                 return;
@@ -31,10 +31,10 @@ namespace gxx {
                 m_int = other.m_int;
 				return;
             case trent::type::nil:
-				return; 
-		}	
+				return;
+		}
 	}
-	
+
 	//trent::trent(const std::string& str) { init(str); }
 	//trent::trent(const char* str) { init(str); }
 	//trent::trent(const trent::type& t) { init(t); }
@@ -51,36 +51,36 @@ namespace gxx {
     //trent::trent(const unsigned int& i) { init(i); }
     //trent::trent(const unsigned long& i) { init(i); }
     //trent::trent(const unsigned long long& i) { init(i); }
-	
+
 	void trent::init(trent::type t) {
 		m_type = t;
 		switch(m_type) {
-			case trent::type::string: 
-				gxx::constructor(&m_str); 
+			case trent::type::string:
+				gxx::constructor(&m_str);
 				return;
             case trent::type::list:
 				gxx::constructor(&m_arr);
-				return; 
+				return;
             case trent::type::dict:
 				gxx::constructor(&m_dict);
                 return;
             case trent::type::integer:
             case trent::type::numer:
             case trent::type::nil:
-				return; 
+				return;
 		}
 	}
-	
+
 	void trent::init(const std::string& str) {
 		m_type = trent::type::string;
 		gxx::constructor(&m_str, str);
-	
+
 	}
-	
+
 	void trent::init(const char* str) {
 		m_type = trent::type::string;
 		gxx::constructor(&m_str, str);
-	
+
 	}
 
 	void trent::init(const float& n) { m_type = trent::type::numer; m_num = n; }
@@ -97,25 +97,25 @@ namespace gxx {
 	void trent::init(const unsigned int& n) { m_type = trent::type::integer; m_int = n; }
 	void trent::init(const unsigned long& n) { m_type = trent::type::integer; m_int = n; }
 	void trent::init(const unsigned long long& n) { m_type = trent::type::integer; m_int = n; }
-	
+
 	void trent::invalidate() {
 		switch(m_type) {
-			case trent::type::string: 
-				gxx::destructor(&m_str); 
+			case trent::type::string:
+				gxx::destructor(&m_str);
 				return;
             case trent::type::list:
 				gxx::destructor(&m_arr);
-				return; 
+				return;
             case trent::type::dict:
 				gxx::destructor(&m_dict);
-				return; 
+				return;
             case trent::type::nil:
             case trent::type::numer:
 				return;
 		}
         m_type = trent::type::nil;
 	}
-	
+
 	trent& trent::operator[](int i) {
         if (m_type != trent::type::list) init(trent::type::list);
 		if(m_arr.size() <= i) m_arr.resize(i + 1);
@@ -126,7 +126,7 @@ namespace gxx {
         if (m_type != trent::type::list) gxx::panic("wrong trent type");
 		return m_arr.at(key);
 	}
-	
+
 	trent& trent::operator[](const char* key) {
         if (m_type != trent::type::dict) init(trent::type::dict);
 		return m_dict[key];
@@ -178,7 +178,7 @@ namespace gxx {
         if(m_arr.size() <= i) gxx::panic("wrong trent list size");
 		return m_arr[i];
 	}
-	
+
 
         const trent& trent::operator[](const char* key) const {
         if (m_type != trent::type::dict) gxx::panic("wrong trent type");
@@ -200,10 +200,10 @@ namespace gxx {
         if (m_type != trent::type::dict) gxx::panic("wrong trent type");
 		return m_dict.at(std::string(key.data(), key.size()));
 	}
-	
+
 	bool trent::have(const std::string& str) const {
         if (m_type != trent::type::dict) gxx::panic("wrong trent type");
-		return m_dict.count(str) != 0; 
+		return m_dict.count(str) != 0;
 	}
 
     std::map<std::string, trent>& trent::as_dict() {
@@ -215,7 +215,7 @@ namespace gxx {
         if (m_type != trent::type::dict) gxx::panic("wrong_trent_type");
 		return m_dict;
 	}
-	
+
     std::vector<trent>& trent::as_list() {
         if (m_type != trent::type::list) init(trent::type::list);
 		return m_arr;
@@ -243,7 +243,7 @@ namespace gxx {
 		if (m_type != trent::type::string) gxx::panic("wrong_trent_type");
 		return m_str;
 	}
-	
+
 	const gxx::buffer trent::as_buffer() const {
 		if (m_type == trent::type::string) return gxx::buffer(m_str.data(), m_str.size());
 		return gxx::buffer();
@@ -306,7 +306,7 @@ namespace gxx {
 		}
 
 		for(const auto& p : m_dict) {
-			if (buf == gxx::buffer::on_string(p.first)) { 
+			if (buf == gxx::buffer(p.first.data(), p.first.size())) { 
 				return true;
 			}
 		}
@@ -317,7 +317,7 @@ namespace gxx {
 	trent::type trent::get_type() const {
 		return m_type;
 	}
-	
+
 	const char * trent::type_to_str() const {
 		switch(m_type) {
             case trent::type::string: 		return "string";
@@ -328,13 +328,13 @@ namespace gxx {
             case trent::type::nil:          return "nil";
 		}
 	}
-	
+
 	trent& trent::operator= (const trent& other) {
 		invalidate();
 		m_type = other.m_type;
 		switch(m_type) {
-			case trent::type::string: 
-				gxx::constructor(&m_str, other.m_str); 
+			case trent::type::string:
+				gxx::constructor(&m_str, other.m_str);
 				return *this;
             case trent::type::list:
 				gxx::constructor(&m_arr, other.m_arr);
@@ -349,29 +349,29 @@ namespace gxx {
                 m_int = other.m_int;
 				return *this;
             case trent::type::nil:
-				return *this; 
-		}	
+				return *this;
+		}
 	}
-	
+
 	trent& trent::operator= (const std::string& str) {
 		reset(str);
 		return *this;
 	}
-	
+
 	trent& trent::operator= (float num) {
 		reset(num);
 		return *this;
-	}	
+	}
 
 	trent& trent::operator= (double num) {
 		reset(num);
 		return *this;
-	}	
+	}
 
 	trent& trent::operator= (long double num) {
 		reset(num);
 		return *this;
-	}	
+	}
 
 	trent& trent::operator= (signed char i){
 		reset(i);
@@ -397,8 +397,8 @@ namespace gxx {
 		reset(i);
 		return *this;
 	}
-	
-	
+
+
 	trent& trent::operator= (unsigned char i){
 		reset(i);
 		return *this;
@@ -430,8 +430,8 @@ namespace gxx {
 			case trent::type::string: return -1;
             case trent::type::list: return m_arr.size();
             case trent::type::dict: return m_dict.size();
-		} 
-	}	
+		}
+	}
 
 	strlst trent::check_dict(strlst lst, check_type ct) {
         if (!is_dict()) return strlst();
@@ -444,7 +444,7 @@ namespace gxx {
 		for(auto k : _keys) {
 			keys.push_back(k);
 		}
-		
+
         lst.sort();
 		keys.sort();
 
@@ -452,14 +452,14 @@ namespace gxx {
 			case check_superset:
 				std::set_difference(
 					keys.begin(), keys.end(),
-					lst.begin(), lst.end(), 
+					lst.begin(), lst.end(),
 					std::inserter(retlist, retlist.begin())
 				);
 				break;
 
 			case check_subset:
 				std::set_difference(
-					lst.begin(), lst.end(), 
+					lst.begin(), lst.end(),
 					keys.begin(), keys.end(),
 					std::inserter(retlist, retlist.begin())
 				);
@@ -468,7 +468,7 @@ namespace gxx {
 			case check_equal:
 				std::set_symmetric_difference(
 					keys.begin(), keys.end(),
-					lst.begin(), lst.end(), 
+					lst.begin(), lst.end(),
 					std::inserter(retlist, retlist.begin())
 				);
 				break;
@@ -493,16 +493,16 @@ namespace gxx {
 
 		std::set_difference(
 			keys.begin(), keys.end(),
-			lst.begin(), lst.end(), 
+			lst.begin(), lst.end(),
 			std::inserter(ret.first, ret.first.begin())
 		);
-		
+
 		std::set_difference(
-			lst.begin(), lst.end(), 
+			lst.begin(), lst.end(),
 			keys.begin(), keys.end(),
 			std::inserter(ret.second, ret.second.begin())
 		);
-		
+
 		return ret;
 	}
 }

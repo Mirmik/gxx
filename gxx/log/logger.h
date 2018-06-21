@@ -4,6 +4,8 @@
 //#include <gxx/datastruct/dlist_head.h>
 #include <gxx/log/target.h>
 #include <gxx/print.h>
+#include <gxx/print/stdprint.h>
+
 
 #include <vector>
 //#include <string>
@@ -23,8 +25,8 @@ namespace gxx {
 			debug,
 			info,
 			warn,
-			error, 
-			fault, 
+			error,
+			fault,
 		};
 
 		static level level_from_string(std::string str) {
@@ -34,7 +36,7 @@ namespace gxx {
 			if (str == "info") return level::info;
 			if (str == "debug") return level::debug;
 			return level::trace;
-		}	
+		}
 
 		static const char* level_to_string(level lvl) {
 			switch(lvl) {
@@ -56,9 +58,9 @@ namespace gxx {
 
 		public:
 			dlist_head manage_link;
-			
+
 			void(*timestamp)(char* time, size_t maxlen) = standart_logger_timestamp;
-			
+
 			SETTER(set_timestamp_callback, timestamp);
 			CONSTREF_GETTER(timestamp_callback, timestamp);
 
@@ -91,8 +93,8 @@ namespace gxx {
 					if (timestamp != nullptr) timestamp(tstamp, 64);
 
 					std::string logmsg = gxx::format(
-						pattern.c_str(), 
-						"msg"_a=msg.c_str(), 
+						pattern.c_str(),
+						"msg"_a=msg.c_str(),
 						"logger"_a=logger_name,
 						"level"_a=log::level_to_string(lvl),
 						"time"_a=tstamp
@@ -153,7 +155,7 @@ namespace gxx {
 			inline void fault(Args&& ... args) {
 				log(level::fault, std::forward<Args>(args)...);
 			}
-		};		
+		};
 	}
 }
 

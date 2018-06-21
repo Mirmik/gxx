@@ -1,16 +1,13 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#ifdef __linux__
+#ifdef _WIN32
+#	include <winsock2.h>
+#	include <ws2tcpip.h>
+#else
 #	include <netinet/in.h>
 #	include <netinet/tcp.h>
 #	include <arpa/inet.h>
-#elif _WIN32
-#	include <winsock2.h>
-#	include <ws2tcpip.h>
-//typedef __socklen_t socklen_t;
-#else
-#	error("unsuported")
 #endif
 
 #include <errno.h>
@@ -51,11 +48,11 @@ int gxx::inet::socket::bind(gxx::inet::hostaddr haddr, int port, int family) {
 	struct sockaddr_in addr;
 	memset(&addr, 0, sizeof(addr));
 
-	addr.sin_family = family;    
+	addr.sin_family = family;
 	addr.sin_addr.s_addr = htonl(haddr.addr);  //INADDR_ANY = 0.0.0.0
 	addr.sin_port = htons(port);
 
-	return ::bind(fd, (sockaddr*) &addr, sizeof(struct sockaddr_in)); 
+	return ::bind(fd, (sockaddr*) &addr, sizeof(struct sockaddr_in));
 }
 
 int gxx::inet::socket::listen(int conn) {
@@ -75,13 +72,12 @@ int gxx::inet::socket::connect(gxx::inet::hostaddr haddr, int port, int family) 
 
 int gxx::inet::socket::close() {
 
-#ifdef __linux__
-	int ret = ::shutdown(fd, SHUT_RDWR);
-#elif _WIN32
+#ifdef _WIN32
 	int ret = ::shutdown(fd, SD_BOTH);
 #else
-#	error("unsuported")
+	int ret = ::shutdown(fd, SHUT_RDWR);
 #endif
+
 	ret = ::close(fd);
 	return ret;
 }
@@ -152,7 +148,7 @@ int gxx::inet::datagramm_socket::sendto(gxx::inet::hostaddr haddr, int port, con
 	struct sockaddr_in addr;
 	memset(&addr, 0, sizeof(addr));
 
-	addr.sin_family = PF_INET;    
+	addr.sin_family = PF_INET;
 	addr.sin_addr.s_addr = htonl(haddr.addr);  //INADDR_ANY = 0.0.0.0
 	addr.sin_port = htons(port);
 
@@ -163,7 +159,7 @@ int gxx::inet::datagramm_socket::ne_sendto(uint32_t ipaddr, uint16_t port, const
 	struct sockaddr_in addr;
 	memset(&addr, 0, sizeof(addr));
 
-	addr.sin_family = PF_INET;    
+	addr.sin_family = PF_INET;
 	addr.sin_addr.s_addr = ipaddr;  //INADDR_ANY = 0.0.0.0
 	addr.sin_port = port;
 
@@ -174,7 +170,7 @@ int gxx::inet::datagramm_socket::recvfrom(char* data, size_t maxsize, gxx::inet:
 	struct sockaddr_in si_other;
     socklen_t sz = sizeof(sockaddr_in);
 	int ret = ::recvfrom(fd, data, maxsize, 0, (sockaddr*) &si_other, &sz);
-	
+
 	if (ret < 0) {
 		return ret;
 		//gxx::println(strerror(errno));
@@ -188,14 +184,14 @@ gxx::inet::udp_socket::udp_socket() : datagramm_socket(AF_INET, SOCK_DGRAM, IPPR
 
 gxx::inet::udp_socket::udp_socket(gxx::inet::hostaddr addr, int port) : udp_socket() {
 	bind(addr, port);
-}  
+}
 
 int gxx::inet::udp_socket::bind(gxx::inet::hostaddr addr, int port) {
-	return socket::bind(addr, port, PF_INET);	
+	return socket::bind(addr, port, PF_INET);
 }
 
 gxx::inet::rdm_socket::rdm_socket() : datagramm_socket(AF_INET, SOCK_RDM, 0) {}
 
 gxx::inet::rdm_socket::rdm_socket(gxx::inet::hostaddr addr, int port) : rdm_socket() {
 	socket::bind(addr, port, PF_INET);
-}  
+}

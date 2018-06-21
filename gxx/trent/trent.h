@@ -35,7 +35,7 @@ namespace gxx {
 				gxx::constructor(&this->i32, std::stoi(str));
 			} else {
 				is_string = true;
-				gxx::constructor(&this->str, str); 
+				gxx::constructor(&this->str, str);
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace gxx {
 				gxx::constructor(&str, oth.str);
 			} else {
 				is_string = false;
-				gxx::constructor(&i32, oth.i32);				
+				gxx::constructor(&i32, oth.i32);
 			}
 		}
 
@@ -62,9 +62,9 @@ namespace gxx {
 	struct trent_path : public std::vector<trent_path_node>, public gxx::array_printable<trent_path> {
 	//: public gxx::array_printable<trent_path> {
 		//std::vector<trent_path_node> vec;
-		
+
 		trent_path(const std::string& path) : trent_path(path.c_str()) {}
-		
+
 		trent_path(const char* path) {
 			gxx::strvec svec = gxx::split(path, '/');
 			for (const auto& s : svec) {
@@ -155,7 +155,7 @@ namespace gxx {
 		void init(const unsigned long& i);
 		void init(const unsigned long long& i);
 
-		template <typename T>	
+		template <typename T>
 		void reset(T obj) {
 			invalidate();
 			init(obj);
@@ -189,19 +189,19 @@ namespace gxx {
 		trent& at(const gxx::buffer& key);
 		trent& at(const trent_path& path);
 
-		bool have(const std::string& key) const; 
+		bool have(const std::string& key) const;
 
 		std::map<std::string, trent>& as_dict();
 		const std::map<std::string, trent>& as_dict() const;
 		result<std::map<std::string, trent>&> as_dict_critical();
 		result<const std::map<std::string, trent>&> as_dict_critical() const;
-		
+
 		std::vector<trent>& as_list();
 		const std::vector<trent>& as_list() const;
 
 		result<std::vector<trent>&> as_list_critical();
 		result<const std::vector<trent>&> as_list_critical() const;
-		
+
 		numer_type as_numer() const;
 		numer_type as_numer_default(numer_type i) const;
 		result<numer_type> as_numer_critical() const;
@@ -216,7 +216,7 @@ namespace gxx {
 		string_type& as_string_default(string_type& str);
 		result<string_type&> as_string_critical();
 		result<const string_type&> as_string_critical() const;
-		
+
 
 		REFERENCE_GETTER(unsafe_numer, m_num);
 		REFERENCE_GETTER(unsafe_integer, m_int);
@@ -240,7 +240,7 @@ namespace gxx {
 		bool is_list() const		{ return m_type == type::list; }
 		bool is_dict() const        { return m_type == type::dict; }
 		bool is_string() const 		{ return m_type == type::string; }
-		
+
 		strlst check_dict(strlst lst, check_type ct);
 		std::pair<strlst,strlst> check_dict_symmetric(strlst lst);
 
@@ -277,10 +277,10 @@ namespace gxx {
 				case trent::type::integer:
 					os.print(unsafe_integer_const());
 					return 0;
-			
-				case trent::type::string: 
-					os.putchar('"'); 
-					os.print(unsafe_string_const());
+
+				case trent::type::string:
+					os.putchar('"');
+					gxx::print_to(os, unsafe_string_const());
 					os.putchar('"');
 					return 0;
 								case trent::type::list:
@@ -291,26 +291,26 @@ namespace gxx {
 						sep = true;
 					}
 					os.putchar(']');
-					return 0; 
+					return 0;
 								case trent::type::dict:
 					os.putchar('{');
 									for(auto& p : unsafe_dict_const()) {
 						if (sep) os.putchar(',');
 						os.putchar('"');
-						os.print(p.first);
+						gxx::print_to(os, p.first);
 						os.putchar('"');
 						os.putchar(':');
 						p.second.printTo(os);
 						sep = true;
 					}
 					os.putchar('}');
-					return 0; 
+					return 0;
 				case trent::type::nil:
 					os.print("nil");
 					return 0;
 			}
 
-		}	
+		}
 	};
 }
 
