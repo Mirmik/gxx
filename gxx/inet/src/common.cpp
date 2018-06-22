@@ -112,12 +112,18 @@ int gxx::inet::socket::recv(char* data, size_t size, int flags) {
 	return ::recv(fd, data, size, flags);
 }
 
+gxx::inet::tcp_server(gxx::inet::hostaddr addr, int port, int conn) {
+	this->init();
+	this->bind(addr, port);
+	this->listen(conn);
+}
+
 int gxx::inet::tcp_server::init() {
 	return socket::init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 }
 
-int gxx::inet::tcp_server::bind(int port) {
-	return socket::bind("0.0.0.0", port, PF_INET);
+int gxx::inet::tcp_server::bind(const gxx::hostaddr&, int port) {
+	return socket::bind(addr, port, PF_INET);
 }
 
 int gxx::inet::tcp_server::listen(int conn) {

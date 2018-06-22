@@ -8,12 +8,13 @@ namespace gxx {
 	namespace inet {
 		struct tcp_server : public inet::socket {
 			tcp_server() = default;
+
             //tcp_server(int port);
-            //tcp_server(gxx::inet::hostaddr addr, int port);
+            tcp_server(gxx::inet::hostaddr addr, int port, int conn = 10);
             //void listen(int port, int conn = 10);
 
             int init();
-            int bind(int port);
+            int bind(const gxx::hostaddr&, int port);
             int listen();
             int listen(int conn);
 

@@ -5,7 +5,7 @@
 namespace gxx {
 	namespace log {
 		void logger::link(target& tgt, level lvl) { targets.push_back(std::make_pair(&tgt,lvl)); }
-		
+
 		void logger::clear_targets() { targets.clear(); }
 
         void sync_logging(std::shared_ptr<logmessage> logmsg) {
@@ -22,10 +22,10 @@ namespace gxx {
 			logmsg->message = std::move(msg);
 			logmsg->level = lvl;
 			logmsg->logger = this;
-			
+
 			//if (syncmode) gxx::log::sync_logging(logmsg);
 			//else gxx::log::async_logging(logmsg);
-			gxx::log::sync_logging(logmsg);	
+			gxx::log::sync_logging(logmsg);
 		}
 	}
 }
