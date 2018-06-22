@@ -8,6 +8,14 @@ namespace gxx {
 		
 		void logger::clear_targets() { targets.clear(); }
 
+        void sync_logging(std::shared_ptr<logmessage> logmsg) {
+            auto plogger = logmsg->logger;
+
+            for (auto pr : plogger->targets) {
+                if (pr.second <= logmsg->level) pr.first->log(logmsg);
+            }
+        }
+
 		void logger::log(level lvl, std::string&& msg) {
 			auto logmsg = std::allocate_shared<logmessage>(gxx::log::alloc);
 			//logmsg->time = gxx::time::now();
@@ -18,14 +26,6 @@ namespace gxx {
 			//if (syncmode) gxx::log::sync_logging(logmsg);
 			//else gxx::log::async_logging(logmsg);
 			gxx::log::sync_logging(logmsg);	
-		}
-
-		void sync_logging(std::shared_ptr<logmessage> logmsg) {
-			auto plogger = logmsg->logger;
-
-			for (auto pr : plogger->targets) {
-				if (pr.second <= logmsg->level) pr.first->log(logmsg);
-			}
 		}
 	}
 }
