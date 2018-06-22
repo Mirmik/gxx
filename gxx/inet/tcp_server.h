@@ -10,11 +10,11 @@ namespace gxx {
 			tcp_server() = default;
 
             //tcp_server(int port);
-            tcp_server(gxx::inet::hostaddr addr, int port, int conn = 10);
+			tcp_server(const gxx::inet::hostaddr& addr, int port, int conn = 10);
             //void listen(int port, int conn = 10);
 
             int init();
-            int bind(const gxx::hostaddr&, int port);
+			int bind(const gxx::hostaddr& addr, int port);
             int listen();
             int listen(int conn);
 

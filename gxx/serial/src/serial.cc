@@ -412,3 +412,4 @@ bool Serial::getCD ()
 {
   return pimpl_->getCD ();
 }
+

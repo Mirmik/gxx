@@ -74,7 +74,7 @@ public:
 
   size_t
   available ();
-  
+
   bool
   waitReadable (uint32_t timeout);
 
@@ -176,6 +176,8 @@ public:
 
   void
   writeUnlock ();
+
+  int get_fd();
 
 protected:
   void reconfigurePort ();

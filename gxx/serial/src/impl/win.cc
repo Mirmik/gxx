@@ -642,5 +642,6 @@ Serial::SerialImpl::writeUnlock()
   }
 }
 
-#endif // #if defined(_WIN32)
+//int Serial::SerialImpl::get_fd() { return fd_; }
 
+#endif // #if defined(_WIN32)

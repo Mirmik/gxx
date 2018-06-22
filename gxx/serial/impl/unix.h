@@ -55,7 +55,7 @@ using serial::IOException;
 
 class MillisecondTimer {
 public:
-  MillisecondTimer(const uint32_t millis);         
+  MillisecondTimer(const uint32_t millis);
   int64_t remaining();
 
 private:
@@ -187,6 +187,8 @@ public:
 
   void
   writeUnlock ();
+
+  int get_fd();
 
 protected:
   void reconfigurePort ();

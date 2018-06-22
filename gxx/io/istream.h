@@ -14,31 +14,26 @@ namespace gxx {
 
 			virtual int getchar() {
 				char c;
-				gxx::println("here5");
-				int ret = read(&c,1);
-				gxx::println("here6");
+				int ret = readData(&c,1);
 				if (ret == -1 || ret == 0) return -1;
 				return c;
 			}
 
-			virtual int read_until(char* str, size_t max, char symb) {
+			virtual int read_until(char* str, size_t maxlen, char symb) {
 				int c;
 				char* strt = str;
-				gxx::println("here1");
 				do {
-					gxx::println("here2");
-          			if ((size_t)(str - strt) >= max) return max;
-					gxx::println("here3");
+					if ((size_t)(str - strt) >= maxlen) return maxlen;
 					c = getchar();
-					gxx::println("here4");
-                                        //dprln((int)c);
 					if (c == -1) break;
-					//dprhexln(c);
 					*str++ = (char)c;
 				} while(c != symb);
 				return str - strt;
 			}
 
+			int readline(char* str, size_t maxlen, char symb) {
+				return read_until(str, maxlen, symb);
+			}
 
 			/*std::string readall() {
 				char buf[64];
