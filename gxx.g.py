@@ -45,6 +45,18 @@ module("gxx.include",
 	include_paths = ["."]
 )
 
+module("gxx.util",
+	srcdir = "gxx",
+	sources = [
+		"util/string.cpp",
+		"util/base64.cpp",
+		"util/hexascii.cpp",
+		"util/numconvert.c",
+	],
+
+	include_paths = ["."]
+)
+
 module("gxx.atomic_section", impl="mutex",
 	srcdir = "gxx/impl",
 	sources = ["atomic_section_mutex.cpp"]
@@ -69,12 +81,21 @@ module("gxx.std",
 	include_paths = ["std"]
 )
 
+module("gxx.serial",
+	srcdir = "gxx",
+	sources = ["serial/src/impl/unix.cpp", "serial/src/serial.cpp"]
+)
+
 module("gxx.format",
 	sources = ["gxx/fmt/format.cpp"],
 )
 
 module("gxx.print", impl = "cout",
-	sources = ["gxx/print/print_cout.cpp"],
+	sources = ["gxx/print/src/impl/print_cout.cpp"],
+)
+
+module("gxx.print", impl = "dprint",
+	sources = ["gxx/print/src/impl/print_debug.cpp"],
 )
 
 module("gxx.parser",
@@ -85,7 +106,11 @@ module("gxx.log", impl = "posix",
 	sources = ["gxx/log/posix_timestamp.cpp", "gxx/log/targets/stdout.cpp"],
 )
 
-module("gxx.log2",
+module("gxx.log2", "stub",
+	sources = ["gxx/log/src/logger_stub.cpp"],
+)
+
+module("gxx.log2", "impl",
 	sources = ["gxx/log/src/logger.cpp", "gxx/log/src/synconly.cpp"],
 )
 
@@ -104,15 +129,6 @@ module("gxx.cxx_support",
 
 module("gxx.rabbit",
 	sources = ["gxx/rabbit/crvints.cpp"],
-)
-
-module("gxx.util",
-	srcdir = "gxx",
-	sources = [
-		#"util/string.cpp",
-		#"util/base64.cpp",
-		"util/numconvert.c"
-	],
 )
 
 module("gxx.inet", "posix",

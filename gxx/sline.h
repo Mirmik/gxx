@@ -11,12 +11,19 @@ namespace gxx {
 
 	public:
 		sline(gxx::buffer buf) : data(buf.data()), capacity(buf.size()), cursor(0) {}
+		sline(){}
 
 		void back(int n) {
 			cursor -= n;
 		}
 
 		void init() {
+			cursor = 0;
+		}
+
+		void init(gxx::buffer buf) {
+			data = buf.data();
+			capacity = buf.size();
 			cursor = 0;
 		}
 

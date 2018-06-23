@@ -10,6 +10,8 @@
 #include <gxx/print.h>
 #include <vector>
 
+#define WITHOUT_LOG 1
+
 namespace gxx {
 	namespace log {
 		class logger {
@@ -23,6 +25,8 @@ namespace gxx {
 			void link(target& tgt, level lvl);
 			void clear_targets();
 			void log(level lvl, std::string&& msg);
+
+#if WITHOUT_LOG != 1 
 
 			template <typename ... Args>
 			inline void log(level lvl, const char* fmt, Args&& ... args) {
@@ -63,6 +67,34 @@ namespace gxx {
 			inline void fault(Args&& ... args) {
 				log(level::fault, std::forward<Args>(args)...);
 			}
+
+#else 
+
+			template <typename ... Args>
+			inline void log(level lvl, const char* fmt, Args&& ... args) {}
+
+			template <typename ... Args>
+			inline void log(level lvl, std::string& fmt, Args&& ... args) {}
+
+			template <typename ... Args>
+			inline void trace(Args&& ... args) {}
+
+			template <typename ... Args>
+			inline void debug(Args&& ... args) {}
+
+			template <typename ... Args>
+			inline void info(Args&& ... args) {}
+
+			template <typename ... Args>
+			inline void warn(Args&& ... args) {}
+
+			template <typename ... Args>
+			inline void error(Args&& ... args) {}
+
+			template <typename ... Args>
+			inline void fault(Args&& ... args) {}
+
+#endif
 		};		
 	}
 }

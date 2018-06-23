@@ -30,8 +30,14 @@ namespace std {
 	T* addressof(T& arg) {
 		return reinterpret_cast<T*>( &const_cast<char&>( reinterpret_cast<const volatile char&>(arg) ) );
 	}
-}
 
-#include <shared.h>
+	template <typename T>
+	class shared_ptr {
+		T* ptr;
+
+	public:
+		T* operator-> (){ return ptr; }
+	};
+}
 
 #endif

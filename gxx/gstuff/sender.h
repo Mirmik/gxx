@@ -20,29 +20,33 @@ namespace gxx {
 			}
 	
 			void end_message() override {
-				out.putchar(crc);
+				put(crc);
 				out.putchar(gxx::gmsg::strt);
 			}
 	
 		protected:
+			void put(char c) {
+				switch(c) {
+					case gxx::gmsg::strt:
+						out.putchar(gxx::gmsg::stub);
+						out.putchar(gxx::gmsg::stub_strt);
+						break;
+	
+					case gxx::gmsg::stub:
+						out.putchar(gxx::gmsg::stub);
+						out.putchar(gxx::gmsg::stub_stub);
+						break;
+
+					default:
+						out.putchar(c);
+				}
+			} 
+
 			int writeData(const char* str, size_t sz) override {
 				while(sz--) {
 					char c = *str++;
 					strmcrc8(&crc, c);
-					switch(c) {
-						case gxx::gmsg::strt:
-							out.putchar(gxx::gmsg::stub);
-							out.putchar(gxx::gmsg::stub_strt);
-							break;
-	
-						case gxx::gmsg::stub:
-							out.putchar(gxx::gmsg::stub);
-							out.putchar(gxx::gmsg::stub_stub);
-							break;
-
-						default:
-							out.putchar(c);
-					}
+					put(c);
 				}
 			}
 		};

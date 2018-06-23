@@ -649,7 +649,7 @@ public:
   bool
   getCD ();
 
-	int get_fd();
+	int fd();
 
 private:
   // Disable copy constructors

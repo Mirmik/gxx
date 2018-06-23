@@ -14,7 +14,7 @@
 #ifdef _WIN32
 #include "gxx/serial/impl/win.h"
 #else
-#include "serial/impl/unix.h"
+#include "gxx/serial/impl/unix.h"
 #endif
 
 using std::invalid_argument;
@@ -411,5 +411,10 @@ bool Serial::getRI ()
 bool Serial::getCD ()
 {
   return pimpl_->getCD ();
+}
+
+int Serial::fd ()
+{
+  return pimpl_->fd() ;
 }
 
