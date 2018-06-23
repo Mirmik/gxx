@@ -34,4 +34,13 @@ namespace std {
 
 #include <shared.h>
 
+namespace std {
+	template <typename L>
+	struct lock_guard {
+		L& lock;
+		lock_guard(L& lock) : lock(lock) { lock.lock(); }
+		~lock_guard() { lock.unlock(); }
+	};
+}
+
 #endif
