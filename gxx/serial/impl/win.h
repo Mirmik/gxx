@@ -42,6 +42,7 @@
 #include "gxx/serial/serial.h"
 
 #include "windows.h"
+#include <cassert>
 
 namespace serial {
 
@@ -178,6 +179,10 @@ public:
   writeUnlock ();
 
   int get_fd();
+
+  int fd() {
+	  assert(0);
+  }
 
 protected:
   void reconfigurePort ();
