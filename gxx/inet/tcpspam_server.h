@@ -21,7 +21,7 @@ namespace gxx {
 	
 			int start(int port) {
 				inet::tcp_server::init();
-				inet::tcp_server::bind(port);
+				inet::tcp_server::bind("0.0.0.0", port);
 				inet::tcp_server::listen(10);
 				inet::tcp_server::nonblock(true);
 				return 0;
