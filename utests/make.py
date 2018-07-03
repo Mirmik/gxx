@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-from licant.cxx_modules import application, doit
+import licant
+from licant.cxx_modules import application
 from licant.modules import submodule, module
 from licant.libs import include
 
@@ -18,7 +19,7 @@ application("runtests",
 
 	include_paths = ["."],
 	include_modules = [
-		submodule("gxx"),
+		submodule("gxx", "posix"),
 		submodule("gxx.print", "cout"),
 		submodule("gxx.dprint", "cout"),
 	],
@@ -26,4 +27,4 @@ application("runtests",
 	libs = ["gtest", "gmock", "pthread"]
 )
 
-doit("runtests")
+licant.ex("runtests")

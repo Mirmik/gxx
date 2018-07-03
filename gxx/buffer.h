@@ -26,8 +26,16 @@ namespace gxx {
 			return (sz == other.sz) && (strncmp(buf, other.buf, sz < other.sz ? sz : other.sz) == 0);
 		}
 
+		bool operator!=(const buffer& other) const {
+			return (sz != other.sz) || (strncmp(buf, other.buf, sz < other.sz ? sz : other.sz) != 0);
+		}
+
 		bool operator==(const char* str) {
 			return strncmp(buf, str, sz) == 0;
+		}
+
+		bool operator!=(const char* str) {
+			return strncmp(buf, str, sz) != 0;
 		}
 
 		char& operator[](size_t num) {

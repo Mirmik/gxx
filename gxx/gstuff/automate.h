@@ -26,13 +26,21 @@ namespace gxx {
 		public:
 			ACCESSOR(debug_mode, _debug);
 			automate(gxx::buffer buf) : line(buf) {}
+			automate(){}
 	
 			void init() {
 				crc = 0xFF;
 				line.init();
 			}
+
+			void init(gxx::buffer buf) {
+				crc = 0xFF;
+				line.init(buf);
+			}
 	
 			void invoke_callback() {
+				if(_debug) gxx::println("callback_invoked");
+
 				//Убираем символ контрольной суммы из строки.
 				line.back(1);
 
@@ -50,7 +58,9 @@ namespace gxx {
 			}
 	
 			void newchar(char c) {
-				if (_debug) dprln("packager::newchar", c, (int) c);
+				//dprhexln(c);
+
+				if (_debug) {dpr("packager::newchar "); dpr(c); dpr("\t"); dprhexln(c);}
 				switch (state) {
 					case 0:
 						if (c == gxx::gmsg::strt) {
@@ -63,7 +73,7 @@ namespace gxx {
 							case gxx::gmsg::strt:
 								if (line.size() == 0) break;
 								if (crc != 0) { 
-									dprln("packager::crc_error:", crc);\
+									dprln("packager::crc_error:", crc);
 								}
 								else invoke_callback();
 								init();
@@ -88,6 +98,7 @@ namespace gxx {
 								break;
 							default:
 								dpr("packager::stub_error: ");
+								//exit(-1);
 								dprhexln(c);
 								setstate(0);
 						}				

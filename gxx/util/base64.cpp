@@ -61,7 +61,7 @@ namespace gxx {
 				char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
 				
 				for (i = 0; (i < 3); i++)
-						ret += char_array_3[i];
+					ret += char_array_3[i];
 				i = 0;
 			}
 		}

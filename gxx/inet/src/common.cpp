@@ -112,7 +112,7 @@ int gxx::inet::socket::recv(char* data, size_t size, int flags) {
 	return ::recv(fd, data, size, flags);
 }
 
-gxx::inet::tcp_server::tcp_server(const gxx::hostaddr& addr, int port, int conn) {
+gxx::inet::tcp_server::tcp_server(const gxx::inet::hostaddr& addr, int port, int conn) {
 	this->init();
 	this->bind(addr, port);
 	this->listen(conn);

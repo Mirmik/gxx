@@ -1,0 +1,21 @@
+#ifndef GXX_STD_STRING_H
+#define GXX_STD_STRING_H
+
+#include <cstdint>
+#include <cstdlib>
+
+namespace std {
+	class string {
+	public:
+		char* data() const;
+		const char* c_str() const;
+		size_t size() const;
+
+		void resize(size_t sz);
+		void append(const char* dt, size_t sz);
+
+		char& operator[](int i);
+	};
+}
+
+#endif

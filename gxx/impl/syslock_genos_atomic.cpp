@@ -2,7 +2,7 @@
 #include <genos/hal/irqs.h>
 
 static arch::irqs::save_t save;
-static int count;
+static int count = 0;
 
 void gxx::syslock::lock() {
 	if (count == 0) save = genos::hal::irqs::save();

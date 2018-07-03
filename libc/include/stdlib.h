@@ -77,6 +77,8 @@ extern unsigned long long int strtoull(const char *nptr, char **endptr, int base
 
 extern long long int strtoll(const char *nptr, char **endptr, int base);
 
+extern char *ltoa(long N, char *str, int base);
+
 /**
  * Convert integer to string.
  * Converts an integer value to a null-terminated string using the specified base and stores the result in the array given by buf parameter.
