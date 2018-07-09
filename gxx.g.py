@@ -6,20 +6,33 @@ scriptq.execute("std/std.g.py")
 scriptq.execute("gxx/debug/debug.g.py")
 scriptq.execute("gxx/diag/diag.g.py")
 
+module("gxx.util_sources",
+	srcdir = "gxx",
+	sources = [
+		"util/string.cpp",
+		"util/base64.cpp",
+		"util/hexascii.cpp",
+		"util/numconvert.c",
+		"util/hexer.c",
+	],
+)
+
 module("gxx", "posix",
 	srcdir = "gxx",
 	sources = [
 		"io/file_unix.cpp",
 		"io/std.cpp",
 		"impl/panic_abort.cpp",
+		"osutil/src/posix.cpp",
+		"path/path.cpp",
 		"util/string.cpp",
 		"util/base64.cpp",
 		"util/hexascii.cpp",
 		"util/numconvert.c",
-		"osutil/src/posix.cpp",
-		"path/path.cpp",
+		"util/hexer.c",
 	],
 
+	#include_modules = ["gxx.util_sources"],
 	include_paths = ["."]
 )
 
@@ -29,14 +42,16 @@ module("gxx", "windows",
 		"io/file_windows.cpp",
 		"io/std.cpp",
 		"impl/panic_abort.cpp",
+		#"osutil/src/windows.cpp",
+		"path/path.cpp",
 		"util/string.cpp",
 		"util/base64.cpp",
 		"util/hexascii.cpp",
 		"util/numconvert.c",
-		#"osutil/src/windows.cpp",
-		"path/path.cpp",
+		"util/hexer.c",
 	],
 
+	#include_modules = ["gxx.util_sources"],
 	include_paths = ["."]
 )
 
@@ -52,6 +67,7 @@ module("gxx.util",
 		"util/base64.cpp",
 		"util/hexascii.cpp",
 		"util/numconvert.c",
+		"util/hexer.c",
 	],
 
 	include_paths = ["."]
