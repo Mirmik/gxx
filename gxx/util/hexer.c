@@ -2,6 +2,7 @@
 #include <gxx/util/asciiconvert.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <string.h>
 
 int hexer(uint8_t* dst, size_t maxsz, const char* src, size_t srcsz) {
 	const char* it = src;
@@ -58,4 +59,8 @@ int hexer(uint8_t* dst, size_t maxsz, const char* src, size_t srcsz) {
 	}
 
 	return sz;
+}
+
+int hexer_s(uint8_t* dst, size_t maxsz, const char* src) { 
+	return hexer(dst, maxsz, src, strlen(src));
 }
