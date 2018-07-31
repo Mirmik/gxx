@@ -45,13 +45,9 @@ namespace gxx {
 			std::istream& in;
 
 		public:
-			std_istream(std::istream& i) : in(in) {}
+			std_istream(std::istream& in) : in(in) {}
 			int readData(char* ptr, size_t sz) override {
-
-				gxx::println("here7");
 				in.read(ptr, sz);
-
-				gxx::println("here8");
 				return in.gcount();
 			}
 		};

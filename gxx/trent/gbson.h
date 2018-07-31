@@ -14,15 +14,21 @@ namespace gxx {
 	static constexpr unsigned char gbson_list_type = 3;
 	static constexpr unsigned char gbson_dict_type = 4;
 
-    namespace gbson {
-        using namespace result_type;
+	namespace gbson {
+		using namespace result_type;
 
-        void dump(const trent& tr, gxx::io::ostream& os);
-        inline void dump(const trent& tr, gxx::io::ostream&& os) { dump(tr, os); }
+		void dump(const trent& tr, gxx::io::ostream& os);
+		inline void dump(const trent& tr, gxx::io::ostream&& os) { dump(tr, os); }
 
-        result<trent> parse(gxx::io::istream& is);
-        static inline result<trent> parse(gxx::io::istream&& is) { return parse(is); };
-    }
+		void dump(const trent& tr, std::ostream& os);
+		inline void dump(const trent& tr, std::ostream&& os) { dump(tr, os); }
+
+		result<trent> parse(gxx::io::istream& is);
+		static inline result<trent> parse(gxx::io::istream&& is) { return parse(is); };
+	
+		result<trent> parse(std::istream& is);
+		static inline result<trent> parse(std::istream&& is) { return parse(is); };
+	}
 }
 
 #endif // GBSON_H
