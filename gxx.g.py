@@ -30,6 +30,7 @@ module("gxx", "posix",
 		"util/hexascii.cpp",
 		"util/numconvert.c",
 		"util/hexer.c",
+		"impl/trace.cpp"
 	],
 
 	#include_modules = ["gxx.util_sources"],
