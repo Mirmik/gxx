@@ -1,50 +1,21 @@
-#include <iostream>
-#include <gxx/serialize/gbson.h>
-#include <gxx/serialize/json.h>
-
-#include <string>
-#include <gxx/io/bufwriter.h>
-#include <gxx/io/bufreader.h>
-
-#include <gxx/gstuff/sender.h>
-#include <gxx/debug/debug_ostream.h>
+#include <gxx/trent/gbson.h>
 
 int main() {
-    char nbuf[128];
+    gxx::trent tr;
 
-    gxx::io::bufwriter writer(nbuf);
+    tr["a"] = 4;
+    tr["b"] = std::string("mir");
+    tr["c"][0] = 25;
+    tr["c"][1] = std::string("HelloWorld");
 
-    gxx::trent tr(gxx::trent::type::array);
-    gxx::trent::array_type& arr = tr.unsafe_array();
-    arr.reserve(4);
-    arr.push_back(22);
-    //arr.push_back((float)2.0);
-    arr.push_back(280);
-    arr.push_back(4);
+    char buf[128];
 
-    gxx::gbson::dump(tr, writer);
+    int ret = gxx::gbson::dump(tr, buf, 128);
+    gxx::println("ret: ", ret);
 
-    //writer.print("HelloWorld");
-    //writer.print("HelloWorld");
-    //writer.putchar(0);
-    debug_print_dump(nbuf, writer.size());
+    if (ret < 0) {
+        gxx::println("error in gbson parse");
+    }
 
-    auto res = gxx::gbson::parse(gxx::io::bufreader(nbuf));
-
-//dprln(res.unwrap()[0].as_integer());
-    gxx::json::pretty_print_to(res, std::cout);
-
-    dprln();
-
-    gxx::debug_ostream dout;
-    dout.hexmode(true);
-    gxx::gstuff::sender messenger(dout);
-
-    messenger.start_message();
-    messenger.println("HelloWorld");
-    messenger.end_message();
-
-    dprln();
-
-    return 0;
+    gxx::print_dump((const void*)buf, ret);
 }

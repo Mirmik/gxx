@@ -82,7 +82,7 @@ namespace gxx {
 
 	class trent {
 	public:
-		enum class type {
+		enum class type : uint8_t {
 			string,
 			list,
 			dict,

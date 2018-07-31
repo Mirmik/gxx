@@ -1,10 +1,91 @@
 #include <gxx/trent/gbson.h>
 #include <gxx/io/std.h>
 
-namespace gxx {
-	namespace gbson {
-		
-		void print_bytes(const gxx::buffer buf, gxx::io::ostream& os) {
+//namespace gxx {
+//	namespace gbson {
+
+static int dump_numer(const gxx::trent& tr, char* buffer, size_t maxlen) { 
+	long double d64 = tr.unsafe_numer_const();
+	*buffer++ = (uint8_t)gxx::gbson::type::numer;
+	memcpy(buffer, &d64, sizeof(d64));	
+	return 1 + sizeof(long double);
+}
+
+static int dump_integer(const gxx::trent& tr, char* buffer, size_t maxlen) { 
+	int64_t i64 = tr.unsafe_integer_const();
+	*buffer++ = (uint8_t)gxx::gbson::type::integer;
+	memcpy(buffer, &i64, sizeof(i64));	
+	return 1 + sizeof(int64_t);
+}
+
+static int dump_string(const gxx::trent& tr, char* buffer, size_t maxlen) { 
+	const auto& str = tr.unsafe_string_const();
+	*buffer++ = (uint8_t)gxx::gbson::type::string;
+	*buffer++ = (uint8_t)str.size();
+	memcpy(buffer, str.data(), str.size());	
+	return 2 + str.size();
+}
+
+static int dump_list(const gxx::trent& tr, char* buffer, size_t maxlen) {
+	const auto& list = tr.unsafe_list_const();
+	int ret = 2;
+
+	*buffer++ = (uint8_t)gxx::gbson::type::list;
+	*buffer++ = (uint8_t)list.size();	
+	
+	for (const auto& trent : list) {
+		int lret = gxx::gbson::dump(trent, buffer, maxlen - ret); 
+		if (lret < 0) return lret;
+		ret += lret;
+		buffer += lret;
+	}
+	return ret; 
+}
+
+static int dump_dict(const gxx::trent& tr, char* buffer, size_t maxlen) { 
+	const auto& dict = tr.unsafe_dict_const();
+	int ret = 2;
+
+	*buffer++ = (uint8_t)gxx::gbson::type::dict;
+	*buffer++ = (uint8_t)dict.size();	
+	
+	for (const auto& pair : dict) {
+		const auto& name = pair.first;
+		const auto& trent = pair.second;
+
+		*buffer++ = (uint8_t) name.size();
+		memcpy(buffer, name.data(), name.size());
+		buffer += name.size();
+
+		ret += 1 + name.size();
+
+		int lret = gxx::gbson::dump(trent, buffer, maxlen - ret); 
+		if (lret < 0) return lret;
+		ret += lret;
+		buffer += lret;
+	}
+	return ret; 
+}
+
+
+int gxx::gbson::dump(const gxx::trent& tr, char* buffer, size_t maxlen) {
+	int ret = 0;
+	gxx::trent::type type = tr.get_type();
+
+	gxx::println(tr.type_to_str());
+	switch(type) {
+		case gxx::trent::type::numer: ret = dump_numer(tr, buffer, maxlen); break;
+		case gxx::trent::type::integer: ret = dump_integer(tr, buffer, maxlen); break;
+		case gxx::trent::type::string: ret = dump_string(tr, buffer, maxlen); break;
+		case gxx::trent::type::list: ret = dump_list(tr, buffer, maxlen); break;
+		case gxx::trent::type::dict: ret = dump_dict(tr, buffer, maxlen); break;
+		default: return gxx::GBSON_INTERNAL_ERROR;
+	}
+
+	return ret;
+}	
+
+		/*void print_bytes(const gxx::buffer buf, gxx::io::ostream& os) {
 			os.putchar(gbson_bytes_type);
 			os.write((const char*)&buf.size(), 2);
 			os.write(buf.data(), buf.size());		
@@ -42,7 +123,7 @@ namespace gxx {
 			else
 				sz = 1;
 			os.putchar(sz);*/
-			os.write((const char*) &num, sizeof(num));
+	/*		os.write((const char*) &num, sizeof(num));
 		}
 
 		void dump(const trent& tr, gxx::io::ostream& os) {
@@ -116,6 +197,24 @@ namespace gxx {
 			auto ret = parse(iss);
 			return ret;
 		}
-		
-	}
-}
+
+
+
+		gxx::trent parse(const char* data, size_t size, int* sts) {
+			uint8_t type = *data++;
+			
+			switch (type) {
+				case gbson_numer_type:
+					return parse_numer(is);
+
+				case gbson_list_type:
+					return parse_list(is);
+
+				case gbson_dict_type:
+					dprln("dict_type");
+					break;
+			}
+
+			return ;
+		}
+*/	

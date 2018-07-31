@@ -2,18 +2,22 @@
 #coding: utf-8
 
 from licant.modules import submodule
-from licant.cxx_modules import application, doit
+from licant.cxx_modules import application
 
 from licant.scripter import scriptq
 scriptq.execute("../../gxx.g.py")
 
-application("main",
+import licant
+
+application("target",
 	sources = ["main.cpp"],
 	include_paths = ["../.."],
 	modules = [
 		submodule("gxx", "posix"),
-		submodule("gxx.dprint", "stdout"),
+		submodule("gxx.trent"),
+		submodule("gxx.dprint", "cout"),
+		submodule("gxx.print", "cout"),
 	]
 )
 
-doit("main")
+licant.ex("target")
