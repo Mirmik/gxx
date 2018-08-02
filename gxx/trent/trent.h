@@ -60,9 +60,6 @@ namespace gxx {
 	};
 
 	struct trent_path : public std::vector<trent_path_node>, public gxx::array_printable<trent_path> {
-	//: public gxx::array_printable<trent_path> {
-		//std::vector<trent_path_node> vec;
-
 		trent_path(const std::string& path) : trent_path(path.c_str()) {}
 
 		trent_path(const char* path) {
@@ -71,13 +68,6 @@ namespace gxx {
 				emplace_back(s);
 			}
 		}
-
-		/*auto begin() { return vec.begin(); }
-		auto end() { return vec.end(); }
-		auto begin() const { return vec.begin(); }
-		auto end() const { return vec.end(); }
-		size_t size() const { return vec.size(); }
-		trent_path_node& operator[](int i) { return vec[i]; }*/
 	};
 
 	class trent {
@@ -107,18 +97,17 @@ namespace gxx {
 		trent::type m_type = trent::type::nil;
 
 		union {
-				numer_type m_num;
-				integer_type m_int;
-				list_type m_arr;
-				dict_type m_dict;
-				string_type m_str;
+			numer_type m_num;
+			integer_type m_int;
+			list_type m_arr;
+			dict_type m_dict;
+			string_type m_str;
 		};
 
 	public:
 		~trent();
 		trent();
 		trent(const trent& other);
-		//trent(const trent::type& t);
 
 		inline trent(const std::string& str) { init(str); }
 		inline trent(const char* str) { init(str); }
@@ -309,7 +298,6 @@ namespace gxx {
 					os.print("nil");
 					return 0;
 			}
-
 		}
 	};
 }
