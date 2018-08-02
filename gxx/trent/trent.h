@@ -218,12 +218,11 @@ namespace gxx {
 		result<string_type&> as_string_critical();
 		result<const string_type&> as_string_critical() const;
 
-
-		REFERENCE_GETTER(unsafe_numer, m_num);
-		REFERENCE_GETTER(unsafe_integer, m_int);
-		REFERENCE_GETTER(unsafe_string, m_str);
-		REFERENCE_GETTER(unsafe_list, m_arr);
-		REFERENCE_GETTER(unsafe_dict, m_dict);
+		integer_type& unsafe_integer_const() { return m_int; }
+		numer_type& unsafe_numer_const() { return m_num; }
+		string_type& unsafe_string_const() { return m_str; }
+		list_type& unsafe_list_const() { return m_arr; }
+		dict_type& unsafe_dict_const() { return m_dict; }
 
 		const integer_type& unsafe_integer_const() const { return m_int; }
 		const numer_type& unsafe_numer_const() const { return m_num; }
