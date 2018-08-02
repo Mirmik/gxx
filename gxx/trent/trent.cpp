@@ -80,7 +80,10 @@ namespace gxx {
 	void trent::init(const char* str) {
 		m_type = trent::type::string;
 		gxx::constructor(&m_str, str);
+	}
 
+	void trent::init(gxx::buffer buf) {
+		init(std::string(buf.data(), buf.size()));
 	}
 
 	void trent::init(const float& n) { m_type = trent::type::numer; m_num = n; }
@@ -355,6 +358,11 @@ namespace gxx {
 
 	trent& trent::operator= (const std::string& str) {
 		reset(str);
+		return *this;
+	}
+
+	trent& trent::operator= (gxx::buffer buf) {
+		reset(buf);
 		return *this;
 	}
 

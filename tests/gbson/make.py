@@ -17,7 +17,7 @@ application("target",
 		submodule("gxx.trent"),
 		submodule("gxx.dprint", "cout"),
 		submodule("gxx.print", "cout"),
-	]
+	],
 )
 
 licant.ex("target")

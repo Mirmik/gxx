@@ -1,6 +1,8 @@
 #include <gxx/trent/gbson.h>
 #include <gxx/io/std.h>
 
+#include <gxx/trace.h>
+
 //namespace gxx {
 //	namespace gbson {
 
@@ -69,10 +71,9 @@ static int dump_dict(const gxx::trent& tr, char* buffer, size_t maxlen) {
 
 
 int gxx::gbson::dump(const gxx::trent& tr, char* buffer, size_t maxlen) {
-	int ret = 0;
+	int ret;
 	gxx::trent::type type = tr.get_type();
 
-	gxx::println(tr.type_to_str());
 	switch(type) {
 		case gxx::trent::type::numer: ret = dump_numer(tr, buffer, maxlen); break;
 		case gxx::trent::type::integer: ret = dump_integer(tr, buffer, maxlen); break;
@@ -84,6 +85,83 @@ int gxx::gbson::dump(const gxx::trent& tr, char* buffer, size_t maxlen) {
 
 	return ret;
 }	
+
+static int load_integer(gxx::trent& tr, char* buffer, size_t maxlen) {
+	gxx::println("load_integer");
+	tr = *(int64_t*)++buffer;
+	return 1 + sizeof(int64_t);
+}
+
+static int load_numer(gxx::trent& tr, char* buffer, size_t maxlen) {
+	gxx::println("load_numer");
+	tr = *(long double*)++buffer;
+	return 1 + sizeof(long double);
+	return 0;
+}
+
+static int load_string(gxx::trent& tr, char* buffer, size_t maxlen) {
+	gxx::println("load_string");
+	uint8_t slen = *++buffer;
+	char* sptr = ++buffer;
+	tr = gxx::buffer(sptr, slen);
+	return 2 + slen;
+}
+
+static int load_list(gxx::trent& tr, char* buffer, size_t maxlen) {
+	gxx::println("load_list");	
+	char* start = buffer++;
+	uint8_t size = *buffer++;
+
+	tr.init(gxx::trent::type::list);
+
+	for (int i = 0; i < size; ++i) {
+		int lret = gxx::gbson::load(tr[i], buffer, maxlen);
+		if (lret < 0) return lret;
+		buffer += lret;
+	}
+
+	return buffer - start;
+
+	return 0;
+}
+
+static int load_dict(gxx::trent& tr, char* buffer, size_t maxlen) {
+	gxx::println("load_dict");
+	char* start = buffer++;
+	uint8_t size = *buffer++;
+
+	tr.init(gxx::trent::type::dict);
+
+	for (int i = 0; i < size; ++i) {
+		uint8_t nlen = *buffer++;
+		char* nptr = buffer;
+		buffer += nlen;
+	
+		int lret = gxx::gbson::load(tr[gxx::buffer(nptr, nlen)], buffer, maxlen);
+		if (lret < 0) return lret;
+
+		buffer += lret;
+	}
+
+	return buffer - start;
+}
+
+int gxx::gbson::load(gxx::trent& tr, char* buffer, size_t maxlen) {
+	int ret;
+	gxx::gbson::type type = gxx::gbson::type(*buffer);
+
+	switch(type) {
+		case gxx::gbson::type::numer: ret = load_numer(tr, buffer, maxlen); break;
+		case gxx::gbson::type::integer: ret = load_integer(tr, buffer, maxlen); break;
+		case gxx::gbson::type::string: ret = load_string(tr, buffer, maxlen); break;
+		case gxx::gbson::type::list: ret = load_list(tr, buffer, maxlen); break;
+		case gxx::gbson::type::dict: ret = load_dict(tr, buffer, maxlen); break;
+		default: return gxx::GBSON_INTERNAL_ERROR;
+	}
+
+	return ret;
+
+}
 
 		/*void print_bytes(const gxx::buffer buf, gxx::io::ostream& os) {
 			os.putchar(gbson_bytes_type);

@@ -137,9 +137,10 @@ namespace gxx {
 		inline trent(const unsigned long& i) { init(i); }
 		inline trent(const unsigned long long& i) { init(i); }
 
-	private:
+	public:
 		void init(trent::type t);
 		void init(const std::string& str);
+		void init(gxx::buffer buf);
 		void init(const char* str);
 		void init(const float& i);
 		void init(const double& i);
@@ -247,6 +248,7 @@ namespace gxx {
 	public:
 		trent& operator= (const trent& other);
 		trent& operator= (const std::string& str);
+		trent& operator= (gxx::buffer buf);
 
 		trent& operator= (float num);
 		trent& operator= (double num);

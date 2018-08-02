@@ -15,7 +15,7 @@ namespace gxx {
 	static constexpr unsigned char gbson_list_type = 4;
 	static constexpr unsigned char gbson_dict_type = 5;*/
 
-	constexpr uint8_t GBSON_INTERNAL_ERROR = -10l;
+	constexpr int8_t GBSON_INTERNAL_ERROR = -10;
 
 	namespace gbson {
 		enum class type : uint8_t {
@@ -27,6 +27,8 @@ namespace gxx {
 		};
 
 		int dump(const gxx::trent& tr, char* buffer, size_t maxlen);
+		int load(	   gxx::trent& tr, char* buffer, size_t maxlen);
+
 
 		//using namespace result_type;
 
