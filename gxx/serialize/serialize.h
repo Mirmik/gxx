@@ -1,5 +1,5 @@
-#ifndef GXX__SERIALIZESERIALIZE_H
-#define GXX__SERIALIZESERIALIZE_H
+#ifndef GXX_SERIALIZE_SERIALIZE_H
+#define GXX_SERIALIZE_SERIALIZE_H
 
 #include <gxx/util/stub.h>
 #include <gxx/result.h>
@@ -52,10 +52,6 @@ namespace gxx {
 		serialize_helper<M,std::remove_cv_t<T>>::deserialize(keeper, obj);
 	}
 
-	//template <typename M, typename T> inline void serialize(M& keeper, T&& obj) {
-	//	serialize_helper<M,std::remove_cv_t<T>>::serialize(keeper, std::move(obj));
-	//}
-
 	template <typename M, typename T> inline void deserialize(M& keeper, T&& obj) {
 		serialize_helper<M,std::remove_cv_t<T>>::deserialize(keeper, std::move(obj));
 	}
@@ -70,27 +66,6 @@ namespace gxx {
 			data(const T* ptr, size_t sz) : ptr((T*)ptr), sz(sz) {}
 			template<typename R> void reflect(R& r) { r.do_data((char*)ptr, sz * sizeof(T)); }
 		};
-
-		/*template <typename T, typename S, typename A = std::allocator<T>>
-		struct allocated_data {
-			T*& ptr;
-			S& sz;
-			A alloc;
-			allocated_data(T*& ptr, S& sz, const A& alloc) : ptr(&ptr), sz(sz), alloc(alloc) {}
-
-			template<typename R>
-			void serialize(R& r) const {
-				r.dump(sz);
-				r.dump_data(ptr, sz * sizeof(T));
-			}
-
-			template<typename R>
-			void deserialize(R& r) {
-				r.load(sz);
-				ptr = alloc.allocate(sz);
-				r.dump_data(ptr, sz * sizeof(T));
-			}
-		};*/
 
 		class binary_serializer_basic {
 		public:
@@ -115,7 +90,7 @@ namespace gxx {
 			void dump(unsigned short i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(unsigned int i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(unsigned long i) { dump_data((char*)&i, sizeof(i)); }
-                        void dump(unsigned long long i) { dump_data((char*)&i, sizeof(i)); }
+			void dump(unsigned long long i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(float i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(double i) { dump_data((char*)&i, sizeof(i)); }
 			void dump(long double i) { dump_data((char*)&i, sizeof(i)); }
@@ -162,7 +137,7 @@ namespace gxx {
 			void load(unsigned short& i) { load_data((char*)&i, sizeof(i)); }
 			void load(unsigned int& i) { load_data((char*)&i, sizeof(i)); }
 			void load(unsigned long& i) { load_data((char*)&i, sizeof(i)); }
-                        void load(unsigned long long& i) { load_data((char*)&i, sizeof(i)); }
+			void load(unsigned long long& i) { load_data((char*)&i, sizeof(i)); }
 			void load(float& i) { load_data((char*)&i, sizeof(i)); }
 			void load(double& i) { load_data((char*)&i, sizeof(i)); }
 			void load(long double& i) { load_data((char*)&i, sizeof(i)); }
@@ -184,9 +159,6 @@ namespace gxx {
 			binary_string_reader(const std::string& str) : stream(str) {}
 		};
 	}
-
-
-
 
 	template<typename Archive, typename ... Args>
 	struct serialize_helper<Archive, std::tuple<Args...>> {
