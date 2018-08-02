@@ -225,12 +225,11 @@ namespace gxx {
 		REFERENCE_GETTER(unsafe_list, m_arr);
 		REFERENCE_GETTER(unsafe_dict, m_dict);
 
-		CONSTREF_GETTER(unsafe_numer_const, m_num);
-		CONSTREF_GETTER(unsafe_integer_const, m_int);
-		CONSTREF_GETTER(unsafe_string_const, m_str);
-		CONSTREF_GETTER(unsafe_list_const, m_arr);
-		CONSTREF_GETTER(unsafe_dict_const, m_dict);
-
+		const integer_type& unsafe_integer_const() const { return m_int; }
+		const numer_type& unsafe_numer_const() const { return m_num; }
+		const string_type& unsafe_string_const() const { return m_str; }
+		const list_type& unsafe_list_const() const { return m_arr; }
+		const dict_type& unsafe_dict_const() const { return m_dict; }
 
 		trent::type get_type() const;
 		const char * type_to_str() const;

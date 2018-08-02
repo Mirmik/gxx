@@ -82,20 +82,17 @@ int gxx::gbson::dump(const gxx::trent& tr, char* buffer, size_t maxlen) {
 }	
 
 static int load_integer(gxx::trent& tr, char* buffer, size_t maxlen) {
-	gxx::println("load_integer");
 	tr = *(int64_t*)++buffer;
 	return 1 + sizeof(int64_t);
 }
 
 static int load_numer(gxx::trent& tr, char* buffer, size_t maxlen) {
-	gxx::println("load_numer");
 	tr = *(long double*)++buffer;
 	return 1 + sizeof(long double);
 	return 0;
 }
 
 static int load_string(gxx::trent& tr, char* buffer, size_t maxlen) {
-	gxx::println("load_string");
 	uint8_t slen = *++buffer;
 	char* sptr = ++buffer;
 	tr = gxx::buffer(sptr, slen);
@@ -103,7 +100,6 @@ static int load_string(gxx::trent& tr, char* buffer, size_t maxlen) {
 }
 
 static int load_list(gxx::trent& tr, char* buffer, size_t maxlen) {
-	gxx::println("load_list");	
 	char* start = buffer++;
 	uint8_t size = *buffer++;
 
@@ -121,7 +117,6 @@ static int load_list(gxx::trent& tr, char* buffer, size_t maxlen) {
 }
 
 static int load_dict(gxx::trent& tr, char* buffer, size_t maxlen) {
-	gxx::println("load_dict");
 	char* start = buffer++;
 	uint8_t size = *buffer++;
 
