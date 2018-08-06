@@ -1,5 +1,0 @@
-Implementation("gxx.io", "unix", {
-	sources = {
-		cxx = "fdfile_unix.cpp"
-	}
-})
