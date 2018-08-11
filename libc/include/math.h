@@ -133,9 +133,9 @@ double      fabs(double);
 //float       fdimf(float, float);
 //long double fdiml(long double, long double);
 //
-//double      floor(double);
-//float       floorf(float);
-//long double floorl(long double);
+double      floor(double);
+float       floorf(float);
+long double floorl(long double);
 //
 //double      fma(double, double, double);
 //float       fmaf(float, float, float);
