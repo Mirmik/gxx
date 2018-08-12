@@ -17,11 +17,14 @@ namespace gxx {
 			void start_message() override {
 				out.putchar(gxx::gmsg::strt);
 				crc = 0xFF;
+
+				//dprhexln(gxx::gmsg::strt);
 			}
 	
 			void end_message() override {
 				put(crc);
 				out.putchar(gxx::gmsg::strt);
+				//dprhexln(gxx::gmsg::strt);
 			}
 	
 		protected:
@@ -30,15 +33,20 @@ namespace gxx {
 					case gxx::gmsg::strt:
 						out.putchar(gxx::gmsg::stub);
 						out.putchar(gxx::gmsg::stub_strt);
+						//dprhexln(gxx::gmsg::stub);
+						//dprhexln(gxx::gmsg::stub_strt);
 						break;
 	
 					case gxx::gmsg::stub:
 						out.putchar(gxx::gmsg::stub);
 						out.putchar(gxx::gmsg::stub_stub);
+						//dprhexln(gxx::gmsg::stub);
+						//dprhexln(gxx::gmsg::stub_stub);
 						break;
 
 					default:
 						out.putchar(c);
+						//dprhexln(c);
 				}
 			} 
 
