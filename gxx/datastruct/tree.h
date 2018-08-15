@@ -11,7 +11,7 @@
 
 #include <gxx/util/member.h>
 #include <gxx/util/macro.h>
-#include <gxx/datastruct/dlist_head.h>
+#include <gxx/datastruct/dlist.h>
 
 #define tree_element(link, element_type, link_member) \
 	(link == NULL ? NULL \

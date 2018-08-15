@@ -1,8 +1,9 @@
 #ifndef GENOS_dlist_H
 #define GENOS_dlist_H
 
-#include <gxx/datastruct/dlist_head.h>
+#include <gxx/datastruct/dlist.h>
 #include <gxx/util/member.h>
+#include <gxx/util/memberxx.h>
 
 namespace gxx {
 

@@ -8,7 +8,7 @@
 #ifndef CLOCK_T_DEF_H_
 #define CLOCK_T_DEF_H_
 
-#include "genos_configuration.h"
+//#include "genos_configuration.h"
 //#include "time.h"
 //#ifndef clock_t
 

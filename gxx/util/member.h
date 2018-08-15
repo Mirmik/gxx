@@ -6,14 +6,14 @@
 #include <gxx/util/decltypeof.h>
 #include <stddef.h>
 
-#ifndef __cplusplus
+//#ifndef __cplusplus
 #	define mcast_offsetof(type, member) \
 		offsetof(type, member)
-#else
-#include <gxx/util/memberxx.h>
-#	define mcast_offsetof(type, member) \
-		member_offset(&type::member)
-#endif
+//#else
+//#include <gxx/util/memberxx.h>
+//#	define mcast_offsetof(type, member) \
+//		member_offset(&type::member)
+//#endif
 
 /** typeof(foo.bar);  @a type is (an expr of) a struct or a union */
 #define member_typeof(type, member_nm) \
@@ -48,5 +48,7 @@
 		(type *) (__member_expr__ ?                             \
 			__member_expr__ - mcast_offsetof(type, member) : NULL); 	\
 	})
+
+#define member_cast_out(member_ptr, type, member) mcast_out(member_ptr, type, member)
 
 #endif /* UTIL_MEMBER_H_ */

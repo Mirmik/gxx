@@ -3,6 +3,7 @@ from licant.scripter import scriptq
 
 scriptq.execute("libc/libc.g.py")
 scriptq.execute("std/std.g.py")
+scriptq.execute("posix/posix.g.py")
 scriptq.execute("gxx/debug/debug.g.py")
 scriptq.execute("gxx/diag/diag.g.py")
 
