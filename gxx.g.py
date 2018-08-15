@@ -90,11 +90,11 @@ module("gxx.panic", impl="abort",
 	sources = ["panic_abort.cpp"]
 )
 
-#module("gxx.serial",
-#	srcdir = "gxx",
-#	sources = ["serial/src/impl/unix.cpp", "serial/src/serial.cpp"]
-#)
-#
+module("gxx.serial",
+	srcdir = "gxx",
+	sources = ["serial/src/impl/unix.cpp", "serial/src/serial.cpp"]
+)
+
 #module("gxx.format",
 #	sources = ["gxx/fmt/format.cpp"],
 #)

@@ -10,7 +10,7 @@
 #ifdef __TIME_T_TYPE
  typedef __TIME_T_TYPE time_t;
 #else
- typedef long time_t;
+ typedef long long time_t;
 #endif
 
 #endif /* TIME_T_DEF_H_ */

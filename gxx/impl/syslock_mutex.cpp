@@ -3,10 +3,14 @@
 
 std::recursive_mutex mtx;
 
-void gxx::syslock::lock() {
+__BEGIN_DECLS
+
+void system_lock() {
 	mtx.lock();
 }
 
-void gxx::syslock::unlock() {
+void system_unlock() {
 	mtx.unlock();
 }
+
+__END_DECLS

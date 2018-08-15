@@ -1,15 +1,19 @@
 #include <gxx/syslock.h>
-#include <genos/hal/irqs.h>
+#include <hal/irq.h>
 
-static arch::irqs::save_t save;
+static irqstate_t save;
 static int count = 0;
 
-void gxx::syslock::lock() {
-	if (count == 0) save = genos::hal::irqs::save();
+__BEGIN_DECLS
+
+void system_lock() {
+	if (count == 0) save = irqs_save();
 	++count;
 }
 
-void gxx::syslock::unlock() {
+void system_unlock() {
 	--count;
-	if (count == 0) genos::hal::irqs::restore(save);
+	if (count == 0) irqs_restore(save);
 }
+
+__END_DECLS
