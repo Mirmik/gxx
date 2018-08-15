@@ -1,4 +1,4 @@
-from licant.modules import module
+from licant.modules import module, submodule
 from licant.scripter import scriptq
 
 scriptq.execute("libc/libc.g.py")
@@ -25,15 +25,15 @@ module("gxx", "posix",
 	srcdir = "gxx",
 	sources = [
 		"datastruct/src/tree.c",
-		#"io/file_unix.cpp",
+		"io/file_unix.cpp",
 		"io/std.cpp",
 		"impl/panic_abort.cpp",
 		"osutil/src/posix.cpp",
-		#"path/path.cpp",
-		#"impl/trace.cpp"
+		"path/path.cpp",
+		"impl/trace.cpp"
 	],
 
-	include_modules = [ "gxx.include", "gxx.util" ],
+	include_modules = [ submodule("gxx.include"), submodule("gxx.util") ],
 )
 
 #module("gxx", "windows",
@@ -110,10 +110,10 @@ module("gxx.print", impl = "dprint",
 #	sources = ["gxx/parser/json_lex.cpp"],
 #)
 
-#module("gxx.log", impl = "posix",
-#	sources = ["gxx/log/posix_timestamp.cpp", "gxx/log/targets/stdout.cpp"],
-#)
-#
+module("gxx.log", impl = "posix",
+	sources = ["gxx/log/posix_timestamp.cpp", "gxx/log/targets/stdout.cpp"],
+)
+
 #module("gxx.log2", "stub",
 #	sources = ["gxx/log/src/logger_stub.cpp"],
 #)
