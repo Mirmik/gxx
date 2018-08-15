@@ -12,7 +12,7 @@ application("main",
 	sources = ["main.cpp"],
 	include_paths = ["../.."],
 	modules = [
-		submodule("gxx", "windows"),
+		submodule("gxx", "posix"),
 		submodule("gxx.dprint", "stdout"),
 		submodule("gxx.print", "cout"),
 	],

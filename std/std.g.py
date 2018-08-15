@@ -1,3 +1,3 @@
-module("gxx.cxxstd",
-	include_paths = "."	
+module("gxx.std",
+	include_paths = ["."]
 )

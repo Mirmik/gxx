@@ -1,4 +1,4 @@
-#include <gxx/trent/trent_checker.h>
+#include <gxx/trent/schema.h>
 
 int main() {
 	

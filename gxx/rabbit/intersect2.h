@@ -2,7 +2,7 @@
 #define GXX_RABBIT_INTERSET2_H
 
 #include <gxx/rabbit/topo2.h>
-#include <gxx/dlist.h>
+#include <gxx/container/dlist.h>
 
 #include <algorithm>
 #include <list>

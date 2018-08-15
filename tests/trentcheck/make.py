@@ -1,8 +1,9 @@
-#!/usr/bin/env	python
+#!/usr/bin/env	python3
 #coding: utf-8
 
+import licant
 from licant.modules import submodule
-from licant.cxx_modules import application, doit
+from licant.cxx_modules import application
 
 from licant.scripter import scriptq
 scriptq.execute("../../gxx.g.py")
@@ -19,4 +20,4 @@ application("main",
 	ld_flags = "-lX11"
 )
 
-doit("main")
+licant.ex("main")
