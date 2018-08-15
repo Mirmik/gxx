@@ -95,7 +95,7 @@ struct tree_link *tree_lookup_child(struct tree_link *node,
 
 	assert(node && predicate);
 
-	dlist_foreach_entry(link, &node->children, list_link) {
+	dlist_for_each_entry(link, &node->children, list_link) {
 		if (predicate(link, arg)) {
 			return link;
 		}

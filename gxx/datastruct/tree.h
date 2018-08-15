@@ -36,6 +36,8 @@ struct tree_link {
  */
 typedef int (*tree_predicate_t)(struct tree_link *link, void *arg);
 
+__BEGIN_DECLS
+
 /**
  * Initializes tree link.
  *
@@ -128,6 +130,8 @@ extern struct tree_link *tree_children_begin(struct tree_link *tree);
 extern struct tree_link *tree_children_end(struct tree_link *tree);
 
 extern struct tree_link *tree_children_next(struct tree_link *tree);
+
+__END_DECLS
 
 /**
  * Iteration on tree. Elements are links (without casting from links).

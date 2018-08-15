@@ -3,6 +3,7 @@
 
 //Макросы для работы со структурами. (упёрто у embox)
 
+#include <gxx/util/decltypeof.h>
 #include <stddef.h>
 
 #ifndef __cplusplus
