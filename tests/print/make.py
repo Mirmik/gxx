@@ -25,7 +25,9 @@ application("main",
 		submodule("gxx.dprint", "cout"),
 		submodule("gxx.print", "cout"),
 	],
-	binutils = bu,
+#	binutils = bu,
+
+	cc_flags="-std=gnu11"
 )
 
 licant.ex("main")

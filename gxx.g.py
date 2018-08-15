@@ -20,6 +20,7 @@ module("gxx.util_sources",
 module("gxx", "posix",
 	srcdir = "gxx",
 	sources = [
+		#"datastruct/src/tree.c",
 		"io/file_unix.cpp",
 		"io/std.cpp",
 		"impl/panic_abort.cpp",
