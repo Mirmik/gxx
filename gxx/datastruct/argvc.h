@@ -45,12 +45,12 @@ int argvc_internal_split(char* data, char** argv, int argcmax) {
 
 	newarg_search:
 	while(*data == ' ') ++data;
-	if (*str == 0 || argc >= argcmax) return argc;
+	if (*str == '\0' || argc >= argcmax) return argc;
 
 	argv[argc++] = data;
-	while(*data != ' ' && *data != 0) ++data;
+	while(*data != ' ' && *data != '\0') ++data;
 	if (*data == ' ') { 
-		*data++ = 0; 
+		*data++ = '\0'; 
 		goto newarg_search; 
 	};
 
