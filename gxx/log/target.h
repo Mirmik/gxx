@@ -1,7 +1,7 @@
 #ifndef GXX_LOGGER_TARGET_H
 #define GXX_LOGGER_TARGET_H
 
-#include <gxx/datastruct/dlist_head.h>
+#include <gxx/datastruct/dlist.h>
 #include <string>
 
 namespace gxx {
