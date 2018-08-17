@@ -16,6 +16,9 @@ namespace gxx {
 		void lock() { system_lock(); };
 		void unlock() { system_unlock(); };
 	};
+
+	using ::system_lock;
+	using ::system_unlock;	
 }
 #endif
 
