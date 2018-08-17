@@ -2,8 +2,7 @@
 #define GXX_SIMPLE_SHELL_H
 
 #include <gxx/datastruct/argvc.h>
-
-#define SSHELL_ARGCMAX 10
+#include <sys/cdefs.h>
 
 #define SSHELL_OK 0
 #define SSHELL_EMPTY_STRING -1
@@ -14,36 +13,15 @@ struct sshell_command {
 	int (*func) (int, char**);
 };
 
-int sshell_execute(char* str, const sshell_command* cmd, int cmdlen, int* retptr) {
-	char* argv[SSHELL_ARGCMAX];
-	int argc;
-	int res;
+__BEGIN_DECLS
 
-	if (*str == '\0') {
-		return SSHELL_EMPTY_STRING;
-	}
+int sshell_execute(char* str, const struct sshell_command* cmd, int cmdlen, int* retptr);
+int sshell_execute_safe(const char* str, const struct sshell_command* cmd, int cmdlen, int* retptr);
 
-	argc = argvc_internal_split(str, argv, SSHELL_ARGCMAX);
-
-	for(int i = 0; i < cmdlen; ++i) {
-		if (!strcmp(argv[0], cmd[i].name)) {
-			res = cmd[i].func(argc, argv);
-			if (retptr) *retptr = res;
-			return SSHELL_OK;
-		}
-	}
-
-	return SSHELL_FUNCTION_NOT_EXIST;
-}
-
-int sshell_execute_safe(const char* str, const sshell_command* cmd, int cmdlen, int* retptr) {
-	char locstr[strlen(str) + 1];
-	strcpy(locstr, str);
-	return sshell_execute(locstr, cmd, cmdlen, retptr);
-}
+__END_DECLS
 
 
-
+//TODO: убрать в пользу си версии
 #ifdef __cplusplus
 #include <gxx/event/delegate.h>
 

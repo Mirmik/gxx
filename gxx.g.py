@@ -15,6 +15,7 @@ module("gxx.util",
 		"util/hexascii.cpp",
 		"util/numconvert.c",
 		"util/hexer.c",
+		"impl/sshell.c",
 	],
 )
 
