@@ -40,7 +40,7 @@ struct str_argvc_t : public argvc_t {
 };
 #endif
 
-int argvc_internal_split(char* data, char** argv, int argcmax) {
+static inline int argvc_internal_split(char* data, char** argv, int argcmax) {
 	int argc = 0;
 
 	newarg_search:
