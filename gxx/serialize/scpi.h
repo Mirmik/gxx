@@ -43,19 +43,16 @@ namespace gxx {
 			reader.skip_while(" ,\n");
 			while(!reader.next_is("\0?"_b)) {
 				if (reader.next_is('\"')) {
-                                        reader.skip();
-                                        arguments.emplace_back(reader.string_while(gxx::chars_set_checker("\"\0", false)));
+					reader.skip();
+					arguments.emplace_back(reader.string_while(gxx::chars_set_checker("\"\0"_b, false)));
 					if (reader.next_is('\0')) return;
 					else reader.skip();
 				} else {
-                                        arguments.emplace_back(reader.string_while(gxx::chars_set_checker(" ,\0\n?", false)));
+					arguments.emplace_back(reader.string_while(gxx::chars_set_checker(" ,\0\n?"_b, false)));
 				}
 				reader.skip_while(" ,\n");
 			}
-	
 			if (reader.next_is('?')) is_question = true;
-
-                        //gxx::println(arguments);
 		}
 
 		size_t printTo(gxx::io::ostream& o) const {
