@@ -24,16 +24,16 @@ namespace gxx {
 			checker_type type;
 
 		public:
-                        schema_node& merge(const schema_node& oth) {
-                            if (type != dict_checker_type || oth.type != dict_checker_type) gxx::panic("SCHEMA: no dictionary merge");
-                            nodes.insert(oth.nodes.begin(), oth.nodes.end());
-                            return *this;
-                        }
+						schema_node& merge(const schema_node& oth) {
+							if (type != dict_checker_type || oth.type != dict_checker_type) gxx::panic("SCHEMA: no dictionary merge");
+							nodes.insert(oth.nodes.begin(), oth.nodes.end());
+							return *this;
+						}
 
-                        schema_node& merge(const schema& oth) {
-                            merge(oth.root);
-                            return *this;
-                        }
+						schema_node& merge(const schema& oth) {
+							merge(oth.root);
+							return *this;
+						}
 
 			schema_node(checker_type type) : type(type) {}
 			schema_node(const schema_node& oth) : nodes(oth.nodes), check_dict(oth.check_dict), type(oth.type), len(oth.len), _allopts(oth._allopts), _ifexist(oth._ifexist), _inset(oth._inset), _optional(oth._optional), _content(oth._content ? new schema_node(*oth._content) : nullptr) {}
@@ -227,9 +227,9 @@ namespace gxx {
 		schema_node root;
 		schema(const schema_node& root) : root(root) {}
 
-                void merge(const schema& oth) {
-                    root.merge(oth.root);
-                }
+		void merge(const schema& oth) {
+			root.merge(oth.root);
+		}
 	};
 }
 
