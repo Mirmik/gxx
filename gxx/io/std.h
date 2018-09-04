@@ -11,7 +11,7 @@ namespace gxx {
 		public:
 			std_string_writer(std::string& _str) : str(_str) {}
 		protected:
-			virtual int writeData(const char* ptr, size_t sz) {
+			int writeData(const char* ptr, size_t sz) override {
 				str.append(ptr, sz);
 				return sz;
 			}
@@ -22,7 +22,7 @@ namespace gxx {
 		public:
 			std_ostream_writer(std::ostream& _out) : out(_out) {}
 		protected:
-			virtual int writeData(const char* ptr, size_t sz) {
+			int writeData(const char* ptr, size_t sz) override {
 				out.write(ptr, sz);
 				return sz;
 			}

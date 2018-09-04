@@ -12,7 +12,7 @@ namespace gxx {
 		public:
 			ostringstream(std::string& _str) : str(_str) {}
 		protected:
-			virtual int writeData(const char* ptr, size_t sz) {
+			int writeData(const char* ptr, size_t sz) override {
 				str.append(ptr, sz);
 				return sz;
 			}

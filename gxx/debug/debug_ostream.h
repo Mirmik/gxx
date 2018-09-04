@@ -9,9 +9,9 @@ namespace gxx {
 		bool _hexmode = false;
 	public:
 		ACCESSOR(hexmode, _hexmode);
-
+		
 	protected:
-		int writeData(const char *data, size_t maxSize) {
+		int writeData(const char *data, size_t maxSize) override {
 			if (_hexmode) {
 				while(maxSize--) {
 					debug_printhex_uint8(*data++);
@@ -22,8 +22,6 @@ namespace gxx {
 			}
 			return maxSize;
 		}
-
-
 	};
 }
 

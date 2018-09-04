@@ -201,6 +201,10 @@ namespace gxx {
 			numer() : schema_node(numer_checker_type) {}
 		};
 
+		struct integer : public schema_node {
+			integer() : schema_node(numer_checker_type) {}
+		};
+
 		struct numer_or_string : public schema_node {
 			numer_or_string() : schema_node(numer_or_string_checker_type) {}
 		};

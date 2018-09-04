@@ -22,7 +22,7 @@ namespace gxx {
 		trent_settings_slice(gxx::trent_settings& stgs, const gxx::trent_path& path) 
 			: settings(stgs), path(path) {}
 		
-		void sync() {
+		void sync() override {
 			if (!settings.synced) {
 				settings.sync();
 			}
@@ -30,7 +30,7 @@ namespace gxx {
 			synced = true;
 		}
 
-		void save() {
+		void save() override {
 			settings.node()[path] = tr;
 			settings.save();
 		}

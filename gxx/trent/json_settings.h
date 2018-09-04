@@ -31,7 +31,7 @@ private:
 		}
 		
 public:
-		void sync() {
+		void sync() override {
 			load();
 		}
 
