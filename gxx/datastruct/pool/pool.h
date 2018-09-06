@@ -20,7 +20,7 @@ static inline void pool_engage(struct pool_head* pool, void* zone, size_t size) 
 	char* it = (char*)zone;
 
 	while(it < stop) {
-		slist_add((slist_head*)it, &pool->free_blocks);
+		slist_add_next((slist_head*)it, &pool->free_blocks);
 		it += pool->elemsz;
 	}
 }
@@ -30,7 +30,7 @@ static inline void* pool_alloc(struct pool_head* head) {
 }
 
 static inline void pool_free(struct pool_head* head, void* ptr) {
-	slist_add((slist_head*) ptr, &head->free_blocks);
+	slist_add_next((slist_head*) ptr, &head->free_blocks);
 }
 
 __END_DECLS

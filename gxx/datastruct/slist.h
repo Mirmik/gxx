@@ -24,7 +24,7 @@ static inline int slist_empty(struct slist_head* head) {
 	return head->next == head;
 } 
 
-static inline void slist_add(struct slist_head* link, struct slist_head* head) {
+static inline void slist_add_next(struct slist_head* link, struct slist_head* head) {
 	link->next = head->next;
 	head->next = link;
 }

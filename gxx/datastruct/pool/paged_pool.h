@@ -27,7 +27,7 @@ static inline void paged_pool_init(struct paged_pool_head* head, unsigned int el
 }
 
 static inline void paged_pool_engage(struct paged_pool_head* head, struct mempage_head* page) {
-	slist_add(&page->lnk, &head->pages);
+	slist_add_next(&page->lnk, &head->pages);
 	pool_engage(&head->pool, page->zone, page->size);
 }
 
