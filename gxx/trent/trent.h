@@ -81,12 +81,6 @@ namespace gxx {
 			nil,
 		};
 
-		using check_type = uint8_t;
-
-		static constexpr check_type check_subset = 0;
-		static constexpr check_type check_superset = 1;
-		static constexpr check_type check_equal = 2;
-
 		using numer_type = long double;
 		using integer_type = int64_t;
 		using list_type = std::vector<trent>;
@@ -229,8 +223,8 @@ namespace gxx {
 		bool is_dict() const        { return m_type == type::dict; }
 		bool is_string() const 		{ return m_type == type::string; }
 
-		strlst check_dict(strlst lst, check_type ct);
-		std::pair<strlst,strlst> check_dict_symmetric(strlst lst);
+		//strlst check_dict(strlst lst, check_type ct);
+		//std::pair<strlst,strlst> check_dict_symmetric(strlst lst);
 
 	public:
 		trent& operator= (const trent& other);
