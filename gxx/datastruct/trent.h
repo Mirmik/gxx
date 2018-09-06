@@ -47,8 +47,6 @@ static inline void trent_init_int(trent_t* tr, trent_t* parent, long long val) {
 }
 
 void trent_init_num(trent_t* tr, trent_t* parent, long double val);
-void trent_init_str_view(trent_t* tr, trent_t* parent, const char* ptr, size_t sz);
-void trent_init_str_copy(trent_t* tr, trent_t* parent, const char* ptr, size_t sz);
 void trent_init_str(trent_t* tr, trent_t* parent, const cstring* str);
 void trent_init_tabl(trent_t* tr, trent_t* parent, uint8_t tableType);
 

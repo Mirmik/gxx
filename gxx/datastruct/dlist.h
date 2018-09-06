@@ -1,9 +1,8 @@
 #ifndef GENOS_DLIST_HEAD
 #define GENOS_DLIST_HEAD
 
-#include <inttypes.h>
+//#include <inttypes.h>
 #include <sys/cdefs.h>
-
 #include <gxx/util/member.h>
 
 struct dlist_head {
@@ -33,10 +32,9 @@ static inline void dlist_init_list(struct dlist_head* head) {
 	head->prev = head;
 }
 
-static inline int8_t dlist_is_empty(const struct dlist_head* head) {
-	return head == head->next;
+static inline int dlist_empty(const struct dlist_head* head) {
+	return head->next == head;
 }
-#define dlist_empty(arg) dlist_is_empty(arg)
 
 static inline void __dlist_add(struct dlist_head *_new, struct dlist_head *next, struct dlist_head *prev) {
 	_new->prev = prev;

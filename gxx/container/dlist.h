@@ -67,7 +67,7 @@ namespace gxx {
 		}
 	
 		bool empty() {
-			return dlist_is_empty(&list);
+			return dlist_empty(&list);
 		};
 		
 		//Прилинковать первым в списке.
