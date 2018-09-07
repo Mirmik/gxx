@@ -146,6 +146,12 @@ module("gxx.inet", "posix",
 	sources = [ "common.cpp", "posix.cpp" ],
 )
 
+
+module("gxx.madgwick",
+	srcdir = "gxx/math",
+	sources = [ "madgwick.cpp" ],
+)
+
 #module("gxx.inet", "windows",
 #	srcdir = "gxx/inet/src",
 #	sources = [ "common.cpp", "windows.cpp" ],

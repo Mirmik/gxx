@@ -16,7 +16,7 @@ int sshell_execute(
 	int res;
 
 	if (*str == '\0') {
-		return ENOTSUP;
+		return ENOENT;
 	}
 
 	argc = argvc_internal_split(str, argv, SSHELL_ARGCMAX);
@@ -29,7 +29,7 @@ int sshell_execute(
 		}
 	}
 
-	return ENOTSUP;
+	return ENOENT;
 }
 
 int sshell_execute_safe(

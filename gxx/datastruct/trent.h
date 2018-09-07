@@ -8,62 +8,112 @@
 */
 
 #include <gxx/datastruct/dlist.h>
-#include <gxx/datastruct/cstring.h>
+#include <gxx/datastruct/buf.h>
+#include <gxx/panic.h>
+
+#include <string.h>
+#include <stdbool.h>
 
 enum TrentType {
 	TRENT_NIL = 0,
 	TRENT_INT = 1,
 	TRENT_NUM = 2,
 	TRENT_STR = 3,
-	TRENT_LIST = 4,
-	TRENT_DICT = 5,
-	TRENT_TABL = 6,
+	TRENT_BOOL = 4,
+
+	TRENT_TABL = 8,
+	TRENT_LIST = 9,
+	TRENT_DICT = 10,
 };
 
-typedef struct trent_s {
-	struct dlist_head lnk;
-	struct trent_s* parent;
-	struct cstring name;
-	uint8_t type;
+#define TRENT_TABL_MASK 0b1000
+
+struct trent_node {
+	struct dlist_head 	lnk;
+	struct trent_node* 	parent;
+	struct cbuf_s 		name;
+	uint8_t 			type;
 
 	union {
 		long long 			m_int;
 		long double 		m_num;
-		struct cstring  	m_str;
+		struct cbuf_s   	m_str;
 		struct dlist_head 	m_childs;
 	};
-} trent_t;
+};
 
-static inline void trent_init(trent_t* tr, trent_t* parent) {
+__BEGIN_DECLS
+
+static inline void trent_init(struct trent_node* tr, struct trent_node* parent) {
 	dlist_init(&tr->lnk);
 	tr->parent = parent;
-	tr->flags = 0;
 }
 
-static inline void trent_init_int(trent_t* tr, trent_t* parent, long long val) {
+static inline void trent_init_nil(struct trent_node* tr, struct trent_node* parent) {
+	trent_init(tr, parent);
+	tr->type = TRENT_NIL;
+}
+
+static inline void trent_init_bool(struct trent_node* tr, struct trent_node* parent, bool val) {
+	trent_init(tr, parent);
+	tr->type = TRENT_BOOL;
+	tr->m_int = val;
+}
+
+static inline void trent_init_int(struct trent_node* tr, struct trent_node* parent, long long val) {
 	trent_init(tr, parent);
 	tr->type = TRENT_INT;
 	tr->m_int = val;
 }
 
-void trent_init_num(trent_t* tr, trent_t* parent, long double val);
-void trent_init_str(trent_t* tr, trent_t* parent, const cstring* str);
-void trent_init_tabl(trent_t* tr, trent_t* parent, uint8_t tableType);
+static inline void trent_init_num(struct trent_node* tr, struct trent_node* parent, long double val) {
+	trent_init(tr, parent);
+	tr->type = TRENT_NUM;
+	tr->m_num = val;	
+}
 
-void trent_setname_view(trent_t* tr, const void* name, size_t len);
-void trent_setname_copy(trent_t* tr, const void* name, size_t len);
-void trent_setname(trent_t* tr, const cstring* str);
+static inline void trent_init_str(struct trent_node* tr, struct trent_node* parent, const char* data, unsigned int size) {
+	trent_init(tr, parent);
+	tr->type = TRENT_STR;
+	tr->m_str.data = data;
+	tr->m_str.size = size;	
+}
 
-int trent_addchild(trent_t* parent, trent_t* child);
+static inline void trent_init_tabl(struct trent_node* tr, struct trent_node* parent, uint8_t tableType) {
+	assert(tableType & TRENT_TABL_MASK);
+	trent_init(tr, parent);
+	tr->type = tableType;
+	dlist_init(&tr->m_childs);
+}
 
-int trent_addchild_int(trent_t* tr);
-int trent_addchild_num(trent_t* tr);
-int trent_addchild_str(trent_t* tr);
-int trent_addchild_dict(trent_t* tr);
-int trent_addchild_list(trent_t* tr);
-int trent_addchild_tabl(trent_t* tr);
+static inline void trent_setname(struct trent_node* tr, const char* data, unsigned int size) {
+	tr->name.data = data;
+	tr->name.size = size;
+}
 
-//results: true: 1, false: 0, error: -1
-int trent_equal(trent_t* a, trent_t* b) {}
+static inline int trent_addchild(struct trent_node* parent, struct trent_node* child) {
+	assert(parent->type & TRENT_TABL_MASK);
+	dlist_add_next(&child->lnk, &parent->m_childs);
+}
+
+static inline int trent_equal(struct trent_node* a, struct trent_node* b) {
+	if (a->type != b->type) return 0;
+
+	switch(a->type) {
+		case TRENT_NIL: return true;
+		case TRENT_INT:
+		case TRENT_BOOL:
+			return a->m_int == b->m_int;
+		case TRENT_NUM:
+			return a->m_num == b->m_num;
+		case TRENT_STR:
+			return memcmp(a->m_str.data, b->m_str.data, 
+				a->m_str.size < b->m_str.size ? a->m_str.size : b->m_str.size);
+		default:
+			PANIC_TRACED("undefined operation");		 
+	}
+}
+
+__END_DECLS
 
 #endif
