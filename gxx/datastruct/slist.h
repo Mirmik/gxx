@@ -38,4 +38,18 @@ static inline slist_head* slist_pop_first(struct slist_head* head) {
 
 __END_DECLS
 
-#endif /* UTIL_SLIST_H_ */
+#define slist_entry(ptr, type, member) \
+mcast_out(ptr, type, member)
+
+#define slist_first_entry(ptr, type, member) \
+slist_entry((ptr)->next, type, member)
+
+#define slist_for_each(pos, head) \
+for (pos = (head)->next; pos != (head); pos = pos->next)
+
+#define slist_for_each_entry(pos, head, member)					\
+for (pos = slist_first_entry(head, __typeof__(*pos), member);	\
+&pos->member != (head);											\
+pos = slist_next_entry(pos, member))
+
+#endif

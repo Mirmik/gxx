@@ -12,7 +12,7 @@
 struct tree_link *tree_link_init(struct tree_link *link) {
 	assert(link != NULL);
 	dlist_init(&link->children);
-	dlist_head_init(&link->list_link);
+	dlist_init(&link->list_link);
 	link->par = NULL;
 	return link;
 }
@@ -79,7 +79,7 @@ struct tree_link *tree_postorder_begin(struct tree_link *tree) {
 		return NULL;
 	}
 	while (!dlist_empty(&tree->children)) {
-		tree = dlist_entry(dlist_first(&tree->children),
+		tree = dlist_entry(tree->children.next,
 					struct tree_link, list_link);
 	}
 	return tree;
@@ -132,7 +132,7 @@ struct tree_link *tree_children_begin(struct tree_link *tree) {
 struct tree_link *tree_children_end(struct tree_link *tree) {
 	struct dlist_head *lnk;
 
-	if (NULL == (lnk = (!dlist_empty(&tree->children) ? dlist_prev(&tree->children) : NULL))) {
+	if (NULL == (lnk = (!dlist_empty(&tree->children) ? tree->children.prev : NULL))) {
 		return NULL;
 	}
 
