@@ -44,7 +44,7 @@ __END_DECLS
 mcast_out(ptr, type, member)
 
 #define hlist_next_entry(pos, member) \
-hlist_entry((pos)->member.next, decltypeof(*(pos)), member)
+hlist_entry((pos)->member.next, __typeof__(*(pos)), member)
 
 #define hlist_first_entry(head, type, member) \
 hlist_entry((head)->first, type, member)
@@ -53,7 +53,7 @@ hlist_entry((head)->first, type, member)
 for (pos = (head)->first; pos != 0; pos = pos->next)
 
 #define hlist_for_each_entry(pos, head, member) \
-for (pos = hlist_first_entry(head, decltypeof(*pos), member);	\
+for (pos = hlist_first_entry(head, __typeof__(*pos), member);	\
 &pos->member != 0;											\
 pos = hlist_next_entry(pos, member))
 

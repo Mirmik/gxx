@@ -9,7 +9,7 @@
 #include <gxx/datastruct/slist.h>
 
 struct stable_head {
-	slist_head* arr;
+	struct slist_head* arr;
 	unsigned int len;
 };
 
@@ -26,19 +26,25 @@ static inline void stable_add_hash(struct stable_head* stbl, unsigned int hash, 
 	slist_add(node, &stbl->arr[bucket]);
 }
 
-static inline slist_head* stable_get_hash_bucket(struct stable_head* stbl, unsigned int hash) {
+static inline struct slist_head* stable_get_hash_bucket(struct stable_head* stbl, unsigned int hash) {
 	unsigned int bucket = hash % stbl->len;
-	return stbl->arr[bucket];
+	return &stbl->arr[bucket];
 }
 
 __END_DECLS
 
-#define stable_for_each(pos, bucket, head) 						\
-	for(bucket = 0; bucket < tbl->len; ++bucket)  				\
+#define stable_for_each(pos, head) 						\
+	__stable_for_each(pos, MACRO_GUARD(bucket), head)
+
+#define __stable_for_each(pos, bucket, head) 					\
+	for(int bucket = 0; bucket < tbl->len; ++bucket)  				\
 		slist_for_each(pos, head->arr[bucket])
 
-#define stable_for_each_entry(pos, bucket, head, member) 		\
-	for(bucket = 0; bucket < tbl->len; ++bucket)  				\
+#define stable_for_each_entry(pos, head, member) 		\
+	__stable_for_each_entry(pos, MACRO_GUARD(bucket), head, member)
+
+#define __stable_for_each_entry(pos, bucket, head, member) 		\
+	for(int bucket = 0; bucket < tbl->len; ++bucket)  				\
 		slist_for_each_entry(pos, head->arr[bucket], member)
 
 #endif

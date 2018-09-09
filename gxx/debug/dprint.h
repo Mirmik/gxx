@@ -71,7 +71,7 @@ int debug_strlen(const char *c);
 
 //Вывод нульформатированной строки
 void debug_print(const char *c);
-void debug_print_line();
+void debug_print_line(const char *c);
 
 //Вывод дампа памяти. size - размер в байтах.
 void debug_print_dump(const void* address, uint16_t size);

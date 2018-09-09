@@ -128,7 +128,8 @@ void debug_print(const char *c) {
 	debug_write((char*)c, debug_strlen(c));
 }
 
-void debug_print_line() {
+void debug_print_line(const char *c) {
+	debug_print(c);
 	debug_putchar('\r');
 	debug_putchar('\n');
 }

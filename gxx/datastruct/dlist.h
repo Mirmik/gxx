@@ -10,8 +10,8 @@
  * under normal circumstances, used to verify that nobody uses
  * non-initialized list entries.
  */
-#define DLIST_POISON1  ((void *) 0x00100100)
-#define DLIST_POISON2  ((void *) 0x00200200)
+#define DLIST_POISON1  ((struct dlist_head *) 0x00100100)
+#define DLIST_POISON2  ((struct dlist_head *) 0x00200200)
 
 /*
  * Simple doubly linked list implementation.

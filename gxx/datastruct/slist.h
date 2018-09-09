@@ -24,13 +24,13 @@ static inline int slist_empty(struct slist_head* head) {
 	return head->next == head;
 } 
 
-static inline void slist_add_next(struct slist_head* link, struct slist_head* head) {
+static inline void slist_add(struct slist_head* link, struct slist_head* head) {
 	link->next = head->next;
 	head->next = link;
 }
 
-static inline slist_head* slist_pop_first(struct slist_head* head) {
-	slist_head* ret = head->next;
+static inline struct slist_head* slist_pop_first(struct slist_head* head) {
+	struct slist_head* ret = head->next;
 	if (ret == head) return NULL;
 	head->next = ret->next;
 	return ret;

@@ -43,7 +43,7 @@ int tree_unlink_link(struct tree_link *link) {
 	}
 	return 0;
 }
-
+/*
 void tree_delete_link(struct tree_link *link, void dispose(struct tree_link *)) {
 	struct tree_link *iter;
 	assert(link != NULL);
@@ -59,18 +59,18 @@ struct tree_link *tree_postorder_next(struct tree_link *link) {
 		return NULL;
 	}
 	/* This node is a root. */
-	if (link->par == NULL) {
+/*	if (link->par == NULL) {
 		return NULL;
 	}
 	/* Search for the next element in brother list. */
-	if (&link->list_link != (dlist_last_or_null(&link->par->children))) {
+/*	if (&link->list_link != (dlist_last_or_null(&link->par->children))) {
 		/* It's not a last element in list. */
 		/* TODO dirty hack. XXX O(n) time. */
-		return tree_postorder_begin(
+/*		return tree_postorder_begin(
 				dlist_entry(link->list_link.next, struct tree_link, list_link));
 	} else {
 		/* Next link is a parent */
-		return link->par;
+/*		return link->par;
 	}
 }
 
@@ -147,3 +147,4 @@ struct tree_link *tree_children_next(struct tree_link *tree) {
 struct tree_link *tree_children_prev(struct tree_link *tree) {
 	    return dlist_entry(tree->list_link.next, struct tree_link, list_link);
 }
+*/

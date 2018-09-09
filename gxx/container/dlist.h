@@ -59,7 +59,7 @@ namespace gxx {
 	
 		//METHODS:
 		dlist()	{
-			dlist_init_list(&list);
+			dlist_init(&list);
 		}
 	
 		~dlist() {
