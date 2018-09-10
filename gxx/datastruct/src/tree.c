@@ -17,7 +17,7 @@ struct tree_link *tree_link_init(struct tree_link *link) {
 	return link;
 }
 
-void tree_add_link(struct tree_link *parent, struct tree_link *link) {
+void tree_add_link(struct tree_link *link, struct tree_link *parent) {
 	assert(parent != NULL);
 	assert(link != NULL);
 	assert(link->par == NULL);
@@ -25,7 +25,7 @@ void tree_add_link(struct tree_link *parent, struct tree_link *link) {
 	link->par = parent;
 }
 
-void tree_move_link(struct tree_link *parent, struct tree_link *link) {
+void tree_move_link(struct tree_link *link, struct tree_link *parent) {
 	assert(link != NULL);
 	assert(parent != NULL);
 	if (parent != link->par) {

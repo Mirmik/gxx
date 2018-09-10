@@ -101,7 +101,7 @@ void debug_printdec_double(double a, int prec) {
 	}
 #endif
 
-void debug_printhex_ptr(void* v) {
+void debug_printhex_ptr(const void* v) {
 	#if __WORDSIZE == 8
 		debug_printhex_uint8 ((uint8_t )v);
 	#elif __WORDSIZE == 16
@@ -404,3 +404,30 @@ uint64_t debug_asmlink_test_uint64_ret() {
 	debug_printhex_uint16(a);debug_putchar(':');
 	return 0xACAB;
 }*/
+
+
+void dpr(const char* str) {
+	debug_print(str);
+}
+
+void dprln(const char* str) {
+	debug_print_line(str);
+}
+
+void dpr_n(const char* str) {
+	debug_print(str ? str : "null");
+}
+
+void dprln_n(const char* str) {
+	debug_print_line(str ? str : "null");
+}
+
+void dprptr(const void* ptr) {
+	debug_printhex_ptr(ptr);
+}
+
+void dprptrln(const void* ptr) {
+	debug_printhex_ptr(ptr);
+	debug_putchar('\r');
+	debug_putchar('\n');
+}

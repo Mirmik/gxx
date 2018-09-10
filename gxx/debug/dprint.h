@@ -6,7 +6,7 @@
 
 /**
 	@file
-	2012-2015 Mirmik
+	2012-2018 mirmik
 	Библиотека низкоуровневого отладочного вывода.
 
 	Библиотека предназначена для облегчения низкоуровневой отладки.
@@ -34,31 +34,35 @@ void debug_write(const char* c, int i);
 void debug_dumpmode_write(const char* c, int i);
 
 //Вывод интов, согласно типам. Возможен вывод в системах dec, hex, bin.
+void debug_printhex_ptr(const void* a);
+
 void debug_printhex_uint4(uint8_t b);
 void debug_printhex_uint8 (uint8_t b);
-void debug_printhex_uint64(uint64_t a);
+void debug_printhex_uint16(uint16_t a);
 void debug_printhex_uint32(uint32_t a);
+void debug_printhex_uint64(uint64_t a);
 
 #define debug_printhex_int4(a) debug_printhex_uint4(a)
 #define debug_printhex_int8(a) debug_printhex_uint8(a)
 #define debug_printhex_int16(a) debug_printhex_uint16(a)
 #define debug_printhex_int32(a) debug_printhex_uint32(a)
+#define debug_printhex_int64(a) debug_printhex_uint64(a)
 
-void debug_printhex_ptr(void* a);
-void debug_printhex_uint16(uint16_t a);
 void debug_printbin_uint4 (uint8_t b);
 void debug_printbin_uint8 (uint8_t b);
-void debug_printbin_uint64(uint64_t a);
-void debug_printbin_uint32(uint32_t a);
 void debug_printbin_uint16(uint16_t a);
+void debug_printbin_uint32(uint32_t a);
+void debug_printbin_uint64(uint64_t a);
+
 void debug_printdec_uint8 (uint8_t b);
-void debug_printdec_uint64(uint64_t a);
-void debug_printdec_uint32(uint32_t a);
 void debug_printdec_uint16(uint16_t a);
+void debug_printdec_uint32(uint32_t a);
+void debug_printdec_uint64(uint64_t a);
+
 void debug_printdec_int8 (int8_t b);
-void debug_printdec_int64(int64_t a);
-void debug_printdec_int32(int32_t a);
 void debug_printdec_int16(int16_t a);
+void debug_printdec_int32(int32_t a);
+void debug_printdec_int64(int64_t a);
 
 void debug_printdec_float(float a, int prec);
 void debug_printdec_double(double a, int prec);
@@ -107,6 +111,19 @@ void debug_print_test();
 __END_DECLS
 
 #define dln() {debug_putchar('\r');debug_putchar('\n');}
+
+#ifndef __cplusplus
+
+void dpr(const char* obj);
+void dpr_n(const char* obj);
+
+void dprln(const char* obj);
+void dprln_n(const char* obj);
+
+void dprptr(const void* ptr);
+void dprptrln(const void* ptr);
+
+#endif
 
 #ifdef __cplusplus
 
