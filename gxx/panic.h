@@ -13,9 +13,11 @@ void panic(const char* str);
 
 __END_DECLS
 
-#define PANIC_TRACED(...)					\
-{debug_print_location(current_location());	\
-gxx::panic(__VA_ARGS__);}
+#define PANIC_TRACED()							\
+{												\
+	debug_print_location(current_location());	\
+	panic("TRACED");							\
+}
 
 #ifdef __cplusplus
 namespace gxx {
