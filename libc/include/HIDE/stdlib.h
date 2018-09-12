@@ -14,10 +14,9 @@
 #ifndef STDLIB_H_
 #define STDLIB_H_
 
-#include <defines/size_t.h>
-#include <defines/wchar_t.h>
-#include <defines/null.h>
-#include <compiler.h>
+#include <stddef.h>
+#include <gxx/util/compiler.h>
+#include <sys/cdefs.h>
 
 /* In addition, the following symbolic names and macros shall be defined as in
  * <sys/wait.h> , for use in decoding the return value from system():
@@ -37,7 +36,7 @@ typedef struct div {
 
 #define RAND_MAX INT_MAX
 
-#include <sys/cdefs.h>
+//#include <sys/cdefs.h>
 __BEGIN_DECLS
 
 /**
@@ -77,6 +76,8 @@ extern double strtod(const char *nptr, char **endptr);
 extern unsigned long long int strtoull(const char *nptr, char **endptr, int base);
 
 extern long long int strtoll(const char *nptr, char **endptr, int base);
+
+extern char *ltoa(long N, char *str, int base);
 
 /**
  * Convert integer to string.
@@ -167,7 +168,7 @@ extern void abort(void);
 
 #define EXIT_FAILURE 1
 #define EXIT_SUCCESS 0
-extern void _NORETURN exit(int status);
+extern void __NORETURN exit(int status);
 
 /**
  * Returns the absolute value of an argument. If the argument is not negative,
@@ -202,8 +203,6 @@ static inline int wctomb(char *s, wchar_t wchar) {
 	(void)wchar;
 	return 0;
 }
-
-extern int atexit(void (*func)(void));
 
 __END_DECLS
 

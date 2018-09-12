@@ -16,6 +16,7 @@ module("gxx.util",
 		"util/numconvert.c",
 		"util/hexer.c",
 		"impl/sshell.c",
+		"src/printf_impl.c",
 	],
 )
 

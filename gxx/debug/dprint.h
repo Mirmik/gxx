@@ -108,7 +108,7 @@ void debug_print_test();
  uint16_t dasm_uint16_ret();
  uint64_t dasm_uint64_ret();
 
-__END_DECLS
+int dprf(const char*, ...);
 
 #define dln() {debug_putchar('\r');debug_putchar('\n');}
 
@@ -124,6 +124,8 @@ void dprptr(const void* ptr);
 void dprptrln(const void* ptr);
 
 #endif
+
+__END_DECLS
 
 #ifdef __cplusplus
 

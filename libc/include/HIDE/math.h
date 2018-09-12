@@ -2,7 +2,7 @@
 #define _MATH_H
 
 #include <sys/cdefs.h>
-#include "../math/math_builtins.h"
+//#include "util/math.h"
 
 __BEGIN_DECLS
 
@@ -205,9 +205,9 @@ long        lrint(double);
 long        lrintf(float);
 long        lrintl(long double);
 
-double round (double x);
-float roundf (float x);
-long double roundl (long double x); 
+long        lround(double);
+long        lroundf(float);
+long        lroundl(long double);
 
 double      modf(double, double *);
 float       modff(float, float *);

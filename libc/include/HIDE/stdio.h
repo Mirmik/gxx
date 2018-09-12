@@ -13,11 +13,9 @@
 
 /*va_list As described in <stdarg.h>. */
 #include <stdarg.h>
+#include <stddef.h>
+#include <sys/cdefs.h>
 #include <sys/types.h>
-
-#include <defines/size_t.h>
-#include <defines/null.h>
-
 
 #define EOF (-1)
 
@@ -42,8 +40,6 @@ struct file_struct;
 typedef struct file_struct FILE;
 
 struct stat;
-
-#include <sys/cdefs.h>
 
 __BEGIN_DECLS
 
@@ -225,23 +221,6 @@ extern int fflush(FILE *fp);
 extern int setvbuf(FILE *stream, char *buf, int mode, size_t size);
 extern void setbuffer(FILE *stream, char *buf, size_t size);
 extern void setbuf(FILE *stream, char *buf);
-
-/* #define _GNU_SOURCE  */
-extern int asprintf(char **strp, const char *fmt, ...);
-
-/*******************************************
- * stubs
- *******************************************/
-static inline FILE *popen(const char *command, const char *type) {
-	(void) command;
-	(void) type;
-	return NULL;
-}
-
-static inline int pclose(FILE *stream) {
-	(void) stream;
-	return 0;
-}
 
 __END_DECLS
 
