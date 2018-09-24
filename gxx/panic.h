@@ -1,8 +1,9 @@
 #ifndef GXX_PANIC_H
 #define GXX_PANIC_H
 
-#ifdef __cplusplus
 #include <gxx/util/location.h>
+
+#ifdef __cplusplus
 #include <cstring>
 #include <cstdio>
 #endif
