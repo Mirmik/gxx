@@ -125,6 +125,9 @@ void dprptrln(const void* ptr);
 
 #endif
 
+#define dprdec(arg) debug_printdec_int64(arg)
+#define dprraw(arg) debug_print_dump_simple((void*)&arg, sizeof(arg))
+
 __END_DECLS
 
 #ifdef __cplusplus
