@@ -30,13 +30,26 @@ module("gxx", "posix",
 		"datastruct/src/tree.c",
 		"io/file_unix.cpp",
 		"io/std.cpp",
-		"impl/panic_abort.cpp",
+		"impl/panic_abort.c",
 		"osutil/src/posix.cpp",
 		"path/path.cpp",
 		"impl/trace.cpp"
 	],
 
 	include_modules = [ submodule("gxx.include"), submodule("gxx.util") ],
+)
+
+module("gxx.c_only",
+	srcdir = "gxx",
+	sources = [
+		"datastruct/src/tree.c",	
+		"util/numconvert.c",
+		"util/hexer.c",
+		"impl/sshell.c",
+		"src/printf_impl.c",	
+		"impl/panic_abort.c",
+	],
+	include_modules = [ submodule("gxx.include")],
 )
 
 #module("gxx", "windows",
@@ -87,10 +100,10 @@ module("gxx.syslock", impl="genos.atomic",
 	sources = ["syslock_genos_atomic.cpp"]
 )
 
-module("gxx.panic", impl="abort",
-	srcdir = "gxx/impl",
-	sources = ["panic_abort.cpp"]
-)
+#module("gxx.panic", impl="abort",
+#	srcdir = "gxx/impl",
+#	sources = ["panic_abort.cpp"]
+#)
 
 module("gxx.serial",
 	srcdir = "gxx",
