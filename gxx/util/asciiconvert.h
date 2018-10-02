@@ -2,6 +2,7 @@
 #define GXX_ASCII_CONVERT_H
 
 #include <sys/cdefs.h>
+#include <stdint.h>
 
 __BEGIN_DECLS
 
