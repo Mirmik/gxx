@@ -48,6 +48,7 @@ module("gxx.c_only",
 		"impl/sshell.c",
 		"src/printf_impl.c",	
 		"impl/panic_abort.c",
+		"debug/delay.c"
 	],
 	include_modules = [ submodule("gxx.include")],
 )

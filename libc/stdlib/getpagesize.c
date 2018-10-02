@@ -1,14 +1,5 @@
-/**
- * @file
- *
- * @date Oct 17, 2013
- * @author: Anton Bondarev
- */
-
-//#include <mem/page.h>
-
-//#include <unistd.h>
+#include <limits.h>
 
 int getpagesize(void) {
-//	return (int)PAGE_SIZE();
+	return INT_MAX;
 }

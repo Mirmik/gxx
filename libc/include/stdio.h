@@ -49,6 +49,7 @@ __BEGIN_DECLS
 
 extern int putc(int c, FILE *f);
 extern int fputc(int c, FILE *f);
+extern int fdputc(int c, int fd);
 
 extern int fgetc(FILE *f);
 static inline int getc(FILE *f) {
@@ -94,6 +95,13 @@ extern int vprintf(const char *format, va_list args);
 extern int fprintf(FILE *f, const char *format, ...);
 
 extern int vfprintf(FILE *f, const char *format, va_list args);
+
+/**
+ * Write formatted output to file stream by file descriptor from the format string FORMAT.
+ */
+extern int fdprintf(int fd, const char *format, ...);
+
+extern int vfdprintf(int fd, const char *format, va_list args);
 
 /**
  * Write formatted output to string, according to the format string FORMAT.

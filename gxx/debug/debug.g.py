@@ -22,6 +22,6 @@ implementation("gxx.dprint", "stdout",
 	sources = "dprint_func_impl.c dprint_stdout.c assembler.c dprintxx.cpp".split(" ")
 )
 
-implementation("gxx.debug.delay", "configure",
-	sources = "delay_configure.c"
-)
+#implementation("gxx.debug.delay", "configure",
+#	sources = "delay_configure.c"
+#)

@@ -9,11 +9,6 @@
 //#ifndef __cplusplus
 #	define mcast_offsetof(type, member) \
 		offsetof(type, member)
-//#else
-//#include <gxx/util/memberxx.h>
-//#	define mcast_offsetof(type, member) \
-//		member_offset(&type::member)
-//#endif
 
 /** typeof(foo.bar);  @a type is (an expr of) a struct or a union */
 #define member_typeof(type, member_nm) \

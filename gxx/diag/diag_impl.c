@@ -16,11 +16,11 @@ void* current_diag_priv = NULL;
 void diag_setup(struct diag_ops* ndiag, void* priv) {
 	current_diag_ops = ndiag;
 	current_diag_priv = priv;
-};
+}
 
 int diag_putc(char c) {
 	return current_diag_ops->putc(current_diag_priv, c);
-};
+}
 
 int diag_getc() {
 	return current_diag_ops->getc(current_diag_priv);
@@ -37,9 +37,11 @@ int diag_read(char* buf, int len) {
 int diag_write_stub(void* priv, const char* buf, int len) {
 	const char *ptr = buf;
 	for (;len;len--) diag_putc((int)*ptr++);
+	return 0;
 }
 
 int diag_read_stub(void* priv, char* buf, int len) {
 	char *ptr = buf;
 	for (;len;len--) *ptr++ = diag_getc();
+	return 0;
 }

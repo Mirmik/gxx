@@ -24,4 +24,5 @@ long int sysconf(int name) {
 	default:
 		return -EINVAL;
 	}*/
+	return 0;
 }
