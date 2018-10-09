@@ -11,13 +11,13 @@ namespace gxx {
 		using const_iterator = C&;
 
 		C& operator++() {
-			((C*)this)->next();			
+			((C*)this)->next();         
 			return *(C*)this;
 		}
 
 		decltype(auto) operator* () {
 			return ((C*)this)->value();
-		} 	
+		}   
 
 		C& begin() const { return *(C*)this; }
 		C& end() const { return *(C*)this; }
