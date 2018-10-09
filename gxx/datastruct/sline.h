@@ -36,6 +36,12 @@ sline_back(struct sline * sl, int n)
 }
 
 static inline int
+sline_empty(struct sline * sl) 
+{
+	return sl->len == 0;
+}
+
+static inline int
 sline_avail(struct sline * sl) 
 {
 	return sl->cap - sl->len;
