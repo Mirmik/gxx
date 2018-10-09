@@ -7,6 +7,7 @@
 #include <gxx/io/stdstream.h>
 #include <gxx/arglist.h>
 
+#include <gxx/util/hexascii.h>
 
 namespace gxx {
 	extern gxx::io::ostream* standart_output;
@@ -253,8 +254,8 @@ namespace gxx {
 	inline void printhex(const void* data, size_t size) {
 		uint8_t* _data = (uint8_t*) data;
 		while(size--) {
-			standart_output->putchar(byte2sym(*_data >> 4));
-			standart_output->putchar(byte2sym(*_data++ & 0x0F));
+			standart_output->putchar(half2hex(*_data >> 4));
+			standart_output->putchar(half2hex(*_data++ & 0x0F));
 		}
 	}
 }

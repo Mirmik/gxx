@@ -5,7 +5,7 @@
 #include <string.h>
 #include <gxx/buffer.h>
 #include <gxx/util/numconvert.h>
-#include <gxx/util/asciiconvert.h>
+#include <gxx/util/hexascii.h>
 
 #include <gxx/debug/dprint.h>
 
@@ -33,8 +33,8 @@ namespace gxx {
 			}
 
 			int printhex(char c) {
-				putchar(byte2sym((c & 0xF0) >> 4));
-				putchar(byte2sym(c & 0x0F));
+				putchar(half2hex((c & 0xF0) >> 4));
+				putchar(half2hex(c & 0x0F));
 				return 2;
 			}
 
