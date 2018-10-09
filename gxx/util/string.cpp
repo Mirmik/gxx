@@ -1,4 +1,5 @@
 #include <gxx/util/string.h>
+#include <gxx/util/hexascii.h>
 
 namespace gxx {
 	strvec split(const std::string& str, char delim) {
@@ -57,8 +58,8 @@ namespace gxx {
 			else if (*it == '\t') ret.append("\\t", 2);
 			else if (*it == '\\') ret.append("\\\\", 2);
 			else { 
-				uint8_t hi = byte2sym((*it & 0xF0) >> 4);
-				uint8_t low = byte2sym(*it & 0x0F);
+				uint8_t hi = half2hex((*it & 0xF0) >> 4);
+				uint8_t low = half2hex(*it & 0x0F);
 				ret.append("\\x", 2);
 				ret.push_back(hi);  
 				ret.push_back(low); 

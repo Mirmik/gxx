@@ -8,8 +8,8 @@ namespace gxx {
 		const uint8_t* eit = indata + size; 
 		uint8_t* oit = (uint8_t*)&ret[0];
 		for(const uint8_t* it = indata; it != eit; ++it) {
-			*oit++ = byte2sym((*it & 0xF0) >> 4);
-			*oit++ = byte2sym(*it & 0xF);
+			*oit++ = half2hex((*it & 0xF0) >> 4);
+			*oit++ = half2hex(*it & 0xF);
 		}
 		return ret;
 	}

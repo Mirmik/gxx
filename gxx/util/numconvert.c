@@ -1,9 +1,9 @@
 #include <gxx/util/numconvert.h>
+#include <gxx/util/hexascii.h>
 
 #include <ctype.h>
 #include <string.h>
 #include <math.h>
-#include <gxx/util/asciiconvert.h>
 
 char *i64toa( int64_t num, char *buf, uint8_t base )
 {
@@ -118,20 +118,25 @@ char *u8toa( uint64_t num, char *buf, uint8_t base ) {
 uint32_t atou32(const char *buf, uint8_t base, char** end) {
 	char c;
 	uint32_t res = 0;
+	
 	while(isxdigit(c = *buf++)) {
-		res = res * base + sym2byte(c);
+		res = res * base + hex2half(c);
 	}
-	*end = (char*) buf - 1;
+	
+	if (end) 
+		*end = (char*) buf - 1;
+	
 	return res; 
 }
 
 int32_t atoi32(const char *buf, uint8_t base, char** end) {
-	uint8_t minus = 0;
-	if (*buf == '-') {
-		minus = 1;
-		buf++;
-	}
-	int32_t u = atou32(buf, base, end);
+	uint8_t minus;
+	int32_t u;
+
+	minus = *buf == '-';
+	if (minus) ++buf;
+	
+	u = atou32(buf, base, end);
 	return minus ? -u : u;
 }
 

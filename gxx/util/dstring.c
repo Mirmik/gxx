@@ -1,5 +1,5 @@
 #include <gxx/util/dstring.h>
-#include <gxx/util/asciiconvert.h>
+#include <gxx/util/hexascii.h>
 
 #include <ctype.h>
 
@@ -28,8 +28,8 @@ int bytes_to_dstring(char* out, const void* data, size_t size) {
 		}
 
 		else { 
-			uint8_t hi = byte2sym((*it & 0xF0) >> 4);
-			uint8_t low = byte2sym(*it & 0x0F);
+			uint8_t hi = half2hex((*it & 0xF0) >> 4);
+			uint8_t low = half2hex(*it & 0x0F);
 			*dst++ = '\\';
 			*dst++ = 'x';
 			*dst++ = hi;
