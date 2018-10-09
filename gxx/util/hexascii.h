@@ -14,7 +14,7 @@ namespace gxx {
 
 #endif
 
-#include <access.h>
+#include "access.h"
 
 static inline uint8_t hex2half(char c) {
 	return (uint8_t)(c <= '9' ? c - '0' : c - 'A' + 10);
@@ -28,7 +28,7 @@ static inline uint8_t hex2byte(char hi, char lo) {
 	return (hex2half(hi) << 4) + hex2half(lo);
 }
 
-static inline void hex_to_uint8 (char* hex) {
+static inline uint8_t hex_to_uint8 (const char* hex) {
 	uint8_t out;
 
 	out = hex2byte(*(hex+0), *(hex+1));
@@ -36,7 +36,7 @@ static inline void hex_to_uint8 (char* hex) {
 	return out;
 }
 
-static inline void hex_to_uint16 (char* hex) {
+static inline uint16_t hex_to_uint16 (const char* hex) {
 	uint16_t out;
 
 	UINT16_HI(out) = hex2byte(*(hex+0), *(hex+1));
@@ -45,7 +45,7 @@ static inline void hex_to_uint16 (char* hex) {
 	return out;
 }
 
-static inline void hex_to_uint32 (char* hex) {
+static inline uint32_t hex_to_uint32 (const char* hex) {
 	uint32_t out;
 
 	UINT32_HHI(out) = hex2byte(*(hex+0), *(hex+1));
@@ -56,7 +56,7 @@ static inline void hex_to_uint32 (char* hex) {
 	return out;
 }
 
-static inline void hex_to_uint64 (char* hex) {
+static inline uint64_t hex_to_uint64 (const char* hex) {
 	uint64_t out;
 
 	UINT64_HHHI(out) = hex2byte(*(hex+ 0), *(hex+ 1));
