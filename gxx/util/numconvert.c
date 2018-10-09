@@ -1,9 +1,9 @@
 #include <gxx/util/numconvert.h>
+#include <gxx/util/hexascii.h>
 
 #include <ctype.h>
 #include <string.h>
 #include <math.h>
-#include <gxx/util/asciiconvert.h>
 
 char *i64toa( int64_t num, char *buf, uint8_t base )
 {
@@ -120,7 +120,7 @@ uint32_t atou32(const char *buf, uint8_t base, char** end) {
 	uint32_t res = 0;
 	
 	while(isxdigit(c = *buf++)) {
-		res = res * base + sym2byte(c);
+		res = res * base + hex2half(c);
 	}
 	
 	if (end) 

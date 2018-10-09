@@ -15,6 +15,7 @@ namespace gxx {
 #endif
 
 #include "access.h"
+#include <stdint.h>
 
 static inline uint8_t hex2half(char c) {
 	return (uint8_t)(c <= '9' ? c - '0' : c - 'A' + 10);

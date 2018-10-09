@@ -24,6 +24,10 @@ int main() {
 	gxx::fprintln("{a}", "a"_a=1);
 	gxx::fprintln("{b}, {c}", "b"_a="hello", "c"_a=std::string("fdsafasd"));
 
+	const char* hello = "HelloWorld";
+
+	gxx::print_dump(hello, 10);
+
 
 //	std::map<std::string, int> mp;
 

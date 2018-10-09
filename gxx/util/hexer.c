@@ -1,5 +1,5 @@
 #include <gxx/util/hexer.h>
-#include <gxx/util/asciiconvert.h>
+#include <gxx/util/hexascii.h>
 #include <ctype.h>
 #include <stdbool.h>
 #include <string.h>
@@ -15,7 +15,7 @@ int hexer(uint8_t* dst, size_t maxsz, const char* src, size_t srcsz) {
 				uint8_t byte = 0;
 				while(isdigit(*++it)) {
 					byte *= 10;
-					byte += sym2byte(*it);
+					byte += hex2half(*it);
 				}
 				++sz;
 				*dst++ = byte; 
@@ -25,7 +25,7 @@ int hexer(uint8_t* dst, size_t maxsz, const char* src, size_t srcsz) {
 				uint16_t twobyte = 0;
 				while(isdigit(*++it)) {
 					twobyte *= 10;
-					twobyte += sym2byte(*it);
+					twobyte += hex2half(*it);
 				}
 				*dst++ = (twobyte & 0xFF00) >> 8;
 				*dst++ = twobyte & 0x00FF; 
@@ -37,11 +37,11 @@ int hexer(uint8_t* dst, size_t maxsz, const char* src, size_t srcsz) {
 				bool phase = 0;
 				while(isxdigit(*++it)) {
 					if (phase) {
-						*dst++ = (high << 4) | sym2byte(*it);
+						*dst++ = (high << 4) | hex2half(*it);
 						++sz;
 					}
 					else {
-						high = sym2byte(*it);
+						high = hex2half(*it);
 					}
 					phase = !phase;
 				}
