@@ -5,10 +5,10 @@
 
 namespace gxx {
 	namespace gmsg {
-		constexpr char strt = 0xAC;
-		constexpr char stub = 0xAD;
-		constexpr char stub_strt = 0xAE;
-		constexpr char stub_stub = 0xAF;
+		constexpr unsigned char strt = 0xAC;
+		constexpr unsigned char stub = 0xAD;
+		constexpr unsigned char stub_strt = 0xAE;
+		constexpr unsigned char stub_stub = 0xAF;
 	} 
 }
 

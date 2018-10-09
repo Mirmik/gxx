@@ -69,7 +69,7 @@ namespace gxx {
 						}
 						break;
 					case 1:
-						switch (c) {
+						switch ((unsigned char)c) {
 							case gxx::gmsg::strt:
 								if (line.size() == 0) break;
 								if (crc != 0) { 
@@ -90,7 +90,7 @@ namespace gxx {
 						break;
 	
 					case 2:
-						switch (c) {
+						switch ((unsigned char)c) {
 							case gxx::gmsg::stub_strt:
 								addchar(gxx::gmsg::strt);
 								setstate(1);

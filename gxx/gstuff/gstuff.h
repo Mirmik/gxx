@@ -18,8 +18,7 @@ __BEGIN_DECLS
 	@param outdata - выходной буффер (рекомендованная длина 2*size+2)
 	@return результирующая длина пакета.
  */
-static inline int 
-gstuffing(char* data, int size, char* outdata);
+int gstuffing(char* data, int size, char* outdata);
 
 __END_DECLS
 

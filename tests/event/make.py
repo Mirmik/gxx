@@ -1,13 +1,15 @@
-#!/usr/bin/env	python3.5
+#!/usr/bin/python3
 #coding: utf-8
 
 from licant.modules import submodule
-from licant.cxx_modules import application, doit
+from licant.cxx_modules import application
 
 from licant.scripter import scriptq
+import licant
+
 scriptq.execute("../../gxx.g.py")
 
-application("main",
+application("target",
 	sources = ["main.cpp"],
 	include_paths = ["../.."],
 	modules = [
@@ -16,4 +18,4 @@ application("main",
 	]
 )
 
-doit("main")
+licant.ex("target")

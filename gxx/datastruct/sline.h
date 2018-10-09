@@ -30,9 +30,9 @@ sline_init(struct sline * sl, char* buffer, int bufcap)
 static inline int
 sline_back(struct sline * sl, int n) 
 {
-	sl->len -= n;
-	if (sl->len < 0) 
-		sl->len = 0;
+	int back = n > sl->len ? sl->len : n;
+	sl->len -= back;
+	return back;
 }
 
 static inline int
@@ -64,6 +64,7 @@ sline_write(struct sline * sl, const char* dat, int sz) {
 
 	memcpy(sl->buf + sl->len, dat, cap);
 	sl->len += cap;
+	return cap;
 }
 
 __END_DECLS

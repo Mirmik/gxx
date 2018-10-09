@@ -59,7 +59,7 @@ namespace gxx {
 			struct {
 				fnc_t function;	
 				fnc_t attributes;
-			};
+			} part;
 		};
 
 	protected:
@@ -90,8 +90,8 @@ namespace gxx {
 	
 		delegate(const fnc_t func) {
 			object = 0;
-			method.function = func;
-			method.attributes = 0;
+			method.part.function = func;
+			method.part.attributes = 0;
 		};	
 
 		template <typename T>
@@ -124,7 +124,7 @@ namespace gxx {
 			if (type == METHOD) 
 				return (object->*method.method)(arg ...);
 			else //FUNCTION
-				return method.function(arg ...);
+				return method.part.function(arg ...);
 		};
 	
 		bool operator==(delegate<R ,Args ... > b) {
@@ -154,7 +154,7 @@ namespace gxx {
 			struct{
 				fnc_t function;	
 				fnc_t attributes;
-			};
+			} part;
 		};
 	
 	public:

@@ -47,7 +47,7 @@ gstuff_automate_init(struct gstuff_automate * autom, void * buf, int len,
 static inline void 
 gstuff_automate_newchar(struct gstuff_automate * autom, char c) {
 	switch (autom->state) {
-		/*case 0:
+		case 0:
 			if (c == gxx::gmsg::strt) {
 				//Похоже на символ начала пакета.
 				__gstuff_automate_reset(autom);

@@ -1,7 +1,7 @@
 #ifndef GXX_UTIL_ACCESS_H
 #define GXX_UTIL_ACCESS_H
 
-#include <endian.h>
+#include "endian.h"
 
 #ifndef BYTE_ORDER
 #	define BYTE_ORDER __LITTLE_ENDIAN
