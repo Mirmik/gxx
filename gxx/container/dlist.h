@@ -80,6 +80,14 @@ namespace gxx {
 			dlist_move_prev(&(obj.*member), &list);
 		};
 
+		void add_first(type& obj) {
+			dlist_add(&(obj.*member), &list);			
+		}
+
+		void add_last(type& obj) {
+			dlist_add_tail(&(obj.*member), &list);			
+		}
+
 		//Поставить объект перед объектом.		
 		void move_next(type& obj, type& head) {
 			dlist_move_next(&(obj.*member), &(head.*member));
@@ -99,6 +107,7 @@ namespace gxx {
 		void move_prev(type& obj, iterator head) {
 			dlist_move_prev(&(obj.*member), head.current);
 		};
+
 
 //		iterator insert(iterator it, type & obj) {
 //			dlist_move_prev(&(obj.*member), it.current);			

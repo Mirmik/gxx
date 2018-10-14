@@ -90,7 +90,7 @@ static inline int ring_getc(struct ring_head* r, char* buffer) {
 static inline int ring_write(struct ring_head* r, char* buffer, const char* data, size_t size) {
 	int ret = 0;
 	while(size--) {
-		if(!ring_putc(r, buffer, *data++)) {
+		if(ring_putc(r, buffer, *data++) == 0) {
 			return ret;
 		};
 		ret++;

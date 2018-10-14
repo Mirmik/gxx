@@ -1,8 +1,9 @@
 #ifndef GXX_SLIST_H
 #define GXX_SLIST_H
 
-#include <gxx/datastruct/slist_head.h>
+#include <gxx/datastruct/slist.h>
 #include <gxx/util/member.h>
+#include <gxx/util/memberxx.h>
 
 namespace gxx {
 
@@ -11,10 +12,14 @@ namespace gxx {
 		slist_head head;
 	public:
 
-		slist() { head.next = nullptr; }
+		slist() { head.next = &head; }
 
 		bool empty() {
-			return head.next == nullptr;
+			return head.next == &head;
+		}
+
+		void add_first(type& obj) {
+			slist_add(&(obj.*member), &head);
 		}
 
 		void move_front(type& obj) {
@@ -71,13 +76,13 @@ namespace gxx {
 		};
 
 		iterator begin() { return iterator(head.next); }
-		iterator end() { return iterator(nullptr); }	
+		iterator end() { return iterator(&head); }	
 
 		const_iterator begin() const { return const_iterator(head.next); }
-		const_iterator end() const { return const_iterator(nullptr); }	
+		const_iterator end() const { return const_iterator(&head); }	
 	};
 
-	template<typename type, slist_head type::* member> 
+	/*template<typename type, slist_head type::* member> 
 	struct print_functions<slist<type,member>> {
 		static int print(gxx::io::ostream& o, slist<type,member> const& lst) {
 			o.putchar('[');
@@ -89,7 +94,7 @@ namespace gxx {
 			}
 			o.putchar(']');			
 		}
-	};
+	};*/
 }
 
 #endif
