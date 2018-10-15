@@ -20,10 +20,16 @@ sline_reset(struct sline * sl)
 }
 
 static inline void 
-sline_init(struct sline * sl, char* buffer, int bufcap) 
+sline_setbuf(struct sline * sl, char* buffer, int bufcap) 
 {
 	sl->buf = buffer;
 	sl->cap = bufcap;
+}
+
+static inline void 
+sline_init(struct sline * sl, char* buffer, int bufcap) 
+{
+	sline_setbuf(sl, buffer, bufcap);
 	sline_reset(sl);
 }
 
