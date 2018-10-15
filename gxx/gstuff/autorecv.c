@@ -1,28 +1,29 @@
 #include "autorecv.h"
 
-static inline void
-gstuff_autorecv_reset(struct gstuff_autorecv * autom) 
+void gstuff_autorecv_reset(struct gstuff_autorecv * autom) 
 {
 	autom->crc = 0xff;
 	sline_reset(&autom->line);
 }
 
-void
-gstuff_autorecv_init(
-	struct gstuff_autorecv * autom, 
-	void * buf, 
-	int len, 
-	void(*callback)(void*, int sts, char* dat, int len), 
-	void * arg
+void gstuff_autorecv_init(
+		struct gstuff_autorecv * autom, 
+		void(*callback)(void*, int sts, char* dat, int len), 
+		void * arg
+) {
+	autom->callback = callback;
+	autom->callback_argument = arg;
+}
+
+void gstuff_autorecv_setbuf (
+		struct gstuff_autorecv * autom, 
+		void * buf, int len
 ) {
 	sline_init(&autom->line, buf, len);
 	gstuff_autorecv_reset(autom);
-	//autom->callback = callback;
-	//autom->callback_argument = arg;
 }
 
-static inline int 
-gstuff_autorecv_newchar(struct gstuff_autorecv * autom, char c) 
+int gstuff_autorecv_newchar(struct gstuff_autorecv * autom, char c) 
 {
 	int sts;
 

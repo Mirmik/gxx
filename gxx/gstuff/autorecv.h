@@ -16,11 +16,24 @@ struct gstuff_autorecv {
 	struct sline line;
 	uint8_t crc;
 	uint8_t state;
-	void(*callback)(void*,char*,int);
+	void(*callback)(void*,int,char*,int);
 	void* callback_argument;
 };
 
 __BEGIN_DECLS
+
+void gstuff_autorecv_reset(struct gstuff_autorecv * autom);
+
+void gstuff_autorecv_setbuf(struct gstuff_autorecv * autom, 
+	void * buf, int len);
+
+void gstuff_autorecv_init(
+	struct gstuff_autorecv * autom, 
+	void(*callback)(void*, int sts, char* dat, int len), 
+	void * arg
+);
+
+int gstuff_autorecv_newchar(struct gstuff_autorecv * autom, char c);
 
 /*static inline void
 __gstuff_automate_reset(struct gstuff_automate * autom) {
