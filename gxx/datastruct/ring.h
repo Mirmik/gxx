@@ -36,13 +36,13 @@ static inline int8_t ring_full(struct ring_head* r) {
 	return r->head == (r->tail ? r->tail : r->size) - 1;
 }
 
-static inline size_t ring_data_size(struct ring_head* r) { 
+static inline size_t ring_avail(struct ring_head* r) { 
 		return (r->head >= r->tail) ? 
 		r->head - r->tail : 
 		r->size + r->head - r->tail; 
 }
 
-static inline size_t ring_room_size(struct ring_head* r) {
+static inline size_t ring_room(struct ring_head* r) {
 	return (r->head >= r->tail) ? 
 	r->size - 1 + ( r->tail - r->head ) : 
 	( r->tail - r->head ) - 1;
