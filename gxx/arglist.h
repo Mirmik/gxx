@@ -37,7 +37,7 @@ namespace gxx {
 	};
 
 	namespace argument_literal {
-		static argname operator"" _a (const char* name, size_t sz) {
+		static inline argname operator"" _a (const char* name, size_t sz) {
 			return argname(gxx::buffer(name, sz));
 		}
 	}
@@ -67,7 +67,7 @@ namespace gxx {
 		visitable_argument* arr;
 
 		template <typename ... Args>
-		visitable_arglist(visitable_argument* buffer, Args&& ... args) : arr(buffer), N(sizeof ... (Args)) {
+		visitable_arglist(visitable_argument* buffer, Args&& ... args) : N(sizeof ... (Args)), arr(buffer) {
 			visitable_arglist_former(arr, args ...);
 		}
 
