@@ -71,4 +71,8 @@ namespace gxx {
 	std::string dstring(gxx::buffer buf) {
 		return dstring(buf.data(), buf.size());
 	}	
+
+	std::string dstring(const std::string& buf) {
+		return dstring(buf.data(), buf.size());
+	}	
 }
