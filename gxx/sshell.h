@@ -26,7 +26,7 @@ __END_DECLS
 #include <gxx/event/delegate.h>
 
 namespace gxx{
-	struct [[deprecated]] sshell {
+	struct [[deprecated("use sshell_command and sshell_execute")]] sshell {
 		struct command {
 			const char* name;
 			int (*func) (int, const char**);
