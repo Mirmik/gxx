@@ -67,7 +67,7 @@ namespace gxx
 
 		if (c == '{') return parse_dict(is);
 
-		return result::error("undefined trent");
+		return error("undefined trent");
 	}
 
 	trent json::parse_numer(std::istream& is)
