@@ -1,7 +1,11 @@
 #ifndef GXX_UTIL_ACCESS_H
 #define GXX_UTIL_ACCESS_H
 
+#include <stdint.h>
 #include "endian.h"
+
+static inline uint8_t HIHALF(uint8_t byte) { return (byte >> 4) & 0x0F; }
+static inline uint8_t LOHALF(uint8_t byte) { return byte & 0x0F; }
 
 #ifndef BYTE_ORDER
 #	define BYTE_ORDER __LITTLE_ENDIAN

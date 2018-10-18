@@ -9,7 +9,9 @@ include("gxx")
 
 tests = [
 	"print",
-	"event",
+#	"event",
+#	"access",
+	"hexascii",
 	"base64",
 	"interval",
 ]

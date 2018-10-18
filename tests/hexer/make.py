@@ -8,7 +8,7 @@ import licant
 
 scriptq.execute("../../gxx.g.py")
 
-application("main",
+application("target",
 	sources = ["main.cpp"],
 	include_paths = ["../.."],
 	modules = [
@@ -18,4 +18,4 @@ application("main",
 	],
 )
 
-licant.ex(default = "main")
+licant.ex("target")

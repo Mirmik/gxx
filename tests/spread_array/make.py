@@ -29,4 +29,4 @@ application("target",
 
 licant.ex(default = "target")
 
-#doit("main")
+#licant.ex("target")

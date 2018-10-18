@@ -7,7 +7,7 @@ from licant.cxx_modules import application, doit
 from licant.scripter import scriptq
 scriptq.execute("../../gxx.g.py")
 
-application("main",
+application("target",
 	sources = ["main.cpp"],
 	include_paths = ["../.."],
 	modules = [
@@ -17,4 +17,4 @@ application("main",
 	],
 )
 
-doit("main")
+licant.ex("target")

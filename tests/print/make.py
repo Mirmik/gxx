@@ -17,7 +17,7 @@ bu = licant.cxx_make.binutils(
 	objdump="objdump"
 )
 
-application("main",
+application("target",
 	sources = ["main.cpp"],
 	include_paths = ["../.."],
 	modules = [
