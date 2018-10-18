@@ -91,8 +91,6 @@ namespace gxx
 			}
 		}
 
-		gxx::println(str);
-
 		if (str == "true") return trent(true);
 		if (str == "false") return trent(false);
 		return error("undefined mnemonic");
