@@ -19,60 +19,78 @@
 
 using namespace gxx::result_type;
 
-namespace gxx {
-	struct trent_path_node {
+namespace gxx
+{
+	struct trent_path_node
+	{
 		bool is_string;
-		union {
+		union
+		{
 			std::string str;
 			int32_t i32;
 		};
 
 		trent_path_node() = delete;
 
-		trent_path_node(const std::string& str) {
-			if (isdigit(str[0])) {
+		trent_path_node(const std::string& str)
+		{
+			if (isdigit(str[0]))
+			{
 				is_string = false;
 				gxx::constructor(&this->i32, std::stoi(str));
-			} else {
+			}
+			else
+			{
 				is_string = true;
 				gxx::constructor(&this->str, str);
 			}
 		}
 
-		trent_path_node(const trent_path_node& oth) {
-			if (oth.is_string == true) {
+		trent_path_node(const trent_path_node& oth)
+		{
+			if (oth.is_string == true)
+			{
 				is_string = true;
 				gxx::constructor(&str, oth.str);
-			} else {
+			}
+			else
+			{
 				is_string = false;
 				gxx::constructor(&i32, oth.i32);
 			}
 		}
 
-		~trent_path_node() {
+		~trent_path_node()
+		{
 			if (is_string) gxx::destructor(&str);
 		}
 
-		size_t printTo(gxx::io::ostream& o) const {
+		size_t printTo(gxx::io::ostream& o) const
+		{
 			if (is_string) return gxx::print_to(o, str);
 			return gxx::print_to(o, i32);
 		}
 	};
 
-	struct trent_path : public std::vector<trent_path_node>, public gxx::array_printable<trent_path> {
+	struct trent_path : public std::vector<trent_path_node>, public gxx::array_printable<trent_path>
+	{
 		trent_path(const std::string& path) : trent_path(path.c_str()) {}
 
-		trent_path(const char* path) {
+		trent_path(const char* path)
+		{
 			gxx::strvec svec = gxx::split(path, '/');
-			for (const auto& s : svec) {
+			for (const auto& s : svec)
+			{
 				emplace_back(s);
 			}
 		}
 	};
 
-	class trent {
+	class trent
+	{
 	public:
-		enum class type : uint8_t {
+		enum class type : uint8_t
+		{
 			string,
 			list,
 			dict,
@@ -91,7 +109,8 @@ namespace gxx {
 	protected:
 		trent::type m_type = trent::type::nil;
 
-		union {
+		union
+		{
 			numer_type m_num;
 			integer_type m_int;
 			list_type m_arr;
@@ -121,7 +140,7 @@ namespace gxx {
 		inline trent(const unsigned long& i) { init(i); }
 		inline trent(const unsigned long long& i) { init(i); }
 		inline trent(const bool& i) { init(i); }
-		
+
 	public:
 		void init(trent::type t);
 		void init(const std::string& str);
@@ -143,7 +162,8 @@ namespace gxx {
 		void init(const bool& i);
 
 		template <typename T>
-		void reset(T obj) {
+		void reset(T obj)
+		{
 			invalidate();
 			init(obj);
 		}
@@ -255,9 +275,14 @@ namespace gxx {
 
 		bool contains(gxx::buffer buf);
 
-		size_t printTo(gxx::io::ostream& os) const {
+		size_t printTo(gxx::io::ostream& os) const
+		{
 			bool sep = false;
-			switch(get_type()) {
+			switch (get_type())
+			{
+				case trent::type::boolean:
+					os.print(unsafe_bool_const() ? "true" : "false");
+					return 0;
 
 				case trent::type::numer:
 					os.print(unsafe_numer_const());
@@ -272,18 +297,20 @@ namespace gxx {
 					gxx::print_to(os, unsafe_string_const());
 					os.putchar('"');
 					return 0;
-								case trent::type::list:
+				case trent::type::list:
 					os.putchar('[');
-									for(auto& v : unsafe_list_const()) {
+					for (auto& v : unsafe_list_const())
+					{
 						if (sep) os.putchar(',');
 						v.printTo(os);
 						sep = true;
 					}
 					os.putchar(']');
 					return 0;
-								case trent::type::dict:
+				case trent::type::dict:
 					os.putchar('{');
-									for(auto& p : unsafe_dict_const()) {
+					for (auto& p : unsafe_dict_const())
+					{
 						if (sep) os.putchar(',');
 						os.putchar('"');
 						gxx::print_to(os, p.first);

@@ -32,7 +32,7 @@ namespace gxx {
 	};
 }
 
-#define GXX_NOT_SUPPORTED gxx::not_supported_exception(current_location())
-#define GXX_NOT_IMPLEMENTED gxx::not_implemented_exception(current_location())
+#define GXX_NOT_SUPPORTED gxx::not_supported_exception(location{CURRENT_LOCATION_INITARGS})
+#define GXX_NOT_IMPLEMENTED gxx::not_implemented_exception(location{CURRENT_LOCATION_INITARGS})
 
 #endif

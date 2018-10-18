@@ -135,12 +135,24 @@ namespace result_type {
 			_data = std::forward<T>(r);	
 		}
 	
+		[[deprecated]]
 		Result& getData() {
 			assert(_iserror == 0);
 			return _data;
 		}
 		
+		[[deprecated]]
 		E& getError() {
+			assert(_iserror == 1);
+			return _error;
+		}
+		
+		Result& value() {
+			assert(_iserror == 0);
+			return _data;
+		}
+		
+		E& error() {
 			assert(_iserror == 1);
 			return _error;
 		}
@@ -196,15 +208,26 @@ namespace result_type {
 			}
 		}
 
+		[[deprecated]]
 		void getData() {
 			assert(_iserror == 0);
 		}
 		
+		[[deprecated]]
 		E& getError() {
 			assert(_iserror == 1);
 			return _error;
 		}
 		
+		void value() {
+			assert(_iserror == 0);
+		}
+		
+		E& error() {
+			assert(_iserror == 1);
+			return _error;
+		}
+
 		bool is_error() {
 			return _iserror;
 		}

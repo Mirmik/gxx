@@ -10,14 +10,10 @@ struct location {
 	const char* func;
 };
 
-#define current_location()				\
-({										\
-	struct location __current_location;	\
-	__current_location.line = __LINE__;	\
-	__current_location.file = __FILE__;	\
-	__current_location.func = __func__;	\
-	__current_location;					\
-})
+#define CURRENT_LOCATION(name)				\
+	struct location name = { __LINE__, __FILE__, __func__ };
+
+#define CURRENT_LOCATION_INITARGS __LINE__,__FILE__,__func__
 
 static inline void debug_print_location(struct location location) {
 	debug_print("file: "); debug_print(location.file); dln();
