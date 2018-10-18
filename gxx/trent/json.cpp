@@ -5,98 +5,127 @@
 
 using namespace gxx::result_type;
 
-namespace gxx {
-namespace detail {
-		char getnext(std::istream& is) {
+namespace gxx
+{
+	namespace detail
+	{
+		char getnext(std::istream& is)
+		{
 			char c;
 			char next;
-			__try__:
+		__try__:
 
 			is >> c;
-			if (c == '/') {
+
+			if (c == '/')
+			{
 				next = is.get();
-				switch (next) {
-					case '*': 
-						while(true) {
+
+				switch (next)
+				{
+					case '*':
+						while (true)
+						{
 							is >> c;
-							if (c == '*') if (is.peek() == '/') { 
-								is.ignore();
-								goto __try__;
-							} 
+
+							if (c == '*')
+								if (is.peek() == '/')
+								{
+									is.ignore();
+									goto __try__;
+								}
 						}
-					case '/': 
-						is.ignore(INT_MAX, '\n');						
+
+					case '/':
+						is.ignore(INT_MAX, '\n');
 						goto __try__;
+
 					default:
-						is.unget(); 
+						is.unget();
 						break;
 				}
 			}
+
 			is.unget();
 			return c;
 		}
-	}	
+	}
 
-	result<trent> json::parse(std::istream& is) {
+	result<trent> json::parse(std::istream& is)
+	{
 		is >> std::skipws;
 
 		char c = detail::getnext(is);
-		
+
 		if (isdigit(c) || c == '-') return parse_numer(is);
+
 		if (c == '"') return parse_string(is);
+
 		if (c == '\'') return parse_string(is);
+
 		if (c == '[') return parse_list(is);
+
 		if (c == '{') return parse_dict(is);
 
-		return trent();
+		return result::error("undefined trent");
 	}
 
-	trent json::parse_numer(std::istream& is) {
+	trent json::parse_numer(std::istream& is)
+	{
 		trent::numer_type num;
 		is >> num;
 
-		if (num - (trent::integer_type)num == 0) {
-			return trent((trent::integer_type)num);
-		}
+		if (num - (trent::integer_type)num == 0)
+		{	return trent((trent::integer_type)num); }
+
 		return trent(num);
 	}
 
-	result<trent> json::parse_string(std::istream& is) {
+	result<trent> json::parse_string(std::istream& is)
+	{
 		trent::string_type str;
 
 		char c = detail::getnext(is);
 		is.ignore();
+
 		if (c == '"') std::getline(is, str, '"');
+
 		if (c == '\'') std::getline(is, str, '\'');
 
 		trent ret(str);
-		
+
 		return ret;
 	}
-	
-	result<trent> json::parse_list(std::istream& is) {
+
+	result<trent> json::parse_list(std::istream& is)
+	{
 		char c;
 		trent js(trent::type::list);
-		
+
 		int counter = 0;
-		while(true) {
+
+		while (true)
+		{
 			c = detail::getnext(is);
-			
-			if (c == ']') {
+
+			if (c == ']')
+			{
 				is.ignore();
 				return js;
 			}
-				
-			if (c == ',' || c == '[') {
+
+			if (c == ',' || c == '[')
+			{
 				is.ignore();
-				
+
 				c = detail::getnext(is);
-				
-				if (c == ']') {
+
+				if (c == ']')
+				{
 					is.ignore();
 					return js;
 				}
-				
+
 				js.as_list().push_back(tryS(parse(is)));
 			}
 			else return error("wrong list syntax");;
@@ -105,51 +134,65 @@ namespace detail {
 		}
 	}
 
-	result<trent> json::parse_dict(std::istream& is) {
+	result<trent> json::parse_dict(std::istream& is)
+	{
 		char c;
 		trent js(trent::type::dict);
-		
-		while(true) {
+
+		while (true)
+		{
 			c = detail::getnext(is);
-			
-			if (c == '}') {
+
+			if (c == '}')
+			{
 				is.ignore();
 				return js;
-			}				
-			
-			if (c == ',' || c == '{') {
+			}
+
+			if (c == ',' || c == '{')
+			{
 				is.ignore();
 
 				c = detail::getnext(is);
 
-				if (c == '}') {
+				if (c == '}')
+				{
 					is.ignore();
 					return js;
-				}				
+				}
 
-				if ( c != '"' && c != '\'' ) return error("wrong dicionary syntax: not find \"");
+				if ( c != '"' && c != '\'' )
+					return error("wrong dictionary syntax: not find \"");
+
 				is.ignore();
-				
+
 				std::string key;
+
 				if (c == '"') std::getline(is, key, '"');
 				if (c == '\'') std::getline(is, key, '\'');
-
 				c = detail::getnext(is);
 
-				if ( c != ':' ) return error("wrong dicionary syntax: not find colomn");
+				if ( c != ':' )
+					return error("wrong dicionary syntax: not find colomn");
+
 				is.ignore();
 
 				c = detail::getnext(is);
 
 				js.as_dict().insert(std::make_pair(key, tryS(parse(is))));
 			}
-			else return error("trent::internal:dict_parse");
+
+			else
+				return error("trent::internal:dict_parse");
 		}
 	}
 
-	void json::print_to(const trent& tr, std::ostream& os) {
+	void json::print_to(const trent& tr, std::ostream& os)
+	{
 		bool sep = false;
-		switch(tr.get_type()) {
+
+		switch (tr.get_type())
+		{
 
 			case trent::type::integer:
 				os << tr.unsafe_integer_const();
@@ -159,24 +202,33 @@ namespace detail {
 				os << tr.unsafe_numer_const();
 				return;
 
-			case trent::type::string: 
-				os << '"'; 
+			case trent::type::string:
+				os << '"';
 				os << tr.unsafe_string_const();
 				os << '"';
 				return;
+
 			case trent::type::list:
 				os << '[';
-				for(auto& v : tr.unsafe_list_const()) {
+
+				for (auto& v : tr.unsafe_list_const())
+				{
 					if (sep) os << ',';
+
 					json::print_to(v, os);
 					sep = true;
 				}
+
 				os << ']';
-				return; 
+				return;
+
 			case trent::type::dict:
 				os << '{';
-				for(auto& p : tr.unsafe_dict_const()) {
+
+				for (auto& p : tr.unsafe_dict_const())
+				{
 					if (sep) os << ',';
+
 					os << '"';
 					os << p.first;
 					os << '"';
@@ -184,19 +236,23 @@ namespace detail {
 					json::print_to(p.second, os);
 					sep = true;
 				}
+
 				os << '}';
-				return; 
+				return;
+
 			case trent::type::nil:
 				os << "nil";
 				return;
 		}
 	}
 
-	void json::pretty_print_to(const trent& tr, std::ostream& os, int tab) {
+	void json::pretty_print_to(const trent& tr, std::ostream& os, int tab)
+	{
 		bool sep = false;
 		bool havedict;
 
-		switch(tr.get_type()) {
+		switch (tr.get_type())
+		{
 
 			case trent::type::numer:
 				os << std::fixed << tr.unsafe_numer_const();
@@ -205,59 +261,80 @@ namespace detail {
 			case trent::type::integer:
 				os << tr.unsafe_integer_const();
 				break;
-			
-			case trent::type::string: 
+
+			case trent::type::string:
 				os << '"' << tr.unsafe_string_const() << '"';
 				break;
-			
+
 			case trent::type::list:
 				havedict = false;
-				for (const auto& m : tr.unsafe_list_const()) {
-					if (m.get_type() == trent::trent::type::dict) {
-						havedict = true; break;
-					}
+
+				for (const auto& m : tr.unsafe_list_const())
+				{
+					if (m.get_type() == trent::trent::type::dict)
+					{	havedict = true; break; }
 				}
 
 				os << '[';
 
-				if (havedict) for(auto& v : tr.unsafe_list_const()) {
-					if (sep) os << ", ";
-					json::pretty_print_to(v, os, tab+1);
-					sep = true;
-				}
-				else { 
-					for(auto& v : tr.unsafe_list_const()) {
-						if (sep) os.put(',');
-						os << std::endl;
-						for(int i = 0; i < tab + 1; i++) os.put('\t');
-						json::pretty_print_to(v, os, tab+1);
+				if (havedict) for (auto& v : tr.unsafe_list_const())
+					{
+						if (sep) os << ", ";
+
+						json::pretty_print_to(v, os, tab + 1);
 						sep = true;
 					}
+				else
+				{
+					for (auto& v : tr.unsafe_list_const())
+					{
+						if (sep) os.put(',');
+
+						os << std::endl;
+
+						for (int i = 0; i < tab + 1; i++) os.put('\t');
+
+						json::pretty_print_to(v, os, tab + 1);
+						sep = true;
+					}
+
 					os << std::endl;
-					for(int i = 0; i < tab; i++) os.put('\t');	
+
+					for (int i = 0; i < tab; i++) os.put('\t');
 				}
+
 				os.put(']');
 				break;
 
 			case trent::type::dict:
 				os.put('{');
-				for(auto& p : tr.unsafe_dict_const()) {
+
+				for (auto& p : tr.unsafe_dict_const())
+				{
 					if (sep) os << ',';
+
 					os.put('\n');
-					for(int i = 0; i < tab + 1; i++) os.put('\t');
+
+					for (int i = 0; i < tab + 1; i++) os.put('\t');
+
 					os << '"' << p.first << '"';
 					os.write(": ", 2);
-					json::pretty_print_to(p.second, os, tab+1);
+					json::pretty_print_to(p.second, os, tab + 1);
 					sep = true;
 				}
+
 				os.put('\n');
-				for(int i = 0; i < tab; i++) os.put('\t');
+
+				for (int i = 0; i < tab; i++) os.put('\t');
+
 				os.put('}');
-				break; 
+				break;
+
 			case trent::type::nil:
 				os.write("nil", 3);
 				break;
 		}
+
 		if (tab == 0) os << std::endl;
 	}
 }
