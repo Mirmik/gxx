@@ -17,6 +17,7 @@ public:
 		list_checker_type,
 		string_checker_type,
 		numer_checker_type,
+		bool_checker_type,
 		numer_or_string_checker_type,
 	};
 
@@ -52,6 +53,9 @@ public:
 				break;
 			case string_checker_type:
 				if (!tr.is_string()) return error("should be string");
+				break;
+			case bool_checker_type:
+				if (!tr.is_bool()) return error("should be boolean");
 				break;
 			case numer_checker_type:
 				if (!tr.is_numer()) return error("should be numer");
@@ -209,6 +213,10 @@ public:
 
 	struct numer : public schema_node {
 		numer() : schema_node(numer_checker_type) {}
+	};
+
+	struct boolean : public schema_node {
+		boolean() : schema_node(bool_checker_type) {}
 	};
 
 	struct integer : public schema_node {

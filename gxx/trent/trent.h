@@ -221,6 +221,7 @@ namespace gxx {
 		const char * type_to_str() const;
 
 		bool is_nil() const 		{ return m_type == type::nil; }
+		bool is_bool() const 		{ return m_type == type::boolean; }
 		bool is_numer() const 		{ return m_type == type::numer || m_type == type::integer; }
 		bool is_integer() const     { return m_type == type::integer; }
 		bool is_list() const		{ return m_type == type::list; }
