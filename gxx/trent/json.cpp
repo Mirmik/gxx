@@ -67,7 +67,35 @@ namespace gxx
 
 		if (c == '{') return parse_dict(is);
 
+		if (isalpha(c)) return parse_mnemonic(is);
+
 		return error("undefined trent");
+	}
+
+	result<trent> json::parse_mnemonic(std::istream& is)
+	{
+		char c;
+		std::string str;
+		while (1)
+		{
+			is >> c;
+			if (isalpha(c))
+			{
+				str += c;
+				continue;
+			}
+			else
+			{
+				is.unget();
+				break;
+			}
+		}
+
+		gxx::println(str);
+
+		if (str == "true") return trent(true);
+		if (str == "false") return trent(false);
+		return error("undefined mnemonic");
 	}
 
 	trent json::parse_numer(std::istream& is)
@@ -76,7 +104,7 @@ namespace gxx
 		is >> num;
 
 		if (num - (trent::integer_type)num == 0)
-		{	return trent((trent::integer_type)num); }
+			return trent((trent::integer_type)num);
 
 		return trent(num);
 	}
@@ -202,6 +230,10 @@ namespace gxx
 				os << tr.unsafe_numer_const();
 				return;
 
+			case trent::type::boolean:
+				os << (tr.unsafe_bool_const() ? "true" : "false");
+				break;
+
 			case trent::type::string:
 				os << '"';
 				os << tr.unsafe_string_const();
@@ -256,6 +288,10 @@ namespace gxx
 
 			case trent::type::numer:
 				os << std::fixed << tr.unsafe_numer_const();
+				break;
+
+			case trent::type::boolean:
+				os << (tr.unsafe_bool_const() ? "true" : "false");
 				break;
 
 			case trent::type::integer:

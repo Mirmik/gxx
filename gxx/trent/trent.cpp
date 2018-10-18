@@ -27,11 +27,14 @@ namespace gxx {
             case trent::type::numer:
                 m_num = other.m_num;
 				return;
+            case trent::type::boolean:
             case trent::type::integer:
                 m_int = other.m_int;
 				return;
             case trent::type::nil:
 				return;
+			default:
+				PANIC_TRACED();
 		}
 	}
 
@@ -100,6 +103,7 @@ namespace gxx {
 	void trent::init(const unsigned int& n) { m_type = trent::type::integer; m_int = n; }
 	void trent::init(const unsigned long& n) { m_type = trent::type::integer; m_int = n; }
 	void trent::init(const unsigned long long& n) { m_type = trent::type::integer; m_int = n; }
+	void trent::init(const bool& n) { m_type = trent::type::boolean; m_int = n; }
 
 	void trent::invalidate() {
 		switch(m_type) {
@@ -329,6 +333,7 @@ namespace gxx {
             case trent::type::numer: 		return "numer";
             case trent::type::integer: 		return "integer";
             case trent::type::nil:          return "nil";
+			default: PANIC_TRACED();
 		}
 	}
 
@@ -353,6 +358,8 @@ namespace gxx {
 				return *this;
             case trent::type::nil:
 				return *this;
+			default:
+				PANIC_TRACED();
 		}
 	}
 
@@ -428,6 +435,11 @@ namespace gxx {
 	}
 
 	trent& trent::operator= (unsigned long long i){
+		reset(i);
+		return *this;
+	}
+
+	trent& trent::operator= (bool i){
 		reset(i);
 		return *this;
 	}

@@ -78,6 +78,7 @@ namespace gxx {
 			dict,
 			numer,
 			integer,
+			boolean,
 			nil,
 		};
 
@@ -119,7 +120,8 @@ namespace gxx {
 		inline trent(const unsigned int& i) { init(i); }
 		inline trent(const unsigned long& i) { init(i); }
 		inline trent(const unsigned long long& i) { init(i); }
-
+		inline trent(const bool& i) { init(i); }
+		
 	public:
 		void init(trent::type t);
 		void init(const std::string& str);
@@ -138,6 +140,7 @@ namespace gxx {
 		void init(const unsigned int& i);
 		void init(const unsigned long& i);
 		void init(const unsigned long long& i);
+		void init(const bool& i);
 
 		template <typename T>
 		void reset(T obj) {
@@ -212,6 +215,7 @@ namespace gxx {
 		const string_type& unsafe_string_const() const { return m_str; }
 		const list_type& unsafe_list_const() const { return m_arr; }
 		const dict_type& unsafe_dict_const() const { return m_dict; }
+		const integer_type& unsafe_bool_const() const { return m_int; }
 
 		trent::type get_type() const;
 		const char * type_to_str() const;
@@ -245,6 +249,7 @@ namespace gxx {
 		trent& operator= (unsigned int i);
 		trent& operator= (unsigned long i);
 		trent& operator= (unsigned long long i);
+		trent& operator= (bool i);
 		int size();
 
 		bool contains(gxx::buffer buf);
