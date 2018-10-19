@@ -26,7 +26,7 @@ int main() {
 
 	const char* hello = "HelloWorld";
 
-	gxx::print_dump(hello, 10);
+	//gxx::print_dump(hello, 10);
 
 
 //	std::map<std::string, int> mp;
