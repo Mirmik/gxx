@@ -10,6 +10,8 @@
 #include <gxx/util/random.h>
 
 #include <gxx/objbuf.h>
+#include <math.h>
+
 
 namespace malgo {
 

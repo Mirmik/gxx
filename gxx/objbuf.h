@@ -76,12 +76,16 @@ namespace gxx {
 		}
 
 		size_t printTo(gxx::io::ostream& o) const {
-			o.putchar('[');
+			int ret = 0;
+
+			ret += o.putchar('[');
 			for(int i = 0; i < m_size; ++i) {
-				gxx::print(*(m_data + i));
-				if (i != m_size - 1) o.putchar(' ');
+				ret += gxx::print(*(m_data + i));
+				if (i != m_size - 1) ret += o.putchar(' ');
 			}
-			o.putchar(']');
+			ret += o.putchar(']');
+
+			return ret;
 		}
 
 		//template<typename M>

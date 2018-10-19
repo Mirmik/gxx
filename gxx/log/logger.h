@@ -53,6 +53,8 @@ namespace gxx
 				case level::error: return "error";
 				case level::fault: return "fault";
 			}
+			PANIC_TRACED();
+			return "";
 		}
 
 		class logger

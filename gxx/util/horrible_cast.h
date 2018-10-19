@@ -28,6 +28,11 @@ inline OutputClass horrible_cast(const InputClass input){
 	// unions which would prevent the cast from working.
 	typedef int ERROR_CantUseHorrible_cast[sizeof(InputClass)==sizeof(u) 
 		&& sizeof(InputClass)==sizeof(OutputClass) ? 1 : -1];
+	
+	//warn supress:
+	ERROR_CantUseHorrible_cast _;
+	(void)_; 
+
 	u.in = input;
 	return u.out;
 }

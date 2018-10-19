@@ -71,6 +71,8 @@ namespace gxx {
             case trent::type::numer:
             case trent::type::nil:
 				return;
+			default:
+				PANIC_TRACED();
 		}
 	}
 
@@ -117,7 +119,12 @@ namespace gxx {
 				gxx::destructor(&m_dict);
 				return;
             case trent::type::nil:
+            case trent::type::integer:
             case trent::type::numer:
+            case trent::type::boolean:
+				return;
+			default:
+				PANIC_TRACED();
 				return;
 		}
         m_type = trent::type::nil;
@@ -125,7 +132,7 @@ namespace gxx {
 
 	trent& trent::operator[](int i) {
         if (m_type != trent::type::list) init(trent::type::list);
-		if(m_arr.size() <= i) m_arr.resize(i + 1);
+		if(m_arr.size() <= (uint)i) m_arr.resize(i + 1);
 		return m_arr[i];
 	}
 
@@ -182,7 +189,7 @@ namespace gxx {
 
 	const trent& trent::at(int i) const {
 		if (m_type != trent::type::list) gxx::panic("wrong trent type");
-        if(m_arr.size() <= i) gxx::panic("wrong trent list size");
+        if(m_arr.size() <= (uint)i) gxx::panic("wrong trent list size");
 		return m_arr[i];
 	}
 
@@ -335,6 +342,7 @@ namespace gxx {
             case trent::type::nil:          return "nil";
 			default: PANIC_TRACED();
 		}
+		return "";
 	}
 
 	trent& trent::operator= (const trent& other) {
@@ -361,6 +369,7 @@ namespace gxx {
 			default:
 				PANIC_TRACED();
 		}
+		return *this;
 	}
 
 	trent& trent::operator= (const std::string& str) {
@@ -450,6 +459,8 @@ namespace gxx {
 			case trent::type::string: return -1;
             case trent::type::list: return m_arr.size();
             case trent::type::dict: return m_dict.size();
+            default: PANIC_TRACED();
 		}
+		return 0;
 	}
 }

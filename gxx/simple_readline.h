@@ -54,6 +54,7 @@ namespace gxx {
 				*m_cursor++ = c;
 				lastsymb = c;
 			}
+			return 0;
 		}
 
 		size_t size() const {

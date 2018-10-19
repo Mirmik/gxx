@@ -152,9 +152,9 @@ namespace result_type {
 			return _data;
 		}
 		
-		E& error() {
+		E&& error() {
 			assert(_iserror == 1);
-			return _error;
+			return std::move(_error);
 		}
 		
 		bool is_error() {
@@ -223,9 +223,9 @@ namespace result_type {
 			assert(_iserror == 0);
 		}
 		
-		E& error() {
+		E&& error() {
 			assert(_iserror == 1);
-			return _error;
+			return std::move(_error);
 		}
 
 		bool is_error() {
@@ -240,7 +240,7 @@ namespace result_type {
 	};
 }}
 
-#define tryS(invoke) ({												\
+/*#define tryS(invoke) ({												\
 	auto&& __result = ({invoke;}); 									\
 	if (__result.is_error()) return std::move(__result.getError());	\
 	__result.getData();												\
@@ -268,7 +268,7 @@ namespace result_type {
 	}; 																\
 	try_label:														\
 	__result.getData();												\
-})
+})*/
 
 #define try_restore(val) ({__result.restore(val); goto try_label;})
 
