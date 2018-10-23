@@ -81,26 +81,26 @@ int gxx::gbson::dump(const gxx::trent& tr, char* buffer, size_t maxlen) {
 	return ret;
 }	
 
-static int load_integer(gxx::trent& tr, char* buffer, size_t maxlen) {
+static int load_integer(gxx::trent& tr, const char* buffer, size_t maxlen) {
 	tr = *(int64_t*)++buffer;
 	return 1 + sizeof(int64_t);
 }
 
-static int load_numer(gxx::trent& tr, char* buffer, size_t maxlen) {
+static int load_numer(gxx::trent& tr, const char* buffer, size_t maxlen) {
 	tr = *(long double*)++buffer;
 	return 1 + sizeof(long double);
 	return 0;
 }
 
-static int load_string(gxx::trent& tr, char* buffer, size_t maxlen) {
+static int load_string(gxx::trent& tr, const char* buffer, size_t maxlen) {
 	uint8_t slen = *++buffer;
-	char* sptr = ++buffer;
+	const char* sptr = ++buffer;
 	tr = gxx::buffer(sptr, slen);
 	return 2 + slen;
 }
 
-static int load_list(gxx::trent& tr, char* buffer, size_t maxlen) {
-	char* start = buffer++;
+static int load_list(gxx::trent& tr, const char* buffer, size_t maxlen) {
+	const char* start = buffer++;
 	uint8_t size = *buffer++;
 
 	tr.init(gxx::trent::type::list);
@@ -116,15 +116,15 @@ static int load_list(gxx::trent& tr, char* buffer, size_t maxlen) {
 	return 0;
 }
 
-static int load_dict(gxx::trent& tr, char* buffer, size_t maxlen) {
-	char* start = buffer++;
+static int load_dict(gxx::trent& tr, const char* buffer, size_t maxlen) {
+	const char* start = buffer++;
 	uint8_t size = *buffer++;
 
 	tr.init(gxx::trent::type::dict);
 
 	for (int i = 0; i < size; ++i) {
 		uint8_t nlen = *buffer++;
-		char* nptr = buffer;
+		const char* nptr = buffer;
 		buffer += nlen;
 	
 		int lret = gxx::gbson::load(tr[gxx::buffer(nptr, nlen)], buffer, maxlen);
@@ -136,7 +136,7 @@ static int load_dict(gxx::trent& tr, char* buffer, size_t maxlen) {
 	return buffer - start;
 }
 
-int gxx::gbson::load(gxx::trent& tr, char* buffer, size_t maxlen) {
+int gxx::gbson::load(gxx::trent& tr, const char* buffer, size_t maxlen) {
 	int ret;
 	gxx::gbson::type type = gxx::gbson::type(*buffer);
 
