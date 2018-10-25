@@ -184,6 +184,9 @@ __END_DECLS
     double:				debug_printhex_double 	\
 )(X)
 
+#define dprln(X) do{dpr(X);dln();}while(0)
+#define dprhexln(X) do{dprhex(X);dln();}while(0)
+
 #else 
 
 static inline void dpr(char* obj) { debug_print(obj); }
@@ -211,27 +214,29 @@ static inline void dprhex(int64_t obj) { debug_printhex_int64(obj); }
 static inline void dprhex(double obj) { debug_printhex_double(obj); }
 static inline void dprhex(float obj) { debug_printhex_float(obj); }
 
-#endif
+template <typename T, typename ... Tail>
+inline void dpr(const T& obj, const Tail& ... tail) {
+	dpr(obj);
+	debug_putchar(' ');
+	dpr(tail ...);
+}
 
-#define dprln(X) do{dpr(X);dln();}while(0)
-#define dprhexln(X) do{dprhex(X);dln();}while(0)
+template<typename ... T> void dprln(const T& ... obj)
+	{ dpr(obj ...); debug_write("\r\n", 2); }
+
+template<typename T> void dprhexln(const T& obj)
+	{ dprhex(obj); debug_write("\r\n", 2); }
+
+#endif
 
 
 
 
 #ifdef __cplusplus
 
-
 template <typename Buffer>
 void dpr(const Buffer& obj) {
 	debug_write(obj.data(), obj.size());
-}
-
-template <typename T, typename ... Tail>
-inline void dpr(const T& obj, const Tail& ... tail) {
-	dpr(obj);
-	debug_putchar(' ');
-	dpr(tail ...);
 }
 
 /*void dprbin(uint8_t obj);
@@ -275,14 +280,8 @@ void dpr_dump_ascii(void* obj, uint32_t size);
 template<typename T> void dprptr(const T* const& obj)
 	{ debug_printhex_ptr((void*)obj); }
 
-//template<typename ... T> void dprln(const T& ... obj)
-//	{ dpr(obj ...); debug_write("\r\n", 2); }
-
 template<typename T> void dprbinln(const T& obj)
 	{ dprbin(obj); debug_write("\r\n", 2); }
-
-//template<typename T> void dprhexln(const T& obj)
-//	{ dprhex(obj); debug_write("\r\n", 2); }
 
 template<typename T> void dprptrln(const T& obj)
 	{ dprptr(obj); debug_write("\r\n", 2); }
