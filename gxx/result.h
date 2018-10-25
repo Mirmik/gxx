@@ -129,6 +129,16 @@ namespace result_type {
 			return _data;
 		}
 
+		Result& unwrap(const char * loc) {
+                        if (is_error()) { 
+				dpr(loc);
+				dpr(": ");
+                                gxx::panic(_error.what());
+                        }
+                        return _data;
+                }
+
+
 		inline void restore(T&& r) {
 			_iserror = false;
 			_error.~error();
