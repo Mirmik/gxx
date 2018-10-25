@@ -214,18 +214,23 @@ static inline void dprhex(int64_t obj) { debug_printhex_int64(obj); }
 static inline void dprhex(double obj) { debug_printhex_double(obj); }
 static inline void dprhex(float obj) { debug_printhex_float(obj); }
 
-template <typename T, typename ... Tail>
-inline void dpr(const T& obj, const Tail& ... tail) {
+template <typename T, typename ... Tail> 
+void dpr(const T& obj, const Tail& ... tail) {
 	dpr(obj);
 	debug_putchar(' ');
 	dpr(tail ...);
 }
 
-template<typename ... T> void dprln(const T& ... obj)
-	{ dpr(obj ...); debug_write("\r\n", 2); }
+template<typename ... T> 
+void dprln(const T& ... obj) { 
+	dpr(obj ...); 
+	debug_write("\r\n", 2); 
+}
 
-template<typename T> void dprhexln(const T& obj)
-	{ dprhex(obj); debug_write("\r\n", 2); }
+template<typename T> void dprhexln(const T& obj) { 
+	dprhex(obj); 
+	debug_write("\r\n", 2); 
+}
 
 #endif
 
