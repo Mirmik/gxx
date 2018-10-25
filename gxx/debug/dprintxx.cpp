@@ -1,27 +1,6 @@
 #include "gxx/debug/dprint.h"
 //#include "utilxx/horrible_cast.h"
 
-void dprln() {debug_print("\r\n");}
-
-void dpr(char obj) { debug_putchar(obj); }
-void dpr(char* obj) { debug_print(obj); }
-void dpr(const char* obj) { debug_print(obj); }
-
-void dpr(uint8_t obj) { debug_printdec_uint8(obj); }
-void dpr(uint16_t obj) { debug_printdec_uint16(obj); }
-void dpr(uint32_t obj) { debug_printdec_uint32(obj); }
-void dpr(uint64_t obj) { debug_printdec_uint64(obj); }
-
-void dpr(int8_t obj) { debug_printdec_int8(obj); }
-void dpr(int16_t obj) { debug_printdec_int16(obj); }
-void dpr(int32_t obj) { debug_printdec_int32(obj); }
-void dpr(int64_t obj) { debug_printdec_int64(obj); }
-
-void dpr(double obj) { debug_printdec_double(obj, 2); }
-void dpr(float obj) { debug_printdec_float(obj, 2); }
-
-void dpr(bool obj) { debug_print_bool(obj); }
-
 /*
 void dprbin(uint8_t obj) { debug_printbin_uint8(obj); }
 void dprbin(uint16_t obj) { debug_printbin_uint16(obj); }
@@ -56,11 +35,6 @@ void dprhex(int64_t obj) { debug_printhex_uint64(obj); }
 void dpr_dump(const void* obj, uint32_t size)
 {
 	debug_print_dump(obj, size);
-}
-
-void dpr_dump_ascii(void* obj, uint32_t size)
-{
-	debug_print_dump_ascii(obj, size);
 }
 
 void dprtab() {
