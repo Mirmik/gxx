@@ -145,14 +145,26 @@ namespace result_type {
 			_data = std::forward<T>(r);	
 		}
 	
+		[[deprecated]]
 		Result& getData() {
 			assert(_iserror == 0);
 			return _data;
 		}
 		
+		[[deprecated]]
 		E& getError() {
 			assert(_iserror == 1);
 			return _error;
+		}
+		
+		Result& value() {
+			assert(_iserror == 0);
+			return _data;
+		}
+		
+		E&& error() {
+			assert(_iserror == 1);
+			return std::move(_error);
 		}
 		
 		bool is_error() {
@@ -206,15 +218,26 @@ namespace result_type {
 			}
 		}
 
+		[[deprecated]]
 		void getData() {
 			assert(_iserror == 0);
 		}
 		
+		[[deprecated]]
 		E& getError() {
 			assert(_iserror == 1);
 			return _error;
 		}
 		
+		void value() {
+			assert(_iserror == 0);
+		}
+		
+		E&& error() {
+			assert(_iserror == 1);
+			return std::move(_error);
+		}
+
 		bool is_error() {
 			return _iserror;
 		}
@@ -227,7 +250,7 @@ namespace result_type {
 	};
 }}
 
-#define tryS(invoke) ({												\
+/*#define tryS(invoke) ({												\
 	auto&& __result = ({invoke;}); 									\
 	if (__result.is_error()) return std::move(__result.getError());	\
 	__result.getData();												\
@@ -255,7 +278,7 @@ namespace result_type {
 	}; 																\
 	try_label:														\
 	__result.getData();												\
-})
+})*/
 
 #define try_restore(val) ({__result.restore(val); goto try_label;})
 

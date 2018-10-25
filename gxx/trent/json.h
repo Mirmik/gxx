@@ -17,7 +17,7 @@ namespace gxx
 		result<trent> parse_string(std::istream& is);
 		result<trent> parse_list(std::istream& is);
 		result<trent> parse_dict(std::istream& is);
-	};
+	}
 }
 
 #endif

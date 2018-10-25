@@ -10,6 +10,8 @@
 #include <gxx/util/random.h>
 
 #include <gxx/objbuf.h>
+#include <math.h>
+
 
 namespace malgo {
 
@@ -407,7 +409,7 @@ void vector_copy_uncompact( T1 A, int n, T2 B, int as, int bs) {
 
 
 template <typename T>
-void vector_random( T* A, int n, auto min, auto max) {
+void vector_random( T* A, int n, T min, T max) {
 	while(n--) { 
 		*A++ = gxx::random_minmax<T>(min, max);
 		//gxx::println(*(A-1));

@@ -53,7 +53,7 @@ namespace gxx{
 				return EmptyString;
 			}
 
-			for(int i = 0; i < table_size; ++i) {
+			for(uint i = 0; i < table_size; ++i) {
 				if (!strcmp(argv[0], table[i].name)) {
 					int res = table[i].func(argc, argv);
 					if (ret) *ret = res;

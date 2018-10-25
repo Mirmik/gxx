@@ -14,10 +14,11 @@ void panic(const char* str);
 
 __END_DECLS
 
-#define PANIC_TRACED()							\
-{												\
-	debug_print_location(current_location());	\
-	panic("TRACED");							\
+#define PANIC_TRACED()			\
+{								\
+	CURRENT_LOCATION(loc);		\
+	debug_print_location(loc);	\
+	panic("TRACED");			\
 }
 
 #ifdef __cplusplus

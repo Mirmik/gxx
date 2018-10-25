@@ -2,6 +2,7 @@
 #define DEBUG_PRINT_H
 
 #include <inttypes.h>
+#include <stdbool.h>
 #include <sys/cdefs.h>
 
 /**
@@ -25,149 +26,222 @@
 
 __BEGIN_DECLS
 
-///Платформозависимый !блокирующий процессор! вывод char
+/// Базовая функция вывода символа. 
+/// @detail Имплементируется вне библиотеки. 
 void debug_putchar(char c);
-void debug_dumpmode_putchar(char c);
 
-//Вывод строки указанной длины.
+/// Базовая функция вывода строки указанной длины. 
+/// @detail Имплементируется вне библиотеки.
 void debug_write(const char* c, int i);
-void debug_dumpmode_write(const char* c, int i);
 
-//Вывод интов, согласно типам. Возможен вывод в системах dec, hex, bin.
+/// Internal strlen implementation
+int debug_strlen(const char *c);
+
+// Print null-terminated string
+void debug_print(const char *c);
+
+// Print null-terminated string with newline
+void debug_print_line(const char *c);
+
+static inline void debug_print_empty_line() {
+	debug_putchar('\r');
+	debug_putchar('\n');
+}
+
+/// Print pointer as hexdecimal uint (in natural endian)
 void debug_printhex_ptr(const void* a);
 
+// Debug print boolean as 'true' or 'false'.
+void debug_print_bool(uint8_t b);
+
+// Debug print boolean as '1' or '0'.
+void debug_print_bool_num(uint8_t b);
+
+/// Hexidecimal integer type`s representation (in natural endian)
 void debug_printhex_uint4(uint8_t b);
 void debug_printhex_uint8 (uint8_t b);
 void debug_printhex_uint16(uint16_t a);
 void debug_printhex_uint32(uint32_t a);
 void debug_printhex_uint64(uint64_t a);
-
 #define debug_printhex_int4(a) debug_printhex_uint4(a)
 #define debug_printhex_int8(a) debug_printhex_uint8(a)
 #define debug_printhex_int16(a) debug_printhex_uint16(a)
 #define debug_printhex_int32(a) debug_printhex_uint32(a)
 #define debug_printhex_int64(a) debug_printhex_uint64(a)
 
+/// Binary integer type`s representation (in natural endian)
 void debug_printbin_uint4 (uint8_t b);
 void debug_printbin_uint8 (uint8_t b);
 void debug_printbin_uint16(uint16_t a);
 void debug_printbin_uint32(uint32_t a);
 void debug_printbin_uint64(uint64_t a);
+#define debug_printbin_int4(a) debug_printbin_uint4(a)
+#define debug_printbin_int8(a) debug_printbin_uint8(a)
+#define debug_printbin_int16(a) debug_printbin_uint16(a)
+#define debug_printbin_int32(a) debug_printbin_uint32(a)
+#define debug_printbin_int64(a) debug_printbin_uint64(a)
 
+/// Decimal integer type`s representation
 void debug_printdec_uint8 (uint8_t b);
 void debug_printdec_uint16(uint16_t a);
 void debug_printdec_uint32(uint32_t a);
 void debug_printdec_uint64(uint64_t a);
-
 void debug_printdec_int8 (int8_t b);
 void debug_printdec_int16(int16_t a);
 void debug_printdec_int32(int32_t a);
 void debug_printdec_int64(int64_t a);
 
-void debug_printdec_float(float a, int prec);
-void debug_printdec_double(double a, int prec);
+/// Float types debug print
+void debug_printdec_float_prec(float a, int prec);
+void debug_printdec_double_prec(double a, int prec);
+static inline void debug_printdec_float(float a) {
+	debug_printdec_float_prec(a,8);
+}
+static inline void debug_printdec_double(double a) {
+	debug_printdec_double_prec(a,8);
+}
 
-//void debug_printdec_float(float a, int prec);
-//void debug_printdec_double(double a, int prec);
+void debug_printhex_float(float a);
+void debug_printhex_double(double a);
 
-//strlen для внутреннего использования
-int debug_strlen(const char *c);
+/// Шестнацатеричное представление строки (in machine endian)
+void debug_writehex(const void* address, uint16_t size);
+void debug_writehex_reversed(const void* address, uint16_t size);
 
-//Вывод нульформатированной строки
-void debug_print(const char *c);
-void debug_print_line(const char *c);
+/// Бинарное представление строки (in machine endian)
+void debug_writebin(const void* address, uint16_t size);
+void debug_writebin_reversed(const void* address, uint16_t size);
 
-//Вывод дампа памяти. size - размер в байтах.
+/// Вывод дампа памяти в виде размеченной таблицы
 void debug_print_dump(const void* address, uint16_t size);
-void debug_print_dump_ascii(const void* address, uint16_t size);
-
-void debug_print_dump_simple(const void* address, uint16_t size);
-void debug_print_binary_dump_simple(const void* address, uint16_t size);
-void debug_print_reverse_dump_simple(const void* address, uint16_t size);
-void debug_print_reverse_binary_dump_simple(const void* address, uint16_t size);
-
-//Вывод логического значения.
-void debug_print_bool(uint8_t b);
-void debug_print_bool_num(uint8_t b);
-
-//Вывод float одинарной точности. //TODO дополнить
-//void debug_printbin_spf(sp_float a);
-
-//Проверка функций библиотеки debug_print.
-void debug_print_test();
 
 //Тесты для проверки ассемблерной линковки.
- void dasm_test();
- //void dasm_uint8_dpr1(uint8_t a);
- //void dasm_uint8_dpr2(uint8_t a, uint8_t b);
- //void dasm_uint8_dpr3(uint8_t a, uint8_t b, uint8_t c);
- //void dasm_uint8_dpr4(uint8_t a, uint8_t b, uint8_t c, uint8_t d);
- void dasm_printhex_uint16(uint16_t a);
- void dasm_uint16_dpr2(uint16_t a, uint16_t b);
- void dasm_uint16_dpr4(uint16_t a, uint16_t b, uint16_t c, uint16_t d);
- uint16_t dasm_uint16_ret();
- uint64_t dasm_uint64_ret();
+void debug_asmlink_test();
+
+uint8_t debug_asmlink_ret8();
+uint16_t debug_asmlink_ret16();
+uint32_t debug_asmlink_ret32();
+uint64_t debug_asmlink_ret64();
+
+void debug_asmlink_args8x1(uint8_t a);
+void debug_asmlink_args8x2(uint8_t a, uint8_t b);
+void debug_asmlink_args8x3(uint8_t a, uint8_t b, uint8_t c);
+void debug_asmlink_args8x4(uint8_t a, uint8_t b, uint8_t c, uint8_t d);
+
+void debug_asmlink_args16x1(uint16_t a);
+void debug_asmlink_args16x2(uint16_t a, uint16_t b);
+void debug_asmlink_args16x3(uint16_t a, uint16_t b, uint16_t c);
+void debug_asmlink_args16x4(uint16_t a, uint16_t b, uint16_t c, uint16_t d);
+
+void debug_asmlink_args32x1(uint32_t a);
+void debug_asmlink_args32x2(uint32_t a, uint32_t b);
+void debug_asmlink_args32x3(uint32_t a, uint32_t b, uint32_t c);
+void debug_asmlink_args32x4(uint32_t a, uint32_t b, uint32_t c, uint32_t d);
+
+void debug_asmlink_args64x1(uint64_t a);
+void debug_asmlink_args64x2(uint64_t a, uint64_t b);
+void debug_asmlink_args64x3(uint64_t a, uint64_t b, uint64_t c);
+void debug_asmlink_args64x4(uint64_t a, uint64_t b, uint64_t c, uint64_t d);
 
 int dprf(const char*, ...);
 
-#define dln() {debug_putchar('\r');debug_putchar('\n');}
-
-#ifndef __cplusplus
-
-void dpr(const char* obj);
-void dpr_n(const char* obj);
-
-void dprln(const char* obj);
-void dprln_n(const char* obj);
+#define dln() debug_print_empty_line()
+#define dprdec(arg) debug_printdec_int64(arg)
 
 void dprptr(const void* ptr);
 void dprptrln(const void* ptr);
 
-#endif
-
-#define dprdec(arg) debug_printdec_int64(arg)
-#define dprraw(arg) debug_print_dump_simple((void*)&arg, sizeof(arg))
-
 __END_DECLS
 
+#ifndef __cplusplus
+
+#define dpr(X) _Generic((X), 	 				\
+    const char*: 		debug_print, 			\
+    char*: 				debug_print, 			\
+    uint8_t:			debug_printdec_uint8, 	\
+    uint16_t:			debug_printdec_uint16, 	\
+    uint32_t:			debug_printdec_uint32, 	\
+    uint64_t:			debug_printdec_uint64, 	\
+    int8_t:				debug_printdec_int8, 	\
+    int16_t:			debug_printdec_int16, 	\
+    int32_t:			debug_printdec_int32, 	\
+    int64_t:			debug_printdec_int64, 	\
+	float:				debug_printdec_float, 	\
+    double:				debug_printdec_double, 	\
+    bool:				debug_print_bool 		\
+)(X)
+
+#define dprhex(X) _Generic((X), 	 			\
+    uint8_t:			debug_printhex_uint8, 	\
+    uint16_t:			debug_printhex_uint16, 	\
+    uint32_t:			debug_printhex_uint32, 	\
+    uint64_t:			debug_printhex_uint64, 	\
+    int8_t:				debug_printhex_int8, 	\
+    int16_t:			debug_printhex_int16, 	\
+    int32_t:			debug_printhex_int32, 	\
+    int64_t:			debug_printhex_int64, 	\
+	float:				debug_printhex_float, 	\
+    double:				debug_printhex_double 	\
+)(X)
+
+#define dprln(X) do{dpr(X);dln();}while(0)
+#define dprhexln(X) do{dprhex(X);dln();}while(0)
+
+#else 
+
+static inline void dpr(char* obj) { debug_print(obj); }
+static inline void dpr(const char* obj) { debug_print(obj); }
+static inline void dpr(uint8_t obj) { debug_printdec_uint8(obj); }
+static inline void dpr(uint16_t obj) { debug_printdec_uint16(obj); }
+static inline void dpr(uint32_t obj) { debug_printdec_uint32(obj); }
+static inline void dpr(uint64_t obj) { debug_printdec_uint64(obj); }
+static inline void dpr(int8_t obj) { debug_printdec_int8(obj); }
+static inline void dpr(int16_t obj) { debug_printdec_int16(obj); }
+static inline void dpr(int32_t obj) { debug_printdec_int32(obj); }
+static inline void dpr(int64_t obj) { debug_printdec_int64(obj); }
+static inline void dpr(double obj) { debug_printdec_double(obj); }
+static inline void dpr(float obj) { debug_printdec_float(obj); }
+static inline void dpr(bool obj) { debug_print_bool(obj); }
+
+static inline void dprhex(uint8_t obj) { debug_printhex_uint8(obj); }
+static inline void dprhex(uint16_t obj) { debug_printhex_uint16(obj); }
+static inline void dprhex(uint32_t obj) { debug_printhex_uint32(obj); }
+static inline void dprhex(uint64_t obj) { debug_printhex_uint64(obj); }
+static inline void dprhex(int8_t obj) { debug_printhex_int8(obj); }
+static inline void dprhex(int16_t obj) { debug_printhex_int16(obj); }
+static inline void dprhex(int32_t obj) { debug_printhex_int32(obj); }
+static inline void dprhex(int64_t obj) { debug_printhex_int64(obj); }
+static inline void dprhex(double obj) { debug_printhex_double(obj); }
+static inline void dprhex(float obj) { debug_printhex_float(obj); }
+
+template <typename T, typename ... Tail> 
+void dpr(const T& obj, const Tail& ... tail) {
+	dpr(obj);
+	debug_putchar(' ');
+	dpr(tail ...);
+}
+
+template<typename ... T> 
+void dprln(const T& ... obj) { 
+	dpr(obj ...); 
+	debug_write("\r\n", 2); 
+}
+
+template<typename T> void dprhexln(const T& obj) { 
+	dprhex(obj); 
+	debug_write("\r\n", 2); 
+}
+
+#endif
+
+
+
+
 #ifdef __cplusplus
-
-void dprln();
-
-void dpr(char obj);
-void dpr(char* obj);
-void dpr(const char* obj);
-
-//template<> void dpr(genos::charptr obj)
-//{
-//	debug_write(obj.to_buf(),obj.length());
-//};
-
-void dpr(uint8_t obj);
-void dpr(uint16_t obj);
-void dpr(uint32_t obj);
-void dpr(uint64_t obj);
-
-void dpr(int8_t obj);
-void dpr(int16_t obj);
-void dpr(int32_t obj);
-void dpr(int64_t obj);
-
-void dpr(bool obj);
-
-void dpr(float obj);
-void dpr(double obj);
 
 template <typename Buffer>
 void dpr(const Buffer& obj) {
 	debug_write(obj.data(), obj.size());
-}
-
-template <typename T, typename ... Tail>
-inline void dpr(const T& obj, const Tail& ... tail) {
-	dpr(obj);
-	debug_putchar(' ');
-	dpr(tail ...);
 }
 
 /*void dprbin(uint8_t obj);
@@ -197,11 +271,6 @@ void dprhex(int64_t obj);
 */
 
 template<typename T>
-void dprhex(const T& obj) {
-	debug_print_reverse_dump_simple(&obj, sizeof(T));
-}
-
-template<typename T>
 void dprbin(const T& obj) {
 	debug_print_reverse_binary_dump_simple(&obj, sizeof(T));
 }
@@ -216,14 +285,8 @@ void dpr_dump_ascii(void* obj, uint32_t size);
 template<typename T> void dprptr(const T* const& obj)
 	{ debug_printhex_ptr((void*)obj); }
 
-template<typename ... T> void dprln(const T& ... obj)
-	{ dpr(obj ...); debug_write("\r\n", 2); }
-
 template<typename T> void dprbinln(const T& obj)
 	{ dprbin(obj); debug_write("\r\n", 2); }
-
-template<typename T> void dprhexln(const T& obj)
-	{ dprhex(obj); debug_write("\r\n", 2); }
 
 template<typename T> void dprptrln(const T& obj)
 	{ dprptr(obj); debug_write("\r\n", 2); }

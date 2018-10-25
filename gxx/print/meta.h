@@ -48,6 +48,7 @@ namespace gxx {
 	template<typename T>
 	struct fprint_functions_basic<T, false> {
 		static int format_print(const T& obj, gxx::io::ostream& o, gxx::buffer opt) {
+			(void)opt;
 			return print_functions<T>::print(o, obj);
 		}
 	};
@@ -58,6 +59,7 @@ namespace gxx {
 	template<typename T>
 	struct fprint_functions<T*> {
 		static int format_print(const T* const obj, gxx::io::ostream& o, gxx::buffer opt) {
+			(void)opt;
 			return print_functions<const T*>::print(o, obj);
 		}
 	};

@@ -32,9 +32,9 @@ namespace gxx {
 		scpi_string_parser(const std::string& str) {
 			gxx::creader reader(str.c_str());
 
-			while(reader.next_is(isalpha)) {
-				std::string tempstr = reader.string_while(isalpha);
-				int tempnum = reader.next_is(isdigit) ? reader.integer() : -1;
+			while(reader.next_is<int(int)>(std::isalpha)) {
+				std::string tempstr = reader.string_while<int(int)>(isalpha);
+				int tempnum = reader.next_is<int(int)>(isdigit) ? reader.integer() : -1;
 				headers.emplace_back(tempstr, tempnum);
 				if (!reader.next_is(':')) break;
 				else reader.skip(); 

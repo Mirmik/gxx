@@ -20,6 +20,7 @@ module("gxx.util",
 		"util/dstring.c",
 		"impl/sshell.c",
 		"src/printf_impl.c",
+		"math/util.c"
 	],
 )
 
@@ -55,6 +56,7 @@ module("gxx.c_only",
 		"debug/delay.c",
 		"gstuff/gstuff.c",
 		"gstuff/autorecv.c",
+		"math/util.c"
 	],
 	include_modules = [ submodule("gxx.include")],
 )

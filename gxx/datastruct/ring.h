@@ -80,11 +80,23 @@ static inline int ring_putc(struct ring_head* r, char* buffer, char c) {
 	return 1;
 }
 
-static inline int ring_getc(struct ring_head* r, char* buffer) {
-	if (ring_empty(r)) return 0;	
+static inline int ring_getc(struct ring_head* r, const char* buffer) {
+	if (ring_empty(r)) return -1;	
 	char c = *(buffer + r->tail);
 	ring_move_tail_one(r);
 	return c;
+}
+
+static inline int ring_read(struct ring_head* r, const char* buffer, char* data, size_t size) {
+	int c;
+	int ret = 0;
+	while(size--) {
+		c = ring_getc(r, buffer); 
+		if(c == -1) return ret;
+		*data++ = c;
+		ret++;
+	}
+	return ret;
 }
 
 static inline int ring_write(struct ring_head* r, char* buffer, const char* data, size_t size) {

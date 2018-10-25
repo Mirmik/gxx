@@ -18,7 +18,7 @@ bu = licant.cxx_make.binutils(
 )
 
 application("target",
-	sources = ["main.cpp"],
+	sources = ["main.c"],
 	include_paths = ["../.."],
 	modules = [
 		submodule("gxx", "posix"),

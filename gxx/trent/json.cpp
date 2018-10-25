@@ -152,7 +152,11 @@ namespace gxx
 					return js;
 				}
 
-				js.as_list().push_back(tryS(parse(is)));
+				auto&& r = parse(is);
+				if (r.is_error())
+					return std::move(r.error());
+
+				js.as_list().push_back(r.value());
 			}
 			else return error("wrong list syntax");;
 
@@ -205,7 +209,11 @@ namespace gxx
 
 				c = detail::getnext(is);
 
-				js.as_dict().insert(std::make_pair(key, tryS(parse(is))));
+				auto&& r = parse(is);
+				if (r.is_error())
+					return std::move(r.error());
+
+				js.as_dict().insert(std::make_pair(key, r.value()));
 			}
 
 			else

@@ -19,7 +19,7 @@ namespace gxx {
 		};
 
 		int dump(const gxx::trent& tr, char* buffer, size_t maxlen);
-		int load(	   gxx::trent& tr, char* buffer, size_t maxlen);
+		int load(	   gxx::trent& tr, const char* buffer, size_t maxlen);
 	}
 }
 
