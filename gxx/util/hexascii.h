@@ -1,5 +1,5 @@
-#ifndef GXX_UTIL_BASE64_H
-#define GXX_UTIL_BASE64_H
+#ifndef GXX_UTIL_HEXASCII_H
+#define GXX_UTIL_HEXASCII_H
 
 #ifdef __cplusplus
 
@@ -22,7 +22,7 @@ static inline uint8_t hex2half(char c) {
 }
 
 static inline char half2hex(uint8_t n) {
-	return n < 10 ? '0' + n : 'A' - 10 + n;
+	return (char)(n < 10 ? '0' + n : 'A' - 10 + n);
 }
 
 static inline uint8_t hex2byte(char hi, char lo) {

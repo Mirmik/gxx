@@ -7,7 +7,7 @@
 #include <string>
 
 #include <gxx/buffer.h>
-#include <gxx/util/asciiconvert.h>
+//#include <gxx/util/asciiconvert.h>
 
 namespace gxx {
 	using strvec = std::vector<std::string>;

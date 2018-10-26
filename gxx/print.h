@@ -146,7 +146,7 @@ namespace gxx {
 	inline int fprint_impl(gxx::io::ostream& out, const char* fmt, const visitable_arglist& args) {
 		uint8_t argnum = 0;
 		const char* fmtptr = fmt;
-		size_t ret = 0;
+		int ret = 0;
 
 		while(*fmtptr != 0) {
 			if (*fmtptr == '{') {
@@ -200,7 +200,7 @@ namespace gxx {
 		return str;
 	}
 
-	inline void print_dump_to(gxx::io::ostream& out, const void *mem, uint16_t len, int columns = 8) {
+	inline void print_dump_to(gxx::io::ostream& out, const void *mem, size_t len, int columns = 8) {
 		int i, j;
 
 		for(i = 0; i < len + ((len % columns) ? (columns - len % columns) : 0); i++) {
@@ -231,7 +231,7 @@ namespace gxx {
 					}
 					else if(isprint(((char*)mem)[j])) {
 						// printable char
-						out.putchar(0xFF & ((char*)mem)[j]);
+						out.putchar((char)0xFF & ((char*)mem)[j]);
 					}
 					else {
 						// other char

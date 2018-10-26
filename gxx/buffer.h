@@ -14,7 +14,7 @@ namespace gxx {
 		size_t sz;
 	public:
 		buffer() : buf(nullptr), sz(0) {}
-		buffer(const char* buf) : buf((char*)buf), sz(strlen(buf)) {}
+		buffer(const char* _buf) : buf((char*)_buf), sz(strlen(_buf)) {}
 		buffer(const void* _buf, size_t _sz) : buf((char*)_buf), sz(_sz) {}
 		//buffer(const std::string& str) : buf((char*)str.data()), sz(str.size()) {}
 
