@@ -5,6 +5,8 @@
 #include <stdbool.h>
 #include <sys/cdefs.h>
 
+#include <gxx/util/macro.h>
+
 /**
     @file
     2012-2018 mirmik
@@ -29,6 +31,7 @@ __BEGIN_DECLS
 /// Базовая функция вывода символа. 
 /// @detail Имплементируется вне библиотеки. 
 void debug_putchar(char c);
+#define dprchar(c) debug_putchar(c)
 
 /// Базовая функция вывода строки указанной длины. 
 /// @detail Имплементируется вне библиотеки.
@@ -125,7 +128,7 @@ __END_DECLS
 
 #ifndef __cplusplus
 
-#define dpr(X) _Generic((X),                    \
+#define dpr_(X) _Generic((X),                    \
     const char*:        debug_print,            \
     char*:              debug_print,            \
     uint8_t:            debug_printdec_uint8,   \
@@ -167,9 +170,17 @@ __END_DECLS
     double:             debug_printbin_double   \
 )(X)
 
-#define dprln(X) do{dpr(X);dln();}while(0)
 #define dprhexln(X) do{dprhex(X);dln();}while(0)
 #define dprbinln(X) do{dprhex(X);dln();}while(0)
+ 
+#define dpr(...) MACRO_CONCAT(dpr_, COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
+
+#define dpr_1(X) dpr_(X)
+#define dpr_2(X,Y) do{dpr_(X); dprchar(' '); dpr_(Y);}while(0)
+#define dpr_3(X,Y,Z) do{dpr_(X); dprchar(' '); dpr_(Y); dprchar(' '); dpr_(Z);}while(0)
+#define dpr_4(X,Y,Z,W) do{dpr_(X); dprchar(' '); dpr_(Y); dprchar(' '); dpr_(Z); dprchar(' '); dpr_(W);}while(0)
+
+#define dprln(...) do{dpr(__VA_ARGS__); dln();}while(0)
 
 #else 
 
