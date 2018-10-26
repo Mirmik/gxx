@@ -1,5 +1,5 @@
 #include <gxx/util/hexascii.h>
-#include <gxx/util/asciiconvert.h>
+//#include <gxx/util/asciiconvert.h>
 
 namespace gxx {
 	std::string hexascii_encode(const uint8_t *indata, size_t size) {
