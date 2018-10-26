@@ -265,6 +265,6 @@ template<typename T> void dprptrln(const T& obj)
 #define DTRACE() \
     do { dpr("DTRACE: "); dpr(__PRETTY_FUNCTION__); dln(); } while(0);
 #define DPRINT(X) \
-    do { dpr(#X); debug_putchar(':'); dprln(X); } while(0);
+    do { dpr(#X); debug_putchar(' '); debug_putchar(':'); debug_putchar(' '); dprln(X); } while(0);
 
 #endif
