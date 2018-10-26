@@ -170,8 +170,8 @@ __END_DECLS
     double:             debug_printbin_double   \
 )(X)
 
-#define dprhexln(X) do{dprhex(X);dln();}while(0)
-#define dprbinln(X) do{dprhex(X);dln();}while(0)
+#define dprhexln(X) do{ dprhex(X);dln(); }while(0)
+#define dprbinln(X) do{ dprhex(X);dln(); }while(0)
  
 #define dpr(...) MACRO_CONCAT(dpr_, COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
 
@@ -180,7 +180,7 @@ __END_DECLS
 #define dpr_3(X,Y,Z)    do{ dpr_(X); dprchar(' '); dpr_(Y); dprchar(' '); dpr_(Z); }while(0)
 #define dpr_4(X,Y,Z,W)  do{ dpr_(X); dprchar(' '); dpr_(Y); dprchar(' '); dpr_(Z); dprchar(' '); dpr_(W); }while(0)
 
-#define dprln(...) do{dpr(__VA_ARGS__); dln();}while(0)
+#define dprln(...)      do{ dpr(__VA_ARGS__); dln(); }while(0)
 
 #else 
 
