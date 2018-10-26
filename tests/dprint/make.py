@@ -17,18 +17,26 @@ bu = licant.cxx_make.binutils(
 	objdump="objdump"
 )
 
-application("target",
-	sources = ["main.c"],
+application("target++",
+	sources = ["main++.cpp"],
 	include_paths = ["../.."],
 	modules = [
 		submodule("gxx", "posix"),
 		submodule("gxx.dprint", "cout"),
 		submodule("gxx.print", "cout"),
 	],
-#	binutils = bu,
-
-	#cxx_flags = "-Wall -Wextra -pedantic -std=c++11 -O2 -Wshadow -Wformat=2 -Wfloat-equal -Wconversion -Wlogical-op -Wshift-overflow=2 -Wduplicated-cond -Wcast-qual -Wcast-align -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector",
-	cc_flags="-std=gnu11"
 )
 
-licant.ex("target")
+application("ctarget",
+	sources = ["cmain.c"],
+	include_paths = ["../.."],
+	modules = [
+		submodule("gxx", "posix"),
+		submodule("gxx.dprint", "cout"),
+		submodule("gxx.print", "cout"),
+	],
+)
+
+licant.fileset("all", ["ctarget", "target++"])
+
+licant.ex("all")

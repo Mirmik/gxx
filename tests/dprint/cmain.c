@@ -1,6 +1,8 @@
 #include <gxx/debug/dprint.h>
 
-int main() {
+int main(int argc, const char ** argv) {
+	DTRACE();
+
 	const char * hello = "HelloWorldHelloWorldHelloWorld";
 	char* hello_ = (char*) hello;
 
@@ -9,7 +11,7 @@ int main() {
 	bool bb = true;
 	const uint8_t a = 1;
 	const uint16_t b = 1;
-	const uint32_t c = 1;
+	const uint32_t c = 10;
 	const volatile uint64_t d = 1;
 	const volatile double f = 0.126;
 
@@ -18,4 +20,6 @@ int main() {
 	dpr(a); dpr(b); dpr(c); dpr(d);
 	dprln(0.126); 
 	dprln(bb);
+
+	DPRINT(c)
 }

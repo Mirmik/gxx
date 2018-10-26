@@ -142,13 +142,6 @@ void debug_printhex_ptr(const void* v)
 	debug_writehex_reversed(&v, sizeof(uintptr_t));
 }
 
-int debug_strlen(const char *c)
-{
-	int i;
-	for (i = 0; c[i] != 0; i++);
-	return i;
-}
-
 void debug_print(const char *c)
 {
 	if (c == (const char *) 0)
@@ -162,23 +155,6 @@ void debug_print(const char *c)
 	{
 		debug_write((char*)c, debug_strlen(c));
 	}
-}
-
-void debug_print_line(const char *c)
-{
-	debug_print(c);
-	debug_putchar('\r');
-	debug_putchar('\n');
-}
-
-void debug_print_bool(uint8_t b)
-{
-	debug_print(b ? "true" : "false");
-}
-
-void debug_print_bool_num(uint8_t b)
-{
-	debug_putchar(b ? '1' : '0');
 }
 
 void debug_print_dump(const void *mem, uint16_t len)
