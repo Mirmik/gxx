@@ -275,7 +275,7 @@ template<typename T> void dprptrln(const T& obj)
 #define DTRACE() \
     do { dpr("DTRACE: "); dpr(__PRETTY_FUNCTION__); dln(); } while(0);
 
-#define DPRARG(x) dpr(STRINGIFY(x)); dprchar(':'); dpr_1(x); dprchar(' ');
+#define DPRARG(x) dpr(STRINGIFY(x)); dprchar(':'); dpr_1(x); dprc(" -> ");
 
 #define DTRPRE() do { dpr("DTRACE: "); dpr(__PRETTY_FUNCTION__); dprchar(' ');
 #define DTRPOS() dln(); } while(0);
