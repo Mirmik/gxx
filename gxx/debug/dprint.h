@@ -175,10 +175,10 @@ __END_DECLS
  
 #define dpr(...) MACRO_CONCAT(dpr_, COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
 
-#define dpr_1(X) dpr_(X)
-#define dpr_2(X,Y) do{dpr_(X); dprchar(' '); dpr_(Y);}while(0)
-#define dpr_3(X,Y,Z) do{dpr_(X); dprchar(' '); dpr_(Y); dprchar(' '); dpr_(Z);}while(0)
-#define dpr_4(X,Y,Z,W) do{dpr_(X); dprchar(' '); dpr_(Y); dprchar(' '); dpr_(Z); dprchar(' '); dpr_(W);}while(0)
+#define dpr_1(X)        dpr_(X)
+#define dpr_2(X,Y)      do{ dpr_(X); dprchar(' '); dpr_(Y); }while(0)
+#define dpr_3(X,Y,Z)    do{ dpr_(X); dprchar(' '); dpr_(Y); dprchar(' '); dpr_(Z); }while(0)
+#define dpr_4(X,Y,Z,W)  do{ dpr_(X); dprchar(' '); dpr_(Y); dprchar(' '); dpr_(Z); dprchar(' '); dpr_(W); }while(0)
 
 #define dprln(...) do{dpr(__VA_ARGS__); dln();}while(0)
 
