@@ -172,14 +172,13 @@ __END_DECLS
 
 #define dprhexln(X) do{ dprhex(X);dln(); }while(0)
 #define dprbinln(X) do{ dprhex(X);dln(); }while(0)
- 
-#define dpr(...) MACRO_CONCAT(dpr_, COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
 
 #define dpr_1(X)        dpr_(X)
 #define dpr_2(X,Y)      do{ dpr_(X); dprchar(' '); dpr_(Y); }while(0)
 #define dpr_3(X,Y,Z)    do{ dpr_(X); dprchar(' '); dpr_(Y); dprchar(' '); dpr_(Z); }while(0)
 #define dpr_4(X,Y,Z,W)  do{ dpr_(X); dprchar(' '); dpr_(Y); dprchar(' '); dpr_(Z); dprchar(' '); dpr_(W); }while(0)
 
+#define dpr(...)        CONCAT2(dpr_, COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
 #define dprln(...)      do{ dpr(__VA_ARGS__); dln(); }while(0)
 
 #else 
@@ -275,6 +274,16 @@ template<typename T> void dprptrln(const T& obj)
 
 #define DTRACE() \
     do { dpr("DTRACE: "); dpr(__PRETTY_FUNCTION__); dln(); } while(0);
+
+#define DPRARG(x) dpr(STRINGIFY(x)); dprchar(':'); dpr_1(x); dprchar(' ');
+
+#define DTRACE_ARGS_4(a,b,c,d)  do { dpr("DTRACE: "); dpr(__PRETTY_FUNCTION__); dprchar(' '); DPRARG(a); DPRARG(b); DPRARG(c); DPRARG(d); dln(); } while(0);
+#define DTRACE_ARGS_3(a,b,c)    do { dpr("DTRACE: "); dpr(__PRETTY_FUNCTION__); dprchar(' '); DPRARG(a); DPRARG(b); DPRARG(c); dln(); } while(0);
+#define DTRACE_ARGS_2(a,b)      do { dpr("DTRACE: "); dpr(__PRETTY_FUNCTION__); dprchar(' '); DPRARG(a); DPRARG(b); dln(); } while(0);
+#define DTRACE_ARGS_1(a)        do { dpr("DTRACE: "); dpr(__PRETTY_FUNCTION__); dprchar(' '); DPRARG(a); dln(); } while(0);
+
+#define DTRACE_ARGS(...) CONCAT2(DTRACE_ARGS_,COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
+
 #define DPRINT(X) \
     do { dpr(#X); debug_putchar(' '); debug_putchar(':'); debug_putchar(' '); dprln(X); } while(0);
 
