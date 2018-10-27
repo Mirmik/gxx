@@ -200,8 +200,8 @@ namespace gxx {
 		return str;
 	}
 
-	inline void print_dump_to(gxx::io::ostream& out, const void *mem, size_t len, int columns = 8) {
-		int i, j;
+	inline void print_dump_to(gxx::io::ostream& out, const void *mem, size_t len, uint columns = 8) {
+		uint i, j;
 
 		for(i = 0; i < len + ((len % columns) ? (columns - len % columns) : 0); i++) {
 			// print offset
