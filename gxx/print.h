@@ -1,6 +1,8 @@
 #ifndef GXX_PRINT_H
 #define GXX_PRINT_H
 
+#include <stdint.h>
+
 #include <gxx/print/meta.h>
 #include <gxx/print/format.h>
 #include <gxx/io/ostream.h>
@@ -200,8 +202,8 @@ namespace gxx {
 		return str;
 	}
 
-	inline void print_dump_to(gxx::io::ostream& out, const void *mem, size_t len, uint columns = 8) {
-		uint i, j;
+	inline void print_dump_to(gxx::io::ostream& out, const void *mem, size_t len, unsigned int columns = 8) {
+		unsigned int i, j;
 
 		for(i = 0; i < len + ((len % columns) ? (columns - len % columns) : 0); i++) {
 			// print offset

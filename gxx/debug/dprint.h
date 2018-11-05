@@ -53,7 +53,7 @@ static inline void debug_print_tabs(uint8_t n) { while(n--) debug_putchar('\t');
 // Print null-terminated string with newline
 static inline void debug_print_line(const char *c) { debug_print(c); debug_print_newline(); }
 
-/// Print pointer as hexdecimal uint (in natural endian)
+/// Print pointer as hexdecimal unsigned int (in natural endian)
 void debug_printhex_ptr(const void* a);
 
 // Debug print boolean as 'true' or 'false'.

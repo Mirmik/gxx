@@ -10,21 +10,24 @@ scriptq.execute("../../gxx.g.py")
 
 
 bu = licant.cxx_make.binutils(
-	cxx="clang++",
-	cc="clang",
-	ld="clang",
+	cxx="g++",
+	cc="gcc",
+	ld="g++",
 	ar="ar",
 	objdump="objdump"
 )
 
 application("target++",
-	sources = ["main++.cpp"],
+	sources = ["mainpp.cpp"],
 	include_paths = ["../.."],
 	modules = [
 		submodule("gxx", "posix"),
 		submodule("gxx.dprint", "cout"),
 		submodule("gxx.print", "cout"),
 	],
+	binutils = bu,
+	cxxstd =  "gnu++14",
+	ccstd =  "gnu11"
 )
 
 application("ctarget",
@@ -35,6 +38,9 @@ application("ctarget",
 		submodule("gxx.dprint", "cout"),
 		submodule("gxx.print", "cout"),
 	],
+	binutils = bu,
+	cxxstd =  "gnu++14",
+	ccstd =  "gnu11"
 )
 
 licant.fileset("all", ["ctarget", "target++"])
