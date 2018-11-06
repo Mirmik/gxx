@@ -33,6 +33,8 @@
 
 # Targets
 *target
+*ctarget
+*target++
 
 # CMake
 CMakeCache.txt
@@ -47,3 +49,4 @@ CTestTestfile.cmake
 
 doxygen/html
 doxygen/latex
+

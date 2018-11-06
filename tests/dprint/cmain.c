@@ -19,7 +19,7 @@ int main(int argc, const char ** argv) {
 	dprln(a); 
 	dprln(b); 
 	dprln(c); 
-	dprln(d);
+	dprln(d, d+1);
 
 	DPRINT(a); 
 	DPRINT(b); 
