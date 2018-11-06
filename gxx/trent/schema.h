@@ -81,7 +81,7 @@ namespace gxx
 						break;
 					case list_checker_type:
 						if (!tr.is_list()) return error(gxx::format("trent {} should be list", strvec[strvec.size() - 1]));
-						if (len != -1 && tr.as_list().size() != (uint)len) return error(gxx::format("array size should be {}", len));
+						if (len != -1 && tr.as_list().size() != (unsigned int)len) return error(gxx::format("array size should be {}", len));
 						break;
 					case string_checker_type:
 						if (!tr.is_string()) return error("should be string");
@@ -188,7 +188,7 @@ namespace gxx
 
 				if (type == list_checker_type && _content)
 				{
-					for (uint i = 0; i < tr.as_list().size(); ++i)
+					for (unsigned int i = 0; i < tr.as_list().size(); ++i)
 					{
 						strvec.push_back(std::to_string(i));
 

@@ -37,7 +37,7 @@
 #define __mgrd(symbol) MACRO_GUARD(symbol)
 
 #define ELEVENTH_ARGUMENT(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, ...) a11
-#define COUNT_ARGS(...) ELEVENTH_ARGUMENT(_, ##__VA_ARGS__, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
+#define COUNT_ARGS(...) ELEVENTH_ARGUMENT(dummy, ## __VA_ARGS__, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
 
 //#define COUNT_ARGS2(...) ((int)(sizeof((int[]){ __VA_ARGS__ })/sizeof(int)))
 

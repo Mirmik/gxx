@@ -132,7 +132,7 @@ namespace gxx {
 
 	trent& trent::operator[](int i) {
         if (m_type != trent::type::list) init(trent::type::list);
-		if(m_arr.size() <= (uint)i) m_arr.resize(i + 1);
+		if(m_arr.size() <= (unsigned int)i) m_arr.resize(i + 1);
 		return m_arr[i];
 	}
 
@@ -189,7 +189,7 @@ namespace gxx {
 
 	const trent& trent::at(int i) const {
 		if (m_type != trent::type::list) gxx::panic("wrong trent type");
-        if(m_arr.size() <= (uint)i) gxx::panic("wrong trent list size");
+        if(m_arr.size() <= (unsigned int)i) gxx::panic("wrong trent list size");
 		return m_arr[i];
 	}
 
