@@ -109,10 +109,10 @@ module("gxx.syslock", impl="genos.atomic",
 	sources = ["syslock_genos_atomic.cpp"]
 )
 
-#module("gxx.panic", impl="abort",
-#	srcdir = "gxx/impl",
-#	sources = ["panic_abort.cpp"]
-#)
+module("gxx.panic", impl="abort",
+	srcdir = "gxx/impl",
+	sources = ["panic_abort.c"]
+)
 
 module("gxx.serial",
 	srcdir = "gxx",
