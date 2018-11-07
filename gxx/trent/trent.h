@@ -325,6 +325,9 @@ namespace gxx
 					os.print("nil");
 					return 0;
 			}
+
+			PANIC_TRACED();
+			return 0;
 		}
 	};
 }
