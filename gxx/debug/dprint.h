@@ -68,11 +68,11 @@ void debug_printhex_uint8 (uint8_t b);
 void debug_printhex_uint16(uint16_t a);
 void debug_printhex_uint32(uint32_t a);
 void debug_printhex_uint64(uint64_t a);
-#define debug_printhex_int4(a) debug_printhex_uint4(a)
-#define debug_printhex_int8(a) debug_printhex_uint8(a)
-#define debug_printhex_int16(a) debug_printhex_uint16(a)
-#define debug_printhex_int32(a) debug_printhex_uint32(a)
-#define debug_printhex_int64(a) debug_printhex_uint64(a)
+static inline void debug_printhex_int4(int8_t a) { debug_printhex_uint4(a); }
+static inline void debug_printhex_int8(int8_t a) { debug_printhex_uint8(a); }
+static inline void debug_printhex_int16(int16_t a) { debug_printhex_uint16(a); }
+static inline void debug_printhex_int32(int32_t a) { debug_printhex_uint32(a); }
+static inline void debug_printhex_int64(int64_t a) { debug_printhex_uint64(a); }
 
 /// Binary integer type`s representation (in natural endian)
 void debug_printbin_uint4 (uint8_t b);
@@ -145,6 +145,7 @@ __END_DECLS
 )(X)
 
 #define dprhex(X) _Generic((X),                 \
+    char:               debug_printhex_uint8,   \
     uint8_t:            debug_printhex_uint8,   \
     uint16_t:           debug_printhex_uint16,  \
     uint32_t:           debug_printhex_uint32,  \

@@ -16,8 +16,8 @@ struct gstuff_autorecv {
 	struct sline line;
 	uint8_t crc;
 	uint8_t state;
-	void(*callback)(void*,int,char*,int);
-	void* callback_argument;
+	//void(*callback)(void*,int,char*,int);
+	//void* callback_argument;
 };
 
 __BEGIN_DECLS

@@ -1,30 +1,35 @@
 #include "autorecv.h"
+#include <gxx/debug/dprint.h>
 
 void gstuff_autorecv_reset(struct gstuff_autorecv * autom) 
 {
+	//DTRACE();
 	autom->crc = 0xff;
 	sline_reset(&autom->line);
 }
 
-void gstuff_autorecv_init(
+/*void gstuff_autorecv_init(
 		struct gstuff_autorecv * autom, 
 		void(*callback)(void*, int sts, char* dat, int len), 
 		void * arg
 ) {
+	DTRACE();
 	autom->callback = callback;
 	autom->callback_argument = arg;
-}
+}*/
 
 void gstuff_autorecv_setbuf (
 		struct gstuff_autorecv * autom, 
 		void * buf, int len
 ) {
+	//DTRACE();
 	sline_init(&autom->line, buf, len);
 	gstuff_autorecv_reset(autom);
 }
 
 int gstuff_autorecv_newchar(struct gstuff_autorecv * autom, char c) 
 {
+	//DTRACE();
 	int sts;
 
 	switch (autom->state) {
