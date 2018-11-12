@@ -70,10 +70,22 @@ namespace gxx
 			if (is_string) return gxx::print_to(o, str);
 			return gxx::print_to(o, i32);
 		}
+
+		gxx::trent_path_node& operator= (const gxx::trent_path_node& oth) 
+		{
+			this->is_string = oth.is_string;
+			if (this->is_string) 
+				this->str = oth.str;
+			else 
+				this->i32 = oth.i32;
+
+			return *this;
+		}
 	};
 
 	struct trent_path : public std::vector<trent_path_node>, public gxx::array_printable<trent_path>
 	{
+		trent_path(){}
 		trent_path(const std::string& path) : trent_path(path.c_str()) {}
 
 		trent_path(const char* path)

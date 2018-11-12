@@ -13,23 +13,29 @@ namespace gxx {
 	};
 
 	struct trent_syncer_slice : public trent_syncer {
-		gxx::trent_syncer& syncer;
+		gxx::trent_syncer* syncer;
 		gxx::trent_path path;
 
 		trent_syncer_slice(gxx::trent_syncer& stgs, const gxx::trent_path& path) 
-			: syncer(stgs), path(path) {}
-		
+			: syncer(&stgs), path(path) {}
+
+		trent_syncer_slice(){};		
+
+		void init(gxx::trent_syncer& stgs, const gxx::trent_path& path) {
+			syncer = &stgs;
+			this->path = path;
+		}
 
 		int sync() override {
-			return syncer.sync();
+			return syncer->sync();
 		}
 
 		int save() override {
-			return syncer.save();
+			return syncer->save();
 		}
 
 		gxx::trent& node() override {
-			return syncer.node() [ path ];
+			return syncer->node() [ path ];
 		}
 	};
 

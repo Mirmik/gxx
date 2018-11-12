@@ -11,28 +11,67 @@ namespace gxx
 		void set_trent(gxx::trent& tr, const T& val);
 	};
 
-	template <> 
-	struct trent_binder_ops<int32_t> {
-		int32_t from_trent(const gxx::trent& tr) { return tr.as_integer(); }
-		void set_trent(gxx::trent& tr, const int32_t& val) { tr = val; }
+	template <typename Integer> 
+	struct trent_binder_ops_integer {
+		static Integer from_trent(const gxx::trent& tr) { return tr.as_integer(); }
+		static void set_trent(gxx::trent& tr, const Integer& val) { tr = val; }
 	};
 
-	template < typename T, typename Saver >
-	class trent_binder : public trent_binder_ops<T>
+	template <> struct trent_binder_ops<int32_t> : public trent_binder_ops_integer<int32_t> {};
+	template <> struct trent_binder_ops<int64_t> : public trent_binder_ops_integer<int64_t> {};
+
+	template <> 
+	struct trent_binder_ops<double> {
+		static double from_trent(const gxx::trent& tr) { return tr.as_numer(); }
+		static void set_trent(gxx::trent& tr, const double& val) { tr = val; }
+	};
+
+	template < typename T >
+	class trent_binder
 	{
-		Saver saver;
+		mutable trent_syncer_slice saver;
 		trent_binder_ops<T> ops;	
 
-		T _local;
+		mutable bool synced = false;
+		mutable T _local;
 
 	public:
+		trent_binder(){};
+
 		template <typename ... Args>
 		trent_binder(Args && ... args) : saver(std::forward<Args>(args) ...) 
 		{
-			saver.sync();
-			_local = ops.from_trent(saver.node());
+			sync();
 		}
 	
+		template <typename ... Args>
+		void init(Args && ... args) 
+		{
+			saver.init(args ...);
+		}
+
+		void sync() const
+		{
+			saver.sync();
+			_local = ops.from_trent(saver.node());
+			synced = true;
+		}
+
+		void sync_default(T defa)
+		{
+			saver.sync();
+
+			if (saver.node().is_nil()) 
+			{
+				update(defa);
+				synced = true;
+				return;
+			}
+
+			_local = ops.from_trent(saver.node());
+			synced = true;
+		}
+
 		void update(const T& val) 
 		{
 			_local = val;
@@ -40,8 +79,13 @@ namespace gxx
 			saver.save();
 		}		
 
-		T get() 
+		T get() const
 		{
+			if (!synced) 
+			{
+				sync();
+			} 
+
 			return _local;
 		}
 	};	
