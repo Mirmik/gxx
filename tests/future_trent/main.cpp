@@ -1,4 +1,5 @@
-#include <gxx/trent2.h>
+
+#include <gxx/trent/trent2.h>
 
 int main() {
 	gxx::trent tr;
