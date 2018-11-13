@@ -11,7 +11,6 @@ extern double __debug_delay_multiplier;
 extern void cpu_delay(uint64_t ticks);
 extern void debug_simple_delay(uint64_t ticks);
 extern void debug_delay(uint32_t ms);
-extern void cpu_delay(uint64_t ticks);
 
 __END_DECLS
 
