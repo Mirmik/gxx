@@ -69,6 +69,10 @@ namespace gxx {
 		bool empty() {
 			return dlist_empty(&list);
 		};
+
+		type* first() {
+			return member_container(list.next, member);
+		}
 		
 		//Прилинковать первым в списке.
 		void move_front(type& obj) {
