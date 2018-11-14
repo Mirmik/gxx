@@ -3,15 +3,22 @@
 
 #include <asm/types.h>
 
-#ifndef SFLOAT_DEFINED
+#ifdef SFLOAT_DEFINED
+typedef __sfloat sfloat;
+#else
 typedef float sfloat;
 #endif
+static_assert(sizeof(sfloat) == 4, "wrong sfloat type size");
 
-#ifndef DFLOAT_DEFINED
-typedef double dfloat;
+#ifndef WITHOUT_DFLOAT
+#	ifdef DFLOAT_DEFINED
+	typedef __dfloat dfloat;
+#	else
+	typedef double dfloat;
+#	endif
+	static_assert(sizeof(dfloat) == 8, "wrong dfloat type size");
 #endif
 
-static_assert(sizeof(sfloat) == 4, "wrong sfloat type size");
-static_assert(sizeof(dfloat) == 8, "wrong dfloat type size");
-	
+
+
 #endif
