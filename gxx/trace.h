@@ -18,24 +18,25 @@ namespace gxx {
 struct tracer {
     const char* func = func;
 
-    template <typename ... Args>
-    tracer(const char* fmt, const char* func, Args&& ... args) {
+    tracer(const char* func) {
         this->func = func;
-        gxx::fprintln(fmt, trace_level, func);
+        //gxx::fprintln(fmt, trace_level, func);
+        dpr("TRACE: "); dpr(trace_level); dpr(": -> "); dprln(func);
         ++trace_level;
     }
 
     ~tracer() {
         --trace_level;
-        gxx::fprintln("TRACE: {}: <- {}", trace_level, func);
+        dpr("TRACE: "); dpr(trace_level); dpr(": <- "); dprln(func);
     }
 };
 }
 
-#if GXX_TRACE_ENABLE==1
-#define GXX_TRACE() gxx::tracer __tracer("TRACE: {}: -> {}", __PRETTY_FUNCTION__)
-#else
-#define GXX_TRACE()
-#endif
+//#if GXX_TRACE_ENABLE==1
+#define TRACE() gxx::tracer __tracer(__PRETTY_FUNCTION__)
+//#define TRACE_ARGS(...) gxx::tracer __tracer("TRACE: {}: -> {}, args:", __PRETTY_FUNCTION__)
+//#else
+//#define TRACE()
+//#endif
 
 #endif
