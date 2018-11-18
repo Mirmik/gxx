@@ -7,20 +7,28 @@ scriptq.execute("posix/posix.g.py")
 scriptq.execute("gxx/debug/debug.g.py")
 scriptq.execute("gxx/diag/diag.g.py")
 
-module("gxx.util",
+module("gxx.util.c",
+	srcdir = "gxx",
+	sources = [
+		"util/numconvert.c",
+		"util/hexer.c",
+		"gstuff/gstuff.c",
+		"gstuff/autorecv.c",
+		"impl/trace.cpp",
+		"util/dstring.c",
+		"impl/sshell.c",
+		"src/printf_impl.c",
+		"math/util.c",
+		"debug/delay.c",
+	],
+)
+
+module("gxx.util.cxx",
 	srcdir = "gxx",
 	sources = [
 		"util/string.cpp",
 		"util/base64.cpp",
 		"util/hexascii.cpp",
-		"util/numconvert.c",
-		"util/hexer.c",
-		"gstuff/gstuff.c",
-		"gstuff/autorecv.c",
-		"util/dstring.c",
-		"impl/sshell.c",
-		"src/printf_impl.c",
-		"math/util.c"
 	],
 )
 
@@ -37,28 +45,17 @@ module("gxx", "posix",
 		"impl/panic_abort.c",
 		"osutil/src/posix.cpp",
 		"path/path.cpp",
-		"impl/trace.cpp"
 	],
 
-	include_modules = [ submodule("gxx.include"), submodule("gxx.util") ],
+	include_modules = [ submodule("gxx.include"), submodule("gxx.util.c"), submodule("gxx.util.cxx") ],
 )
 
 module("gxx.c_only",
 	srcdir = "gxx",
 	sources = [
-		"datastruct/src/tree.c",	
-		"util/numconvert.c",
-		"util/hexer.c",
-		"util/dstring.c",
-		"impl/sshell.c",
-		"src/printf_impl.c",	
-		"impl/panic_abort.c",
-		"debug/delay.c",
-		"gstuff/gstuff.c",
-		"gstuff/autorecv.c",
-		"math/util.c"
+		"datastruct/src/tree.c",
 	],
-	include_modules = [ submodule("gxx.include")],
+	include_modules = [ submodule("gxx.include"), submodule("gxx.util.c")],
 )
 
 #module("gxx", "windows",

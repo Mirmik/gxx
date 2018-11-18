@@ -7,7 +7,9 @@
  * @date 10.01.2018
  */
 
-double modf(double x, double *i_ptr) {
+#include <gxx/debug/dprint.h>
+
+/*double modf(double x, double *i_ptr) {
 	return __builtin_modf(x, i_ptr);
 }
 
@@ -62,3 +64,4 @@ float floorf(float x) {
 long double floorl(long double x) {
 	return __builtin_floorl(x);
 }
+*/
