@@ -203,7 +203,7 @@ void debug_print_dump(const void *mem, uint16_t len)
 					debug_putchar('.');
 				}
 			}
-			debug_putchar('\n');
+			debug_print_newline();
 		}
 	}
 }

@@ -7,7 +7,7 @@
  * @author Eldar Abusalimov
  */
 
-#ifndef LIBC_ASSERT_IMPL_H_
+/*#ifndef LIBC_ASSERT_IMPL_H_
 #define LIBC_ASSERT_IMPL_H_
 
 #include <util/location.h>
@@ -15,7 +15,7 @@
 #include <sys/cdefs.h>
 
 #ifdef NDEBUG
-
+*/
 /* Do nothing.
  *
  * Implementation note: casting zero to typeof(condition) in the 'while' clause
@@ -25,7 +25,7 @@
  *   2. It suppresses a warning about any variables that would be otherwise
  *      unused.
  */
-# define __assert(condition, expr_str, ...) \
+/*# define __assert(condition, expr_str, ...) \
 	do { } while ((typeof(condition)) 0)
 
 #else
@@ -82,4 +82,4 @@ extern int snprintf(char *s, size_t size, const char *format, ...);
 
 #endif /* NDEBUG */
 
-#endif /* LIBC_ASSERT_IMPL_H_ */
+//#endif /* LIBC_ASSERT_IMPL_H_ */

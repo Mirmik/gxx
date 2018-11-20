@@ -32,11 +32,5 @@ struct tracer {
 };
 }
 
-//#if GXX_TRACE_ENABLE==1
-#define TRACE() gxx::tracer __tracer(__PRETTY_FUNCTION__)
-//#define TRACE_ARGS(...) gxx::tracer __tracer("TRACE: {}: -> {}, args:", __PRETTY_FUNCTION__)
-//#else
-//#define TRACE()
-//#endif
-
+#define TRACE() gxx::tracer __tracer("TRACE: {}: -> {}", __PRETTY_FUNCTION__)
 #endif

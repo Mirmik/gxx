@@ -110,7 +110,8 @@ namespace gxx {
 	inline int fprint_format_argument(gxx::io::ostream& out, const char*& fmt, const gxx::visitable_arglist& list, uint8_t argnum) {
 		int ret;
 		char* pend;
-		assert(*fmt++ == '{');
+		assert(*fmt == '{');
+		fmt++;
 
 		const visitable_argument* varg = nullptr;
 

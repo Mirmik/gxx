@@ -24,6 +24,12 @@ typedef int               __intptr_t;
 typedef __s16             __s_fast;
 typedef __u16             __u_fast;
 
+typedef float __sfloat;
+
+#define SFLOAT_DEFINED
+#define DFLOAT_DEFINED
+#define WITHOUT_DFLOAT
+
 #endif /* __ASSEMBLER__ */
 
 #endif /* ASM_GENERIC_TYPES16_H_ */
