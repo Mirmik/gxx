@@ -27,7 +27,7 @@ struct tracer {
 
     ~tracer() {
         --trace_level;
-        dpr("TRACE: "); dpr(trace_level); dpr(": <- "); dpr(func);
+        dpr("TRACE: "); dpr(trace_level); dpr(": <- "); dprln(func);
     }
 };
 }
