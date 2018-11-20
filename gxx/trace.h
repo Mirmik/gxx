@@ -21,17 +21,18 @@ struct tracer {
     tracer(const char* func) {
         this->func = func;
         //gxx::fprintln(fmt, trace_level, func);
-        dpr("TRACE: "); dpr(trace_level); dpr(": -> "); dprln(func);
+        dpr("TRACE: "); dpr(trace_level); dpr(": -> "); dpr(func);
         ++trace_level;
     }
 
     ~tracer() {
         --trace_level;
-        dpr("TRACE: "); dpr(trace_level); dpr(": <- "); dprln(func);
+        dpr("TRACE: "); dpr(trace_level); dpr(": <- "); dpr(func);
     }
 };
 }
 
-#define TRACE() gxx::tracer __tracer(__PRETTY_FUNCTION__)
+#define TRACE() gxx::tracer { __tracer(__PRETTY_FUNCTION__); dln(); }
+#define TRACE_ARGS(...) gxx::tracer { __tracer(__PRETTY_FUNCTION__); dpr(" with "); gxx::println(__VA_ARGS__); }
 
 #endif
