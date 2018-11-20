@@ -26,6 +26,12 @@ namespace gxx
 	template <> struct trent_binder_ops<float> : public trent_binder_ops_float<float> {};
 	template <> struct trent_binder_ops<double> : public trent_binder_ops_float<double> {};
 
+	template <> struct trent_binder_ops<std::string> 
+	{
+		static std::string from_trent(const gxx::trent& tr) { return tr.as_string(); }
+		static void set_trent(gxx::trent& tr, const std::string& val) { tr = val; }	
+	};
+
 	template < typename T >
 	class trent_binder
 	{
