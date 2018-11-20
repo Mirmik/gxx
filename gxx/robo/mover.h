@@ -3,30 +3,28 @@
 
 namespace robo
 {
-	struct servo_local
+	struct axis 
 	{
-		float x;
-		float v;
+		robo::servo * servo;
 
-		robo::power_writer* drv;
-		robo::spdpos_reader* enc;
+		virtual float feedback_position() = 0;
+		virtual float planed_position() = 0;
 		
-		autocontrol::xv_regulator;
+		virtual int move_relative(float arg) = 0;
+		virtual int move_absolute(float arg) = 0;
+		virtual int move_relative_trajectory(const trajectory& traj) = 0;
+		virtual int move_absolute_trajectory(const trajectory& traj) = 0;
 
-		void update();
-	}
+		virtual int service() = 0;
+	};
 
-	struct servo_remote 
+	struct axgroup
 	{
+		std::list<robo::axis*> axes;
 
-	}
-
-	struct group
-	{
-	
-
-
-	}
+		int linear_interpolation(std::vector<int> idx, 
+			const std::vector<robo::point> pnts);
+	};
 }
 
 #endif

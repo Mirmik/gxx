@@ -11,21 +11,10 @@ namespace robo
 		type d2;
 	};
 
-	/*template <typename TimePoint = double, typename TimeDiff = double>
-	struct time_interval
-	{
-		TimePoint start;
-		TimePoint interval;
-
-		float koeff( TimePoint t )
-		{
-			float = (t - start)
-		}
-	};*/
-
 	template <typename TimeDiff, typename Coord>
 	struct trajectory
 	{
+		dlist_head lnk; // Для подключения в стэк траекторий.
 		virtual phase<Coord> in_moment(TimeDiff t);
 	};
 
