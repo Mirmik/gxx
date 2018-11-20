@@ -32,7 +32,7 @@ struct tracer {
 };
 }
 
-#define TRACE() gxx::tracer { __tracer(__PRETTY_FUNCTION__); dln(); }
-#define TRACE_ARGS(...) gxx::tracer { __tracer(__PRETTY_FUNCTION__); dpr(" with "); gxx::println(__VA_ARGS__); }
+#define TRACE() { gxx::tracer __tracer(__PRETTY_FUNCTION__); dln(); }
+#define TRACE_ARGS(...) { gxx::tracer __tracer(__PRETTY_FUNCTION__); dpr(" with "); gxx::println(__VA_ARGS__); }
 
 #endif
