@@ -2,29 +2,29 @@
 #define GXX_TRENT_BINDER_H
 
 #include <gxx/trent/trent.h>
+#include <gxx/trent/settings.h>
 
 namespace gxx 
 {
-	template <typename T> 
-	struct trent_binder_ops {
-		T from_trent(const gxx::trent& tr);
-		void set_trent(gxx::trent& tr, const T& val);
-	};
+	template <typename T> struct trent_binder_ops {};
 
 	template <typename Integer> 
 	struct trent_binder_ops_integer {
 		static Integer from_trent(const gxx::trent& tr) { return tr.as_integer(); }
 		static void set_trent(gxx::trent& tr, const Integer& val) { tr = val; }
 	};
-
+	
+	template <typename Float> 
+	struct trent_binder_ops_float {
+		static Float from_trent(const gxx::trent& tr) { return tr.as_numer(); }
+		static void set_trent(gxx::trent& tr, const Float& val) { tr = val; }
+	};
+	
 	template <> struct trent_binder_ops<int32_t> : public trent_binder_ops_integer<int32_t> {};
 	template <> struct trent_binder_ops<int64_t> : public trent_binder_ops_integer<int64_t> {};
 
-	template <> 
-	struct trent_binder_ops<double> {
-		static double from_trent(const gxx::trent& tr) { return tr.as_numer(); }
-		static void set_trent(gxx::trent& tr, const double& val) { tr = val; }
-	};
+	template <> struct trent_binder_ops<float> : public trent_binder_ops_float<float> {};
+	template <> struct trent_binder_ops<double> : public trent_binder_ops_float<double> {};
 
 	template < typename T >
 	class trent_binder
