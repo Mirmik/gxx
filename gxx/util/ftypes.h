@@ -1,7 +1,7 @@
 #ifndef GXX_UTIL_FTYPES_H
 #define GXX_UTIL_FTYPES_H
 
-#include <asm/types.h>
+#include <stdint.h>
 
 #ifdef SFLOAT_DEFINED
 typedef __sfloat sfloat;

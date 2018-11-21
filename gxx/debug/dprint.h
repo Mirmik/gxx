@@ -184,6 +184,7 @@ __END_DECLS
 
 #else 
 
+static inline void dpr()           { }
 static inline void dpr(char* obj)           { debug_print(obj); }
 static inline void dpr(const char* obj)     { debug_print(obj); }
 static inline void dpr(uint8_t obj)         { debug_printdec_uint8(obj); }
