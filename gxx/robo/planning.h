@@ -19,6 +19,16 @@ namespace robo
 	};
 
 	template <typename TimeDiff, typename Coord>
+	struct group_trajectory
+	{
+		dlist_head lnk; // Для подключения в стэк траекторий.
+		virtual phase<Coord> in_moment(TimeDiff t, int axnum);
+	};
+
+
+
+
+	template <typename TimeDiff, typename Coord>
 	struct simple_trajectory : public trajectory
 	{
 		TimeDiff interval;

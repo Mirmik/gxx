@@ -5,7 +5,7 @@ namespace robo
 {
 	struct servo 
 	{
-		virtual void update() = 0;		
+		virtual void service(float pos, float spd, float acc);
 	};
 
 	struct servo_local : public servo
@@ -14,14 +14,13 @@ namespace robo
 
 		float feedback_position;
 		float feedback_speed;
-		float feedback_acceleration;
 
 		robo::power_writer* drv;
 		robo::spdpos_reader* enc;
 		
 		autocontrol::xv_regulator;
 
-		void update() override;
+		void service(float pos, float spd, float acc) override;
 	};
 
 	struct servo_remote : public servo
