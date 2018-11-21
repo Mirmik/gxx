@@ -15,6 +15,7 @@ tests = [
 	"convert/base64",
 	"geom/interval",
 	"container/pool",
+	"math/float",
 ]
 
 application("runtests",
