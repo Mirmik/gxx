@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <gxx/math/interval.h>
 
-TEST(Interval, combine) {
+TEST(interval, combine) {
 	using iu = gxx::math::interval_union<double>;
 
 	iu u0 = {{1, 11}, {12, 56}};
@@ -21,7 +21,7 @@ TEST(Interval, combine) {
 	EXPECT_EQ(u0.combine(u2), u2res);
 }
 
-TEST(Interval, difference) {
+TEST(interval, difference) {
 	using iu = gxx::math::interval_union<double>;
 
 	iu u0 = {{1, 3}};
@@ -41,7 +41,7 @@ TEST(Interval, difference) {
 	EXPECT_EQ(u0.difference(u2), u2res);
 }
 
-TEST(Interval, intersect) {
+TEST(interval, intersect) {
 	using iu = gxx::math::interval_union<double>;
 	using i = gxx::math::interval<double>;
 

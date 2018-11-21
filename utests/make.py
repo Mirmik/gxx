@@ -8,12 +8,12 @@ from licant.libs import include
 include("gxx")
 
 tests = [
-	"print",
+	"print/print",
 #	"event",
 #	"access",
-	"hexascii",
-	"base64",
-	"interval",
+	"convert/hexascii",
+	"convert/base64",
+	"geom/interval",
 	"container/pool",
 ]
 

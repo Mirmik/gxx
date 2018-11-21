@@ -2,7 +2,7 @@
 #include <gxx/util/hexascii.h>
 #include <gxx/buffer.h>
 
-TEST(Access, hexascii_8) {
+TEST(hexascii, hexascii_8) {
 	char buf[2];
 	uint8_t u8 = 0xAB;
 
@@ -13,7 +13,7 @@ TEST(Access, hexascii_8) {
 	EXPECT_EQ(restore, u8);			
 }
 
-TEST(Access, hexascii_16) {
+TEST(hexascii, hexascii_16) {
 	char buf[4];
 	uint16_t u16 = 0xABCD;
 
@@ -24,7 +24,7 @@ TEST(Access, hexascii_16) {
 	EXPECT_EQ(restore, u16);			
 }
 
-TEST(Access, hexascii_32) {
+TEST(hexascii, hexascii_32) {
 	char buf[8];
 	uint32_t u32 = 0xABCDEF01;
 
@@ -35,7 +35,7 @@ TEST(Access, hexascii_32) {
 	EXPECT_EQ(restore, u32);			
 }
 
-TEST(Access, hexascii_64) {
+TEST(hexascii, hexascii_64) {
 	char buf[16];
 	uint64_t u64 = 0xABCDEF01ABCDEF01;
 
