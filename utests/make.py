@@ -14,6 +14,7 @@ tests = [
 	"hexascii",
 	"base64",
 	"interval",
+	"container/pool",
 ]
 
 application("runtests",

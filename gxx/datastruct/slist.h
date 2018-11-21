@@ -66,4 +66,17 @@ __END_DECLS
 	&pos->member != (head);											\
 	pos = slist_next_entry(pos, member))
 
+__BEGIN_DECLS
+
+static inline int slist_size(const struct slist_head* head) {
+	int i = 0;
+	struct slist_head * it;
+	slist_for_each(it, head) {
+		i++;
+	}	
+	return i;
+}
+
+__END_DECLS
+
 #endif
