@@ -3,44 +3,54 @@
 
 #include <gxx/io/iostream.h>
 
-namespace gxx {
-	namespace io {
-		enum OpenMode {
-			NotOpen = 0x00,
-			ReadOnly = 0x01,
-			WriteOnly = 0x02,
-			ReadWrite = 0x04,
-			Append = 0x08,
-			Truncate = 0x10
-		};
+namespace gxx
+{
+    namespace io
+    {
+        enum OpenMode {
+            NotOpen = 0x00,
+            ReadOnly = 0x01,
+            WriteOnly = 0x02,
+            ReadWrite = 0x04,
+            Append = 0x08,
+            Truncate = 0x10
+        };
 
-		class file : public gxx::io::iostream {
-		protected:
-			int m_fd = -1;
-			//std::string path;
+        class file_like : public gxx::io::iostream
+        {
+        protected:
+            uintptr_t fd = -1;
+            bool _is_open;
 
-		public:
-			file();
-			file(int fd);
-			file(const char* path, uint8_t mode = ReadWrite);
+        public:
+            file_like() {}
+            file_like(uintptr_t fd) : fd(fd) {}
 
-			//bool open(uint8_t mode);
-			bool open(const char* path, uint8_t mode = ReadWrite);
-			void close();	
-
-			//int nodelay(bool en);
             int nonblock(bool en);
 
-			int32_t readData(char *data, size_t maxSize) override;	
-			int32_t writeData(const char *data, size_t maxSize) override;
+            int close();
 
-			//void setFileDescriptor(int fd);
-			//void setPath(const std::string& path);
+            int32_t readData(char *data, size_t maxSize) override;
+            int32_t writeData(const char *data, size_t maxSize) override;
 
-			bool is_open();
-			CONSTREF_GETTER(fd, m_fd);
-		};
-	}
+            bool is_open();
+            CONSTREF_GETTER(file_descriptor, fd);
+        };
+
+        class file : public gxx::io::file_like
+        {
+        public:
+            file();
+
+            file(int fd);
+
+
+            file(const char* path, uint8_t mode = ReadWrite);
+
+            //bool open(uint8_t mode);
+            bool open(const char* path, uint8_t mode = ReadWrite);
+        };
+    }
 }
 
 #endif

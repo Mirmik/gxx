@@ -32,7 +32,12 @@ struct tracer {
 };
 }
 
+#if defined(NOTRACE) && NOTRACE!=0
+#define TRACE()
+#define TRACE_ARGS(...)
+#else
 #define TRACE() { gxx::tracer __tracer(__PRETTY_FUNCTION__); dln(); }
 #define TRACE_ARGS(...) { gxx::tracer __tracer(__PRETTY_FUNCTION__); dpr(" with "); gxx::println(__VA_ARGS__); }
+#endif
 
 #endif
