@@ -35,6 +35,7 @@
 *target
 *ctarget
 *target++
+runtests
 
 # CMake
 CMakeCache.txt
