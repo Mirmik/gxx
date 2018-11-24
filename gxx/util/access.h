@@ -7,11 +7,11 @@
 static inline uint8_t HIHALF(uint8_t byte) { return (byte >> 4) & 0x0F; }
 static inline uint8_t LOHALF(uint8_t byte) { return byte & 0x0F; }
 
-#ifndef BYTE_ORDER
-#	define BYTE_ORDER __LITTLE_ENDIAN
-#endif
+//#ifndef BYTE_ORDER
+//#	define BYTE_ORDER __LITTLE_ENDIAN
+//#endif
 
-#if BYTE_ORDER == __BIG_ENDIAN
+#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
 
 #	define INT16_HI(arg) *((uint8_t*)&arg + 0)
 #	define INT16_LO(arg) *((uint8_t*)&arg + 1)
@@ -30,7 +30,7 @@ static inline uint8_t LOHALF(uint8_t byte) { return byte & 0x0F; }
 #	define INT64_LLHI(arg) *((uint8_t*)&arg + 6)
 #	define INT64_LLLO(arg) *((uint8_t*)&arg + 7)
 
-#elif BYTE_ORDER == __LITTLE_ENDIAN
+#elif BYTE_ORDER == __ORDER_LITTLE_ENDIAN
 
 #	define INT16_HI(arg) *((uint8_t*)&arg + 1)
 #	define INT16_LO(arg) *((uint8_t*)&arg + 0)
