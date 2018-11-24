@@ -38,7 +38,7 @@ void debug_putchar(char c);
 void debug_write(const char* c, int i);
 
 /// Internal strlen implementation
-static inline int debug_strlen(const char *c) { int i = 0; for (i = 0; c[i] != 0; i++); return i; }
+static inline int debug_strlen(const char *c) { int i = 0; while (c[i] != 0) ++i; return i; }
 
 // Print null-terminated string
 void debug_print(const char *c);

@@ -16,6 +16,8 @@ tests = [
 	"geom/interval",
 	"container/pool",
 	"math/float",
+
+	"debug/dprint",
 ]
 
 application("runtests",
