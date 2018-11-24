@@ -31,8 +31,8 @@ namespace gxx {
 			//int nodelay(bool en);
             int nonblock(bool en);
 
-			int32_t readData(char *data, size_t maxSize) override;	
-			int32_t writeData(const char *data, size_t maxSize) override;
+			ssize_t readData(char *data, size_t maxSize) override;	
+			ssize_t writeData(const char *data, size_t maxSize) override;
 
 			//void setFileDescriptor(int fd);
 			//void setPath(const std::string& path);

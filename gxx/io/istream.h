@@ -8,13 +8,13 @@ namespace gxx {
 	namespace io {
 		class istream {
 		public:
-			virtual int read(char* str, size_t sz) {
+			virtual ssize_t read(char* str, size_t sz) {
 				return readData(str, sz);
 			}
 
 			virtual int getchar() {
 				char c;
-				int ret = readData(&c,1);
+				ssize_t ret = readData(&c,1);
 				if (ret == -1 || ret == 0) return -1;
 				return c;
 			}
@@ -23,12 +23,12 @@ namespace gxx {
 				int c;
 				char* strt = str;
 				do {
-					if ((size_t)(str - strt) >= maxlen) return maxlen;
+					if ((size_t)(str - strt) >= maxlen) return (int) maxlen;
 					c = getchar();
 					if (c == -1) break;
 					*str++ = (char)c;
 				} while(c != symb);
-				return str - strt;
+				return (int) (str - strt);
 			}
 
 			int readline(char* str, size_t maxlen, char symb) {
@@ -49,7 +49,7 @@ namespace gxx {
 
 
 		protected:
-			virtual int readData(char* str, size_t sz) = 0;
+			virtual ssize_t readData(char* str, size_t sz) = 0;
 		};
 	}
 }

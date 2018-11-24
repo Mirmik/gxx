@@ -84,7 +84,7 @@ namespace gxx {
 		inline gxx::buffer operator"" _b(const char* str, size_t sz) { return gxx::buffer(str, sz); }
 	}
 
-	class smart_buffer : public buffer {
+	/*class smart_buffer : public buffer {
 	public:
 		smart_buffer(size_t n) : buffer(allocate_buffer(n)) {}
 
@@ -95,7 +95,7 @@ namespace gxx {
 		~smart_buffer() {
 			free(buf);
 		}
-	};
+	};*/
 }
 
 #endif

@@ -8,7 +8,7 @@ namespace gxx {
 	namespace fmt {
 		//Форматирующий визитёр для arglist.
 		struct format_visitor {
-			using ftype = size_t(*)(void*, gxx::io::ostream&, gxx::buffer opts);												
+			using ftype = int(*)(void*, gxx::io::ostream&, gxx::buffer opts);												
 		
 			template<typename Object>
 			static void* get_visit() {
@@ -16,7 +16,7 @@ namespace gxx {
 			}
 
 			template<typename ... Args>												
-			static inline size_t visit(gxx::visitable_argument varg, Args&& ... args) {		
+			static inline int visit(gxx::visitable_argument varg, Args&& ... args) {		
 				ftype fptr = (ftype) varg.visit;									
 				return fptr(varg.ptr, std::forward<Args>(args) ...);				
 			}																		

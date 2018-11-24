@@ -58,8 +58,8 @@ namespace gxx {
 			else if (*it == '\t') ret.append("\\t", 2);
 			else if (*it == '\\') ret.append("\\\\", 2);
 			else { 
-				uint8_t hi = half2hex((*it & 0xF0) >> 4);
-				uint8_t low = half2hex(*it & 0x0F);
+				char hi = half2hex((uint8_t)((*it & 0xF0) >> 4));
+				char low = half2hex((uint8_t)(*it & 0x0F));
 				ret.append("\\x", 2);
 				ret.push_back(hi);  
 				ret.push_back(low); 

@@ -11,7 +11,7 @@ namespace gxx {
 		public:
 			std_string_writer(std::string& _str) : str(_str) {}
 		protected:
-			int writeData(const char* ptr, size_t sz) override {
+			ssize_t writeData(const char* ptr, size_t sz) override {
 				str.append(ptr, sz);
 				return sz;
 			}
@@ -22,7 +22,7 @@ namespace gxx {
 		public:
 			std_ostream_writer(std::ostream& _out) : out(_out) {}
 		protected:
-			int writeData(const char* ptr, size_t sz) override {
+			ssize_t writeData(const char* ptr, size_t sz) override {
 				out.write(ptr, sz);
 				return sz;
 			}
@@ -34,7 +34,7 @@ namespace gxx {
 
 		public:
 			std_ostream(std::ostream& o) : out(o) {}
-			int writeData(const char* ptr, size_t sz) override {
+			ssize_t writeData(const char* ptr, size_t sz) override {
 				out.write(ptr, sz);
 				return sz;
 			}
@@ -42,13 +42,13 @@ namespace gxx {
 
 		class std_istream : public gxx::io::istream {
 		private:
-			std::istream& in;
+			std::istream& _in;
 
 		public:
-			std_istream(std::istream& in) : in(in) {}
-			int readData(char* ptr, size_t sz) override {
-				in.read(ptr, sz);
-				return in.gcount();
+			std_istream(std::istream& in) : _in(in) {}
+			ssize_t readData(char* ptr, size_t sz) override {
+				_in.read(ptr, sz);
+				return _in.gcount();
 			}
 		};
 

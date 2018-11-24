@@ -31,12 +31,12 @@ namespace gxx {
 			::close(m_fd);
 		}
 
-		int32_t file::readData(char *data, size_t maxSize) {
+		ssize_t file::readData(char *data, size_t maxSize) {
 			//dprln(m_fd);
 			return ::read(m_fd, data, maxSize);
 		}
 
-		int32_t file::writeData(const char *data, size_t maxSize) {
+		ssize_t file::writeData(const char *data, size_t maxSize) {
 			return ::write(m_fd, data, maxSize);
 		}
 

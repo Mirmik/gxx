@@ -26,7 +26,7 @@ static inline char half2hex(uint8_t n) {
 }
 
 static inline uint8_t hex2byte(char hi, char lo) {
-	return (hex2half(hi) << 4) + hex2half(lo);
+	return (uint8_t)((hex2half(hi) << 4) + hex2half(lo));
 }
 
 static inline uint8_t hex_to_uint8 (const char* hex) {

@@ -12,9 +12,9 @@ namespace gxx {
 		public:
 			ostringstream(std::string& _str) : str(_str) {}
 		protected:
-			int writeData(const char* ptr, size_t sz) override {
+			ssize_t writeData(const char* ptr, size_t sz) override {
 				str.append(ptr, sz);
-				return sz;
+				return (int)sz;
 			}
 		};
 

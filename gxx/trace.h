@@ -16,18 +16,18 @@ namespace gxx {
 //}
 
 struct tracer {
-    const char* func = func;
+    const char* _func;
 
     tracer(const char* func) {
-        this->func = func;
+        _func = func;
         //gxx::fprintln(fmt, trace_level, func);
-        dpr("TRACE: "); dpr(trace_level); dpr(": -> "); dpr(func);
+        dpr("TRACE: "); dpr(trace_level); dpr(": -> "); dpr(_func);
         ++trace_level;
     }
 
     ~tracer() {
         --trace_level;
-        dpr("TRACE: "); dpr(trace_level); dpr(": <- "); dprln(func);
+        dpr("TRACE: "); dpr(trace_level); dpr(": <- "); dprln(_func);
     }
 };
 }

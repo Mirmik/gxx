@@ -117,7 +117,7 @@ namespace gxx
 	template<>
 	struct print_functions<std::string>
 	{
-		static int print(gxx::io::ostream& o, const std::string& str)
+		static ssize_t print(gxx::io::ostream& o, const std::string& str)
 		{
 			return o.print(str.c_str());
 		}

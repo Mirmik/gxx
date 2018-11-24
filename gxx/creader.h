@@ -44,7 +44,7 @@ namespace gxx {
 		}
 
 		bool next_is(gxx::buffer smbs) {
-			int len = smbs.size();
+			size_t len = smbs.size();
 			const char* smb = smbs.data();
 			const char* end = smbs.data() + len;
 			for(;smb != end; ++smb) {

@@ -30,7 +30,7 @@ namespace gxx {
 
 	template<typename T>
 	struct print_functions_basic<T, false> {
-		static int print(gxx::io::ostream& o, const T& obj) {
+		static ssize_t print(gxx::io::ostream& o, const T& obj) {
 			return o.print(obj);
 		};
 	};
@@ -40,14 +40,14 @@ namespace gxx {
 
 	template<typename T, bool Printable = true>
 	struct fprint_functions_basic {
-		static int format_print(const T& obj, gxx::io::ostream& o, gxx::buffer opt) {
+		static ssize_t format_print(const T& obj, gxx::io::ostream& o, gxx::buffer opt) {
 			return obj.fmtPrintTo(o, opt);
 		};
 	};
 
 	template<typename T>
 	struct fprint_functions_basic<T, false> {
-		static int format_print(const T& obj, gxx::io::ostream& o, gxx::buffer opt) {
+		static ssize_t format_print(const T& obj, gxx::io::ostream& o, gxx::buffer opt) {
 			(void)opt;
 			return print_functions<T>::print(o, obj);
 		}
@@ -58,7 +58,7 @@ namespace gxx {
 
 	template<typename T>
 	struct fprint_functions<T*> {
-		static int format_print(const T* const obj, gxx::io::ostream& o, gxx::buffer opt) {
+		static ssize_t format_print(const T* const obj, gxx::io::ostream& o, gxx::buffer opt) {
 			(void)opt;
 			return print_functions<const T*>::print(o, obj);
 		}

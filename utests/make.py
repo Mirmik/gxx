@@ -28,7 +28,7 @@ application("runtests",
 		submodule("gxx.dprint", "cout"),
 	],
 
-	libs = ["gtest", "gmock", "pthread"]
+	libs = ["gtest", "pthread"]
 )
 
 licant.ex("runtests")
