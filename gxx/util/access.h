@@ -30,7 +30,7 @@ static inline uint8_t LOHALF(uint8_t byte) { return byte & 0x0F; }
 #	define INT64_LLHI(arg) *((uint8_t*)&arg + 6)
 #	define INT64_LLLO(arg) *((uint8_t*)&arg + 7)
 
-#elif BYTE_ORDER == __ORDER_LITTLE_ENDIAN
+#elif __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
 
 #	define INT16_HI(arg) *((uint8_t*)&arg + 1)
 #	define INT16_LO(arg) *((uint8_t*)&arg + 0)
