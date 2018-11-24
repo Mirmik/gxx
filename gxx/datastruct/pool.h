@@ -2,6 +2,7 @@
 #define GXX_DATASTRUCT_POOL_H
 
 #include <gxx/datastruct/slist.h>
+#include <assert.h>
 
 struct memzone_head {
 	struct slist_head lnk;

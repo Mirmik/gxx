@@ -13,7 +13,14 @@ namespace gxx
 		size_t _elemsz;
 
 	public:
-		pool(void* zone, size_t size, size_t elsize) 
+
+		pool(){}
+
+		pool(void* zone, size_t size, size_t elsize) {
+			init(zone, size, elsize);
+		}
+
+		void init(void* zone, size_t size, size_t elsize) 
 		{
 			_zone = zone;
 			_size = size;
