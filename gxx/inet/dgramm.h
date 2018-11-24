@@ -18,20 +18,20 @@ namespace gxx {
 	namespace inet {
 		struct datagramm_socket : public inet::socket {
 			datagramm_socket(int domain, int type, int proto);
-			int sendto(gxx::inet::hostaddr haddr, int port, const char* data, size_t size);
-			int ne_sendto(uint32_t addr, uint16_t port, const char* data, size_t size);
-			int recvfrom(char* data, size_t maxsize, gxx::inet::netaddr* inaddr);
+			ssize_t sendto(gxx::inet::hostaddr haddr, uint16_t port, const char* data, size_t size);
+			ssize_t ne_sendto(uint32_t addr, uint16_t port, const char* data, size_t size);
+			ssize_t recvfrom(char* data, size_t maxsize, gxx::inet::netaddr* inaddr);
 		};
 	
 		struct udp_socket : public datagramm_socket {
 			udp_socket();
-			udp_socket(gxx::inet::hostaddr addr, int port);
-			int bind(gxx::inet::hostaddr addr, int port);
+			udp_socket(gxx::inet::hostaddr addr, uint16_t port);
+			int bind(gxx::inet::hostaddr addr, uint16_t port);
 		};
 
 		struct rdm_socket : public datagramm_socket {
 			rdm_socket();
-			rdm_socket(gxx::inet::hostaddr addr, int port);
+			rdm_socket(gxx::inet::hostaddr addr, uint16_t port);
 		};
 	}
 }

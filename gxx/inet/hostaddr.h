@@ -10,7 +10,7 @@ namespace gxx {
 	public:
 		uint32_t addr;
 		hostaddr() : addr(0) {}
-		hostaddr(uint32_t addr) : addr(addr) {}
+		hostaddr(uint32_t addr_) : addr(addr_) {}
 		
 		hostaddr(const char* str) {
 			if (isdigit(*str)) {
@@ -41,11 +41,11 @@ namespace gxx {
 		struct netaddr {
 			hostaddr addr;
 			int32_t port;
-			netaddr(unsigned long addr, unsigned short port) 
-				: addr(addr), port(port) {}
+			netaddr(uint32_t addr_, uint16_t port_) 
+				: addr(addr_), port(port_) {}
 
-			netaddr(gxx::inet::hostaddr addr, unsigned short port) 
-				: addr(addr), port(port) {}
+			netaddr(gxx::inet::hostaddr addr_, uint16_t port_) 
+				: addr(addr_), port(port_) {}
 
 			netaddr() = default;
 			size_t printTo(gxx::io::ostream& o) const {

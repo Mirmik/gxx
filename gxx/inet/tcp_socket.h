@@ -21,14 +21,14 @@ namespace gxx {
 			//create socket
 			int init();
 
-			int connect(gxx::inet::hostaddr addr, int port);
+			int connect(gxx::inet::hostaddr addr, uint16_t port);
 
 			//create and connect
-			tcp_socket(gxx::inet::hostaddr addr, int port);
+			tcp_socket(gxx::inet::hostaddr addr, uint16_t port);
 			
 			//io api implementation
-			int writeData(const char* data, size_t size) override;
-			int readData(char* data, size_t size) override;
+			ssize_t writeData(const char* data, size_t size) override;
+			ssize_t readData(char* data, size_t size) override;
 		};
 	}
 }

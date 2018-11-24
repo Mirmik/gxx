@@ -44,11 +44,11 @@ int gxx::inet::socket::init(int domain, int type, int proto) {
 	return fd;
 }
 
-int gxx::inet::socket::bind(gxx::inet::hostaddr haddr, int port, int family) {
+int gxx::inet::socket::bind(gxx::inet::hostaddr haddr, uint16_t port, int family) {
 	struct sockaddr_in addr;
 	memset(&addr, 0, sizeof(addr));
 
-	addr.sin_family = family;
+	addr.sin_family = (sa_family_t)family;
 	addr.sin_addr.s_addr = htonl(haddr.addr);  //INADDR_ANY = 0.0.0.0
 	addr.sin_port = htons(port);
 
@@ -59,11 +59,11 @@ int gxx::inet::socket::listen(int conn) {
 	return ::listen(fd, conn);
 }
 
-int gxx::inet::socket::connect(gxx::inet::hostaddr haddr, int port, int family) {
+int gxx::inet::socket::connect(gxx::inet::hostaddr haddr, uint16_t port, int family) {
 	struct sockaddr_in addr;
 	memset(&addr, 0, sizeof(addr));
 
-	addr.sin_family = family;
+	addr.sin_family = (sa_family_t)family;
 	addr.sin_port = htons(port);
 	addr.sin_addr.s_addr = htonl(haddr.addr);
 
@@ -83,7 +83,7 @@ int gxx::inet::socket::close() {
 }
 
 
-gxx::inet::tcp_socket::tcp_socket(gxx::inet::hostaddr addr, int port) : tcp_socket() {
+gxx::inet::tcp_socket::tcp_socket(gxx::inet::hostaddr addr, uint16_t port) : tcp_socket() {
 	inet::socket::init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	connect(addr, port);
 }
@@ -92,27 +92,27 @@ int gxx::inet::tcp_socket::init() {
 	return inet::socket::init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 }
 
-int gxx::inet::tcp_socket::connect(gxx::inet::hostaddr addr, int port) {
+int gxx::inet::tcp_socket::connect(gxx::inet::hostaddr addr, uint16_t port) {
 	return socket::connect(addr, port, PF_INET);
 }
 
-int gxx::inet::tcp_socket::writeData(const char* data, size_t size) {
+ssize_t gxx::inet::tcp_socket::writeData(const char* data, size_t size) {
 	return socket::send(data, size, 0);
 }
 
-int gxx::inet::tcp_socket::readData(char* data, size_t size) {
+ssize_t gxx::inet::tcp_socket::readData(char* data, size_t size) {
 	return socket::recv(data, size, 0);
 }
 
-int gxx::inet::socket::send(const char* data, size_t size, int flags) {
+ssize_t gxx::inet::socket::send(const char* data, size_t size, int flags) {
 	return ::send(fd, data, size, flags);
 }
 
-int gxx::inet::socket::recv(char* data, size_t size, int flags) {
+ssize_t gxx::inet::socket::recv(char* data, size_t size, int flags) {
 	return ::recv(fd, data, size, flags);
 }
 
-gxx::inet::tcp_server::tcp_server(const gxx::inet::hostaddr& addr, int port, int conn) {
+gxx::inet::tcp_server::tcp_server(const gxx::inet::hostaddr& addr, uint16_t port, int conn) {
 	this->init();
 	this->bind(addr, port);
 	this->listen(conn);
@@ -122,7 +122,7 @@ int gxx::inet::tcp_server::init() {
 	return socket::init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 }
 
-int gxx::inet::tcp_server::bind(const gxx::hostaddr& addr, int port) {
+int gxx::inet::tcp_server::bind(const gxx::hostaddr& addr, uint16_t port) {
 	return socket::bind(addr, port, PF_INET);
 }
 
@@ -150,7 +150,7 @@ gxx::inet::datagramm_socket::datagramm_socket(int domain, int type, int proto) {
 	socket::init(domain, type, proto);
 }
 
-int gxx::inet::datagramm_socket::sendto(gxx::inet::hostaddr haddr, int port, const char* data, size_t size) {
+ssize_t gxx::inet::datagramm_socket::sendto(gxx::inet::hostaddr haddr, uint16_t port, const char* data, size_t size) {
 	struct sockaddr_in addr;
 	memset(&addr, 0, sizeof(addr));
 
@@ -161,7 +161,7 @@ int gxx::inet::datagramm_socket::sendto(gxx::inet::hostaddr haddr, int port, con
 	return ::sendto(fd, data, size, 0, (sockaddr*) &addr, sizeof(sockaddr_in));
 }
 
-int gxx::inet::datagramm_socket::ne_sendto(uint32_t ipaddr, uint16_t port, const char* data, size_t size) {
+ssize_t gxx::inet::datagramm_socket::ne_sendto(uint32_t ipaddr, uint16_t port, const char* data, size_t size) {
 	struct sockaddr_in addr;
 	memset(&addr, 0, sizeof(addr));
 
@@ -172,10 +172,10 @@ int gxx::inet::datagramm_socket::ne_sendto(uint32_t ipaddr, uint16_t port, const
 	return ::sendto(fd, data, size, 0, (sockaddr*) &addr, sizeof(sockaddr_in));
 }
 
-int gxx::inet::datagramm_socket::recvfrom(char* data, size_t maxsize, gxx::inet::netaddr* inaddr) {
+ssize_t gxx::inet::datagramm_socket::recvfrom(char* data, size_t maxsize, gxx::inet::netaddr* inaddr) {
 	struct sockaddr_in si_other;
     socklen_t sz = sizeof(sockaddr_in);
-	int ret = ::recvfrom(fd, data, maxsize, 0, (sockaddr*) &si_other, &sz);
+	ssize_t ret = ::recvfrom(fd, data, maxsize, 0, (sockaddr*) &si_other, &sz);
 
 	if (ret < 0) {
 		return ret;
@@ -188,16 +188,16 @@ int gxx::inet::datagramm_socket::recvfrom(char* data, size_t maxsize, gxx::inet:
 
 gxx::inet::udp_socket::udp_socket() : datagramm_socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP) {}
 
-gxx::inet::udp_socket::udp_socket(gxx::inet::hostaddr addr, int port) : udp_socket() {
+gxx::inet::udp_socket::udp_socket(gxx::inet::hostaddr addr, uint16_t port) : udp_socket() {
 	bind(addr, port);
 }
 
-int gxx::inet::udp_socket::bind(gxx::inet::hostaddr addr, int port) {
+int gxx::inet::udp_socket::bind(gxx::inet::hostaddr addr, uint16_t port) {
 	return socket::bind(addr, port, PF_INET);
 }
 
 gxx::inet::rdm_socket::rdm_socket() : datagramm_socket(AF_INET, SOCK_RDM, 0) {}
 
-gxx::inet::rdm_socket::rdm_socket(gxx::inet::hostaddr addr, int port) : rdm_socket() {
+gxx::inet::rdm_socket::rdm_socket(gxx::inet::hostaddr addr, uint16_t port) : rdm_socket() {
 	socket::bind(addr, port, PF_INET);
 }

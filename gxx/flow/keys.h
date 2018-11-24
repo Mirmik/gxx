@@ -16,7 +16,7 @@ namespace gxx {
 			using reference = typename C::reference;
 			using const_reference = typename C::const_reference;
 
-			keys_fn(const C& c) : c(c), it(c.begin()), eit(c.end()) {}
+			keys_fn(const C& c_) : c(c_), it(c.begin()), eit(c.end()) {}
 		
 			decltype(auto) value() {
 				return it->first;

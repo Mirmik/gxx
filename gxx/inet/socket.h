@@ -21,12 +21,12 @@ namespace gxx {
 			socket& operator=(const socket& oth) = default;
 			socket& operator=(socket&& oth) = default;
 
-			int send(const char* data, size_t size, int flags);
-			int recv(char* data, size_t size, int flags);
+			ssize_t send(const char* data, size_t size, int flags);
+			ssize_t recv(char* data, size_t size, int flags);
 
 			int init(int domain, int type, int proto); //posix ::socket
-			int bind(gxx::inet::hostaddr haddr, int port, int family);
-			int connect(gxx::inet::hostaddr haddr, int port, int family);
+			int bind(gxx::inet::hostaddr haddr, uint16_t port, int family);
+			int connect(gxx::inet::hostaddr haddr, uint16_t port, int family);
 			int listen(int conn);
 
 			int nodelay(bool en);

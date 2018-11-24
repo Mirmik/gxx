@@ -19,7 +19,7 @@ namespace gxx
 
 			if (c == '/')
 			{
-				next = is.get();
+				next = (char)is.get();
 
 				switch (next)
 				{
@@ -76,9 +76,11 @@ namespace gxx
 	{
 		char c;
 		std::string str;
+
 		while (1)
 		{
 			is >> c;
+
 			if (isalpha(c))
 			{
 				str += c;
@@ -92,7 +94,9 @@ namespace gxx
 		}
 
 		if (str == "true") return trent(true);
+
 		if (str == "false") return trent(false);
+
 		return error("undefined mnemonic");
 	}
 
@@ -153,6 +157,7 @@ namespace gxx
 				}
 
 				auto&& r = parse(is);
+
 				if (r.is_error())
 					return std::move(r.error());
 
@@ -199,7 +204,9 @@ namespace gxx
 				std::string key;
 
 				if (c == '"') std::getline(is, key, '"');
+
 				if (c == '\'') std::getline(is, key, '\'');
+
 				c = detail::getnext(is);
 
 				if ( c != ':' )
@@ -210,6 +217,7 @@ namespace gxx
 				c = detail::getnext(is);
 
 				auto&& r = parse(is);
+
 				if (r.is_error())
 					return std::move(r.error());
 

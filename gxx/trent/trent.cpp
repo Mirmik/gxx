@@ -453,7 +453,7 @@ namespace gxx {
 		return *this;
 	}
 
-	int trent::size() {
+	ssize_t trent::size() {
         switch(m_type) {
             case trent::type::numer:
 			case trent::type::string: return -1;

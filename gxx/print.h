@@ -50,7 +50,7 @@ namespace gxx {
 
 	template<typename Head, typename ... Tail>
 	ssize_t print_to(gxx::io::ostream& out, const Head& head, const Tail& ... tail) {
-		int res = 0;
+		ssize_t res = 0;
 		res += print_to(out, head);
 		res += out.putchar(' ');
 		res += print_to(out, tail ...);
@@ -59,7 +59,7 @@ namespace gxx {
 
 	template<typename ... Args>
 	ssize_t println_to(gxx::io::ostream& out, const Args& ... args) {
-		int res = 0;
+		ssize_t res = 0;
 		res += print_to(out, args ...);
 		res += out.println();
 		return res;
@@ -72,7 +72,7 @@ namespace gxx {
 
 	template<typename Head, typename ... Tail>
 	ssize_t print(const Head& head, const Tail& ... tail) {
-		int res = 0;
+		ssize_t res = 0;
 		res += print(head);
 		res += standart_output->putchar(' ');
 		res += print(tail ...);
@@ -81,7 +81,7 @@ namespace gxx {
 
 	template<typename ... Args>
 	ssize_t println(const Args& ... args) {
-		int res = 0;
+		ssize_t res = 0;
 		res += print(args ...);
 		res += standart_output->println();
 		return res;
@@ -94,7 +94,7 @@ namespace gxx {
 	template<typename C>
 	ssize_t print_as_matrix(const C& c, int rlen) {
 		int n = 0;
-		int res = 0;
+		ssize_t res = 0;
 		for (const auto& v : c) {
 			res += standart_output->print(v);
 			res += standart_output->putchar(' ');
@@ -108,7 +108,7 @@ namespace gxx {
 	}
 
 	inline ssize_t fprint_format_argument(gxx::io::ostream& out, const char*& fmt, const gxx::visitable_arglist& list, uint8_t argnum) {
-		int ret;
+		ssize_t ret;
 		char* pend;
 		assert(*fmt == '{');
 		fmt++;
@@ -246,7 +246,7 @@ namespace gxx {
 		}
 	}
 
-	inline void print_dump(const void *mem, uint16_t len, int columns = 8) {
+	inline void print_dump(const void *mem, size_t len, int columns = 8) {
 		print_dump_to(*standart_output, mem, len, columns);
 	}
 

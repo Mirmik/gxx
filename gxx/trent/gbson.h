@@ -18,8 +18,8 @@ namespace gxx {
 			dict = 4,
 		};
 
-		int dump(const gxx::trent& tr, char* buffer, size_t maxlen);
-		int load(	   gxx::trent& tr, const char* buffer, size_t maxlen);
+		ssize_t dump(const gxx::trent& tr, char* buffer, size_t maxlen);
+		ssize_t load(	   gxx::trent& tr, const char* buffer, size_t maxlen);
 	}
 }
 

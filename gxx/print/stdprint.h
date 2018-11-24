@@ -17,9 +17,9 @@ namespace gxx
 	template<typename T>
 	size_t print_array_like_to(gxx::io::ostream& o, const T& arr)
 	{
-		int ret = 0;
+		ssize_t ret = 0;
 		ret += o.putchar('[');
-		int s = arr.size();
+		size_t s = arr.size();
 		for (const auto& g : arr)
 		{
 			ret += gxx::print_to(o, g);
@@ -33,7 +33,7 @@ namespace gxx
 	template<typename T, typename A>
 	struct print_functions<std::vector<T, A>>
 	{
-		static int print(gxx::io::ostream& o, std::vector<T, A> const& vec)
+		static ssize_t print(gxx::io::ostream& o, std::vector<T, A> const& vec)
 		{
 			return print_array_like_to(o, vec);
 		}
@@ -42,7 +42,7 @@ namespace gxx
 	template<typename T, typename A>
 	struct print_functions<std::set<T, A>>
 	{
-		static int print(gxx::io::ostream& o, std::set<T, A> const& vec)
+		static ssize_t print(gxx::io::ostream& o, std::set<T, A> const& vec)
 		{
 			return print_array_like_to(o, vec);
 		}
@@ -51,7 +51,7 @@ namespace gxx
 	template<typename T, typename A>
 	struct print_functions<std::list<T, A>>
 	{
-		static int print(gxx::io::ostream& o, std::list<T, A> const& vec)
+		static ssize_t print(gxx::io::ostream& o, std::list<T, A> const& vec)
 		{
 			return print_array_like_to(o, vec);
 		}
@@ -60,7 +60,7 @@ namespace gxx
 	template<typename T, dlist_head T::* L>
 	struct print_functions<gxx::dlist<T, L>>
 	{
-		static int print(gxx::io::ostream& o, gxx::dlist<T, L> const& vec)
+		static ssize_t print(gxx::io::ostream& o, gxx::dlist<T, L> const& vec)
 		{
 			return print_array_like_to(o, vec);
 		}
@@ -69,7 +69,7 @@ namespace gxx
 	template<typename T, size_t N>
 	struct print_functions<std::array<T, N>>
 	{
-		static int print(gxx::io::ostream& o, std::array<T, N> const& vec)
+		static ssize_t print(gxx::io::ostream& o, std::array<T, N> const& vec)
 		{
 			return print_array_like_to(o, vec);
 		}
@@ -77,7 +77,7 @@ namespace gxx
 
 	//template<typename T>
 	//struct print_functions<std::set<T>> {
-	//	static int print(gxx::io::ostream& o, std::set<T> const& vec) {
+	//	static ssize_t print(gxx::io::ostream& o, std::set<T> const& vec) {
 	//		return print_array_like_to(o, vec);
 	//	}
 	//};
@@ -85,9 +85,9 @@ namespace gxx
 	template<typename T, typename K>
 	struct print_functions<std::map<K, T>>
 	{
-		static int print(gxx::io::ostream& o, std::map<K, T> const& dict)
+		static ssize_t print(gxx::io::ostream& o, std::map<K, T> const& dict)
 		{
-			int ret = 0;
+			ssize_t ret = 0;
 
 			ret += o.putchar('{');
 			if (dict.size() != 0)
@@ -126,9 +126,9 @@ namespace gxx
 	template<typename T0, typename T1>
 	struct print_functions<std::pair<T0, T1>>
 	{
-		static int print(gxx::io::ostream& o, std::pair<T0, T1> const& pr)
+		static ssize_t print(gxx::io::ostream& o, std::pair<T0, T1> const& pr)
 		{
-			int ret = 0;
+			ssize_t ret = 0;
 
 			ret += o.putchar('(');
 			ret += gxx::print_to(o, pr.first);
@@ -142,7 +142,7 @@ namespace gxx
 
 	/*template<>
 	struct print_functions<std::type_info> {
-		static int print(gxx::io::ostream& o, std::type_info const& info) {
+		static ssize_t print(gxx::io::ostream& o, std::type_info const& info) {
 			return gxx::print_to(o, info.name());
 		}
 	};*/

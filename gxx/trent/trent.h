@@ -32,17 +32,17 @@ namespace gxx
 
 		trent_path_node() = delete;
 
-		trent_path_node(const std::string& str)
+		trent_path_node(const std::string& str_)
 		{
-			if (isdigit(str[0]))
+			if (isdigit(str_[0]))
 			{
 				is_string = false;
-				gxx::constructor(&this->i32, std::stoi(str));
+				gxx::constructor(&this->i32, std::stoi(str_));
 			}
 			else
 			{
 				is_string = true;
-				gxx::constructor(&this->str, str);
+				gxx::constructor(&this->str, str_);
 			}
 		}
 
@@ -283,7 +283,7 @@ namespace gxx
 		trent& operator= (unsigned long i);
 		trent& operator= (unsigned long long i);
 		trent& operator= (bool i);
-		int size();
+		ssize_t size();
 
 		bool contains(gxx::buffer buf);
 

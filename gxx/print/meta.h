@@ -23,7 +23,7 @@ namespace gxx {
 
 	template<typename T, bool HavePrintTo = true>
 	struct print_functions_basic {
-		static int print(gxx::io::ostream& o, const T& obj) {
+		static ssize_t print(gxx::io::ostream& o, const T& obj) {
 			return obj.printTo(o);
 		}
 	};
