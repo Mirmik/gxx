@@ -12,7 +12,7 @@ namespace gxx {
 			open(path, mode);
 		}
 
-		file::file(int fd) : m_fd(fd) {}
+		file::file(int fd) : file_like(fd) {}
 
 		bool file::open(const char* path, uint8_t mode) {
 			//uint16_t flags = O_CREAT | O_NOCTTY;
@@ -23,21 +23,22 @@ namespace gxx {
 			if (mode & gxx::io::WriteOnly) flags |= O_WRONLY;
 			if (mode & gxx::io::Append) flags |= O_APPEND;
 			if (mode & gxx::io::Truncate) flags |= O_TRUNC;
-			m_fd = ::open(path, flags, 0666);
+			fd = ::open(path, flags, 0666);
+			_is_open = true;
     		return true;
 		}
 
-		void file::close() {
-			::close(m_fd);
+		int file_like::close() {
+			return ::close(fd);
 		}
 
-		int32_t file::readData(char *data, size_t maxSize) {
+		int32_t file_like::readData(char *data, size_t maxSize) {
 			//dprln(m_fd);
-			return ::read(m_fd, data, maxSize);
+			return ::read(fd, data, maxSize);
 		}
 
-		int32_t file::writeData(const char *data, size_t maxSize) {
-			return ::write(m_fd, data, maxSize);
+		int32_t file_like::writeData(const char *data, size_t maxSize) {
+			return ::write(fd, data, maxSize);
 		}
 
 
@@ -49,12 +50,12 @@ namespace gxx {
 			this->path = path;
 		}*/
 
-		int file::nonblock(bool en) {
-			return gxx::osutil::nonblock(m_fd, en);
+		int file_like::nonblock(bool en) {
+			return gxx::osutil::nonblock(fd, en);
 		}
 
-		bool file::is_open() {
-			return m_fd >= 0;
+		bool file_like::is_open() {
+			return _is_open;
 		}
 	}
 

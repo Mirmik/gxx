@@ -21,6 +21,8 @@ tests = [
 application("runtests",
 	sources = ["main.cpp"] + [t+".cpp" for t in tests],
 
+	ld_flags = "-L/usr/local/lib/",
+
 	include_paths = ["."],
 	include_modules = [
 		submodule("gxx", "posix"),
