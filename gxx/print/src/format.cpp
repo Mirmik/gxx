@@ -1,3 +1,6 @@
+#define NODTRACE 0
+#include <gxx/debug/dprint.h>
+
 #include <gxx/util/format.h>
 #include <gxx/io/format_writer.h>
 #include <gxx/io/strm.h>
@@ -7,6 +10,7 @@
 namespace gxx {
 
 	std::string format_args(const char* fmt, const visitable_arglist& args) {
+		DTRACE();
 		std::stringstream ss;
 		//retstr.reserve(2*strlen(fmt));
 		gxx::io::format_ostream_writer writer(ss);
@@ -16,6 +20,7 @@ namespace gxx {
 	}
 
 	int format_arg_int64(const int64_t& num, io::format_writer& w, const char* opts) {
+		DTRACE();
 		io::IntegerSpec spec;
 	
 		if (opts != nullptr)
@@ -45,46 +50,55 @@ namespace gxx {
 	}
 	
 	int format_arg_int32(const int32_t& i, io::format_writer& w, const char* opts) {
+		DTRACE();
 		const int64_t i64 = i;
 		return format_arg_int64(i64, w, opts);	
 	}
 
 	int format_arg_int8(const int8_t& i, io::format_writer& w, const char* opts) {
+		DTRACE();
 		const int64_t i64 = i;
 		return format_arg_int64(i64, w, opts);	
 	}
 
 	int format_arg_int16(const int16_t& i, io::format_writer& w, const char* opts) {
+		DTRACE();
 		const int64_t i64 = i;
 		return format_arg_int64(i64, w, opts);	
 	}
 
 	int format_arg_uint64(const uint64_t& u, io::format_writer& w, const char* opts) {
+		DTRACE();
 		const int64_t i = u;
 		return format_arg_int64(i, w, opts);
 	}
 
 	int format_arg_uint32(const uint32_t& u, io::format_writer& w, const char* opts) {
+		DTRACE();
 		const int64_t i = u;
 		return format_arg_int64(i, w, opts);
 	}
 
 	int format_arg_uint16(const uint16_t& u, io::format_writer& w, const char* opts) {
+		DTRACE();
 		const int64_t i = u;
 		return format_arg_int64(i, w, opts);
 	}
 
 	int format_arg_uint8(const uint8_t& u, io::format_writer& w, const char* opts) {
+		DTRACE();
 		const int64_t i = u;
 		return format_arg_int64(i, w, opts);
 	}
 
     int format_arg_double(const double& u, io::format_writer& w, const char* opts) {
+		DTRACE();
         const int64_t i = u;
         return format_arg_int64(i, w, opts);
     }
 
 	int _format_arg_str(const char* const& str, size_t len, io::format_writer& w, const char* opts) {
+		DTRACE();
 		//dprln("Herecstring");
 		io::CharStrSpec spec;
 	
@@ -109,14 +123,17 @@ namespace gxx {
 	}
 
 	int format_arg_ccstr(const char* const& str, io::format_writer& w, const char* opts) {
+		DTRACE();
 		return _format_arg_str(str, strlen(str), w, opts);
 	}
 
 	int format_arg_cstr(char* const str, io::format_writer& w, const char* opts) {
+		DTRACE();
 		return _format_arg_str(str, strlen(str), w, opts);
 	}
 
 	int format_arg_str(std::string const& str, io::format_writer& w, const char* opts) {
+		DTRACE();
 		return _format_arg_str(str.data(), str.size(), w, opts);
 	}
 

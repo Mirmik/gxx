@@ -9,7 +9,7 @@
 
 #include <gxx/debug/dprint.h>
 
-//#include <utility>
+#include <gxx/io/spec.h>
 
 namespace gxx
 {
@@ -165,6 +165,17 @@ namespace gxx
 			{
 				return write("\r\n", 2);
 			}
+
+			ssize_t format_print(int num, gxx::buffer opts);
+			ssize_t format_print(int num, const gxx::io::integer_spec& spec);
+
+			ssize_t format_print(const char* str, gxx::buffer opts);
+			ssize_t format_print(const char* str, const gxx::io::basic_spec& spec);
+
+			ssize_t format_print(const char* str, size_t len, gxx::buffer opts);
+			ssize_t format_print(const char* str, size_t len, const gxx::io::basic_spec& spec);
+
+
 
 			template <typename T>
 			ssize_t bwrite(T obj)
