@@ -12,10 +12,17 @@ namespace gxx
 			left, right, center
 		};
 
+		enum class text_case 
+		{
+			upper, lower, none
+		};
+
 		struct basic_spec
 		{
 			alignment align = alignment::left;
+			text_case tcase = text_case::none;
 			int width = 0;
+			char fill = ' ';
 		};
 
 		struct integer_spec : public basic_spec
@@ -51,8 +58,9 @@ namespace gxx
 								align = alignment::center; 
 								break;
 
-							//case 'f':
-							//	spec.fill(*++opts); continue;
+							case 'f':
+								fill = opts[it+1]; it++; 
+								break;
 
 							//case 'X':
 							//	spec.charCase(io::CharCase::Upper);
@@ -104,6 +112,18 @@ namespace gxx
 
 							case '^':
 								align = alignment::center; 
+								break;
+
+							case 'U':
+								tcase = text_case::upper;
+								break;
+
+							case 'l':
+								tcase = text_case::lower;
+								break;
+
+							case 'f':
+								fill = opts[it+1]; it++; 
 								break;
 
 							//case 'f':
