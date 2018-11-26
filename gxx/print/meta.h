@@ -6,23 +6,46 @@
 #include <gxx/io/ostream.h>
 #include <gxx/util/booltype.h>
 
+#include <gxx/panic.h>
+#include <iostream>
+
 namespace gxx
 {
+	namespace io { class ostream; }
+
 	template <typename T, typename U = int>
 	struct is_have_fmtPrintTo : gxx::false_type { };
 
 	template <typename T>
-struct is_have_fmtPrintTo <T, decltype((void) &T::fmtPrintTo, 0)> : gxx::true_type { };
+	struct is_have_fmtPrintTo <T, decltype((void) &T::fmtPrintTo, 0)> : gxx::true_type { };
 
 	template <typename T, typename U = int>
 	struct is_have_printTo : gxx::false_type { };
 
 	template <typename T>
-struct is_have_printTo <T, decltype((void) &T::printTo, 0)> : gxx::true_type { };
+	struct is_have_printTo <T, decltype((void) &T::printTo, 0)> : gxx::true_type { };
 
-	namespace io { class ostream; }
+	struct sfinae_base
+	{
+		typedef char yes[1];
+		typedef char no[2];
+	};
 
-	template<typename T, bool HavePrintTo = true>
+	template<typename T>
+	struct has_insertion_operator : sfinae_base
+	{
+
+		// this may quietly fail:
+		template<typename U> static yes& test(
+		    size_t (*n)[ sizeof( std::cout << * static_cast<U*>(0) ) ] );
+
+		// "..." provides fallback in case above fails
+		template<typename U> static no& test(...);
+
+		constexpr static bool const value = sizeof( test<T>( NULL ) ) == sizeof( yes );
+	};
+
+	template<typename T, bool HaveStdOstream, bool HavePrintTo = true>
 	struct print_functions_basic
 	{
 		static ssize_t print(gxx::io::ostream& o, const T& obj)
@@ -32,7 +55,7 @@ struct is_have_printTo <T, decltype((void) &T::printTo, 0)> : gxx::true_type { }
 	};
 
 	template<typename T>
-	struct print_functions_basic<T, false>
+	struct print_functions_basic<T, false, false>
 	{
 		static ssize_t print(gxx::io::ostream& o, const T& obj)
 		{
@@ -41,7 +64,18 @@ struct is_have_printTo <T, decltype((void) &T::printTo, 0)> : gxx::true_type { }
 	};
 
 	template<typename T>
-	struct print_functions : public print_functions_basic<T, is_have_printTo<T>::value> {};
+	struct print_functions_basic<T, true, false>
+	{
+		static ssize_t print(gxx::io::ostream& o, const T& obj)
+		{
+			dprln("TODO: make ostream adapter");
+			PANIC_TRACED();
+			return 0;
+		};
+	};
+
+	template<typename T>
+	struct print_functions : public print_functions_basic<T, has_insertion_operator<T>::value, is_have_printTo<T>::value> {};
 
 	template<typename T, bool Printable = true>
 	struct fprint_functions_basic
