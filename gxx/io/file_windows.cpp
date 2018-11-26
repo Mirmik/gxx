@@ -293,10 +293,10 @@ namespace gxx
 
 			COMMTIMEOUTS timeouts;
 
-            timeouts.ReadIntervalTimeout = 50;
-            timeouts.ReadTotalTimeoutMultiplier = 50;
+            timeouts.ReadIntervalTimeout = 0;
+            timeouts.ReadTotalTimeoutMultiplier = 2;
             timeouts.ReadTotalTimeoutConstant = 10;
-            timeouts.WriteTotalTimeoutMultiplier = 50;
+            timeouts.WriteTotalTimeoutMultiplier = 2;
             timeouts.WriteTotalTimeoutConstant = 10;
 
             if (!SetCommTimeouts((HANDLE)fd, &timeouts)) {

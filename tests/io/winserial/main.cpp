@@ -14,7 +14,7 @@ int main()
 
     gxx::io::serial_port_file port("COM4", 115200, gxx::serial::parity_even);
 
-    int ret = port.write(cmd, sizeof(cmd));
+    int ret = port.write(cmd, strlen(cmd));
     gxx::println("write", ret);
 
     ret = port.read(readbuf, 20);
