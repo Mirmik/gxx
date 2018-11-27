@@ -166,8 +166,9 @@ namespace gxx {
 
 	template<typename ... Args>
 	ssize_t fprint_to(gxx::io::ostream& out, const char* fmt, Args&& ... args) {
-		visitable_argument buffer[sizeof ... (Args)];
-		return fprint_impl(out, fmt, gxx::make_visitable_arglist<gxx::fmt::format_visitor>(buffer, std::forward<Args>(args) ...));
+		gxx::fmt::format_visitor visitor;
+		visitable_argument buffer[] = { visitable_argument(args, visitor) ... };
+		return fprint_impl(out, fmt, visitable_arglist(buffer, sizeof ... (Args)));
 	}
 
 	template<typename ... Args>

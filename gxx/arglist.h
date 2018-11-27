@@ -14,36 +14,47 @@
 #include <gxx/buffer.h>
 #include <gxx/panic.h>
 
-#if 0
-#define MAKE_VISITABLE_ARGUMENT_DTRACE() DTRACE()
-#else
-#define MAKE_VISITABLE_ARGUMENT_DTRACE()
-#endif
-
 namespace gxx
 {
-	template <typename T> class argpair;
-	struct argname
+	namespace detail
 	{
-		gxx::buffer name;
-		argname(const gxx::buffer& _name) : name(_name) {};
-
-		template<typename T>
-		constexpr argpair<typename std::remove_reference<T>::type> operator= (T&& body)
+		template<typename T> struct va_remove_cvref
 		{
-			return argpair<typename std::remove_reference<T>::type>(name, (void*)&body);
-		}
-	};
+			typedef typename std::remove_volatile <
+			typename std::remove_const <
+			typename std::remove_reference<T>
+			::type >::type >::type type;
+		};
+		template<typename T> using va_remove_cvref_t = typename va_remove_cvref<T>::type;
+	}
 
+	/**
+	 *	Класс именованного аргумента.
+	 *  Является шаблонным классом, чтобы доставить информацию о типе аргумента
+	 *  в конструктор visitable_argument.
+	 */
 	template<typename T>
 	struct argpair
 	{
-		using type = T;
-
 		void* body;
 		gxx::buffer name;
+		constexpr argpair(const gxx::buffer& _name, const T& _body) : body((void*)&_body), name(_name) {}
+	};
 
-		constexpr argpair(const gxx::buffer& _name, void* _body) : body(_body), name(_name) {}
+	/**
+	 *	Класс имени аргумента, используется как временный объект,
+	 *  порождающий объект именованного аргумента argpair. 
+	 */
+	struct argname
+	{
+		gxx::buffer name;
+		constexpr argname(const gxx::buffer& _name) : name(_name) {};
+
+		template<typename T>
+		constexpr argpair<T> operator= (const T& body)
+		{
+			return argpair<T>(name, body);
+		}
 	};
 
 	namespace argument_literal
@@ -54,41 +65,51 @@ namespace gxx
 		}
 	}
 
+	/**
+	 *	visitable_argument
+	 *	Хранит данные об указатели, имени и точке доступа к визитёру.
+	 *	Используется для хранения в упорядоченном массиве информации об аргументах функции.
+	 */
 	struct visitable_argument
 	{
 		void* 		ptr;
-		void* 		visit;
 		gxx::buffer name;
+		void* 		visit;
 
-		visitable_argument() {}
-		visitable_argument(void* _ptr, void* _visit, const gxx::buffer& buf) : ptr(_ptr), visit(_visit), name(buf) {}
+		visitable_argument(void* _ptr, const gxx::buffer& buf, void* _visit) : 
+			ptr(_ptr), name(buf), visit(_visit) {}
+
+		template <typename Visitor, typename Object>
+		visitable_argument(Object& obj, const Visitor& visitor)
+			: visitable_argument(
+			      (void*) & obj,
+			      gxx::buffer(),
+			      Visitor::template get_visit<detail::va_remove_cvref_t<Object>>())
+		{}
+
+		template <typename Visitor, typename Object>
+		visitable_argument(argpair<Object>& pair, const Visitor& visitor)
+			: visitable_argument(
+			      pair.body,
+			      pair.name,
+			      Visitor::template get_visit<detail::va_remove_cvref_t<Object>>())
+		{}
 	};
 
-	template<typename HT, typename ... Tail>
-	static inline void visitable_arglist_former(visitable_argument* argptr, const HT& head, const Tail& ... tail)
-	{
-		new (argptr) visitable_argument( head );
-		visitable_arglist_former(++argptr, tail ...);
-	}
-
-	static inline void visitable_arglist_former(visitable_argument* argptr)
-	{
-		(void) argptr;
-	}
-
+	/**
+	 *	visitable_arglist
+	 *	Предоставляет интерфейс доступа к массиву visitable_argument.
+	 *
+	 *  @buffer - буфер данных, передаваемый извне для нужд хранения. Должен иметь длину
+	 * 	не менее количества аргуметов.
+	 */
 	class visitable_arglist
 	{
-	public:
 		size_t N;
 		visitable_argument* arr;
 
-		template <typename ... Args>
-		visitable_arglist(visitable_argument* buffer, Args&& ... args) : N(sizeof ... (Args)), arr(buffer)
-		{
-			visitable_arglist_former(arr, args ...);
-		}
-
-		visitable_arglist() : N(0), arr(nullptr) {}
+	public:
+		visitable_arglist(visitable_argument* buffer, size_t N) : N(N), arr(buffer) {}
 
 		visitable_argument* begin()
 		{
@@ -117,26 +138,6 @@ namespace gxx
 			return arr[0]; // -Wreturn-type
 		}
 	};
-
-	template <typename Visitor, typename Object>
-	inline visitable_argument make_visitable_argument(Object* obj)
-	{
-		MAKE_VISITABLE_ARGUMENT_DTRACE();
-		return visitable_argument((void*)obj, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type>(), gxx::buffer());
-	}
-
-	template <typename Visitor, typename Object>
-	inline visitable_argument make_visitable_argument(argpair<Object>* pair)
-	{
-		MAKE_VISITABLE_ARGUMENT_DTRACE();
-		return visitable_argument(pair->body, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type>(), pair->name);
-	}
-
-	template <typename Visitor, typename ... Args>
-	inline visitable_arglist make_visitable_arglist(visitable_argument* buffer, Args&& ... args)
-	{
-		return visitable_arglist(buffer, make_visitable_argument<Visitor>(&args) ...);
-	}
 }
 
 #endif
