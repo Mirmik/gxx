@@ -110,7 +110,9 @@ struct has_output_operator
 	{
 		static ssize_t format_print(const T& obj, gxx::io::ostream& o, gxx::buffer opt)
 		{
-			return o.format_print(obj, opt);
+			(void) opt;
+			return gxx::print_functions<T>::print(o, obj);
+			//return o.format_print(obj, opt);
 		}
 	};
 

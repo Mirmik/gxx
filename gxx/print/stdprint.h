@@ -123,6 +123,15 @@ namespace gxx
 		}
 	};
 
+	template<>
+	struct fprint_functions<std::string>
+	{
+		static ssize_t format_print(const std::string& obj, gxx::io::ostream& o, gxx::buffer opt)
+		{
+			return o.format_print(obj.c_str(), obj.size(), opt);
+		}
+	};
+
 	template<typename T0, typename T1>
 	struct print_functions<std::pair<T0, T1>>
 	{

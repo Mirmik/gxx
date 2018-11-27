@@ -28,6 +28,10 @@ namespace gxx {
 		size_t printTo(gxx::io::ostream& o) const {
 			return o.printhex(addr);
 		}
+
+		size_t fmtPrintTo(gxx::io::ostream& o, gxx::buffer opts) const {
+			return o.printhex(addr);
+		}
 		
 		bool operator == (const hostaddr& oth) const {
 			return oth.addr == addr;
