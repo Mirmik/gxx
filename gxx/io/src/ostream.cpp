@@ -58,23 +58,23 @@ ssize_t gxx::io::ostream::format_print(const char* body_, size_t bodylen, gxx::b
 
 ssize_t gxx::io::ostream::format_print(const char* body_, size_t bodylen, const gxx::io::basic_spec& spec)
 {
-	char body[32];
-	memcpy(body, body_, bodylen);
+	/*char body[32];
+	memcpy(body, body_, bodylen > 32 ? 32 : bodylen);*/
 
 	int ret = 0;
 
-	if (spec.width > 32) panic("fprint");
+	//if (spec.width > 32) panic("fprint");
 
 	int pre_fill_len = 0;
 	char post_fill_len = 0;
 
-	if (spec.tcase == text_case::upper)
+	/*if (spec.tcase == text_case::upper)
 	{
 		for (unsigned int i = 0; i < bodylen; ++i)
 		{
 			body[i] = toupper(body[i]);
 		}
-	}
+	}*/
 
 	if (spec.tcase == text_case::lower)
 	{
@@ -110,7 +110,7 @@ ssize_t gxx::io::ostream::format_print(const char* body_, size_t bodylen, const 
 		ret += fill(spec.fill, pre_fill_len);
 	}
 
-	ret += write(body, bodylen);
+	ret += write(body_, bodylen);
 
 	if (post_fill_len)
 	{

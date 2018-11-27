@@ -12,8 +12,8 @@ TEST(print, log) {
 	gxx::log::stdout_target target;
 
 	logger.link(target);
-	logger.info("HelloWorld");
+	logger.info("HelloWorld {}", 33);
 
 	std::string output = testing::internal::GetCapturedStdout();
-	EXPECT_EQ(output, "[info]syslog: HelloWorld\n");
+	EXPECT_EQ(output, "[info]syslog: HelloWorld 33\n");
 }

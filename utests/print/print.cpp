@@ -36,6 +36,13 @@ TEST(print, fprint_zero_size_arglist) {
 	EXPECT_EQ(output, "zerosize");
 }
 
+TEST(print, fprint_longstring) {
+	testing::internal::CaptureStdout();
+	gxx::fprint("123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+	std::string output = testing::internal::GetCapturedStdout();
+	EXPECT_EQ(output, "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+}
+
 TEST(print, number) {
 	testing::internal::CaptureStdout();
 	gxx::print(0.88);
