@@ -25,6 +25,25 @@ namespace gxx
 	template <typename T>
 	struct is_have_printTo <T, decltype((void) &T::printTo, 0)> : gxx::true_type { };
 
+/*namespace detail
+{
+ template <typename>
+ struct sfinae_true : std::true_type
+ { };
+   
+ template <typename T>
+ static auto test_stream(int)
+     -> sfinae_true<decltype(std::declval<std::ostream &>() << std::declval<T>())>;
+ template <typename T>
+ static auto test_stream(...)
+     -> std::false_type;
+}
+
+template <typename T>
+struct has_output_operator
+   : decltype(detail::test_stream<T>(0))
+{ };*/
+
 	struct sfinae_base
 	{
 		typedef char yes[1];
