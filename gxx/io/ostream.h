@@ -192,6 +192,12 @@ namespace gxx
 			ssize_t format_print(int num, gxx::buffer opts);
 			ssize_t format_print(int num, const gxx::io::integer_spec& spec);
 
+			ssize_t format_print(double num, gxx::buffer opts);
+			ssize_t format_print(double num, const gxx::io::float_spec& spec);
+
+			ssize_t format_print(float num, gxx::buffer opts);
+			ssize_t format_print(float num, const gxx::io::float_spec& spec);
+
 			ssize_t format_print(const char* str, gxx::buffer opts);
 			ssize_t format_print(const char* str, const gxx::io::basic_spec& spec);
 

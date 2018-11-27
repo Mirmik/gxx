@@ -29,6 +29,13 @@ TEST(print, fprint_named) {
 	EXPECT_EQ(output, "fprint aaa bbb ccc");
 }
 
+TEST(print, fprint_zero_size_arglist) {
+	testing::internal::CaptureStdout();
+	gxx::fprint("zerosize");
+	std::string output = testing::internal::GetCapturedStdout();
+	EXPECT_EQ(output, "zerosize");
+}
+
 TEST(print, number) {
 	testing::internal::CaptureStdout();
 	gxx::print(0.88);
@@ -41,4 +48,18 @@ TEST(print, fprint_number) {
 	gxx::fprint("double({})", 0.88);
 	std::string output = testing::internal::GetCapturedStdout();
 	EXPECT_EQ(output, "double(0.88000)");
+}
+
+TEST(print, integer) {
+	testing::internal::CaptureStdout();
+	gxx::print(0.88);
+	std::string output = testing::internal::GetCapturedStdout();
+	EXPECT_EQ(output, "0.88000");
+}
+
+TEST(print, fprint_integer) {
+	testing::internal::CaptureStdout();
+	gxx::fprint("integer({})", 42);
+	std::string output = testing::internal::GetCapturedStdout();
+	EXPECT_EQ(output, "integer(42)");
 }

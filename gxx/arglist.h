@@ -109,6 +109,7 @@ namespace gxx
 		visitable_argument* arr;
 
 	public:
+		visitable_arglist() : N(0), arr(nullptr) {}
 		visitable_arglist(visitable_argument* buffer, size_t N) : N(N), arr(buffer) {}
 
 		visitable_argument* begin()

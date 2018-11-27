@@ -80,6 +80,60 @@ namespace gxx
 			}
 		};
 
+		struct float_spec : public basic_spec
+		{
+			float_spec(gxx::buffer opts_)
+			{
+				char* opts = opts_.data();
+				unsigned int it = 0;
+
+				if (opts != nullptr)
+				{
+					while(it != opts_.size())
+					{
+						if (isdigit(opts[it]))
+						{
+							char* fin;
+							width = atou32(opts + it, 10, &fin);
+							it = fin - opts;
+							continue;
+						}
+
+						switch (opts[it])
+						{
+							case '<':
+								align = alignment::left; 
+								break;
+
+							case '>':
+								align = alignment::right; 
+								break;
+
+							case '^':
+								align = alignment::center; 
+								break;
+
+							case 'f':
+								fill = opts[it+1]; it++; 
+								break;
+
+							//case 'X':
+							//	spec.charCase(io::CharCase::Upper);
+
+							//case 'x':
+							//	spec.base(16);
+							//	if ( spec.prefix() == io::Prefix::Need ) spec.prefix(io::Prefix::Hex);
+							//	continue;
+
+							//case 'p':
+							//	spec.prefix(io::Prefix::Need);
+						}
+
+						it++;
+					}
+				}
+			}
+		};
 
 		struct text_spec : public basic_spec
 		{
