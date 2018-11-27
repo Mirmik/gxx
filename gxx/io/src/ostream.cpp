@@ -40,7 +40,7 @@ ssize_t gxx::io::ostream::format_print(const char* body_, size_t bodylen, const 
 
 	if (spec.tcase == text_case::upper)
 	{
-		for (int i = 0; i < bodylen; ++i)
+		for (unsigned int i = 0; i < bodylen; ++i)
 		{
 			body[i] = toupper(body[i]);
 		}

@@ -30,7 +30,7 @@ namespace gxx
 			integer_spec(gxx::buffer opts_)
 			{
 				char* opts = opts_.data();
-				int it = 0;
+				unsigned int it = 0;
 
 				if (opts != nullptr)
 				{
@@ -86,7 +86,7 @@ namespace gxx
 			text_spec(gxx::buffer opts_)
 			{
 				char* opts = opts_.data();
-				int it = 0;
+				unsigned int it = 0;
 
 				if (opts != nullptr)
 				{

@@ -15,6 +15,8 @@ application("target",
 		submodule("gxx.dprint", "stdout"),
 		submodule("gxx.print", "cout"),
 	],
+
+	cxx_flags = "-Werror=all -pedantic-errors -Werror=return-type"
 )
 
 licant.ex(default = "target")
