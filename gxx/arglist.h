@@ -118,50 +118,19 @@ namespace gxx
 		}
 	};
 
-	//visitable_argument должен содержать указатель на передаваемый объект.
-
 	template <typename Visitor, typename Object>
 	inline visitable_argument make_visitable_argument(Object* obj)
 	{
-		//Передаём указатель на объект.
 		MAKE_VISITABLE_ARGUMENT_DTRACE();
 		return visitable_argument((void*)obj, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type>(), gxx::buffer());
 	}
 
-/*	template <typename Visitor, typename Object, size_t N>
-	inline visitable_argument make_visitable_argument(Object(&obj)[N])
-	{
-		MAKE_VISITABLE_ARGUMENT_DTRACE();
-		return visitable_argument((void*)obj, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type*>(), gxx::buffer());
-	}
-
-	template <typename Visitor, typename Object>
-	inline visitable_argument make_visitable_argument(Object*& obj)
-	{
-		MAKE_VISITABLE_ARGUMENT_DTRACE();
-		return visitable_argument((void*)obj, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type*>(), gxx::buffer());
-	}
-*/
 	template <typename Visitor, typename Object>
 	inline visitable_argument make_visitable_argument(argpair<Object>* pair)
 	{
 		MAKE_VISITABLE_ARGUMENT_DTRACE();
 		return visitable_argument(pair->body, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type>(), pair->name);
 	}
-/*
-	template <typename Visitor, typename Object, size_t N>
-	inline visitable_argument make_visitable_argument(argpair<Object[N]>& pair)
-	{
-		MAKE_VISITABLE_ARGUMENT_DTRACE();
-		return visitable_argument(pair.body, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type*>(), pair.name);
-	}
-
-	template <typename Visitor, typename Object>
-	inline visitable_argument make_visitable_argument(argpair<Object*>& pair)
-	{
-		MAKE_VISITABLE_ARGUMENT_DTRACE();
-		return visitable_argument(*(void**)pair.body, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type*>(), pair.name);
-	}*/
 
 	template <typename Visitor, typename ... Args>
 	inline visitable_arglist make_visitable_arglist(visitable_argument* buffer, Args&& ... args)
