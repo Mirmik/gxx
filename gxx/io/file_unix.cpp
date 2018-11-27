@@ -1,20 +1,27 @@
 #include <gxx/io/file.h>
+#include <gxx/io/serial_port.h>
 #include <fcntl.h>
 #include <unistd.h>
 
 #include <gxx/osutil/fd.h>
 
-namespace gxx {
-	namespace io {
+#include <termios.h>
 
-		file::file(){}
-		file::file(const char* path, uint8_t mode) {
+namespace gxx
+{
+	namespace io
+	{
+
+		file::file() {}
+		file::file(const char* path, uint8_t mode)
+		{
 			open(path, mode);
 		}
 
-		file::file(int fd) : m_fd(fd) {}
+		file::file(int fd) : file_like(fd) {}
 
-		bool file::open(const char* path, uint8_t mode) {
+		bool file::open(const char* path, uint8_t mode)
+		{
 			//uint16_t flags = O_CREAT | O_NOCTTY;
 			uint16_t flags = O_CREAT | O_NOCTTY;
 			if (mode == gxx::io::NotOpen) return false;
@@ -23,21 +30,23 @@ namespace gxx {
 			if (mode & gxx::io::WriteOnly) flags |= O_WRONLY;
 			if (mode & gxx::io::Append) flags |= O_APPEND;
 			if (mode & gxx::io::Truncate) flags |= O_TRUNC;
-			m_fd = ::open(path, flags, 0666);
-    		return true;
+			fd = ::open(path, flags, 0666);
+			_is_open = true;
+			return true;
 		}
 
-		void file::close() {
-			::close(m_fd);
+		int file_like::close()
+		{
+			return ::close(fd);
 		}
 
 		ssize_t file::readData(char *data, size_t maxSize) {
 			//dprln(m_fd);
-			return ::read(m_fd, data, maxSize);
+			return ::read(fd, data, maxSize);
 		}
 
 		ssize_t file::writeData(const char *data, size_t maxSize) {
-			return ::write(m_fd, data, maxSize);
+			return ::write(fd, data, maxSize);
 		}
 
 
@@ -49,17 +58,82 @@ namespace gxx {
 			this->path = path;
 		}*/
 
-		int file::nonblock(bool en) {
-			return gxx::osutil::nonblock(m_fd, en);
+		int file_like::nonblock(bool en)
+		{
+			return gxx::osutil::nonblock(fd, en);
 		}
 
-		bool file::is_open() {
-			return m_fd >= 0;
+		bool file_like::is_open()
+		{
+			return _is_open;
+		}
+
+
+
+
+
+		int serial_port_file::open(const char * path,
+		                           unsigned int baud,
+		                           gxx::serial::parity parity,
+		                           gxx::serial::bytesize bytesize,
+		                           gxx::serial::stopbits stopbits,
+		                           gxx::serial::flowcontrol flowcontrol)
+		{
+			int ret;
+
+			fd = ::open(path, O_RDWR | O_NOCTTY);
+			if (fd < 0) {
+				perror("serial::open");
+				exit(0);
+			}
+
+			struct termios tattr, orig;
+			ret = tcgetattr(fd, &orig);
+			if (ret < 0) {
+				perror("serial::tcgetattr");
+				exit(0);
+			}
+
+			tattr = orig;  /* copy original and then modify below */
+
+			/* input modes - clear indicated ones giving: no break, no CR to NL,
+			   no parity check, no strip char, no start/stop output (sic) control */
+			tattr.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
+
+			/* output modes - clear giving: no post processing such as NL to CR+NL */
+			tattr.c_oflag &= ~(OPOST);
+
+			/* control modes - set 8 bit chars */
+			tattr.c_cflag |= (CS8);
+
+			/* local modes - clear giving: echoing off, canonical off (no erase with
+			   backspace, ^U,...),  no extended functions, no signal chars (^Z,^C) */
+			tattr.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+
+			/* control chars - set return condition: min number of bytes and timer */
+			tattr.c_cc[VMIN] = 0; tattr.c_cc[VTIME] = 0; /* immediate - anything       */
+
+			if (baud == 115200) {
+				cfsetispeed(&tattr, B115200);
+				cfsetospeed(&tattr, B115200);
+			} else {
+				PANIC_TRACED();
+			}
+
+			/* put terminal in raw mode after flushing */
+			ret = tcsetattr(fd, TCSAFLUSH, &tattr);
+
+			if (ret < 0) {
+				perror("serial::tcsetattr");
+			}
+
+
+			_is_open = true;
+			return fd;
 		}
 	}
 
 //	io::file cout(0);
 //	io::file cin(1);
 //	io::file crr(2);
-
 }

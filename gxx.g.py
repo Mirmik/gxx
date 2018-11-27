@@ -112,9 +112,14 @@ module("gxx.panic", impl="abort",
 	sources = ["panic_abort.c"]
 )
 
-module("gxx.serial",
+module("gxx.serial", "posix",
 	srcdir = "gxx",
 	sources = ["serial/src/impl/unix.cpp", "serial/src/serial.cpp"]
+)
+
+module("gxx.serial", "windows",
+	srcdir = "gxx",
+	sources = ["serial/src/impl/win.cpp", "serial/src/serial.cpp"]
 )
 
 #module("gxx.format",

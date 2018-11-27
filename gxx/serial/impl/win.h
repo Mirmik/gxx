@@ -34,7 +34,7 @@
  *
  */
 
-#if defined(_WIN32)
+//#if defined(_WIN32)
 
 #ifndef SERIAL_IMPL_WINDOWS_H
 #define SERIAL_IMPL_WINDOWS_H
@@ -211,4 +211,4 @@ private:
 
 #endif // SERIAL_IMPL_WINDOWS_H
 
-#endif // if defined(_WIN32)
+//#endif // if defined(_WIN32)

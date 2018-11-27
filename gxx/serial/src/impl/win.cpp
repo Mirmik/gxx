@@ -1,4 +1,4 @@
-#if defined(_WIN32)
+//#if defined(_WIN32)
 
 /* Copyright 2012 William Woodall and John Harrison */
 
@@ -11,7 +11,7 @@ using std::wstring;
 using std::stringstream;
 using std::invalid_argument;
 using serial::Serial;
-using serial::Timeout;
+using serial::Timeout; 
 using serial::bytesize_t;
 using serial::parity_t;
 using serial::stopbits_t;
@@ -644,4 +644,4 @@ Serial::SerialImpl::writeUnlock()
 
 //int Serial::SerialImpl::get_fd() { return fd_; }
 
-#endif // #if defined(_WIN32)
+//#endif // #if defined(_WIN32)
