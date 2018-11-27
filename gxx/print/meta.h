@@ -64,7 +64,7 @@ struct has_output_operator
 		constexpr static bool const value = sizeof( test<T>( NULL ) ) == sizeof( yes );
 	};
 
-	template<typename T, bool HaveStdOstream, bool HavePrintTo = true>
+	template<typename T, bool HavePrintTo = true>
 	struct print_functions_basic
 	{
 		static ssize_t print(gxx::io::ostream& o, const T& obj)
@@ -74,7 +74,7 @@ struct has_output_operator
 	};
 
 	template<typename T>
-	struct print_functions_basic<T, false, false>
+	struct print_functions_basic<T, false>
 	{
 		static ssize_t print(gxx::io::ostream& o, const T& obj)
 		{
@@ -82,7 +82,7 @@ struct has_output_operator
 		};
 	};
 
-	template<typename T>
+	/*template<typename T>
 	struct print_functions_basic<T, true, false>
 	{
 		static ssize_t print(gxx::io::ostream& o, const T& obj)
@@ -91,10 +91,10 @@ struct has_output_operator
 			PANIC_TRACED();
 			return 0;
 		};
-	};
+	};*/
 
 	template<typename T>
-	struct print_functions : public print_functions_basic<T, has_insertion_operator<T>::value, is_have_printTo<T>::value> {};
+	struct print_functions : public print_functions_basic<T, is_have_printTo<T>::value> {};
 
 	template<typename T, bool Printable = true>
 	struct fprint_functions_basic
