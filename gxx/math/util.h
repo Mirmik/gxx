@@ -4,6 +4,10 @@
 #include <math.h>
 #include <sys/cdefs.h>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846264338327950288
+#endif
+
 __BEGIN_DECLS
 
 float veryquick_rsqrt( float number );
