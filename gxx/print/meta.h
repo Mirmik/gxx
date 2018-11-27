@@ -9,6 +9,10 @@
 #include <gxx/panic.h>
 #include <iostream>
 
+#if 1
+#define PRINT_VISITOR_DTRACE() DTRACE()
+#endif
+
 namespace gxx
 {
 	namespace io { class ostream; }
@@ -17,34 +21,34 @@ namespace gxx
 	struct is_have_fmtPrintTo : gxx::false_type { };
 
 	template <typename T>
-	struct is_have_fmtPrintTo <T, decltype((void) &T::fmtPrintTo, 0)> : gxx::true_type { };
+struct is_have_fmtPrintTo <T, decltype((void) &T::fmtPrintTo, 0)> : gxx::true_type { };
 
 	template <typename T, typename U = int>
 	struct is_have_printTo : gxx::false_type { };
 
 	template <typename T>
-	struct is_have_printTo <T, decltype((void) &T::printTo, 0)> : gxx::true_type { };
+struct is_have_printTo <T, decltype((void) &T::printTo, 0)> : gxx::true_type { };
 
-/*namespace detail
-{
- template <typename>
- struct sfinae_true : std::true_type
- { };
-   
- template <typename T>
- static auto test_stream(int)
-     -> sfinae_true<decltype(std::declval<std::ostream &>() << std::declval<T>())>;
- template <typename T>
- static auto test_stream(...)
-     -> std::false_type;
-}
+	/*namespace detail
+	{
+	 template <typename>
+	 struct sfinae_true : std::true_type
+	 { };
 
-template <typename T>
-struct has_output_operator
-   : decltype(detail::test_stream<T>(0))
-{ };*/
+	 template <typename T>
+	 static auto test_stream(int)
+	     -> sfinae_true<decltype(std::declval<std::ostream &>() << std::declval<T>())>;
+	 template <typename T>
+	 static auto test_stream(...)
+	     -> std::false_type;
+	}
 
-	struct sfinae_base
+	template <typename T>
+	struct has_output_operator
+	   : decltype(detail::test_stream<T>(0))
+	{ };*/
+
+	/*struct sfinae_base
 	{
 		typedef char yes[1];
 		typedef char no[2];
@@ -62,13 +66,14 @@ struct has_output_operator
 		template<typename U> static no& test(...);
 
 		constexpr static bool const value = sizeof( test<T>( NULL ) ) == sizeof( yes );
-	};
+	};*/
 
 	template<typename T, bool HavePrintTo = true>
 	struct print_functions_basic
 	{
 		static ssize_t print(gxx::io::ostream& o, const T& obj)
 		{
+			PRINT_VISITOR_DTRACE();
 			return obj.printTo(o);
 		}
 	};
@@ -78,6 +83,7 @@ struct has_output_operator
 	{
 		static ssize_t print(gxx::io::ostream& o, const T& obj)
 		{
+			PRINT_VISITOR_DTRACE();
 			return o.print(obj);
 		};
 	};
@@ -101,24 +107,32 @@ struct has_output_operator
 	{
 		static ssize_t format_print(const T& obj, gxx::io::ostream& o, gxx::buffer opt)
 		{
-			return obj.fmtPrintTo(o, opt);
+
+			PRINT_VISITOR_DTRACE();
+			(void) opt;
+			return gxx::print_functions<T>::print(o, obj);
+			//return obj.fmtPrintTo(o, opt);
 		};
 	};
 
-	template<>
+	/*template<>
 	struct fprint_functions_basic<char*, false>
 	{
 		static ssize_t format_print(char* obj, gxx::io::ostream& o, gxx::buffer opt)
 		{
-			return o.format_print(obj, opt);
+			(void) opt;
+			return gxx::print_functions<T>::print(o, obj);
+			//return o.format_print(obj, opt);
 		}
-	};
+	};*/
 
 	template<typename T>
 	struct fprint_functions_basic<T, false>
 	{
 		static ssize_t format_print(const T& obj, gxx::io::ostream& o, gxx::buffer opt)
 		{
+
+			PRINT_VISITOR_DTRACE();
 			(void) opt;
 			return gxx::print_functions<T>::print(o, obj);
 			//return o.format_print(obj, opt);
