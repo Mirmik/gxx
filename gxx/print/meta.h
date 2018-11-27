@@ -43,7 +43,7 @@ namespace gxx
 		template <typename T> static auto test_stream(...) -> std::false_type;
 
 		template <typename T> static auto test_gxxout(int)
-		    -> sfinae_true<decltype(std::declval<io::ostream &>().format_print(std::declval<T>()))>;
+		    -> sfinae_true<decltype(std::declval<io::ostream &>().format_print(std::declval<T>(), gxx::buffer()))>;
 		template <typename T> static auto test_gxxout(...) -> std::false_type;
 	}
 
@@ -106,7 +106,7 @@ namespace gxx
 
 	
 	
-	template<typename T, bool NativeFormated, bool HavePrintTo = true>
+	template<typename T, bool NativeFormated, bool HaveFmtPrintTo = true>
 	struct fprint_functions_basic
 	{
 		static ssize_t format_print(const T& obj, gxx::io::ostream& o, gxx::buffer opt)

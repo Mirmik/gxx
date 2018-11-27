@@ -3,6 +3,20 @@
 
 #include <gxx/panic.h>
 
+ssize_t gxx::io::ostream::format_print(double num, gxx::buffer opts)
+{
+	gxx::io::float_spec spec(opts);
+	return format_print(num, spec);
+}
+
+ssize_t gxx::io::ostream::format_print(double num, const gxx::io::float_spec& spec)
+{
+	char body[32];
+	if (spec.width > 32) panic("fprint");
+	ftoa(num, body, 5);
+	return format_print(body, strlen(body), spec);
+}
+
 ssize_t gxx::io::ostream::format_print(int32_t num, gxx::buffer opts)
 {
 	gxx::io::integer_spec spec(opts);
@@ -12,11 +26,8 @@ ssize_t gxx::io::ostream::format_print(int32_t num, gxx::buffer opts)
 ssize_t gxx::io::ostream::format_print(int32_t num, const gxx::io::integer_spec& spec)
 {
 	char body[32];
-
 	if (spec.width > 32) panic("fprint");
-
 	i32toa(num, body, 10);
-
 	return format_print(body, strlen(body), spec);
 }
 
