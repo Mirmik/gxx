@@ -105,6 +105,15 @@ struct has_output_operator
 		};
 	};
 
+	template<>
+	struct fprint_functions_basic<char*, false>
+	{
+		static ssize_t format_print(char* obj, gxx::io::ostream& o, gxx::buffer opt)
+		{
+			return o.format_print(obj, opt);
+		}
+	};
+
 	template<typename T>
 	struct fprint_functions_basic<T, false>
 	{
@@ -113,15 +122,6 @@ struct has_output_operator
 			(void) opt;
 			return gxx::print_functions<T>::print(o, obj);
 			//return o.format_print(obj, opt);
-		}
-	};
-
-	template<>
-	struct fprint_functions_basic<char*, false>
-	{
-		static ssize_t format_print(char* obj, gxx::io::ostream& o, gxx::buffer opt)
-		{
-			return o.format_print(obj, opt);
 		}
 	};
 

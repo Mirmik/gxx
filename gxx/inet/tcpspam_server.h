@@ -26,11 +26,11 @@ namespace gxx {
 				inet::tcp_server::nonblock(true);
 				return 0;
 			}	
-			int __send(const char* str) {
+			ssize_t __send(const char* str) {
 				return __send(str, strlen(str));
 			};
 	
-			int __send(const char* str, size_t n) {
+			ssize_t __send(const char* str, size_t n) {
 				while(true) {
 					gxx::inet::tcp_socket newsock = accept();
 					if (!newsock.good()) break;
@@ -64,7 +64,7 @@ namespace gxx {
 				return ret;
 			}
 	
-			int writeData(const char* str, size_t sz) override {
+			ssize_t writeData(const char* str, size_t sz) override {
 				return __send(str, sz);
 			}	
 	

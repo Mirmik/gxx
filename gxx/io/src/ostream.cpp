@@ -26,6 +26,11 @@ ssize_t gxx::io::ostream::format_print(const char* str, gxx::buffer opts)
 	return format_print(str, strlen(str), spec);
 }
 
+ssize_t gxx::io::ostream::format_print(const char* body_, size_t bodylen, gxx::buffer opts)
+{
+	return format_print(body_, bodylen, text_spec(opts));
+}
+
 ssize_t gxx::io::ostream::format_print(const char* body_, size_t bodylen, const gxx::io::basic_spec& spec)
 {
 	char body[32];

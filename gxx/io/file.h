@@ -29,6 +29,9 @@ namespace gxx
             int nonblock(bool en);
             int close();
 
+            ssize_t readData(char *data, size_t maxSize) override;  
+            ssize_t writeData(const char *data, size_t maxSize) override;
+
             bool is_open();
             CONSTREF_GETTER(file_descriptor, fd);
         };
@@ -39,9 +42,6 @@ namespace gxx
             file();
             file(int fd);
             file(const char* path, uint8_t mode = ReadWrite);
-
-            ssize_t readData(char *data, size_t maxSize) override;  
-            ssize_t writeData(const char *data, size_t maxSize) override;
             
             //bool open(uint8_t mode);
             bool open(const char* path, uint8_t mode = ReadWrite);

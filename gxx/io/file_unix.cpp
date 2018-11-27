@@ -40,12 +40,12 @@ namespace gxx
 			return ::close(fd);
 		}
 
-		ssize_t file::readData(char *data, size_t maxSize) {
+		ssize_t file_like::readData(char *data, size_t maxSize) {
 			//dprln(m_fd);
 			return ::read(fd, data, maxSize);
 		}
 
-		ssize_t file::writeData(const char *data, size_t maxSize) {
+		ssize_t file_like::writeData(const char *data, size_t maxSize) {
 			return ::write(fd, data, maxSize);
 		}
 
