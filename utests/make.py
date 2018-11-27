@@ -9,6 +9,7 @@ include("gxx")
 
 tests = [
 	"print/print",
+	"print/log",
 #	"event",
 #	"access",
 	"convert/hexascii",
@@ -30,6 +31,7 @@ application("runtests",
 		submodule("gxx", "posix"),
 		submodule("gxx.print", "cout"),
 		submodule("gxx.dprint", "cout"),
+		submodule("gxx.log", "posix"),
 	],
 
 	libs = ["gtest", "pthread"]
