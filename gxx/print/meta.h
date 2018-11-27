@@ -9,8 +9,10 @@
 #include <gxx/panic.h>
 #include <iostream>
 
-#if 1
+#if 0
 #define PRINT_VISITOR_DTRACE() DTRACE()
+#else
+#define PRINT_VISITOR_DTRACE()
 #endif
 
 namespace gxx
@@ -131,7 +133,6 @@ struct is_have_printTo <T, decltype((void) &T::printTo, 0)> : gxx::true_type { }
 	{
 		static ssize_t format_print(const T& obj, gxx::io::ostream& o, gxx::buffer opt)
 		{
-
 			PRINT_VISITOR_DTRACE();
 			(void) opt;
 			return gxx::print_functions<T>::print(o, obj);

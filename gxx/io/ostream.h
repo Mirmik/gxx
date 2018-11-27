@@ -11,8 +11,10 @@
 
 #include <gxx/io/spec.h>
 
-#if 1
+#if 0
 #define OSTREAM_VISITOR_DTRACE() DTRACE()
+#else
+#define OSTREAM_VISITOR_DTRACE()
 #endif
 
 namespace gxx
@@ -130,7 +132,6 @@ namespace gxx
 			ssize_t print(const char* str)
 			{
 				OSTREAM_VISITOR_DTRACE();
-				dprptrln(str);
 				return write(str, strlen(str));
 			}
 

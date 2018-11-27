@@ -14,8 +14,10 @@
 #include <gxx/buffer.h>
 #include <gxx/panic.h>
 
-#if 1
+#if 0
 #define MAKE_VISITABLE_ARGUMENT_DTRACE() DTRACE()
+#else
+#define MAKE_VISITABLE_ARGUMENT_DTRACE()
 #endif
 
 namespace gxx
@@ -116,19 +118,21 @@ namespace gxx
 		}
 	};
 
+	//visitable_argument должен содержать указатель на передаваемый объект.
+
 	template <typename Visitor, typename Object>
-	inline visitable_argument make_visitable_argument(Object& obj)
+	inline visitable_argument make_visitable_argument(Object* obj)
 	{
+		//Передаём указатель на объект.
 		MAKE_VISITABLE_ARGUMENT_DTRACE();
-		return visitable_argument((void*)&obj, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type>(), gxx::buffer());
+		return visitable_argument((void*)obj, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type>(), gxx::buffer());
 	}
 
-	template <typename Visitor, typename Object, size_t N>
+/*	template <typename Visitor, typename Object, size_t N>
 	inline visitable_argument make_visitable_argument(Object(&obj)[N])
 	{
 		MAKE_VISITABLE_ARGUMENT_DTRACE();
-		//Передаём указатель на первый элемент массива.
-		return visitable_argument((void*)(&obj[0]), Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type*>(), gxx::buffer());
+		return visitable_argument((void*)obj, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type*>(), gxx::buffer());
 	}
 
 	template <typename Visitor, typename Object>
@@ -137,14 +141,14 @@ namespace gxx
 		MAKE_VISITABLE_ARGUMENT_DTRACE();
 		return visitable_argument((void*)obj, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type*>(), gxx::buffer());
 	}
-
+*/
 	template <typename Visitor, typename Object>
-	inline visitable_argument make_visitable_argument(argpair<Object>& pair)
+	inline visitable_argument make_visitable_argument(argpair<Object>* pair)
 	{
 		MAKE_VISITABLE_ARGUMENT_DTRACE();
-		return visitable_argument(pair.body, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type>(), pair.name);
+		return visitable_argument(pair->body, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type>(), pair->name);
 	}
-
+/*
 	template <typename Visitor, typename Object, size_t N>
 	inline visitable_argument make_visitable_argument(argpair<Object[N]>& pair)
 	{
@@ -157,12 +161,12 @@ namespace gxx
 	{
 		MAKE_VISITABLE_ARGUMENT_DTRACE();
 		return visitable_argument(*(void**)pair.body, Visitor::template get_visit<typename std::remove_const<typename std::remove_reference<Object>::type>::type*>(), pair.name);
-	}
+	}*/
 
 	template <typename Visitor, typename ... Args>
 	inline visitable_arglist make_visitable_arglist(visitable_argument* buffer, Args&& ... args)
 	{
-		return visitable_arglist(buffer, make_visitable_argument<Visitor>(args) ...);
+		return visitable_arglist(buffer, make_visitable_argument<Visitor>(&args) ...);
 	}
 }
 
