@@ -80,7 +80,7 @@ namespace gxx
 			ptr(_ptr), name(buf), visit(_visit) {}
 
 		template <typename Visitor, typename Object>
-		visitable_argument(Object& obj, const Visitor& visitor)
+		visitable_argument(const Object& obj, const Visitor& visitor)
 			: visitable_argument(
 			      (void*) & obj,
 			      gxx::buffer(),
@@ -88,7 +88,7 @@ namespace gxx
 		{}
 
 		template <typename Visitor, typename Object>
-		visitable_argument(argpair<Object>& pair, const Visitor& visitor)
+		visitable_argument(const argpair<Object>& pair, const Visitor& visitor)
 			: visitable_argument(
 			      pair.body,
 			      pair.name,
@@ -110,7 +110,14 @@ namespace gxx
 
 	public:
 		visitable_arglist() : N(0), arr(nullptr) {}
+
+		__attribute__((deprecated))
 		visitable_arglist(visitable_argument* buffer, size_t N) : N(N), arr(buffer) {}
+
+		template<size_t M>
+		visitable_arglist(visitable_argument(&& arr)[M]) 
+			: N(M), arr(arr) 
+		{}
 
 		visitable_argument* begin()
 		{
