@@ -1,3 +1,7 @@
+
+#error "Corrupted"
+
+
 #include <gxx/io/file.h>
 #include <gxx/io/serial_port.h>
 #include <fcntl.h>
@@ -30,6 +34,65 @@ std::string GetLastErrorAsString()
     return message;
 }
 
+
+int serialWin32_putc( HANDLE hSerial, HANDLE m_hevtOverlapped, char c)
+{
+ DWORD dwWritten;
+ DWORD dwRetVal;
+ // Write the data
+ // Wait for the event to happen
+
+ OVERLAPPED ovInternal;
+ // Setup our own overlapped structure
+ memset(&ovInternal,0,sizeof(ovInternal));
+ ovInternal.hEvent = m_hevtOverlapped;
+
+ dwRetVal = WriteFile(hSerial, &c, 1, &dwWritten, &ovInternal);
+ if(!dwRetVal)
+ {
+  if( WaitForSingleObject(ovInternal.hEvent,100) == WAIT_TIMEOUT )
+  {
+   CancelIo(hSerial);
+  }
+  GetOverlappedResult(hSerial,&ovInternal,&dwWritten,FALSE);
+ } else {
+  SetEvent(ovInternal.hEvent);
+ }
+ return dwWritten;
+}
+
+/// -------------------------------------------------------------------
+int serialWin32_getc( HANDLE hSerial, HANDLE m_hevtOverlapped, char * c)
+{
+
+ DWORD dwRead;
+ DWORD dwRetVal;
+
+ // Wait for the event to happen
+ OVERLAPPED ovInternal;
+ // Setup our own overlapped structure
+ memset(&ovInternal,0,sizeof(ovInternal));
+ ovInternal.hEvent = m_hevtOverlapped;
+
+
+ // Read the data
+ dwRetVal = ReadFile(hSerial, c, 1, &dwRead, &ovInternal);
+ if(! dwRetVal )
+ {
+ if( WaitForSingleObject(ovInternal.hEvent,100) == WAIT_TIMEOUT )
+ {
+   CancelIo(hSerial);
+ }
+   // WAIT_OBJECT_0:
+   GetOverlappedResult(hSerial,&ovInternal,&dwRead,FALSE);
+   //dwRetVal = dwRead;
+ } else {
+   SetEvent(ovInternal.hEvent);
+ }
+ return dwRead;
+}
+
+
 namespace gxx
 {
 	namespace io
@@ -58,25 +121,37 @@ namespace gxx
 			return ::close(fd);
 		}
 
-		int32_t file_like::readData(char *data, size_t maxSize)
+		ssize_t file_like::readData(char *data, size_t maxSize)
 		{
-			DWORD really;
+            /*DWORD really;
             if (!ReadFile((HANDLE)fd, data, maxSize, &really, NULL))
             {
                 gxx::println("Error while reading from the serial port: ", GetLastErrorAsString());
                 PANIC_TRACED();
             }
-			return really;
+            return really;*/
+
+            int count = 0;
+
+            while(count != maxSize) {
+                count += serialWin32_getc((HANDLE)fd, (HANDLE)ah, &data[count]);
+            }
 		}
 
-		int32_t file_like::writeData(const char *data, size_t maxSize)
+		ssize_t file_like::writeData(const char *data, size_t maxSize)
 		{
-			DWORD really;
+            int count = 0;
+
+            while(count != maxSize) {
+                count += serialWin32_putc((HANDLE)fd, (HANDLE)ah, data[count]);
+            }
+
+            /*DWORD really;
             if (!WriteFile((HANDLE)fd, data, maxSize, &really, NULL)) {
                 gxx::println("Error while writing to the serial port: ", GetLastErrorAsString());
                 PANIC_TRACED();
             }
-			return really;
+            return really;*/
 		}
 
 		int file_like::nonblock(bool en)
@@ -110,8 +185,8 @@ namespace gxx
 			                            0,
 			                            0,
 			                            OPEN_EXISTING,
-                                        FILE_ATTRIBUTE_NORMAL,
-			                            0);
+                                        FILE_FLAG_OVERLAPPED,
+                                        0);
 
 			if ((HANDLE)fd == INVALID_HANDLE_VALUE) {
 				DWORD create_file_err = GetLastError();
@@ -130,6 +205,16 @@ namespace gxx
 						PANIC_TRACED();
 				}
 			}
+
+
+            ah = (uintptr_t)CreateEvent(0,TRUE,FALSE,0);
+
+            DWORD dwInQueue = 24;
+            DWORD dwOutQueue = 24;
+            SetupComm( (HANDLE) fd, dwInQueue, dwOutQueue);
+
+
+
 
 			DCB dcbSerialParams = {0};
 
@@ -291,17 +376,17 @@ namespace gxx
 				PANIC_TRACED();
 			}
 
-			COMMTIMEOUTS timeouts;
+            /*COMMTIMEOUTS timeouts;
 
-            timeouts.ReadIntervalTimeout = 0;
-            timeouts.ReadTotalTimeoutMultiplier = 2;
-            timeouts.ReadTotalTimeoutConstant = 10;
+            timeouts.ReadIntervalTimeout = 0xFFFFFFFF;
+            timeouts.ReadTotalTimeoutMultiplier = 0;
+            timeouts.ReadTotalTimeoutConstant = 0;
             timeouts.WriteTotalTimeoutMultiplier = 2;
             timeouts.WriteTotalTimeoutConstant = 10;
 
             if (!SetCommTimeouts((HANDLE)fd, &timeouts)) {
                 PANIC_TRACED();
-            }
+            }*/
 
             _is_open = true;
 		}

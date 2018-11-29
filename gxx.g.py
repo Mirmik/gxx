@@ -51,6 +51,20 @@ module("gxx", "posix",
 	include_modules = [ submodule("gxx.include"), submodule("gxx.util.c"), submodule("gxx.util.cxx") ],
 )
 
+module("gxx", "windows",
+	srcdir = "gxx",
+	sources = [
+		"datastruct/src/tree.c",
+		"io/file_windows.cpp",
+		"io/std.cpp",
+		"io/src/ostream.cpp",
+		"osutil/src/osutil_windows.cpp",
+		"path/path.cpp",
+	],
+
+	include_modules = [ submodule("gxx.include"), submodule("gxx.util.c"), submodule("gxx.util.cxx") ],
+)
+
 module("gxx.c_only",
 	srcdir = "gxx",
 	sources = [

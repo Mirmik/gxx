@@ -19,7 +19,8 @@ namespace gxx
         class file_like : public gxx::io::iostream
         {
         protected:
-            uintptr_t fd = -1;
+            int fd = -1;
+            //uintptr_t ah = -1;
             bool _is_open;
 
         public:
