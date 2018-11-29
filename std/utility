@@ -188,7 +188,7 @@ namespace std
 	typename std::add_rvalue_reference<T>::type declval() noexcept;*/
 
 	template<class T>
-	T&& declval_rr() noexcept;
+	T&& declval() noexcept;
 }
 
 #endif

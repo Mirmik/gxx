@@ -43,7 +43,7 @@ namespace gxx
 		template <typename T> static auto test_stream(...) -> std::false_type;*/
 
 		template <typename T> static auto test_gxxout(int)
-		    -> sfinae_true<decltype(std::declval_rr<io::ostream &>().format_print(std::declval_rr<T>(), gxx::buffer()))>;
+		    -> sfinae_true<decltype(std::declval<io::ostream &>().format_print(std::declval<T>(), gxx::buffer()))>;
 		template <typename T> static auto test_gxxout(...) -> std::false_type;
 	}
 
