@@ -38,16 +38,16 @@ namespace gxx
 		struct sfinae_true : std::true_type
 		{ };
 
-		template <typename T> static auto test_stream(int)
+		/*template <typename T> static auto test_stream(int)
 		    -> sfinae_true<decltype(std::declval<std::ostream &>() << std::declval<T>())>;
-		template <typename T> static auto test_stream(...) -> std::false_type;
+		template <typename T> static auto test_stream(...) -> std::false_type;*/
 
 		template <typename T> static auto test_gxxout(int)
-		    -> sfinae_true<decltype(std::declval<io::ostream &>().format_print(std::declval<T>(), gxx::buffer()))>;
+		    -> sfinae_true<decltype(std::declval_rr<io::ostream &>().format_print(std::declval_rr<T>(), gxx::buffer()))>;
 		template <typename T> static auto test_gxxout(...) -> std::false_type;
 	}
 
-	template <typename T> struct has_output_operator : decltype(detail::test_stream<T>(0)) { };
+	//template <typename T> struct has_output_operator : decltype(detail::test_stream<T>(0)) { };
 	template <typename T> struct has_native_format_print : decltype(detail::test_gxxout<T>(0)) { };
 
 	/*struct sfinae_base
