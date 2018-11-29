@@ -125,8 +125,9 @@ namespace gxx
 			template <typename ... Args>
 			inline void log(level lvl, const char* fmt, Args&& ... args)
 			{
-				gxx::visitable_argument arr[] = { visitable_argument(args, gxx::fmt::format_visitor()) ... };
-				log(lvl, fmt, visitable_arglist(arr, sizeof ... (Args)));
+				log(lvl, fmt, visitable_arglist(
+					{ visitable_argument(args, gxx::fmt::format_visitor()) ... })
+				);
 			}
 
 			inline void log(level lvl, const char* fmt)
