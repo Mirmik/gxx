@@ -17,4 +17,8 @@ namespace gxx {
 	std::string hexascii_encode(const std::string& str) {
 		return hexascii_encode((const uint8_t*)str.data(), str.size());
 	}
+
+	std::string hexascii_encode(const gxx::buffer& buf) {
+		return hexascii_encode((const uint8_t*)buf.data(), buf.size());
+	}
 }
