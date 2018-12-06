@@ -111,7 +111,28 @@ namespace gxx
 			tattr.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
 
 			/* control chars - set return condition: min number of bytes and timer */
-			tattr.c_cc[VMIN] = 0; tattr.c_cc[VTIME] = 0; /* immediate - anything       */
+			tattr.c_cc[VMIN] = 1; tattr.c_cc[VTIME] = 0; /* immediate - anything       */
+
+			switch (parity) 
+			{
+				case gxx::serial::parity_none:
+					tattr.c_cflag &= ~(PARENB);
+					tattr.c_cflag &= ~(PARODD);
+					break;
+				
+				case gxx::serial::parity_even:
+					tattr.c_cflag |= (PARENB);
+					tattr.c_cflag &= ~(PARODD);
+					break;
+				
+				case gxx::serial::parity_odd:
+					tattr.c_cflag |= (PARENB);
+					tattr.c_cflag |= (PARODD);
+					break;					
+				
+				default:
+					PANIC_TRACED();
+			}
 
 			if (baud == 115200) {
 				cfsetispeed(&tattr, B115200);
@@ -125,6 +146,7 @@ namespace gxx
 
 			if (ret < 0) {
 				perror("serial::tcsetattr");
+				exit(0);
 			}
 
 
