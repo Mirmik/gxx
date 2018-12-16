@@ -16,12 +16,9 @@ install_library_path = os.path.join(install_directory_path, target)
 install_library_link = os.path.join(install_directory_path, 'libgxx.so')
 
 licant.cxx_shared_library(target,
-	include_modules = 
+	mdepends = 
 	[
-		licant.submodule('gxx', 'posix'),
-		licant.submodule('gxx.print', 'cout'),
-		licant.submodule('gxx.dprint', 'cout'),
-		licant.submodule('gxx.syslock', 'mutex'),
+		"gxx"
 	],
 
 	cxx_flags = '-fPIC',
