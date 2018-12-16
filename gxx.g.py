@@ -56,6 +56,7 @@ module("gxx", "posix",
 		"gxx.syslock",
 		"gxx.dprint", 
 		"gxx.print",
+		"gxx.trent"
 	],
 )
 
@@ -198,6 +199,7 @@ module("gxx.madgwick",
 	srcdir = "gxx/math",
 	sources = [ "madgwick.cpp" ],
 )
+
 
 #module("gxx.inet", "windows",
 #	srcdir = "gxx/inet/src",
