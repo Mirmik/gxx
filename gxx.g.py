@@ -48,7 +48,15 @@ module("gxx", "posix",
 		"path/path.cpp",
 	],
 
-	include_modules = [ submodule("gxx.include"), submodule("gxx.util.c"), submodule("gxx.util.cxx") ],
+	mdepends = [ 
+		"gxx.include", 
+		"gxx.util.c", 
+		"gxx.util.cxx",
+
+		"gxx.syslock",
+		"gxx.dprint", 
+		"gxx.print",
+	],
 )
 
 module("gxx", "windows",
@@ -64,6 +72,9 @@ module("gxx", "windows",
 
 	include_modules = [ submodule("gxx.include"), submodule("gxx.util.c"), submodule("gxx.util.cxx") ],
 )
+
+module_defimpl("gxx", "posix")
+
 
 module("gxx.c_only",
 	srcdir = "gxx",
@@ -111,7 +122,7 @@ module("gxx.c_only",
 #	sources = ["atomic_section_mutex.cpp"]
 #)
 
-module("gxx.syslock", impl="mutex",
+module("gxx.syslock", impl="mutex", default=True,
 	srcdir = "gxx/impl",
 	sources = ["syslock_mutex.cpp"]
 )
@@ -121,12 +132,14 @@ module("gxx.syslock", impl="genos.atomic",
 	sources = ["syslock_genos_atomic.cpp"]
 )
 
-module("gxx.panic", impl="abort",
+
+module("gxx.panic", impl="abort", default=True,
 	srcdir = "gxx/impl",
 	sources = ["panic_abort.c"]
 )
 
-module("gxx.serial", "posix",
+
+module("gxx.serial", "posix", default=True,
 	srcdir = "gxx",
 	sources = ["serial/src/impl/unix.cpp", "serial/src/serial.cpp"]
 )
@@ -136,11 +149,8 @@ module("gxx.serial", "windows",
 	sources = ["serial/src/impl/win.cpp", "serial/src/serial.cpp"]
 )
 
-#module("gxx.format",
-#	sources = ["gxx/fmt/format.cpp"],
-#)
-#
-module("gxx.print", impl = "cout",
+
+module("gxx.print", impl = "cout", default=True,
 	sources = ["gxx/print/src/impl/print_cout.cpp"],
 )
 
@@ -148,11 +158,8 @@ module("gxx.print", impl = "dprint",
 	sources = ["gxx/print/src/impl/print_debug.cpp"],
 )
 
-#module("gxx.parser",
-#	sources = ["gxx/parser/json_lex.cpp"],
-#)
 
-module("gxx.log", impl = "posix",
+module("gxx.log", impl = "posix", default=True,
 	sources = ["gxx/log/posix_timestamp.cpp", "gxx/log/targets/stdout.cpp"],
 )
 
@@ -181,7 +188,7 @@ module("gxx.rabbit",
 	sources = ["gxx/rabbit/crvints.cpp"],
 )
 
-module("gxx.inet", "posix",
+module("gxx.inet", "posix", default=True,
 	srcdir = "gxx/inet/src",
 	sources = [ "common.cpp", "posix.cpp" ],
 )

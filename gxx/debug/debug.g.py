@@ -1,4 +1,4 @@
-from licant.modules import implementation
+from licant import *
 
 implementation("gxx.dprint", "stub", 
 	sources = "dprint_func_stub.c dprint_stub.c dprintxx.cpp".split(" ")
@@ -22,6 +22,4 @@ implementation("gxx.dprint", "stdout",
 	sources = "dprint_func_impl.c dprint_stdout.c dprintxx.cpp".split(" ")
 )
 
-#implementation("gxx.debug.delay", "configure",
-#	sources = "delay_configure.c"
-#)
+module_defimpl("gxx.dprint", "cout")
