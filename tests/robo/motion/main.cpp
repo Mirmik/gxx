@@ -8,9 +8,8 @@
 
 int main()
 {
-	crow::create_udpgate(10010, 12);
+	crow::create_udpgate(CROW_UDPGATE_NO, 10010);
 	crow::set_crowker(crow::envcrowker());
-	crow::diagnostic_enable();
 	crow::run_background();
 
 	robo::stub_position_driver<> pdrv;
