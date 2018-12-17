@@ -124,7 +124,7 @@ namespace robo
 		}
 	};*/
 
-	template <typename P = int64_t, typename V = float, typename A = float, typename T = time_t>
+	/*template <typename P = int64_t, typename V = float, typename A = float, typename T = time_t>
 	struct accdcc_trajectory : public trajectory<P, V, A, T>
 	{
 		P x0;
@@ -180,8 +180,8 @@ namespace robo
 	
 
 
-		}
-	};
+		}*/
+	//};
 }
 
 #endif

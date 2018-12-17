@@ -11,14 +11,23 @@ namespace robo
 	struct position_driver
 	{
 		virtual void service(P d0, V d1, A d2) = 0;
+		virtual P position() = 0;
 	};
 
 	template <typename P=int64_t, typename V=float, typename A=float>
 	struct stub_position_driver : public position_driver<P,V,A>
 	{
+		P curpos;
+
 		void service(P d0, V d1, A d2) override
 		{
+			curpos = d0;
 			gxx::fprintln("({},{},{})", d0, d1, d2);
+		}
+
+		P position() override 
+		{
+			return curpos;
 		}
 	};
 
@@ -44,6 +53,11 @@ namespace robo
 				_drv->service(phs.d0, phs.d1, phs.d2);
 			}
 		} 
+
+		P position() const
+		{
+			return _drv->position();
+		}
 
 		void set_trajectory(robo::trajectory<P,V,A,T>* traj) 
 		{

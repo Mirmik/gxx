@@ -6,13 +6,15 @@ from licant.cxx_modules import application
 from licant.scripter import scriptq
 import licant
 
-#scriptq.execute("../../../gxx.g.py")
-licant.libs.include("crow")
+scriptq.execute("../../../gxx.g.py")
 
 application("target",
-	sources = [ "main.cpp" ],
-	mdepends = [ "gxx", "crow", "crow.udpgate" ],
-	libs=["pthread"]
+	sources = ["main.cpp"],
+	include_modules = [
+		submodule("gxx", "posix"),
+		submodule("gxx.dprint", "stdout"),
+		submodule("gxx.print", "cout"),
+	],
 )
 
 licant.ex(default = "target")
