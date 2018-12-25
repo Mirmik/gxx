@@ -11,7 +11,7 @@ licant.libs.include("crow")
 
 application("target",
 	sources = [ "main.cpp" ],
-	mdepends = [ "gxx", "crow", "crow.udpgate" ],
+	mdepends = [ "gxx" ],
 	libs=["pthread"]
 )
 

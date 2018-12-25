@@ -10,10 +10,8 @@ scriptq.execute("../../../gxx.g.py")
 
 application("target",
 	sources = ["main.cpp"],
-	include_modules = [
-		submodule("gxx", "posix"),
-		submodule("gxx.dprint", "stdout"),
-		submodule("gxx.print", "cout"),
+	mdepends = [
+		"gxx",
 	],
 )
 

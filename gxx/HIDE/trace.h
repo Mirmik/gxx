@@ -9,7 +9,7 @@
 using namespace gxx::argument_literal;
 
 //gxx::log::logger* trace_log = nullptr;
-extern uint8_t trace_level;
+extern uint8_t gxx_trace_level;
 
 namespace gxx {
 //inline void set_trace_logger(gxx::log::logger* logger) {

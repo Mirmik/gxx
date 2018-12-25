@@ -4,14 +4,8 @@
 #include <thread>
 #include <chrono>
 
-#include <crow/crow.h>
-
 int main()
 {
-	crow::create_udpgate(CROW_UDPGATE_NO, 10010);
-	crow::set_crowker(crow::envcrowker());
-	crow::run_background();
-
 	robo::stub_position_driver<> pdrv;
 	//robo::jog_trajectory<> traj(0, 10.0 / 1000);
 	robo::line_by_time_trajectory<> traj(0, -20000, 10000);
@@ -29,8 +23,6 @@ int main()
 		{
 			exit(0);
 		}
-
-		crow::publish("motion.pose", gxx::format("{}", ax.position()));
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		millis += 100;
