@@ -200,6 +200,9 @@ module("gxx.madgwick",
 	sources = [ "madgwick.cpp" ],
 )
 
+module("gxx.printf",
+	sources=["gxx/src/printf_impl.c"]
+)
 
 #module("gxx.inet", "windows",
 #	srcdir = "gxx/inet/src",

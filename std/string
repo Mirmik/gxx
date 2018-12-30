@@ -100,6 +100,14 @@ namespace std {
 			return *this;
 		}
 
+		bool operator != (const char* str) {
+			return strcmp(m_data, str) != 0;
+		}
+
+		bool operator == (const char* str) {
+			return strcmp(m_data, str) == 0;
+		}
+
 		char& operator[] (size_t i) { return m_data[i]; }
 		const char& operator[] (size_t i) const { return m_data[i]; }
 	
