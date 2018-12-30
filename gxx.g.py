@@ -18,10 +18,10 @@ module("gxx.util.c",
 		"util/dstring.c",
 		"impl/sshell.c",
 		"impl/panic_abort.c",
-		"src/printf_impl.c",
 		"math/util.c",
 		"debug/delay.c",
 	],
+	mdepends=["gxx.printf"]
 )
 
 module("gxx.util.cxx",
