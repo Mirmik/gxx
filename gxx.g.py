@@ -181,9 +181,9 @@ module("gxx.trent",
 #	sources = ["gxx/geom/geom2.cpp", "gxx/geom/geom3.cpp", "gxx/geom/intersect.cpp", "gxx/geom/topo.cpp"],
 #)
 
-#module("gxx.cxx_support",
-#	sources = ["compiler/__cxa_pure_virtual.c"],
-#)
+module("gxx.cxx_support",
+	sources = ["compiler/__cxa_pure_virtual.c"],
+)
 
 module("gxx.rabbit",
 	sources = ["gxx/rabbit/crvints.cpp"],

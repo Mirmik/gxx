@@ -10,7 +10,7 @@ implementation("gxx.dprint", "stub",
 )
 
 implementation("gxx.dprint", "diag", 
-	sources = "dprint_func_impl.c dprint_diag.c dprintxx.cpp".split(" "),
+	sources = ["dprint_diag.c"],
 	cc_flags = "-Wno-pointer-to-int-cast",
 	mdepends = [
 		"gxx.diag",
