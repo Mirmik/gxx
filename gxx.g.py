@@ -56,7 +56,9 @@ module("gxx", "posix",
 		"gxx.syslock",
 		"gxx.dprint", 
 		"gxx.print",
-		"gxx.trent"
+		"gxx.trent",
+		"gxx.inet",
+		"gxx.log"
 	],
 )
 
