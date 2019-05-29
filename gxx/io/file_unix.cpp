@@ -113,6 +113,30 @@ namespace gxx
 			/* control chars - set return condition: min number of bytes and timer */
 			tattr.c_cc[VMIN] = 0; tattr.c_cc[VTIME] = 0; /* immediate - anything       */
 
+			switch (parity) 
+			{ 
+				case serial::parity_none:
+					tattr.c_cflag &= ~(PARENB);
+					tattr.c_cflag &= ~(PARODD);
+					break;
+
+				case serial::parity_odd:
+					tattr.c_cflag |= (PARENB);
+					tattr.c_cflag |= (PARODD);
+					break;
+
+				case serial::parity_even:
+					tattr.c_cflag |= (PARENB);
+					tattr.c_cflag &= ~(PARODD);
+					break;
+				
+				case serial::parity_mark:
+					PANIC_TRACED();
+				
+				case serial::parity_space:
+					PANIC_TRACED();
+			}
+
 			if (baud == 115200) {
 				cfsetispeed(&tattr, B115200);
 				cfsetospeed(&tattr, B115200);
