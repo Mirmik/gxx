@@ -184,7 +184,7 @@ namespace gxx {
 		template <typename T>
 		fastdelegate(R(T::*mtd)(Args ...), T* ptr_obj) {
 			object = reinterpret_cast <obj_t> (ptr_obj);
-			extfunction = reinterpret_cast<extfnc_t>(horrible_cast<method_union,R(T::*)(Args ...)>(mtd).function);
+			extfunction = reinterpret_cast<extfnc_t>(horrible_cast<method_union,R(T::*)(Args ...)>(mtd).part.function);
 		}
 		
 		R operator()(Args ... arg) volatile { 

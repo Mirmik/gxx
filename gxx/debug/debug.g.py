@@ -1,27 +1,31 @@
-from licant.modules import implementation
+from licant import *
+
+module("gxx.dprint.common", "impl", 
+	sources=["dprint_func_impl.c", "dprintxx.cpp"],
+	mdepends=["gxx.printf"]
+)
 
 implementation("gxx.dprint", "stub", 
 	sources = "dprint_func_stub.c dprint_stub.c dprintxx.cpp".split(" ")
 )
 
 implementation("gxx.dprint", "diag", 
-	sources = "dprint_func_impl.c dprint_diag.c dprintxx.cpp".split(" "),
+	sources = ["dprint_diag.c"],
 	cc_flags = "-Wno-pointer-to-int-cast",
-	depends = "gxx.diag",
+	mdepends = [
+		"gxx.diag",
+		("gxx.dprint.common", "impl")
+	],
 )
 
 implementation("gxx.dprint", "manually", 
-	sources = "dprint_func_impl.c dprint_manually.c dprintxx.cpp".split(" ")
-)
-
-implementation("gxx.dprint", "cout",
-	sources = "dprint_func_impl.c dprint_stdout.c dprintxx.cpp".split(" ")
+	sources = ["dprint_manually.c"],
+	mdepends = [("gxx.dprint.common","impl")],
 )
 
 implementation("gxx.dprint", "stdout",
-	sources = "dprint_func_impl.c dprint_stdout.c dprintxx.cpp".split(" ")
+	sources = ["dprint_stdout.c"],
+	mdepends = [("gxx.dprint.common","impl")],
 )
 
-#implementation("gxx.debug.delay", "configure",
-#	sources = "delay_configure.c"
-#)
+module_defimpl("gxx.dprint", "stdout")

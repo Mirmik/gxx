@@ -1,7 +1,7 @@
 #ifndef GENOS_UTILXX_BUFFER_H
 #define GENOS_UTILXX_BUFFER_H
 
-//#include <string>
+#include <string>
 #include <string.h>
 #include <stdlib.h>
 
@@ -14,14 +14,24 @@ namespace gxx
 	protected:
 		char* buf;
 		size_t sz;
+
 	public:
+		ACCESSOR(data, buf);
+		ACCESSOR(size, sz);
+
+	//ctors:
 		buffer() : buf(nullptr), sz(0) {}
+
 		buffer(const char* _buf) : buf((char*)_buf), sz(strlen(_buf)) {}
+
 		buffer(const void* _buf, size_t _sz) : buf((char*)_buf), sz(_sz) {}
-		//buffer(const std::string& str) : buf((char*)str.data()), sz(str.size()) {}
 
-		template<size_t N> inline buffer(const char (&arr) [N]) : buf((char*)arr), sz(N) {}
+		buffer(const std::string& str) : buf((char*)str.data()), sz(str.size()) {}
 
+		template<size_t N>
+		inline buffer(const char (&arr) [N]) : buf((char*)arr), sz(N) {}
+
+	//methods:
 		bool operator==(const buffer& other) const
 		{
 			return (sz == other.sz) && (strncmp(buf, other.buf, sz < other.sz ? sz : other.sz) == 0);
@@ -52,11 +62,25 @@ namespace gxx
 			return *(buf + num);
 		}
 
-		ACCESSOR(data, buf);
-		ACCESSOR(size, sz);
+		char * operator * ()
+		{
+			return buf;
+		}
 
-		char* begin() { return buf; }
-		char* end() { return buf + sz; }
+		size_t operator + ()
+		{
+			return sz;
+		}
+
+		char* begin()
+		{
+			return buf;
+		}
+
+		char* end()
+		{
+			return buf + sz;
+		}
 
 		bool empty()
 		{
@@ -68,15 +92,6 @@ namespace gxx
 			return buffer(buf + idx, _sz);
 		}
 
-		//static gxx::buffer(int)
-
-		/*static gxx::buffer from_string(const std::string& str) {
-			return gxx::buffer(str.data(), str.size());
-		}
-		static gxx::buffer on_string(const std::string& str) {
-			return gxx::buffer(str.data(), str.size());
-		}*/
-
 		template<typename T>
 		static gxx::buffer on_object(T& obj)
 		{
@@ -84,6 +99,7 @@ namespace gxx
 		}
 	};
 
+	[[deprecated]]
 	static inline gxx::buffer allocate_buffer(int sz)
 	{
 		void* ptr = malloc(sz);
@@ -94,19 +110,6 @@ namespace gxx
 	{
 		inline gxx::buffer operator"" _b(const char* str, size_t sz) { return gxx::buffer(str, sz); }
 	}
-
-	/*class smart_buffer : public buffer {
-	public:
-		smart_buffer(size_t n) : buffer(allocate_buffer(n)) {}
-
-		smart_buffer(const char* d, size_t n) : buffer(allocate_buffer(n)) {
-			memcpy(buf, d, n);
-		}
-
-		~smart_buffer() {
-			free(buf);
-		}
-	};*/
 }
 
 #endif

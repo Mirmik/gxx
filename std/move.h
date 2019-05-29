@@ -20,10 +20,7 @@ namespace std {
 	constexpr  S&& forward(typename remove_reference<S>::type&& a)
 	{
 		return static_cast<S&&>(a);
-	} 
-
-	template<class T>
-	typename std::add_rvalue_reference<T>::type declval() noexcept;
+	}
 }
 
 #endif
