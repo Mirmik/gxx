@@ -21,7 +21,7 @@ char *u8toa( uint64_t num, char *buf, uint8_t base );
 uint32_t atou32(const char *buf, uint8_t base, char** end);
 int32_t atoi32(const char *buf, uint8_t base, char** end);
 
-char * ftoa(double f, char * buf, int precision);
+char * f64toa(double f, char * buf, int precision);
 double atod(const char* str, char** pend);
 
 __END_DECLS

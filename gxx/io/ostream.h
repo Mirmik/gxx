@@ -109,7 +109,7 @@ namespace gxx
 			{
 				OSTREAM_VISITOR_DTRACE();
 				char buf[48];
-				ftoa((float)d, buf, 5);
+				f64toa((float)d, buf, 5);
 				return print(buf);
 			}
 
@@ -117,7 +117,7 @@ namespace gxx
 			{
 				OSTREAM_VISITOR_DTRACE();
 				char buf[48];
-				ftoa(d, buf, 5);
+				f64toa(d, buf, 5);
 				return print(buf);
 			}
 
@@ -125,7 +125,7 @@ namespace gxx
 			{
 				OSTREAM_VISITOR_DTRACE();
 				char buf[48];
-				ftoa(f, buf, 5);
+				f64toa(f, buf, 5);
 				return print(buf);
 			}
 

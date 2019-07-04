@@ -10,7 +10,7 @@ scriptq.execute("gxx/diag/diag.g.py")
 module("gxx.util.c",
 	srcdir = "gxx",
 	sources = [
-		"util/numconvert.c",
+		#"util/numconvert.c",
 		"util/hexer.c",
 		"gstuff/gstuff.c",
 		"gstuff/autorecv.c",

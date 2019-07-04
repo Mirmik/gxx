@@ -156,7 +156,7 @@ static const double rounders[MAX_PRECISION + 1] =
 	0.00000000005       // 10
 };
 
-inline char * ftoa(double f, char * buf, int precision)
+inline char * f64toa(double f, char * buf, int precision)
 {
 	char * ptr = buf;
 	char * p = ptr;

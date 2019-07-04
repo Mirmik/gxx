@@ -13,7 +13,7 @@ ssize_t gxx::io::ostream::format_print(float num, const gxx::io::float_spec& spe
 {
 	char body[32];
 	if (spec.width > 32) panic("fprint");
-	ftoa(num, body, 5);
+	f64toa(num, body, 5);
 	return format_print(body, strlen(body), spec);
 }
 
@@ -27,7 +27,7 @@ ssize_t gxx::io::ostream::format_print(double num, const gxx::io::float_spec& sp
 {
 	char body[32];
 	if (spec.width > 32) panic("fprint");
-	ftoa(num, body, 5);
+	f64toa(num, body, 5);
 	return format_print(body, strlen(body), spec);
 }
 
